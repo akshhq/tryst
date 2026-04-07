@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -9,12 +7,8 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Inter:wght@300;400;600&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -85,21 +79,9 @@
         }
     </script>
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            cursor: auto;
-        }
-
-        h1,
-        h2,
-        h3,
-        .font-serif {
-            font-family: 'Noto Serif', serif;
-        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; cursor: auto; }
+        h1, h2, h3, .font-serif { font-family: 'Noto Serif', serif; }
 
         .floating-nav {
             background: rgba(8, 23, 71, 0.6);
@@ -124,10 +106,8 @@
         .swirl-bg::before {
             content: "";
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
             opacity: 0.05;
             pointer-events: none;
@@ -145,230 +125,260 @@
         }
 
         .museum-placard-dark {
-            background: rgba(221, 225, 255, 0.1);
+            background: rgba(221, 225, 255, 0.06);
             backdrop-filter: blur(10px);
             color: #dde1ff;
             padding: 1.5rem;
             border: 1px solid rgba(221, 225, 255, 0.1);
         }
+
+        /* Day badge pill */
+        .day-pill-1 { background: rgba(255,223,158,0.15); color: #ffdf9e; border: 1px solid rgba(255,223,158,0.3); }
+        .day-pill-2 { background: rgba(118,214,213,0.15); color: #76d6d5; border: 1px solid rgba(118,214,213,0.3); }
+
+        /* Artist card hover */
+        .artist-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .artist-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,14,63,0.5); }
+
+        /* Registration modal */
+        #reg-modal { display: none; }
+        #reg-modal.open { display: flex; }
+
+        /* Mobile nav toggle */
+        #mobile-menu { display: none; }
+        #mobile-menu.open { display: flex; }
     </style>
 </head>
 
 <body class="bg-background text-on-background antialiased selection:bg-secondary selection:text-on-secondary">
-    <!-- Top Navigation Shell -->
-    <nav
-        class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-6xl floating-nav flex justify-between items-center gap-3 px-4 md:px-6 py-3">
-        <a href="#home" class="text-lg md:text-2xl font-serif italic text-amber-200 drop-shadow-[0_0_12px_rgba(255,193,7,0.4)] whitespace-nowrap">
-            TRYST 2026
-        </a>
-        <div class="hidden lg:flex items-center gap-2">
-            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
-                href="#home">Home</a>
-            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
-                href="#about">About</a>
-            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
-                href="#events">Events</a>
-            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
-                href="#timeline">Timeline</a>
-            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
-                href="#gallery">Gallery</a>
-            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
-                href="#contact">Contact</a>
+
+<!-- ============================================================ -->
+<!-- NAVIGATION -->
+<!-- ============================================================ -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-6xl floating-nav flex justify-between items-center gap-3 px-4 md:px-6 py-3">
+    <a href="#home" class="text-lg md:text-2xl font-serif italic text-amber-200 drop-shadow-[0_0_12px_rgba(255,193,7,0.4)] whitespace-nowrap">
+        TRYST 2026
+    </a>
+    <div class="hidden lg:flex items-center gap-2">
+        <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors" href="#home">Home</a>
+        <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors" href="#about">About</a>
+        <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors" href="#events">Events</a>
+        <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors" href="#artists">Artists</a>
+        <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors" href="#timeline">Schedule</a>
+        <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors" href="#gallery">Gallery</a>
+        <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors" href="#contact">Contact</a>
+    </div>
+    <div class="hidden sm:flex lg:hidden items-center gap-2">
+        <a class="px-3 py-1.5 rounded-full border border-outline-variant/40 text-xs font-semibold text-indigo-100/90 hover:bg-white/5 transition-colors" href="#events">Events</a>
+        <a class="px-3 py-1.5 rounded-full border border-outline-variant/40 text-xs font-semibold text-indigo-100/90 hover:bg-white/5 transition-colors" href="#timeline">Schedule</a>
+    </div>
+    <button onclick="document.getElementById('reg-modal').classList.add('open')"
+        class="inline-flex items-center justify-center bg-gradient-to-r from-secondary to-secondary-fixed-dim text-on-secondary px-3 sm:px-4 md:px-6 py-2 rounded-full font-bold text-xs sm:text-sm shadow-lg shadow-secondary/20 hover:brightness-105 hover:scale-[0.98] transition-transform">
+        <span class="sm:hidden">PASS</span>
+        <span class="hidden sm:inline">GET PASS</span>
+    </button>
+</nav>
+
+<!-- ============================================================ -->
+<!-- HERO SECTION -->
+<!-- ============================================================ -->
+<header id="home" class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 px-4">
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"></div>
+        <div class="w-full h-full swirl-bg opacity-40"></div>
+    </div>
+    <div class="relative z-10 w-full max-w-5xl flex flex-col items-center">
+        <div class="text-secondary font-label uppercase tracking-[0.4em] text-xs mb-8 text-center opacity-80">
+            KESHAV MAHAVIDYALAYA PRESENTS
         </div>
-        <div class="hidden sm:flex lg:hidden items-center gap-2">
-            <a class="px-3 py-1.5 rounded-full border border-outline-variant/40 text-xs font-semibold text-indigo-100/90 hover:bg-white/5 transition-colors"
-                href="#events">Events</a>
-            <a class="px-3 py-1.5 rounded-full border border-outline-variant/40 text-xs font-semibold text-indigo-100/90 hover:bg-white/5 transition-colors"
-                href="#timeline">Timeline</a>
-        </div>
-        <a
-            class="inline-flex items-center justify-center bg-gradient-to-r from-secondary to-secondary-fixed-dim text-on-secondary px-3 sm:px-4 md:px-6 py-2 rounded-full font-bold text-xs sm:text-sm shadow-lg shadow-secondary/20 hover:brightness-105 hover:scale-[0.98] transition-transform"
-            href="#register">
-            <span class="sm:hidden">PASS</span>
-            <span class="hidden sm:inline">GET PASS</span>
-        </a>
-    </nav>
-    <!-- Hero Section -->
-    <header id="home" class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 px-4">
-        <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"></div>
-            <div class="w-full h-full swirl-bg opacity-40"></div>
-        </div>
-        <div class="relative z-10 w-full max-w-5xl flex flex-col items-center">
-            <!-- Pre-title -->
-            <div class="text-secondary font-label uppercase tracking-[0.4em] text-xs mb-8 text-center opacity-80">
-                KESHAV MAHAVIDYALAYA PRESENTS
-            </div>
-            <!-- Main Frame Container -->
-            <div class="relative w-full mb-12">
-                <!-- Date Badge -->
-                <div class="absolute -top-6 left-0 z-20">
-                    <div
-                        class="museum-placard bg-secondary/90 text-on-secondary text-sm font-bold px-6 py-2 shadow-lg italic">
-                        21–22 April, 2026
-                    </div>
-                </div>
-                <!-- Ornate Frame -->
-                <div
-                    class="gilded-frame py-16 md:py-24 px-8 bg-surface/20 backdrop-blur-sm relative overflow-hidden flex items-center justify-center">
-                    <div class="absolute -top-20 -left-20 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
-                    <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
-                    <h1
-                        class="text-7xl md:text-[10rem] font-headline font-bold text-secondary italic drop-shadow-[0_0_25px_rgba(255,223,158,0.4)] text-center tracking-tight leading-none">
-                        TRYST 2026
-                    </h1>
+        <div class="relative w-full mb-12">
+            <!-- FIX: Date Badge shows correct start date Apr 21 -->
+            <div class="absolute -top-6 left-0 z-20">
+                <div class="museum-placard bg-secondary/90 text-on-secondary text-sm font-bold px-6 py-2 shadow-lg italic">
+                    21–22 April, 2026
                 </div>
             </div>
-            <!-- Subtitle -->
-            <p class="text-2xl md:text-4xl font-serif italic text-tertiary/90 text-center mb-12 drop-shadow-sm">
-                Where Art Becomes Legend
+            <div class="gilded-frame py-16 md:py-24 px-8 bg-surface/20 backdrop-blur-sm relative overflow-hidden flex items-center justify-center">
+                <div class="absolute -top-20 -left-20 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
+                <h1 class="text-7xl md:text-[10rem] font-headline font-bold text-secondary italic drop-shadow-[0_0_25px_rgba(255,223,158,0.4)] text-center tracking-tight leading-none">
+                    TRYST 2026
+                </h1>
+            </div>
+        </div>
+        <p class="text-2xl md:text-4xl font-serif italic text-tertiary/90 text-center mb-12 drop-shadow-sm">
+            Where Art Becomes Legend
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
+            <!-- FIX: Buttons now wired to registration modal and events section -->
+            <button onclick="document.getElementById('reg-modal').classList.add('open')"
+                class="w-full sm:w-auto bg-gradient-to-b from-secondary to-secondary-fixed-dim text-on-secondary font-bold px-12 py-4 rounded-md shadow-lg shadow-secondary/20 hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                REGISTER NOW
+            </button>
+            <a href="#events"
+                class="w-full sm:w-auto border border-secondary/50 text-secondary font-bold px-12 py-4 rounded-md hover:bg-secondary/10 transition-colors backdrop-blur-sm text-center">
+                EXPLORE EVENTS
+            </a>
+        </div>
+        <!-- Countdown Timer — FIX: targets April 21, 2026 -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl">
+            <div class="flex flex-col items-center">
+                <div class="museum-placard-dark w-full text-center">
+                    <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-days">00</div>
+                    <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Days</div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="museum-placard-dark w-full text-center">
+                    <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-hours">00</div>
+                    <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Hours</div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="museum-placard-dark w-full text-center">
+                    <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-minutes">00</div>
+                    <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Mins</div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="museum-placard-dark w-full text-center">
+                    <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-seconds">00</div>
+                    <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Secs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- ABOUT SECTION -->
+<!-- ============================================================ -->
+<section id="about" class="py-24 px-8 max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div class="relative group">
+            <div class="absolute -inset-4 bg-tertiary/10 blur-2xl group-hover:bg-tertiary/20 transition-all"></div>
+            <div class="gilded-frame relative overflow-hidden aspect-[4/5] bg-surface-container-low border-8">
+                <img class="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV8Y_dCzcEiSz3U774CUTWSxb9I2qrp-zWLrDSNAILJmpSO29kqvhCfdZWVGoAIZODFBWdZ9b6Omx4U2Ae6nPqZAx0NtE7lM1G_vhiNYyt0eP9N4cEXJOcfikfv-9VBJdRrKJRmYSs_3yIfDGkhjzXqXOva_b8cXk0iDXLjzpsuAkaBJWOdd5MQl6br6wNTNuSsO2qYMuJUWok_gb1H7m7EjZqElhovGE10hifPvxqZtizx_7CXRgo0mhYt4ALfG12mRgGkSwfc3s" />
+            </div>
+            <div class="absolute -bottom-6 -right-6 museum-placard text-sm max-w-[200px] border border-outline/20">
+                <p class="font-serif italic">Exhibit A: The Convergence of Realms, 2026</p>
+            </div>
+        </div>
+        <div>
+            <h2 class="text-tertiary font-label tracking-[0.3em] uppercase text-sm mb-4">Curator's Statement</h2>
+            <h3 class="text-5xl font-headline text-secondary mb-8 leading-tight">The Digital Gallery <br />of Tomorrow</h3>
+            <div class="w-24 h-1 bg-gradient-to-r from-secondary to-transparent mb-8"></div>
+            <p class="text-lg text-on-surface-variant leading-relaxed mb-6 font-body">
+                TRYST is the annual cultural extravaganza of Keshav Mahavidyalaya, Delhi University. It brings together students from across the country to showcase their talents in music, dance, art, theatre, and more.
             </p>
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
-                <button
-                    class="w-full sm:w-auto bg-gradient-to-b from-secondary to-secondary-fixed-dim text-on-secondary font-bold px-12 py-4 rounded-md shadow-lg shadow-secondary/20 hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                    REGISTER NOW
-                </button>
-                <button
-                    class="w-full sm:w-auto border border-secondary/50 text-secondary font-bold px-12 py-4 rounded-md hover:bg-secondary/10 transition-colors backdrop-blur-sm">
-                    EXPLORE EVENTS
-                </button>
-            </div>
-            <!-- Countdown Timer -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl">
-                <div class="flex flex-col items-center">
-                    <div class="museum-placard-dark w-full text-center">
-                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-days">00
-                        </div>
-                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Days</div>
-                    </div>
+            <p class="text-lg text-on-surface-variant leading-relaxed mb-12 font-body">
+                This year, we invite you to step into a curated fusion of high-art aesthetics and digital fantasy — bridging the classical and the boundless imagination of the future.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
+                    <span class="text-3xl font-headline text-secondary block mb-2">50+</span>
+                    <span class="text-xs uppercase tracking-wider text-tertiary">Exhibitions</span>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="museum-placard-dark w-full text-center">
-                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-hours">00
-                        </div>
-                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Hours</div>
-                    </div>
+                <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
+                    <span class="text-3xl font-headline text-secondary block mb-2">12k</span>
+                    <span class="text-xs uppercase tracking-wider text-tertiary">Dreamers</span>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="museum-placard-dark w-full text-center">
-                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-minutes">
-                            00</div>
-                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Mins</div>
-                    </div>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="museum-placard-dark w-full text-center">
-                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-seconds">
-                            00</div>
-                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Secs</div>
-                    </div>
+                <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
+                    <span class="text-3xl font-headline text-secondary block mb-2">30+</span>
+                    <span class="text-xs uppercase tracking-wider text-tertiary">Artists</span>
                 </div>
             </div>
         </div>
-    </header>
-    <!-- About Section -->
-    <section id="about" class="py-24 px-8 max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-            <div class="relative group">
-                <div class="absolute -inset-4 bg-tertiary/10 blur-2xl group-hover:bg-tertiary/20 transition-all"></div>
-                <div class="gilded-frame relative overflow-hidden aspect-[4/5] bg-surface-container-low border-8">
-                    <img class="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
-                        data-alt="dramatic oil painting of a surreal museum hallway with floating golden clocks and swirling blue cosmic dust"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV8Y_dCzcEiSz3U774CUTWSxb9I2qrp-zWLrDSNAILJmpSO29kqvhCfdZWVGoAIZODFBWdZ9b6Omx4U2Ae6nPqZAx0NtE7lM1G_vhiNYyt0eP9N4cEXJOcfikfv-9VBJdRrKJRmYSs_3yIfDGkhjzXqXOva_b8cXk0iDXLjzpsuAkaBJWOdd5MQl6br6wNTNuSsO2qYMuJUWok_gb1H7m7EjZqElhovGE10hifPvxqZtizx_7CXRgo0mhYt4ALfG12mRgGkSwfc3s" />
-                </div>
-                <div class="absolute -bottom-6 -right-6 museum-placard text-sm max-w-[200px] border border-outline/20">
-                    <p class="font-serif italic">Exhibit A: The Convergence of Realms, 2026</p>
-                </div>
-            </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CINEMATIC BANNER -->
+<!-- ============================================================ -->
+<section class="relative py-40 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img class="w-full h-full object-cover opacity-50 scale-105"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7LPk9UQfJaLAmNXD0zCg5tPFcziJHQtdnv4kGIbN7fGvut2WCp4F47ZuKxZxMLhzq8zbwnVZBkInV-eScoT2eiVx1K8Kay_0hCb6W9Sm-383TP2pcMazQFejrk0hSOwhDRTCiRVP36uofWUwmXTZd2yzD__uaFOjB2tph6AvoRuMvBpXaWeZiFRXmXyP3T3wNVCf0OsOdT3tQcDAYNcJvMJwtKD56i0SF5i955Wptsj7dWpE1It_AOUbOSAEQE1OdTLQFAxspW9k" />
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background"></div>
+    </div>
+    <div class="relative z-10 text-center px-8">
+        <h2 class="text-6xl md:text-8xl font-headline font-bold text-secondary/90 tracking-tighter mb-6">THE CANVAS AWAITS</h2>
+        <div class="max-w-2xl mx-auto h-[1px] bg-secondary/30 mb-8"></div>
+        <p class="text-xl md:text-3xl font-serif italic text-tertiary drop-shadow-md">"Every great dream begins with a dreamer."</p>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- EVENTS SECTION — FIX: Day badges added, "0:00 AM" corrected -->
+<!-- ============================================================ -->
+<section id="events" class="py-24 px-8 bg-surface-container-low relative overflow-hidden">
+    <div class="absolute inset-0 swirl-bg opacity-20"></div>
+    <div class="max-w-7xl mx-auto relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
-                <h2 class="text-tertiary font-label tracking-[0.3em] uppercase text-sm mb-4">Curator's Statement</h2>
-                <h3 class="text-5xl font-headline text-secondary mb-8 leading-tight">The Digital Gallery <br />of
-                    Tomorrow</h3>
-                <div class="w-24 h-1 bg-gradient-to-r from-secondary to-transparent mb-8"></div>
-                <p class="text-lg text-on-surface-variant leading-relaxed mb-12 font-body">
-                    Tryst is not a festival; it is a living canvas. This year, we invite you to step into a curated
-                    fusion of high-art aesthetics and digital fantasy. We bridge the gap between the classical museum
-                    and the boundless imagination of the future.
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
-                        <span class="text-3xl font-headline text-secondary block mb-2">50+</span>
-                        <span class="text-xs uppercase tracking-wider text-tertiary">Exhibitions</span>
-                    </div>
-                    <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
-                        <span class="text-3xl font-headline text-secondary block mb-2">12k</span>
-                        <span class="text-xs uppercase tracking-wider text-tertiary">Dreamers</span>
-                    </div>
-                    <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
-                        <span class="text-3xl font-headline text-secondary block mb-2">30+</span>
-                        <span class="text-xs uppercase tracking-wider text-tertiary">Artists</span>
-                    </div>
-                </div>
+                <h2 class="text-tertiary font-label tracking-widest uppercase text-sm mb-2">Events 2026</h2>
+                <h3 class="text-5xl font-headline text-secondary">The Masterpieces</h3>
             </div>
+            <a class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-secondary/40 text-secondary hover:bg-secondary/10 transition-colors" href="#timeline">
+                VIEW SCHEDULE <span class="material-symbols-outlined">arrow_right_alt</span>
+            </a>
         </div>
-    </section>
-    <!-- Theme Reveal: Cinematic -->
-    <section class="relative py-40 overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img class="w-full h-full object-cover opacity-50 scale-105"
-                data-alt="wide shot of a grand classical museum interior with high arched ceilings and golden statues merging into a swirling van gogh starry night sky"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7LPk9UQfJaLAmNXD0zCg5tPFcziJHQtdnv4kGIbN7fGvut2WCp4F47ZuKxZxMLhzq8zbwnVZBkInV-eScoT2eiVx1K8Kay_0hCb6W9Sm-383TP2pcMazQFejrk0hSOwhDRTCiRVP36uofWUwmXTZd2yzD__uaFOjB2tph6AvoRuMvBpXaWeZiFRXmXyP3T3wNVCf0OsOdT3tQcDAYNcJvMJwtKD56i0SF5i955Wptsj7dWpE1It_AOUbOSAEQE1OdTLQFAxspW9k" />
-            <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background"></div>
-        </div>
-        <div class="relative z-10 text-center px-8">
-            <h2 class="text-6xl md:text-8xl font-headline font-bold text-secondary/90 tracking-tighter mb-6">
-                THE CANVAS AWAITS
-            </h2>
-            <div class="max-w-2xl mx-auto h-[1px] bg-secondary/30 mb-8"></div>
-            <p class="text-xl md:text-3xl font-serif italic text-tertiary drop-shadow-md">
-                "Every great dream begins with a dreamer."
-            </p>
-        </div>
-    </section>
-    <!-- Event Highlights Grid -->
-    <section id="events" class="py-24 px-8 bg-surface-container-low relative overflow-hidden">
-        <div class="absolute inset-0 swirl-bg opacity-20"></div>
-        <div class="max-w-7xl mx-auto relative z-10">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div>
-                    <h2 class="text-tertiary font-label tracking-widest uppercase text-sm mb-2">Events 2026</h2>
-                    <h3 class="text-5xl font-headline text-secondary">The Masterpieces</h3>
-                </div>
-                <a class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-secondary/40 text-secondary hover:bg-secondary/10 transition-colors"
-                    href="#timeline">
-                    VIEW TIMELINE <span class="material-symbols-outlined">arrow_right_alt</span>
-                </a>
+
+        <!-- Day 1 Events -->
+        <div class="mb-6">
+            <div class="inline-flex items-center gap-2 mb-6 day-pill-1 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold">
+                <span class="material-symbols-outlined text-base">calendar_today</span> Day 01 — 21 April
             </div>
-            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-4">
+                <!-- FIX: "0:00 AM" → "10:00 AM" -->
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">0:00 AM - 11:30 AM</p>
-                    <h4 class="text-2xl font-headline text-secondary mb-2">Nrityaang - Mridang</h4>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">10:00 AM – 11:30 AM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Nrityaang – Mridang</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Solo Classical Dance | Auditorium</p>
                     <p class="text-sm text-on-surface-variant">Elegance meets tradition. Witness mesmerizing classical moves in a solo spectacle.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:30 AM - 1:30 PM</p>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:30 AM – 1:30 PM</p>
                     <h4 class="text-2xl font-headline text-secondary mb-2">Uthaan</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Group Folk Dance | Auditorium</p>
                     <p class="text-sm text-on-surface-variant">Vibrant beats and colorful swirls bring folk tales alive in an electrifying dance battle.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">2:00 PM - 3:30 PM</p>
-                    <h4 class="text-2xl font-headline text-secondary mb-2">Advaitaa - Nazaat</h4>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">2:00 PM – 3:30 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Advaitaa – Nazaat</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Western Solo Dance | Auditorium</p>
                     <p class="text-sm text-on-surface-variant">One stage, one performer, infinite energy with jaw-dropping western choreography.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">1:30 PM - 5:30 PM</p>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">1:30 PM – 5:30 PM</p>
                     <h4 class="text-2xl font-headline text-secondary mb-2">Inaayat</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Western Group Dance | Auditorium</p>
                     <p class="text-sm text-on-surface-variant">Teamwork, passion, and flawless synchronization as groups own the dance floor.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform md:col-span-2 xl:col-span-2">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">2:00 PM – 4:30 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Performance Showcase</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Closing Act | Amphitheatre</p>
+                    <p class="text-sm text-on-surface-variant">Surprise acts, guest stars, and pure entertainment in a closing showcase of talent.</p>
+                </article>
+            </div>
+        </div>
+
+        <!-- Day 2 Events -->
+        <div>
+            <div class="inline-flex items-center gap-2 mb-6 day-pill-2 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest font-semibold">
+                <span class="material-symbols-outlined text-base">calendar_today</span> Day 02 — 22 April
+            </div>
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
                     <div class="flex flex-wrap items-center gap-3 mb-3">
-                        <p class="text-xs uppercase tracking-widest text-tertiary">10:00 AM - 5:00 PM</p>
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
+                        <p class="text-xs uppercase tracking-widest text-tertiary">10:00 AM – 5:00 PM</p>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-secondary bg-secondary/10 px-2 py-0.5 rounded-full">Registration Opening Soon</span>
                     </div>
                     <h4 class="text-2xl font-headline text-secondary mb-2">Baithak</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Street Play Competition | Shades Lawn</p>
@@ -376,319 +386,846 @@
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
                     <div class="flex flex-wrap items-center gap-3 mb-3">
-                        <p class="text-xs uppercase tracking-widest text-tertiary">10:00 AM - 5:00 PM</p>
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
+                        <p class="text-xs uppercase tracking-widest text-tertiary">10:00 AM – 5:00 PM</p>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-secondary bg-secondary/10 px-2 py-0.5 rounded-full">Registration Opening Soon</span>
                     </div>
-                    <h4 class="text-2xl font-headline text-secondary mb-2">Vagmita Debsoc - Khandan</h4>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Vagmita Debsoc – Khandan</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Debate Competition | Seminar Room</p>
                     <p class="text-sm text-on-surface-variant">Fiery arguments and razor-sharp wit, where only the strongest debater rises.</p>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 3:00 PM</p>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM – 3:00 PM</p>
                     <h4 class="text-2xl font-headline text-secondary mb-2">Maniera: Atrang Rangmanch</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Art Exhibition | Parking Area Near Girl's Hostel</p>
                     <p class="text-sm text-on-surface-variant">A creative explosion of colors, strokes, and imagination for every art lover.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 2:00 PM</p>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM – 2:00 PM</p>
                     <h4 class="text-2xl font-headline text-secondary mb-2">Maniera: Chitrakala</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Solo Painting Competition | LT-1</p>
                     <p class="text-sm text-on-surface-variant">One canvas, one vision as artists bring their thoughts to life.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 2:00 PM</p>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM – 2:00 PM</p>
                     <h4 class="text-2xl font-headline text-secondary mb-2">Maniera: Kala Sangini</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Duo Painting Competition | LT-3</p>
                     <p class="text-sm text-on-surface-variant">Two minds, one masterpiece in a fast-paced duo creativity clash.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">9:00 AM - 6:00 PM</p>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">9:00 AM – 6:00 PM</p>
                     <h4 class="text-2xl font-headline text-secondary mb-2">Illuminati</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Competitions | Lecture Hall-2</p>
                     <p class="text-sm text-on-surface-variant">From brain teasers to skill battles for the sharpest minds on campus.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
                 <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 1:00 PM</p>
-                    <h4 class="text-2xl font-headline text-secondary mb-2">Vagmita Poetry - Irshaad</h4>
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM – 1:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Vagmita Poetry – Irshaad</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Literary Events | LT-4</p>
                     <p class="text-sm text-on-surface-variant">Where words weave magic through poetry, storytelling, and spoken expression.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
-                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">10:00 AM - 2:00 PM</p>
-                    <h4 class="text-2xl font-headline text-secondary mb-2">Anhad - Slaycapella</h4>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform md:col-span-2">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">10:00 AM – 2:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Anhad – Slaycapella</h4>
                     <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Western Group A-Cappella Competition | Reading Room</p>
                     <p class="text-sm text-on-surface-variant">High-energy musical rivalry with layered harmonies and electric stage presence.</p>
-                </article>
-                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform md:col-span-2 xl:col-span-3">
-                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">2:00 PM - 4:30 PM</p>
-                    <h4 class="text-2xl font-headline text-secondary mb-2">Performance Showcase</h4>
-                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Amphitheatre</p>
-                    <p class="text-sm text-on-surface-variant">Surprise acts, guest stars, and pure entertainment in a closing showcase of talent.</p>
+                    <button onclick="document.getElementById('reg-modal').classList.add('open')" class="mt-4 text-xs border border-secondary/40 text-secondary px-4 py-1.5 rounded-full hover:bg-secondary/10 transition-colors">Register Now</button>
                 </article>
             </div>
         </div>
-    </section>
-    <!-- Schedule Section -->
-    <section id="timeline" class="py-24 px-8 bg-surface-container relative overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(118,214,213,0.12),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(255,223,158,0.12),transparent_35%)]"></div>
-        <div class="max-w-6xl mx-auto relative z-10">
-            <div class="text-center mb-14">
-                <h2 class="text-4xl md:text-5xl font-headline text-secondary italic">Festival Timeline</h2>
-                <p class="mt-4 text-on-surface-variant max-w-2xl mx-auto">Clear, day-wise scheduling so visitors can quickly plan their movement across venues.</p>
-            </div>
-            <div class="grid lg:grid-cols-2 gap-8">
-                <article class="relative rounded-2xl bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/35 p-7 md:p-8 shadow-[0_20px_40px_rgba(0,14,63,0.35)]">
-                    <div class="inline-flex items-center rounded-full bg-secondary/20 text-secondary px-4 py-1 text-xs tracking-[0.2em] uppercase">Day 01 - 21 April</div>
-                    <div class="relative mt-8 pl-7 space-y-7 before:content-[''] before:absolute before:left-1.5 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-secondary/70 before:to-tertiary/40">
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">0:00 AM - 11:30 AM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Nrityaang - Mridang</h4>
-                            <p class="text-sm text-on-surface-variant">Solo Classical Dance - Auditorium</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">11:30 AM - 1:30 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Uthaan</h4>
-                            <p class="text-sm text-on-surface-variant">Group Folk Dance - Auditorium</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">1:30 PM - 5:30 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Inaayat</h4>
-                            <p class="text-sm text-on-surface-variant">Western Group Dance - Auditorium</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">2:00 PM - 3:30 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Advaitaa - Nazaat</h4>
-                            <p class="text-sm text-on-surface-variant">Western Solo Dance - Auditorium</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">2:00 PM - 4:30 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Performance Showcase</h4>
-                            <p class="text-sm text-on-surface-variant">Amphitheatre</p>
-                        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- TIMELINE / SCHEDULE -->
+<!-- ============================================================ -->
+<section id="timeline" class="py-24 px-8 bg-surface-container relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(118,214,213,0.12),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(255,223,158,0.12),transparent_35%)]"></div>
+    <div class="max-w-6xl mx-auto relative z-10">
+        <div class="text-center mb-14">
+            <h2 class="text-4xl md:text-5xl font-headline text-secondary italic">Festival Schedule</h2>
+            <p class="mt-4 text-on-surface-variant max-w-2xl mx-auto">Day-wise scheduling so you can plan your movement across venues.</p>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Day 1 -->
+            <article class="relative rounded-2xl bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/35 p-7 md:p-8 shadow-[0_20px_40px_rgba(0,14,63,0.35)]">
+                <div class="inline-flex items-center rounded-full bg-secondary/20 text-secondary px-4 py-1 text-xs tracking-[0.2em] uppercase">Day 01 — 21 April</div>
+                <div class="relative mt-8 pl-7 space-y-7 before:content-[''] before:absolute before:left-1.5 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-secondary/70 before:to-tertiary/40">
+                    <!-- FIX: "0:00 AM" → "10:00 AM" -->
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">10:00 AM – 11:30 AM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Nrityaang – Mridang</h4>
+                        <p class="text-sm text-on-surface-variant">Solo Classical Dance — Auditorium</p>
                     </div>
-                </article>
-                <article class="relative rounded-2xl bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/35 p-7 md:p-8 shadow-[0_20px_40px_rgba(0,14,63,0.35)]">
-                    <div class="inline-flex items-center rounded-full bg-tertiary/20 text-tertiary px-4 py-1 text-xs tracking-[0.2em] uppercase">Day 02 - 22 April</div>
-                    <div class="relative mt-8 pl-7 space-y-7 before:content-[''] before:absolute before:left-1.5 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-tertiary/70 before:to-secondary/40">
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <p class="text-xs tracking-widest uppercase text-tertiary">10:00 AM - 5:00 PM</p>
-                                <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
-                            </div>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Baithak</h4>
-                            <p class="text-sm text-on-surface-variant">Street Play Competition - Shades Lawn</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <p class="text-xs tracking-widest uppercase text-tertiary">10:00 AM - 5:00 PM</p>
-                                <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
-                            </div>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Vagmita Debsoc - Khandan</h4>
-                            <p class="text-sm text-on-surface-variant">Debate Competition - Seminar Room</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">9:00 AM - 6:00 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Illuminati</h4>
-                            <p class="text-sm text-on-surface-variant">Competitions - Lecture Hall-2</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM - 3:00 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Maniera: Atrang Rangmanch</h4>
-                            <p class="text-sm text-on-surface-variant">Art Exhibition - Parking Area Near Girl's Hostel</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM - 2:00 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Maniera: Chitrakala / Kala Sangini</h4>
-                            <p class="text-sm text-on-surface-variant">Solo and Duo Painting - LT-1 and LT-3</p>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
-                            <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM - 1:00 PM / 10:00 AM - 2:00 PM</p>
-                            <h4 class="mt-1 text-xl font-headline text-secondary">Irshaad and Slaycapella</h4>
-                            <p class="text-sm text-on-surface-variant">Literary and A-Cappella Events - LT-4 and Reading Room</p>
-                        </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">11:30 AM – 1:30 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Uthaan</h4>
+                        <p class="text-sm text-on-surface-variant">Group Folk Dance — Auditorium</p>
                     </div>
-                </article>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">1:30 PM – 5:30 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Inaayat</h4>
+                        <p class="text-sm text-on-surface-variant">Western Group Dance — Auditorium</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">2:00 PM – 3:30 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Advaitaa – Nazaat</h4>
+                        <p class="text-sm text-on-surface-variant">Western Solo Dance — Auditorium</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">2:00 PM – 4:30 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Performance Showcase</h4>
+                        <p class="text-sm text-on-surface-variant">Amphitheatre</p>
+                    </div>
+                </div>
+            </article>
+            <!-- Day 2 -->
+            <article class="relative rounded-2xl bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/35 p-7 md:p-8 shadow-[0_20px_40px_rgba(0,14,63,0.35)]">
+                <div class="inline-flex items-center rounded-full bg-tertiary/20 text-tertiary px-4 py-1 text-xs tracking-[0.2em] uppercase">Day 02 — 22 April</div>
+                <div class="relative mt-8 pl-7 space-y-7 before:content-[''] before:absolute before:left-1.5 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-tertiary/70 before:to-secondary/40">
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">9:00 AM – 6:00 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Illuminati</h4>
+                        <p class="text-sm text-on-surface-variant">Competitions — Lecture Hall-2</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">10:00 AM – 2:00 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Anhad – Slaycapella</h4>
+                        <p class="text-sm text-on-surface-variant">Western Group A-Cappella — Reading Room</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">10:00 AM – 5:00 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Baithak + Vagmita Debsoc</h4>
+                        <p class="text-sm text-on-surface-variant">Street Play & Debate — Shades Lawn / Seminar Room</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM – 1:00 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Vagmita Poetry – Irshaad</h4>
+                        <p class="text-sm text-on-surface-variant">Literary Events — LT-4</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM – 3:00 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Maniera: Atrang Rangmanch</h4>
+                        <p class="text-sm text-on-surface-variant">Art Exhibition — Parking Area Near Girl's Hostel</p>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                        <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM – 2:00 PM</p>
+                        <h4 class="mt-1 text-xl font-headline text-secondary">Maniera: Chitrakala / Kala Sangini</h4>
+                        <p class="text-sm text-on-surface-variant">Solo and Duo Painting — LT-1 and LT-3</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PAST PERFORMERS — Infinite Auto-Scroll Carousel -->
+<!-- ============================================================ -->
+<style>
+    /* Starfield background */
+    #performers-section {
+        background: #000510;
+        position: relative;
+    }
+    .stars-layer {
+        position: absolute;
+        inset: 0;
+        background-image:
+            radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+            radial-gradient(1px 1px at 25% 65%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,0.9) 0%, transparent 100%),
+            radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1px 1px at 70% 35%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 85% 55%, rgba(255,255,255,0.8) 0%, transparent 100%),
+            radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(2px 2px at 60% 50%, rgba(118,214,213,0.4) 0%, transparent 100%),
+            radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 75% 75%, rgba(255,223,158,0.3) 0%, transparent 100%),
+            radial-gradient(1px 1px at 48% 28%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1px 1px at 92% 68%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(2px 2px at 18% 44%, rgba(118,214,213,0.3) 0%, transparent 100%),
+            radial-gradient(1px 1px at 63% 22%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(1px 1px at 37% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 82% 38%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1px 1px at 50% 95%, rgba(255,255,255,0.3) 0%, transparent 100%),
+            radial-gradient(1px 1px at 8% 75%, rgba(255,255,255,0.5) 0%, transparent 100%);
+        pointer-events: none;
+    }
+    /* Teal glow blobs matching reference image */
+    .teal-blob {
+        position: absolute;
+        width: 220px;
+        height: 180px;
+        background: radial-gradient(ellipse, rgba(0,220,200,0.18) 0%, transparent 70%);
+        filter: blur(30px);
+        pointer-events: none;
+    }
+
+    /* Marquee / Infinite scroll */
+    .marquee-outer {
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+    .marquee-track {
+        display: flex;
+        gap: 28px;
+        width: max-content;
+        animation: scroll-left 36s linear infinite;
+        will-change: transform;
+    }
+    /* Pause entire track when ANY part of the outer is hovered */
+    .marquee-outer:hover .marquee-track {
+        animation-play-state: paused;
+    }
+    @keyframes scroll-left {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    /* Individual performer card */
+    .perf-card {
+        flex-shrink: 0;
+        width: 240px;
+        height: 340px;
+        border-radius: 6px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+        /* Slight perspective tilt — alternating via nth-child */
+        transform: perspective(900px) rotateY(0deg);
+    }
+    .perf-card:hover {
+        transform: scale(1.10) perspective(900px) rotateY(0deg) !important;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(255,223,158,0.15);
+        z-index: 20;
+    }
+    /* Photo / gradient area */
+    .perf-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .perf-card-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    /* Bottom label overlay — matches reference */
+    .perf-card-label {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.7) 60%, transparent 100%);
+        padding: 28px 14px 14px;
+    }
+    .perf-card-role {
+        font-family: 'Inter', sans-serif;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+        margin-bottom: 3px;
+    }
+    .perf-card-name {
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #ffffff;
+        line-height: 1.1;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* Section title style — matches Cognizance reference */
+    .performers-title-line1 {
+        font-family: 'Inter', sans-serif;
+        font-weight: 900;
+        font-size: clamp(2.8rem, 7vw, 5.5rem);
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        line-height: 0.9;
+        color: #76d6d5; /* teal — matching reference cyan */
+    }
+    .performers-title-line2 {
+        font-family: 'Inter', sans-serif;
+        font-weight: 900;
+        font-size: clamp(2.8rem, 7vw, 5.5rem);
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        line-height: 0.9;
+        color: #ffffff;
+    }
+</style>
+
+<section id="artists" class="py-20 overflow-hidden relative" style="background:#051537;">
+    <div class="stars-layer"></div>
+    <div class="teal-blob" style="top:20%; right:15%; opacity:0.7;"></div>
+    <div class="teal-blob" style="top:55%; left:5%; opacity:0.4; width:160px; height:120px;"></div>
+
+    <!-- Header row — left-aligned like reference -->
+    <div class="relative z-10 flex items-start justify-between px-8 md:px-16 mb-12">
+        <div>
+            <div class="performers-title-line1">PAST</div>
+            <div class="performers-title-line2">PERFORMERS</div>
+        </div>
+        <!-- Horizontal rule + label — right side like reference -->
+        <div class="hidden md:flex flex-col items-end justify-center gap-2 pt-4">
+            <div class="h-px w-48 bg-white/20"></div>
+            <p class="text-white/30 text-xs tracking-[0.25em] uppercase font-light">TRYST 2026 Edition</p>
+        </div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="marquee-outer relative z-10">
+        <div class="marquee-track py-6">
+
+            <!-- ---- SET 1 (originals) ---- -->
+            <!-- Card 1 -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #1a0533 0%, #3d1266 50%, #6b21a8 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">mic</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Music Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #0d1f4a 0%, #1e3a8a 50%, #1d4ed8 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">music_note</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Music Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #0f2a1a 0%, #15573a 50%, #166534 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">mic_external_on</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Stand-Up Comedian</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #3f0d0d 0%, #7f1d1d 50%, #b91c1c 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">headphones</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Music Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #292524 0%, #57534e 50%, #78716c 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">queue_music</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Hip Hop Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #0e2a30 0%, #155e75 50%, #0e7490 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">equalizer</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Electronic / DJ</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <!-- Card 7 -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #1c1917 0%, #44403c 50%, #a8a29e 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">piano</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Indie Folk / Pop</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+
+            <!-- ---- SET 2 (duplicates for seamless loop) ---- -->
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #1a0533 0%, #3d1266 50%, #6b21a8 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">mic</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Music Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #0d1f4a 0%, #1e3a8a 50%, #1d4ed8 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">music_note</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Music Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #0f2a1a 0%, #15573a 50%, #166534 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">mic_external_on</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Stand-Up Comedian</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #3f0d0d 0%, #7f1d1d 50%, #b91c1c 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">headphones</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Music Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #292524 0%, #57534e 50%, #78716c 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">queue_music</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Hip Hop Artist</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #0e2a30 0%, #155e75 50%, #0e7490 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">equalizer</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Electronic / DJ</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
+            </div>
+            <div class="perf-card">
+                <div class="perf-card-placeholder" style="background: linear-gradient(145deg, #1c1917 0%, #44403c 50%, #a8a29e 100%);">
+                    <span style="font-size:72px; opacity:0.18; color:#fff; font-family:'Material Symbols Outlined';">piano</span>
+                </div>
+                <div class="perf-card-label">
+                    <div class="perf-card-role">Indie Folk / Pop</div>
+                    <div class="perf-card-name">Artist Name</div>
+                </div>
             </div>
         </div>
-    </section>
-    <!-- Venue Map Section -->
-    <section class="relative h-[600px] w-full bg-surface-dim">
-        <div class="absolute inset-0 grayscale contrast-125 opacity-40">
-            <img class="w-full h-full object-cover" data-alt="abstract top-down street map of an old european city"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM805W5SeKi5ggIw2XrnCulq56a16C1In7Dh2TJBS8XQRAxKdQ4GGKtajkDPfNU8xFUOeSFYJbPZb4iWo7ME06avkv4Zz9y9Kd_2_SQghwdF8FtzoOj2-lGVVwCrGrV-bg7z_wx4_XydJ4qomWCPRIu4df1mKQjtezCOf1oQqaGdvJngVF9G0gI1D-B75iZmwu-0mhV-rfzgMA9clFNqmAwhYlkNqSKNZzY8Q0llsQxMD9GSXsZW0tYNWr1On0hNZv6Vu89z1hMjw" />
+    </div>
+
+    <p class="relative z-10 text-center text-white/25 text-xs tracking-[0.3em] uppercase mt-10">
+        Replace placeholder cards with actual artist images &amp; names
+    </p>
+</section>
+
+<!-- ============================================================ -->
+<!-- VENUE MAP SECTION — FIX: GET DIRECTIONS now links to Google Maps -->
+<!-- ============================================================ -->
+<section class="relative h-[600px] w-full bg-surface-dim">
+    <div class="absolute inset-0 grayscale contrast-125 opacity-40">
+        <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM805W5SeKi5ggIw2XrnCulq56a16C1In7Dh2TJBS8XQRAxKdQ4GGKtajkDPfNU8xFUOeSFYJbPZb4iWo7ME06avkv4Zz9y9Kd_2_SQghwdF8FtzoOj2-lGVVwCrGrV-bg7z_wx4_XydJ4qomWCPRIu4df1mKQjtezCOf1oQqaGdvJngVF9G0gI1D-B75iZmwu-0mhV-rfzgMA9clFNqmAwhYlkNqSKNZzY8Q0llsQxMD9GSXsZW0tYNWr1On0hNZv6Vu89z1hMjw" />
+    </div>
+    <div class="absolute inset-0 flex items-center justify-center p-8">
+        <div class="bg-surface/80 backdrop-blur-xl gilded-frame p-10 max-w-lg w-full border-4">
+            <h2 class="text-3xl font-headline text-secondary mb-6">The Grand Pavilion</h2>
+            <div class="space-y-4 text-on-surface-variant">
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-tertiary">location_on</span>
+                    <div>
+                        <p class="font-semibold text-on-surface">Keshav Mahavidyalaya</p>
+                        <p class="text-sm">H-4-5 Zone, Pitampura, Delhi – 110034</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-tertiary">schedule</span>
+                    <p>10:00 AM — 10:00 PM (Both Days)</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-tertiary">info</span>
+                    <p>Part of Delhi University North Campus.</p>
+                </div>
+            </div>
+            <!-- FIX: GET DIRECTIONS now has a working Google Maps link -->
+            <a href="https://maps.google.com/?q=Keshav+Mahavidyalaya+H-4-5+Zone+Pitampura+Delhi+110034" target="_blank" rel="noopener"
+                class="mt-8 w-full bg-secondary text-on-secondary font-bold py-3 hover:bg-secondary-fixed transition-colors block text-center">
+                GET DIRECTIONS
+            </a>
         </div>
-        <div class="absolute inset-0 flex items-center justify-center p-8">
-            <div class="bg-surface/80 backdrop-blur-xl gilded-frame p-10 max-w-lg w-full border-4">
-                <h2 class="text-3xl font-headline text-secondary mb-6">The Grand Pavilion</h2>
-                <div class="space-y-4 text-on-surface-variant">
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- GALLERY SECTION -->
+<!-- ============================================================ -->
+<section id="gallery" class="py-24 px-8">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-center font-serif italic text-4xl text-secondary mb-4">Through the Looking Glass</h2>
+        <p class="text-center text-on-surface-variant text-sm mb-16">Relive the memories from previous editions of TRYST.</p>
+        <div class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+            <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                <img class="w-full hover:scale-105 transition-transform duration-500"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6FWkLaOvy-Hpz7L0A6EwKofQ3jCkHuDwxTi0kRuy0YMUONAURqTEgB3MJMuRIGKpt-w1LTljahQ1HnOOt6UsuTumX1Khxb_u5PHmjuZo_kEfmCZboUVH2IaWg_ECdZ_rcH5I9yRgegQpjZrWrLsJNZ9hm56CGy-pL_QOYj3DFN9z42-QWu6xi9z4un2_1qIibtGkys6ZDp8Oo0IpsR7AdWY9vjP7ud1wrddm3y6f4-26TNPsZ5eBa5K6mu_FN4R0EeqY55rgl7j4" />
+            </div>
+            <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                <img class="w-full hover:scale-105 transition-transform duration-500"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtj7m0xlUOMXZL4xPVmZ9-gd0YigyUm_DjqOQ8y26nQXrn-yLeO6g_OyX0OKmxnwfmerrvq8toFz9YirMDcebbMJVFTXh9PDkrguAzCK32LywS7urJo3VXsuEK51hHppEZhrXYxqh5OKOF4nqKO1LtPJBNDVK1A3H6Ebs99njh4OHoVK2GLZAfCt9vbKmTBp_ZRbnqzktXLJBu32-bPDjWO4otWPQfRnQgQsS2Ieo-x1dPLq-C4WettdbsYF7drH3SvK8MeADAeU0" />
+            </div>
+            <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                <img class="w-full hover:scale-105 transition-transform duration-500"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmfkvBtVLTyeaulV-HY6ItOx_qFjqPhyHHE8Xj4QOl2mVuOiCF6pUJ2ON0JGdYcxQmr5S89bhtxYazoLXfvJRBUCBZzwkxEq50yoRk76vP9j1YP_HdQ9GYvQRuGUnBcRuSo4Ug5JArWAj34nLGZ13yoyR9kR6_RHdWBUDz30ZpZrATikuWZbG9fFlAS57UEUGGxCRMJ8PtouUc17GKFX0METZKMllc6sb2S9wLZzGJjpghUaBOEyZ3yYTw1_HU44AifkZhijsVBxM" />
+            </div>
+            <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                <img class="w-full hover:scale-105 transition-transform duration-500"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3ldK9rdP3mjr_S60K3Sb733poG0TqLHHYo4wJZ8zSvr7K-k-JcBRbU2-a7lFjQnhakcDOZYOP4bN_Q-vHG9a6-o5QPM_nGHHIbE8Htuiv7gIVBbHqofuqe20iTe8kUXzBHg-vEmjKhBOs5oigxrVO7NMcvcEnE3X1PHacbwjnZqkM-2VTg6GW8zAcgEMuhe_5BzRhXvaeuVEA_vJLRED7ZoQAu7DZD_uIfm4IiAQR6Zh1ItzNmr2qACKDGenDtTRQdCf0_pGvdPA" />
+            </div>
+            <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                <img class="w-full hover:scale-105 transition-transform duration-500"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8G1DiR8XEY9UcZ3-Vf2Tn_4mBlGnrp6C7pQ0-dXVICS_oo0_3Lc9zYbt4ARQ4w9c2-FEogFqqF6dK8k5uEe_-J_zWqvtFW8vhxIiHRVM86hGiemLwe3E6ewX4JdfabqlsL3cNelhLR9potF9IaOpZyH_GIWmZ7p1s-dBgHNd5Tj-O4Ux6xr_PSIckVLm7fmYZmPp9Hu0Qi0o2bu98mA6gfh2yVgHmHq2przNb_oFFFsojIe0m5tU7nflt9Vm2AC1eodPeJVVPILA" />
+            </div>
+            <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                <img class="w-full hover:scale-105 transition-transform duration-500"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmhAQUlzG0pLe2_YqC92vm__IHVM7AfQMXonZBZvXdlTY1YB-ZE9roM2jrZ2Eh5jV4AqwPNg7vFfyvxeH-vp47Os4TUIgThrW9thvtsxnkGbVLO_8eCW2DKJLSkprvJWbrzvkI86QlcSdQ8zEYgbHAWBuJj2Msxx-UjUcpa6f8Rcs4GR7l4Vj8MGYiiqxqClY0jM3dZ-p1dL_Hy4pogABDm2MOPB4M914NmgegFW9DOejZYVMgANzPS07-Kv1bvliPME3IzsRGy3M" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- REGISTRATION CTA -->
+<!-- ============================================================ -->
+<section id="register" class="py-32 px-8 overflow-hidden relative">
+    <div class="absolute inset-0 z-0 swirl-bg opacity-30"></div>
+    <div class="max-w-4xl mx-auto relative z-10 text-center">
+        <div class="mb-12 inline-block">
+            <div class="w-64 h-80 border-[20px] border-secondary/30 relative flex items-center justify-center group">
+                <div class="absolute -inset-2 border-2 border-secondary scale-105"></div>
+                <span class="text-tertiary italic text-lg opacity-60 group-hover:opacity-100 transition-opacity px-8">Your Story Belongs in This Frame</span>
+            </div>
+        </div>
+        <h2 class="text-5xl md:text-6xl font-headline text-secondary mb-8">Claim Your Presence</h2>
+        <p class="text-xl text-on-surface-variant mb-12 font-serif italic">
+            Limited passes for the 2026 Exhibition are now being released to the dreaming public.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+            <button onclick="document.getElementById('reg-modal').classList.add('open')"
+                class="bg-gradient-to-r from-secondary to-secondary-fixed-dim text-on-secondary px-12 py-5 font-bold text-xl rounded shadow-2xl hover:scale-105 transition-transform">
+                RESERVE YOUR FRAME
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CONTACT SECTION (NEW — real contact info from 2025 site) -->
+<!-- ============================================================ -->
+<section id="contact" class="py-24 px-8 bg-surface-container-low relative overflow-hidden">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14">
+            <h2 class="text-tertiary font-label tracking-[0.3em] uppercase text-sm mb-4">Reach Us</h2>
+            <h3 class="text-5xl font-headline text-secondary italic">Contact Us</h3>
+            <p class="mt-4 text-on-surface-variant max-w-xl mx-auto">Have questions about TRYST 2026? Reach out and we'll get back to you as soon as possible.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Contact Info -->
+            <div class="museum-placard-dark rounded-2xl p-8">
+                <h4 class="text-xl font-headline text-secondary mb-6">Contact Information</h4>
+                <div class="space-y-5">
                     <div class="flex items-start gap-4">
-                        <span class="material-symbols-outlined text-tertiary">location_on</span>
-                        <p>Keshav Mahavidhyalaya, Pitampura, Delhi</p>
+                        <span class="material-symbols-outlined text-tertiary mt-0.5">alternate_email</span>
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-on-surface-variant mb-1">Email</p>
+                            <a href="mailto:your@email.com" class="text-secondary hover:text-amber-100 transition-colors">your@email.com</a>
+                        </div>
                     </div>
                     <div class="flex items-start gap-4">
-                        <span class="material-symbols-outlined text-tertiary">schedule</span>
-                        <p>10:00 AM — 11:00 PM (Both Days)</p>
+                        <span class="material-symbols-outlined text-tertiary mt-0.5">phone</span>
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-on-surface-variant mb-1">Phone</p>
+                            <p class="text-on-surface text-sm">+91 XXXXX XXXXX <span class="text-on-surface-variant">(Tech Inquiries)</span></p>
+                            <p class="text-on-surface text-sm">+91 XXXXX XXXXX <span class="text-on-surface-variant">(General Inquiries)</span></p>
+                        </div>
                     </div>
                     <div class="flex items-start gap-4">
-                        <span class="material-symbols-outlined text-tertiary">info</span>
-                        <p>Valet parking available at the East Wing Entrance.</p>
+                        <span class="material-symbols-outlined text-tertiary mt-0.5">location_on</span>
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-on-surface-variant mb-1">Address</p>
+                            <p class="text-on-surface text-sm">Your College Name<br/>Area, City<br/>State — PINCODE</p>
+                        </div>
                     </div>
                 </div>
-                <button
-                    class="mt-8 w-full bg-secondary text-on-secondary font-bold py-3 hover:bg-secondary-fixed transition-colors">
-                    GET DIRECTIONS
-                </button>
-            </div>
-        </div>
-    </section>
-    <!-- Gallery Section -->
-    <section id="gallery" class="py-24 px-8">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-center font-serif italic text-4xl text-secondary mb-16">Through the Looking Glass</h2>
-            <div class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
-                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
-                    <img class="w-full hover:scale-105 transition-transform duration-500"
-                        data-alt="vibrant paint splatters"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6FWkLaOvy-Hpz7L0A6EwKofQ3jCkHuDwxTi0kRuy0YMUONAURqTEgB3MJMuRIGKpt-w1LTljahQ1HnOOt6UsuTumX1Khxb_u5PHmjuZo_kEfmCZboUVH2IaWg_ECdZ_rcH5I9yRgegQpjZrWrLsJNZ9hm56CGy-pL_QOYj3DFN9z42-QWu6xi9z4un2_1qIibtGkys6ZDp8Oo0IpsR7AdWY9vjP7ud1wrddm3y6f4-26TNPsZ5eBa5K6mu_FN4R0EeqY55rgl7j4" />
-                </div>
-                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
-                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="old book pages"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtj7m0xlUOMXZL4xPVmZ9-gd0YigyUm_DjqOQ8y26nQXrn-yLeO6g_OyX0OKmxnwfmerrvq8toFz9YirMDcebbMJVFTXh9PDkrguAzCK32LywS7urJo3VXsuEK51hHppEZhrXYxqh5OKOF4nqKO1LtPJBNDVK1A3H6Ebs99njh4OHoVK2GLZAfCt9vbKmTBp_ZRbnqzktXLJBu32-bPDjWO4otWPQfRnQgQsS2Ieo-x1dPLq-C4WettdbsYF7drH3SvK8MeADAeU0" />
-                </div>
-                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
-                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="glowing frames"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmfkvBtVLTyeaulV-HY6ItOx_qFjqPhyHHE8Xj4QOl2mVuOiCF6pUJ2ON0JGdYcxQmr5S89bhtxYazoLXfvJRBUCBZzwkxEq50yoRk76vP9j1YP_HdQ9GYvQRuGUnBcRuSo4Ug5JArWAj34nLGZ13yoyR9kR6_RHdWBUDz30ZpZrATikuWZbG9fFlAS57UEUGGxCRMJ8PtouUc17GKFX0METZKMllc6sb2S9wLZzGJjpghUaBOEyZ3yYTw1_HU44AifkZhijsVBxM" />
-                </div>
-                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
-                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="neon David"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3ldK9rdP3mjr_S60K3Sb733poG0TqLHHYo4wJZ8zSvr7K-k-JcBRbU2-a7lFjQnhakcDOZYOP4bN_Q-vHG9a6-o5QPM_nGHHIbE8Htuiv7gIVBbHqofuqe20iTe8kUXzBHg-vEmjKhBOs5oigxrVO7NMcvcEnE3X1PHacbwjnZqkM-2VTg6GW8zAcgEMuhe_5BzRhXvaeuVEA_vJLRED7ZoQAu7DZD_uIfm4IiAQR6Zh1ItzNmr2qACKDGenDtTRQdCf0_pGvdPA" />
-                </div>
-                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
-                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="impasto painting"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8G1DiR8XEY9UcZ3-Vf2Tn_4mBlGnrp6C7pQ0-dXVICS_oo0_3Lc9zYbt4ARQ4w9c2-FEogFqqF6dK8k5uEe_-J_zWqvtFW8vhxIiHRVM86hGiemLwe3E6ewX4JdfabqlsL3cNelhLR9potF9IaOpZyH_GIWmZ7p1s-dBgHNd5Tj-O4Ux6xr_PSIckVLm7fmYZmPp9Hu0Qi0o2bu98mA6gfh2yVgHmHq2przNb_oFFFsojIe0m5tU7nflt9Vm2AC1eodPeJVVPILA" />
-                </div>
-                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
-                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="golden geometry"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmhAQUlzG0pLe2_YqC92vm__IHVM7AfQMXonZBZvXdlTY1YB-ZE9roM2jrZ2Eh5jV4AqwPNg7vFfyvxeH-vp47Os4TUIgThrW9thvtsxnkGbVLO_8eCW2DKJLSkprvJWbrzvkI86QlcSdQ8zEYgbHAWBuJj2Msxx-UjUcpa6f8Rcs4GR7l4Vj8MGYiiqxqClY0jM3dZ-p1dL_Hy4pogABDm2MOPB4M914NmgegFW9DOejZYVMgANzPS07-Kv1bvliPME3IzsRGy3M" />
+                <!-- Social Links -->
+                <div class="mt-8 pt-8 border-t border-outline-variant/30">
+                    <p class="text-xs uppercase tracking-widest text-on-surface-variant mb-4">Follow Us</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center border border-outline-variant/40 text-secondary hover:bg-secondary/10 hover:border-secondary/40 transition-all rounded-lg" title="Facebook">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center border border-outline-variant/40 text-secondary hover:bg-secondary/10 hover:border-secondary/40 transition-all rounded-lg" title="Instagram">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center border border-outline-variant/40 text-secondary hover:bg-secondary/10 hover:border-secondary/40 transition-all rounded-lg" title="Twitter / X">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center border border-outline-variant/40 text-secondary hover:bg-secondary/10 hover:border-secondary/40 transition-all rounded-lg" title="YouTube">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Registration CTA -->
-    <section id="register" class="py-32 px-8 overflow-hidden relative">
-        <div class="absolute inset-0 z-0 swirl-bg opacity-30"></div>
-        <div class="max-w-4xl mx-auto relative z-10 text-center">
-            <div class="mb-12 inline-block">
-                <div
-                    class="w-64 h-80 border-[20px] border-secondary/30 relative flex items-center justify-center group">
-                    <div class="absolute -inset-2 border-2 border-secondary scale-105"></div>
-                    <span
-                        class="text-tertiary italic text-lg opacity-60 group-hover:opacity-100 transition-opacity px-8">Your
-                        Story Belongs in This Frame</span>
+
+            <!-- Newsletter + Quick Info -->
+            <div class="flex flex-col gap-6">
+                <div class="museum-placard-dark rounded-2xl p-8 flex-1">
+                    <h4 class="text-xl font-headline text-secondary mb-2">Stay in the Loop</h4>
+                    <p class="text-sm text-on-surface-variant mb-6">Subscribe to our newsletter to get updates about TRYST 2026, including artist announcements and event details.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="your@email.com"
+                            class="flex-1 bg-surface/60 border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:border-secondary/60 transition-colors" />
+                        <button class="bg-secondary text-on-secondary font-bold px-5 py-3 rounded-lg hover:bg-secondary-fixed transition-colors text-sm whitespace-nowrap">
+                            Subscribe
+                        </button>
+                    </div>
+                    <p class="text-xs text-on-surface-variant/50 mt-3">* Limited spots available. Register early to avoid disappointment.</p>
+                </div>
+                <div class="museum-placard-dark rounded-2xl p-8">
+                    <h4 class="text-xl font-headline text-secondary mb-4">Festival Highlights</h4>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <span class="material-symbols-outlined text-tertiary text-3xl">location_on</span>
+                            <p class="text-xs text-on-surface-variant mt-2 leading-tight">KMV Campus<br/>Pitampura, Delhi</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="material-symbols-outlined text-tertiary text-3xl">calendar_today</span>
+                            <p class="text-xs text-on-surface-variant mt-2 leading-tight">Apr 21–22<br/>2026</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="material-symbols-outlined text-tertiary text-3xl">schedule</span>
+                            <p class="text-xs text-on-surface-variant mt-2 leading-tight">10 AM – 10 PM<br/>Both Days</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <h2 class="text-5xl md:text-6xl font-headline text-secondary mb-8">Claim Your Presence</h2>
-            <p class="text-xl text-on-surface-variant mb-12 font-serif italic">
-                Limited passes for the 2026 Exhibition are now being released to the dreaming public.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
-                <button
-                    class="bg-gradient-to-r from-secondary to-secondary-fixed-dim text-on-secondary px-12 py-5 font-bold text-xl rounded shadow-2xl hover:scale-105 transition-transform">
-                    RESERVE YOUR FRAME
-                </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FOOTER (NEW — full footer like 2025 site) -->
+<!-- ============================================================ -->
+<footer class="bg-slate-950 w-full py-16 px-8 border-t border-indigo-900/30 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <div class="absolute top-10 left-20 text-tertiary material-symbols-outlined">auto_awesome</div>
+        <div class="absolute bottom-20 right-40 text-tertiary material-symbols-outlined">flare</div>
+        <div class="absolute top-1/2 left-1/3 text-secondary material-symbols-outlined">star</div>
+    </div>
+    <div class="max-w-7xl mx-auto relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+            <!-- Brand -->
+            <div>
+                <span class="text-2xl font-serif italic text-amber-200 mb-4 block">TRYST 2026</span>
+                <p class="text-indigo-300/70 text-sm leading-relaxed mb-6">The annual cultural festival of Keshav Mahavidyalaya, Delhi University. Join us for two days of music, dance, art, and more.</p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-9 h-9 flex items-center justify-center border border-indigo-900/50 text-amber-200/70 hover:text-amber-200 hover:bg-white/5 transition-all rounded-lg">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" class="w-9 h-9 flex items-center justify-center border border-indigo-900/50 text-amber-200/70 hover:text-amber-200 hover:bg-white/5 transition-all rounded-lg">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <a href="#" class="w-9 h-9 flex items-center justify-center border border-indigo-900/50 text-amber-200/70 hover:text-amber-200 hover:bg-white/5 transition-all rounded-lg">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="#" class="w-9 h-9 flex items-center justify-center border border-indigo-900/50 text-amber-200/70 hover:text-amber-200 hover:bg-white/5 transition-all rounded-lg">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <!-- Quick Links -->
+            <div>
+                <h5 class="text-amber-200/90 font-semibold text-sm mb-5 uppercase tracking-widest">Quick Links</h5>
+                <nav class="flex flex-col gap-3">
+                    <a class="text-indigo-300/70 hover:text-teal-300 transition-colors text-sm" href="#home">Home</a>
+                    <a class="text-indigo-300/70 hover:text-teal-300 transition-colors text-sm" href="#about">About</a>
+                    <a class="text-indigo-300/70 hover:text-teal-300 transition-colors text-sm" href="#events">Events</a>
+                    <a class="text-indigo-300/70 hover:text-teal-300 transition-colors text-sm" href="#artists">Artists</a>
+                    <a class="text-indigo-300/70 hover:text-teal-300 transition-colors text-sm" href="#timeline">Schedule</a>
+                    <a class="text-indigo-300/70 hover:text-teal-300 transition-colors text-sm" href="#gallery">Gallery</a>
+                    <a class="text-indigo-300/70 hover:text-teal-300 transition-colors text-sm" href="#contact">Contact</a>
+                </nav>
+            </div>
+            <!-- Contact -->
+            <div>
+                <h5 class="text-amber-200/90 font-semibold text-sm mb-5 uppercase tracking-widest">Contact</h5>
+                <div class="space-y-3 text-sm">
+                    <p class="text-indigo-300/70">
+                        <span class="text-indigo-300/40 text-xs uppercase block mb-0.5">Email</span>
+                        <a href="mailto:your@email.com" class="hover:text-teal-300 transition-colors">your@email.com</a>
+                    </p>
+                    <p class="text-indigo-300/70">
+                        <span class="text-indigo-300/40 text-xs uppercase block mb-0.5">Phone</span>
+                        +91 XXXXX XXXXX<br/>+91 XXXXX XXXXX
+                    </p>
+                    <p class="text-indigo-300/70">
+                        <span class="text-indigo-300/40 text-xs uppercase block mb-0.5">Address</span>
+                        Your College Name,<br/>University of Delhi<br/>Area, City, State
+                    </p>
+                </div>
+            </div>
+            <!-- Subscribe -->
+            <div>
+                <h5 class="text-amber-200/90 font-semibold text-sm mb-5 uppercase tracking-widest">Newsletter</h5>
+                <p class="text-indigo-300/70 text-sm mb-4">Stay updated with the latest news and announcements for TRYST 2026.</p>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Your email"
+                        class="flex-1 min-w-0 bg-indigo-950/60 border border-indigo-900/50 rounded px-3 py-2 text-sm text-indigo-100 placeholder-indigo-400/40 focus:outline-none focus:border-amber-400/40 transition-colors" />
+                    <button class="bg-amber-400 text-slate-900 font-bold px-3 py-2 rounded hover:bg-amber-300 transition-colors text-sm">Go</button>
+                </div>
             </div>
         </div>
-    </section>
-    <!-- Footer Shell -->
-    <footer id="contact"
-        class="bg-slate-950 w-full py-16 px-8 flex flex-col items-center border-t border-indigo-900/30 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none">
-            <div class="absolute top-10 left-20 text-tertiary material-symbols-outlined">auto_awesome</div>
-            <div class="absolute bottom-20 right-40 text-tertiary material-symbols-outlined">flare</div>
-            <div class="absolute top-1/2 left-1/3 text-secondary material-symbols-outlined">star</div>
-        </div>
-        <div class="relative z-10 text-center max-w-4xl w-full">
-            <span class="text-xl font-serif text-amber-200 mb-4 block">TRYST 2026</span>
-            <nav class="flex flex-wrap justify-center gap-8 mb-12 font-serif text-sm text-indigo-200/70">
-                <a class="text-indigo-300 hover:text-teal-300 transition-colors" href="#">Privacy Policy</a>
-                <a class="text-indigo-300 hover:text-teal-300 transition-colors" href="#">Terms of Service</a>
-                <a class="text-indigo-300 hover:text-teal-300 transition-colors" href="#">FAQ</a>
-            </nav>
-            <div class="flex justify-center gap-6 mb-12">
-                <a class="w-10 h-10 flex items-center justify-center border border-indigo-900/50 text-amber-200 hover:bg-white/5 transition-all"
-                    href="#">
-                    <span class="material-symbols-outlined">share</span>
-                </a>
-                <a class="w-10 h-10 flex items-center justify-center border border-indigo-900/50 text-amber-200 hover:bg-white/5 transition-all"
-                    href="#">
-                    <span class="material-symbols-outlined">public</span>
-                </a>
-                <a class="w-10 h-10 flex items-center justify-center border border-indigo-900/50 text-amber-200 hover:bg-white/5 transition-all"
-                    href="#">
-                    <span class="material-symbols-outlined">alternate_email</span>
-                </a>
+
+        <div class="border-t border-indigo-900/30 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p class="text-indigo-300/50 text-xs tracking-widest uppercase">© 2026 TRYST, Keshav Mahavidyalaya. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a class="text-indigo-300/50 hover:text-teal-300 transition-colors text-xs" href="#">Privacy Policy</a>
+                <a class="text-indigo-300/50 hover:text-teal-300 transition-colors text-xs" href="#">Terms of Service</a>
+                <a class="text-indigo-300/50 hover:text-teal-300 transition-colors text-xs" href="#">FAQ</a>
             </div>
-            <p class="text-indigo-300/50 text-xs tracking-widest uppercase">
-                © 2026 TRYST Digital Gallery of Dreams. All rights reserved.
-            </p>
+            <p class="text-indigo-400/40 text-xs">Created by <a href="name.com" target="_blank" class="hover:text-teal-400 transition-colors">name</a></p>
         </div>
-    </footer>
-    <script>
-            (function () {
-                const daysEl = document.getElementById('countdown-days');
-                const hoursEl = document.getElementById('countdown-hours');
-                const minutesEl = document.getElementById('countdown-minutes');
-                const secondsEl = document.getElementById('countdown-seconds');
+    </div>
+</footer>
 
-                if (!daysEl || !hoursEl || !minutesEl || !secondsEl) {
-                    return;
-                }
+<!-- ============================================================ -->
+<!-- REGISTRATION MODAL (NEW) -->
+<!-- ============================================================ -->
+<div id="reg-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div class="relative bg-surface-container border border-outline-variant/40 rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <button onclick="document.getElementById('reg-modal').classList.remove('open')"
+            class="absolute top-4 right-4 text-on-surface-variant hover:text-secondary transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <h3 class="text-3xl font-headline text-secondary mb-2">Register</h3>
+        <p class="text-on-surface-variant text-sm mb-6">Secure your spot at TRYST 2026.</p>
+        <div class="space-y-4">
+            <div>
+                <label class="text-xs uppercase tracking-widest text-on-surface-variant mb-1 block">Full Name</label>
+                <input type="text" placeholder="Your name"
+                    class="w-full bg-surface/60 border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant/40 focus:outline-none focus:border-secondary/60 transition-colors" />
+            </div>
+            <div>
+                <label class="text-xs uppercase tracking-widest text-on-surface-variant mb-1 block">Email</label>
+                <input type="email" placeholder="your@email.com"
+                    class="w-full bg-surface/60 border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant/40 focus:outline-none focus:border-secondary/60 transition-colors" />
+            </div>
+            <div>
+                <label class="text-xs uppercase tracking-widest text-on-surface-variant mb-1 block">College / Institution</label>
+                <input type="text" placeholder="Your college"
+                    class="w-full bg-surface/60 border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant/40 focus:outline-none focus:border-secondary/60 transition-colors" />
+            </div>
+            <div>
+                <label class="text-xs uppercase tracking-widest text-on-surface-variant mb-1 block">Event of Interest</label>
+                <select class="w-full bg-surface/60 border border-outline-variant/40 rounded-lg px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-secondary/60 transition-colors">
+                    <option value="">Select an event</option>
+                    <option>Nrityaang – Mridang (Solo Classical Dance)</option>
+                    <option>Uthaan (Group Folk Dance)</option>
+                    <option>Advaitaa – Nazaat (Western Solo Dance)</option>
+                    <option>Inaayat (Western Group Dance)</option>
+                    <option>Baithak (Street Play)</option>
+                    <option>Vagmita Debsoc – Khandan (Debate)</option>
+                    <option>Maniera: Chitrakala (Solo Painting)</option>
+                    <option>Maniera: Kala Sangini (Duo Painting)</option>
+                    <option>Illuminati (Competitions)</option>
+                    <option>Vagmita Poetry – Irshaad (Literary)</option>
+                    <option>Anhad – Slaycapella (A-Cappella)</option>
+                    <option>General Pass (All Events)</option>
+                </select>
+            </div>
+        </div>
+        <button class="mt-6 w-full bg-gradient-to-r from-secondary to-secondary-fixed-dim text-on-secondary font-bold py-4 rounded-lg hover:brightness-105 transition-all text-base">
+            SUBMIT REGISTRATION
+        </button>
+        <p class="text-xs text-on-surface-variant/50 text-center mt-3">
+            Need help? Email <a href="mailto:contact@your@email.com" class="text-secondary/70 hover:text-secondary transition-colors">contact@your@email.com</a>
+        </p>
+    </div>
+</div>
 
-                const now = new Date();
-                let targetDate = new Date(now.getFullYear(), 3, 22, 0, 0, 0, 0);
-                if (now.getTime() > targetDate.getTime()) {
-                    targetDate = new Date(now.getFullYear() + 1, 3, 22, 0, 0, 0, 0);
-                }
+<!-- ============================================================ -->
+<!-- SCRIPTS -->
+<!-- ============================================================ -->
+<script>
+    // FIX: Countdown targets April 21, 2026 (fest start date)
+    (function () {
+        const daysEl = document.getElementById('countdown-days');
+        const hoursEl = document.getElementById('countdown-hours');
+        const minutesEl = document.getElementById('countdown-minutes');
+        const secondsEl = document.getElementById('countdown-seconds');
 
-                function setCountdown(days, hours, minutes, seconds) {
-                    daysEl.textContent = String(days).padStart(2, '0');
-                    hoursEl.textContent = String(hours).padStart(2, '0');
-                    minutesEl.textContent = String(minutes).padStart(2, '0');
-                    secondsEl.textContent = String(seconds).padStart(2, '0');
-                }
+        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
-                function updateCountdown() {
-                    const nowTime = Date.now();
-                    const diff = targetDate.getTime() - nowTime;
+        const now = new Date();
+        // Target: April 21, 2026 10:00 AM IST
+        let targetDate = new Date(2026, 3, 21, 10, 0, 0, 0);
+        if (now.getTime() > targetDate.getTime()) {
+            targetDate = new Date(2027, 3, 21, 10, 0, 0, 0);
+        }
 
-                    if (diff <= 0) {
-                        setCountdown(0, 0, 0, 0);
-                        return;
-                    }
+        function setCountdown(days, hours, minutes, seconds) {
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+        }
 
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                    const seconds = Math.floor((diff / 1000) % 60);
+        function updateCountdown() {
+            const diff = targetDate.getTime() - Date.now();
+            if (diff <= 0) { setCountdown(0, 0, 0, 0); return; }
+            setCountdown(
+                Math.floor(diff / (1000 * 60 * 60 * 24)),
+                Math.floor((diff / (1000 * 60 * 60)) % 24),
+                Math.floor((diff / (1000 * 60)) % 60),
+                Math.floor((diff / 1000) % 60)
+            );
+        }
 
-                    setCountdown(days, hours, minutes, seconds);
-                }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    })();
 
-                updateCountdown();
-                setInterval(updateCountdown, 1000);
-            })();
-    </script>
+    // Close modal on backdrop click
+    document.getElementById('reg-modal').addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+    });
+</script>
 </body>
-
 </html>

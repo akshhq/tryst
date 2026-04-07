@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TRYST 2026 | Digital Gallery of Dreams</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Inter:wght@300;400;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#7391ff",
+                        "inverse-on-surface": "#202d5d",
+                        "secondary-fixed": "#ffdf9e",
+                        "surface-container-high": "#1a2656",
+                        "on-error": "#690005",
+                        "primary": "#b6c4ff",
+                        "on-primary": "#002780",
+                        "primary-container": "#00267e",
+                        "outline": "#908f9d",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-primary-fixed": "#001550",
+                        "tertiary-fixed-dim": "#76d6d5",
+                        "secondary": "#ffdf9e",
+                        "on-secondary-fixed-variant": "#5b4300",
+                        "surface-variant": "#253262",
+                        "on-tertiary-fixed-variant": "#004f4f",
+                        "surface-dim": "#000e3f",
+                        "tertiary-fixed": "#93f2f2",
+                        "on-tertiary": "#003737",
+                        "surface-container-lowest": "#000933",
+                        "on-surface": "#dde1ff",
+                        "inverse-primary": "#004ee8",
+                        "on-primary-fixed-variant": "#003ab3",
+                        "primary-fixed": "#dce1ff",
+                        "on-secondary-fixed": "#261a00",
+                        "on-secondary": "#3f2e00",
+                        "surface-container": "#0e1b4b",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#002020",
+                        "surface-container-highest": "#253262",
+                        "background": "#000e3f",
+                        "surface-container-low": "#081747",
+                        "surface": "#000e3f",
+                        "surface-tint": "#b6c4ff",
+                        "tertiary-container": "#003636",
+                        "on-secondary-container": "#6a4e00",
+                        "inverse-surface": "#dde1ff",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#fabd00",
+                        "secondary-container": "#fabd00",
+                        "on-background": "#dde1ff",
+                        "outline-variant": "#454652",
+                        "surface-bright": "#2a3667",
+                        "on-surface-variant": "#c6c5d4",
+                        "on-tertiary-container": "#42a6a5",
+                        "tertiary": "#76d6d5",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            cursor: auto;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Noto Serif', serif;
+        }
+
+        .floating-nav {
+            background: rgba(8, 23, 71, 0.6);
+            backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(69, 70, 82, 0.35);
+            border-radius: 999px;
+            box-shadow: 0 20px 40px rgba(0, 14, 63, 0.45), inset 0 1px 0 rgba(221, 225, 255, 0.08);
+        }
+
+        .gilded-frame {
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #ffdf9e, #fabd00, #ffdf9e) 1;
+            box-shadow: 0 0 30px rgba(250, 189, 0, 0.1);
+        }
+
+        .swirl-bg {
+            background: radial-gradient(circle at 50% 50%, #081747 0%, #000e3f 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swirl-bg::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .museum-placard {
+            background: #dde1ff;
+            color: #000e3f;
+            padding: 1rem;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        .museum-placard-dark {
+            background: rgba(221, 225, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: #dde1ff;
+            padding: 1.5rem;
+            border: 1px solid rgba(221, 225, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background antialiased selection:bg-secondary selection:text-on-secondary">
+    <!-- Top Navigation Shell -->
+    <nav
+        class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-6xl floating-nav flex justify-between items-center gap-3 px-4 md:px-6 py-3">
+        <a href="#home" class="text-lg md:text-2xl font-serif italic text-amber-200 drop-shadow-[0_0_12px_rgba(255,193,7,0.4)] whitespace-nowrap">
+            TRYST 2026
+        </a>
+        <div class="hidden lg:flex items-center gap-2">
+            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
+                href="#home">Home</a>
+            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
+                href="#about">About</a>
+            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
+                href="#events">Events</a>
+            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
+                href="#timeline">Timeline</a>
+            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
+                href="#gallery">Gallery</a>
+            <a class="px-4 py-2 rounded-full font-serif text-sm tracking-wide text-indigo-100/80 border border-transparent hover:border-outline-variant/40 hover:text-amber-100 hover:bg-white/5 transition-colors"
+                href="#contact">Contact</a>
+        </div>
+        <div class="hidden sm:flex lg:hidden items-center gap-2">
+            <a class="px-3 py-1.5 rounded-full border border-outline-variant/40 text-xs font-semibold text-indigo-100/90 hover:bg-white/5 transition-colors"
+                href="#events">Events</a>
+            <a class="px-3 py-1.5 rounded-full border border-outline-variant/40 text-xs font-semibold text-indigo-100/90 hover:bg-white/5 transition-colors"
+                href="#timeline">Timeline</a>
+        </div>
+        <a
+            class="inline-flex items-center justify-center bg-gradient-to-r from-secondary to-secondary-fixed-dim text-on-secondary px-3 sm:px-4 md:px-6 py-2 rounded-full font-bold text-xs sm:text-sm shadow-lg shadow-secondary/20 hover:brightness-105 hover:scale-[0.98] transition-transform"
+            href="#register">
+            <span class="sm:hidden">PASS</span>
+            <span class="hidden sm:inline">GET PASS</span>
+        </a>
+    </nav>
+    <!-- Hero Section -->
+    <header id="home" class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 px-4">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"></div>
+            <div class="w-full h-full swirl-bg opacity-40"></div>
+        </div>
+        <div class="relative z-10 w-full max-w-5xl flex flex-col items-center">
+            <!-- Pre-title -->
+            <div class="text-secondary font-label uppercase tracking-[0.4em] text-xs mb-8 text-center opacity-80">
+                KESHAV MAHAVIDYALAYA PRESENTS
+            </div>
+            <!-- Main Frame Container -->
+            <div class="relative w-full mb-12">
+                <!-- Date Badge -->
+                <div class="absolute -top-6 left-0 z-20">
+                    <div
+                        class="museum-placard bg-secondary/90 text-on-secondary text-sm font-bold px-6 py-2 shadow-lg italic">
+                        21–22 April, 2026
+                    </div>
+                </div>
+                <!-- Ornate Frame -->
+                <div
+                    class="gilded-frame py-16 md:py-24 px-8 bg-surface/20 backdrop-blur-sm relative overflow-hidden flex items-center justify-center">
+                    <div class="absolute -top-20 -left-20 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+                    <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
+                    <h1
+                        class="text-7xl md:text-[10rem] font-headline font-bold text-secondary italic drop-shadow-[0_0_25px_rgba(255,223,158,0.4)] text-center tracking-tight leading-none">
+                        TRYST 2026
+                    </h1>
+                </div>
+            </div>
+            <!-- Subtitle -->
+            <p class="text-2xl md:text-4xl font-serif italic text-tertiary/90 text-center mb-12 drop-shadow-sm">
+                Where Art Becomes Legend
+            </p>
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
+                <button
+                    class="w-full sm:w-auto bg-gradient-to-b from-secondary to-secondary-fixed-dim text-on-secondary font-bold px-12 py-4 rounded-md shadow-lg shadow-secondary/20 hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                    REGISTER NOW
+                </button>
+                <button
+                    class="w-full sm:w-auto border border-secondary/50 text-secondary font-bold px-12 py-4 rounded-md hover:bg-secondary/10 transition-colors backdrop-blur-sm">
+                    EXPLORE EVENTS
+                </button>
+            </div>
+            <!-- Countdown Timer -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl">
+                <div class="flex flex-col items-center">
+                    <div class="museum-placard-dark w-full text-center">
+                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-days">00
+                        </div>
+                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Days</div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="museum-placard-dark w-full text-center">
+                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-hours">00
+                        </div>
+                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Hours</div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="museum-placard-dark w-full text-center">
+                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-minutes">
+                            00</div>
+                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Mins</div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="museum-placard-dark w-full text-center">
+                        <div class="text-4xl md:text-5xl font-headline font-bold text-secondary" id="countdown-seconds">
+                            00</div>
+                        <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mt-2">Secs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- About Section -->
+    <section id="about" class="py-24 px-8 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative group">
+                <div class="absolute -inset-4 bg-tertiary/10 blur-2xl group-hover:bg-tertiary/20 transition-all"></div>
+                <div class="gilded-frame relative overflow-hidden aspect-[4/5] bg-surface-container-low border-8">
+                    <img class="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
+                        data-alt="dramatic oil painting of a surreal museum hallway with floating golden clocks and swirling blue cosmic dust"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV8Y_dCzcEiSz3U774CUTWSxb9I2qrp-zWLrDSNAILJmpSO29kqvhCfdZWVGoAIZODFBWdZ9b6Omx4U2Ae6nPqZAx0NtE7lM1G_vhiNYyt0eP9N4cEXJOcfikfv-9VBJdRrKJRmYSs_3yIfDGkhjzXqXOva_b8cXk0iDXLjzpsuAkaBJWOdd5MQl6br6wNTNuSsO2qYMuJUWok_gb1H7m7EjZqElhovGE10hifPvxqZtizx_7CXRgo0mhYt4ALfG12mRgGkSwfc3s" />
+                </div>
+                <div class="absolute -bottom-6 -right-6 museum-placard text-sm max-w-[200px] border border-outline/20">
+                    <p class="font-serif italic">Exhibit A: The Convergence of Realms, 2026</p>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-tertiary font-label tracking-[0.3em] uppercase text-sm mb-4">Curator's Statement</h2>
+                <h3 class="text-5xl font-headline text-secondary mb-8 leading-tight">The Digital Gallery <br />of
+                    Tomorrow</h3>
+                <div class="w-24 h-1 bg-gradient-to-r from-secondary to-transparent mb-8"></div>
+                <p class="text-lg text-on-surface-variant leading-relaxed mb-12 font-body">
+                    Tryst is not a festival; it is a living canvas. This year, we invite you to step into a curated
+                    fusion of high-art aesthetics and digital fantasy. We bridge the gap between the classical museum
+                    and the boundless imagination of the future.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
+                        <span class="text-3xl font-headline text-secondary block mb-2">50+</span>
+                        <span class="text-xs uppercase tracking-wider text-tertiary">Exhibitions</span>
+                    </div>
+                    <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
+                        <span class="text-3xl font-headline text-secondary block mb-2">12k</span>
+                        <span class="text-xs uppercase tracking-wider text-tertiary">Dreamers</span>
+                    </div>
+                    <div class="bg-surface-container-high p-6 rounded-lg border-l-4 border-secondary">
+                        <span class="text-3xl font-headline text-secondary block mb-2">30+</span>
+                        <span class="text-xs uppercase tracking-wider text-tertiary">Artists</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Theme Reveal: Cinematic -->
+    <section class="relative py-40 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img class="w-full h-full object-cover opacity-50 scale-105"
+                data-alt="wide shot of a grand classical museum interior with high arched ceilings and golden statues merging into a swirling van gogh starry night sky"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7LPk9UQfJaLAmNXD0zCg5tPFcziJHQtdnv4kGIbN7fGvut2WCp4F47ZuKxZxMLhzq8zbwnVZBkInV-eScoT2eiVx1K8Kay_0hCb6W9Sm-383TP2pcMazQFejrk0hSOwhDRTCiRVP36uofWUwmXTZd2yzD__uaFOjB2tph6AvoRuMvBpXaWeZiFRXmXyP3T3wNVCf0OsOdT3tQcDAYNcJvMJwtKD56i0SF5i955Wptsj7dWpE1It_AOUbOSAEQE1OdTLQFAxspW9k" />
+            <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background"></div>
+        </div>
+        <div class="relative z-10 text-center px-8">
+            <h2 class="text-6xl md:text-8xl font-headline font-bold text-secondary/90 tracking-tighter mb-6">
+                THE CANVAS AWAITS
+            </h2>
+            <div class="max-w-2xl mx-auto h-[1px] bg-secondary/30 mb-8"></div>
+            <p class="text-xl md:text-3xl font-serif italic text-tertiary drop-shadow-md">
+                "Every great dream begins with a dreamer."
+            </p>
+        </div>
+    </section>
+    <!-- Event Highlights Grid -->
+    <section id="events" class="py-24 px-8 bg-surface-container-low relative overflow-hidden">
+        <div class="absolute inset-0 swirl-bg opacity-20"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <h2 class="text-tertiary font-label tracking-widest uppercase text-sm mb-2">Events 2026</h2>
+                    <h3 class="text-5xl font-headline text-secondary">The Masterpieces</h3>
+                </div>
+                <a class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-secondary/40 text-secondary hover:bg-secondary/10 transition-colors"
+                    href="#timeline">
+                    VIEW TIMELINE <span class="material-symbols-outlined">arrow_right_alt</span>
+                </a>
+            </div>
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">0:00 AM - 11:30 AM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Nrityaang - Mridang</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Solo Classical Dance | Auditorium</p>
+                    <p class="text-sm text-on-surface-variant">Elegance meets tradition. Witness mesmerizing classical moves in a solo spectacle.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:30 AM - 1:30 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Uthaan</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Group Folk Dance | Auditorium</p>
+                    <p class="text-sm text-on-surface-variant">Vibrant beats and colorful swirls bring folk tales alive in an electrifying dance battle.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">2:00 PM - 3:30 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Advaitaa - Nazaat</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Western Solo Dance | Auditorium</p>
+                    <p class="text-sm text-on-surface-variant">One stage, one performer, infinite energy with jaw-dropping western choreography.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">1:30 PM - 5:30 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Inaayat</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Western Group Dance | Auditorium</p>
+                    <p class="text-sm text-on-surface-variant">Teamwork, passion, and flawless synchronization as groups own the dance floor.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <p class="text-xs uppercase tracking-widest text-tertiary">10:00 AM - 5:00 PM</p>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
+                    </div>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Baithak</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Street Play Competition | Shades Lawn</p>
+                    <p class="text-sm text-on-surface-variant">Unfiltered and unapologetic street theatre that makes you think, feel, and act.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <p class="text-xs uppercase tracking-widest text-tertiary">10:00 AM - 5:00 PM</p>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
+                    </div>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Vagmita Debsoc - Khandan</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Debate Competition | Seminar Room</p>
+                    <p class="text-sm text-on-surface-variant">Fiery arguments and razor-sharp wit, where only the strongest debater rises.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 3:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Maniera: Atrang Rangmanch</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Art Exhibition | Parking Area Near Girl's Hostel</p>
+                    <p class="text-sm text-on-surface-variant">A creative explosion of colors, strokes, and imagination for every art lover.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 2:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Maniera: Chitrakala</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Solo Painting Competition | LT-1</p>
+                    <p class="text-sm text-on-surface-variant">One canvas, one vision as artists bring their thoughts to life.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 2:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Maniera: Kala Sangini</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Duo Painting Competition | LT-3</p>
+                    <p class="text-sm text-on-surface-variant">Two minds, one masterpiece in a fast-paced duo creativity clash.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">9:00 AM - 6:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Illuminati</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Competitions | Lecture Hall-2</p>
+                    <p class="text-sm text-on-surface-variant">From brain teasers to skill battles for the sharpest minds on campus.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">11:00 AM - 1:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Vagmita Poetry - Irshaad</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Literary Events | LT-4</p>
+                    <p class="text-sm text-on-surface-variant">Where words weave magic through poetry, storytelling, and spoken expression.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">10:00 AM - 2:00 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Anhad - Slaycapella</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Western Group A-Cappella Competition | Reading Room</p>
+                    <p class="text-sm text-on-surface-variant">High-energy musical rivalry with layered harmonies and electric stage presence.</p>
+                </article>
+                <article class="museum-placard-dark rounded-xl hover:-translate-y-1 transition-transform md:col-span-2 xl:col-span-3">
+                    <p class="text-xs uppercase tracking-widest text-tertiary mb-3">2:00 PM - 4:30 PM</p>
+                    <h4 class="text-2xl font-headline text-secondary mb-2">Performance Showcase</h4>
+                    <p class="text-[11px] uppercase tracking-[0.2em] text-on-surface-variant mb-4">Amphitheatre</p>
+                    <p class="text-sm text-on-surface-variant">Surprise acts, guest stars, and pure entertainment in a closing showcase of talent.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+    <!-- Schedule Section -->
+    <section id="timeline" class="py-24 px-8 bg-surface-container relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(118,214,213,0.12),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(255,223,158,0.12),transparent_35%)]"></div>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-14">
+                <h2 class="text-4xl md:text-5xl font-headline text-secondary italic">Festival Timeline</h2>
+                <p class="mt-4 text-on-surface-variant max-w-2xl mx-auto">Clear, day-wise scheduling so visitors can quickly plan their movement across venues.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <article class="relative rounded-2xl bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/35 p-7 md:p-8 shadow-[0_20px_40px_rgba(0,14,63,0.35)]">
+                    <div class="inline-flex items-center rounded-full bg-secondary/20 text-secondary px-4 py-1 text-xs tracking-[0.2em] uppercase">Day 01 - 21 April</div>
+                    <div class="relative mt-8 pl-7 space-y-7 before:content-[''] before:absolute before:left-1.5 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-secondary/70 before:to-tertiary/40">
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">0:00 AM - 11:30 AM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Nrityaang - Mridang</h4>
+                            <p class="text-sm text-on-surface-variant">Solo Classical Dance - Auditorium</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">11:30 AM - 1:30 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Uthaan</h4>
+                            <p class="text-sm text-on-surface-variant">Group Folk Dance - Auditorium</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">1:30 PM - 5:30 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Inaayat</h4>
+                            <p class="text-sm text-on-surface-variant">Western Group Dance - Auditorium</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">2:00 PM - 3:30 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Advaitaa - Nazaat</h4>
+                            <p class="text-sm text-on-surface-variant">Western Solo Dance - Auditorium</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">2:00 PM - 4:30 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Performance Showcase</h4>
+                            <p class="text-sm text-on-surface-variant">Amphitheatre</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="relative rounded-2xl bg-surface-container-high/80 backdrop-blur-md border border-outline-variant/35 p-7 md:p-8 shadow-[0_20px_40px_rgba(0,14,63,0.35)]">
+                    <div class="inline-flex items-center rounded-full bg-tertiary/20 text-tertiary px-4 py-1 text-xs tracking-[0.2em] uppercase">Day 02 - 22 April</div>
+                    <div class="relative mt-8 pl-7 space-y-7 before:content-[''] before:absolute before:left-1.5 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-tertiary/70 before:to-secondary/40">
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <p class="text-xs tracking-widest uppercase text-tertiary">10:00 AM - 5:00 PM</p>
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
+                            </div>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Baithak</h4>
+                            <p class="text-sm text-on-surface-variant">Street Play Competition - Shades Lawn</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <p class="text-xs tracking-widest uppercase text-tertiary">10:00 AM - 5:00 PM</p>
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-secondary">Registration Opening Soon</span>
+                            </div>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Vagmita Debsoc - Khandan</h4>
+                            <p class="text-sm text-on-surface-variant">Debate Competition - Seminar Room</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">9:00 AM - 6:00 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Illuminati</h4>
+                            <p class="text-sm text-on-surface-variant">Competitions - Lecture Hall-2</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM - 3:00 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Maniera: Atrang Rangmanch</h4>
+                            <p class="text-sm text-on-surface-variant">Art Exhibition - Parking Area Near Girl's Hostel</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-tertiary shadow-[0_0_12px_#76d6d5]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM - 2:00 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Maniera: Chitrakala / Kala Sangini</h4>
+                            <p class="text-sm text-on-surface-variant">Solo and Duo Painting - LT-1 and LT-3</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[1.78rem] top-2 h-3 w-3 rounded-full bg-secondary shadow-[0_0_12px_#ffdf9e]"></span>
+                            <p class="text-xs tracking-widest uppercase text-tertiary">11:00 AM - 1:00 PM / 10:00 AM - 2:00 PM</p>
+                            <h4 class="mt-1 text-xl font-headline text-secondary">Irshaad and Slaycapella</h4>
+                            <p class="text-sm text-on-surface-variant">Literary and A-Cappella Events - LT-4 and Reading Room</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <!-- Venue Map Section -->
+    <section class="relative h-[600px] w-full bg-surface-dim">
+        <div class="absolute inset-0 grayscale contrast-125 opacity-40">
+            <img class="w-full h-full object-cover" data-alt="abstract top-down street map of an old european city"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM805W5SeKi5ggIw2XrnCulq56a16C1In7Dh2TJBS8XQRAxKdQ4GGKtajkDPfNU8xFUOeSFYJbPZb4iWo7ME06avkv4Zz9y9Kd_2_SQghwdF8FtzoOj2-lGVVwCrGrV-bg7z_wx4_XydJ4qomWCPRIu4df1mKQjtezCOf1oQqaGdvJngVF9G0gI1D-B75iZmwu-0mhV-rfzgMA9clFNqmAwhYlkNqSKNZzY8Q0llsQxMD9GSXsZW0tYNWr1On0hNZv6Vu89z1hMjw" />
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center p-8">
+            <div class="bg-surface/80 backdrop-blur-xl gilded-frame p-10 max-w-lg w-full border-4">
+                <h2 class="text-3xl font-headline text-secondary mb-6">The Grand Pavilion</h2>
+                <div class="space-y-4 text-on-surface-variant">
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-tertiary">location_on</span>
+                        <p>Keshav Mahavidhyalaya, Pitampura, Delhi</p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-tertiary">schedule</span>
+                        <p>10:00 AM — 11:00 PM (Both Days)</p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-tertiary">info</span>
+                        <p>Valet parking available at the East Wing Entrance.</p>
+                    </div>
+                </div>
+                <button
+                    class="mt-8 w-full bg-secondary text-on-secondary font-bold py-3 hover:bg-secondary-fixed transition-colors">
+                    GET DIRECTIONS
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-24 px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-center font-serif italic text-4xl text-secondary mb-16">Through the Looking Glass</h2>
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                    <img class="w-full hover:scale-105 transition-transform duration-500"
+                        data-alt="vibrant paint splatters"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6FWkLaOvy-Hpz7L0A6EwKofQ3jCkHuDwxTi0kRuy0YMUONAURqTEgB3MJMuRIGKpt-w1LTljahQ1HnOOt6UsuTumX1Khxb_u5PHmjuZo_kEfmCZboUVH2IaWg_ECdZ_rcH5I9yRgegQpjZrWrLsJNZ9hm56CGy-pL_QOYj3DFN9z42-QWu6xi9z4un2_1qIibtGkys6ZDp8Oo0IpsR7AdWY9vjP7ud1wrddm3y6f4-26TNPsZ5eBa5K6mu_FN4R0EeqY55rgl7j4" />
+                </div>
+                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="old book pages"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtj7m0xlUOMXZL4xPVmZ9-gd0YigyUm_DjqOQ8y26nQXrn-yLeO6g_OyX0OKmxnwfmerrvq8toFz9YirMDcebbMJVFTXh9PDkrguAzCK32LywS7urJo3VXsuEK51hHppEZhrXYxqh5OKOF4nqKO1LtPJBNDVK1A3H6Ebs99njh4OHoVK2GLZAfCt9vbKmTBp_ZRbnqzktXLJBu32-bPDjWO4otWPQfRnQgQsS2Ieo-x1dPLq-C4WettdbsYF7drH3SvK8MeADAeU0" />
+                </div>
+                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="glowing frames"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmfkvBtVLTyeaulV-HY6ItOx_qFjqPhyHHE8Xj4QOl2mVuOiCF6pUJ2ON0JGdYcxQmr5S89bhtxYazoLXfvJRBUCBZzwkxEq50yoRk76vP9j1YP_HdQ9GYvQRuGUnBcRuSo4Ug5JArWAj34nLGZ13yoyR9kR6_RHdWBUDz30ZpZrATikuWZbG9fFlAS57UEUGGxCRMJ8PtouUc17GKFX0METZKMllc6sb2S9wLZzGJjpghUaBOEyZ3yYTw1_HU44AifkZhijsVBxM" />
+                </div>
+                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="neon David"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3ldK9rdP3mjr_S60K3Sb733poG0TqLHHYo4wJZ8zSvr7K-k-JcBRbU2-a7lFjQnhakcDOZYOP4bN_Q-vHG9a6-o5QPM_nGHHIbE8Htuiv7gIVBbHqofuqe20iTe8kUXzBHg-vEmjKhBOs5oigxrVO7NMcvcEnE3X1PHacbwjnZqkM-2VTg6GW8zAcgEMuhe_5BzRhXvaeuVEA_vJLRED7ZoQAu7DZD_uIfm4IiAQR6Zh1ItzNmr2qACKDGenDtTRQdCf0_pGvdPA" />
+                </div>
+                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="impasto painting"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8G1DiR8XEY9UcZ3-Vf2Tn_4mBlGnrp6C7pQ0-dXVICS_oo0_3Lc9zYbt4ARQ4w9c2-FEogFqqF6dK8k5uEe_-J_zWqvtFW8vhxIiHRVM86hGiemLwe3E6ewX4JdfabqlsL3cNelhLR9potF9IaOpZyH_GIWmZ7p1s-dBgHNd5Tj-O4Ux6xr_PSIckVLm7fmYZmPp9Hu0Qi0o2bu98mA6gfh2yVgHmHq2przNb_oFFFsojIe0m5tU7nflt9Vm2AC1eodPeJVVPILA" />
+                </div>
+                <div class="gilded-frame break-inside-avoid overflow-hidden border-4">
+                    <img class="w-full hover:scale-105 transition-transform duration-500" data-alt="golden geometry"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmhAQUlzG0pLe2_YqC92vm__IHVM7AfQMXonZBZvXdlTY1YB-ZE9roM2jrZ2Eh5jV4AqwPNg7vFfyvxeH-vp47Os4TUIgThrW9thvtsxnkGbVLO_8eCW2DKJLSkprvJWbrzvkI86QlcSdQ8zEYgbHAWBuJj2Msxx-UjUcpa6f8Rcs4GR7l4Vj8MGYiiqxqClY0jM3dZ-p1dL_Hy4pogABDm2MOPB4M914NmgegFW9DOejZYVMgANzPS07-Kv1bvliPME3IzsRGy3M" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Registration CTA -->
+    <section id="register" class="py-32 px-8 overflow-hidden relative">
+        <div class="absolute inset-0 z-0 swirl-bg opacity-30"></div>
+        <div class="max-w-4xl mx-auto relative z-10 text-center">
+            <div class="mb-12 inline-block">
+                <div
+                    class="w-64 h-80 border-[20px] border-secondary/30 relative flex items-center justify-center group">
+                    <div class="absolute -inset-2 border-2 border-secondary scale-105"></div>
+                    <span
+                        class="text-tertiary italic text-lg opacity-60 group-hover:opacity-100 transition-opacity px-8">Your
+                        Story Belongs in This Frame</span>
+                </div>
+            </div>
+            <h2 class="text-5xl md:text-6xl font-headline text-secondary mb-8">Claim Your Presence</h2>
+            <p class="text-xl text-on-surface-variant mb-12 font-serif italic">
+                Limited passes for the 2026 Exhibition are now being released to the dreaming public.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <button
+                    class="bg-gradient-to-r from-secondary to-secondary-fixed-dim text-on-secondary px-12 py-5 font-bold text-xl rounded shadow-2xl hover:scale-105 transition-transform">
+                    RESERVE YOUR FRAME
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- Footer Shell -->
+    <footer id="contact"
+        class="bg-slate-950 w-full py-16 px-8 flex flex-col items-center border-t border-indigo-900/30 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <div class="absolute top-10 left-20 text-tertiary material-symbols-outlined">auto_awesome</div>
+            <div class="absolute bottom-20 right-40 text-tertiary material-symbols-outlined">flare</div>
+            <div class="absolute top-1/2 left-1/3 text-secondary material-symbols-outlined">star</div>
+        </div>
+        <div class="relative z-10 text-center max-w-4xl w-full">
+            <span class="text-xl font-serif text-amber-200 mb-4 block">TRYST 2026</span>
+            <nav class="flex flex-wrap justify-center gap-8 mb-12 font-serif text-sm text-indigo-200/70">
+                <a class="text-indigo-300 hover:text-teal-300 transition-colors" href="#">Privacy Policy</a>
+                <a class="text-indigo-300 hover:text-teal-300 transition-colors" href="#">Terms of Service</a>
+                <a class="text-indigo-300 hover:text-teal-300 transition-colors" href="#">FAQ</a>
+            </nav>
+            <div class="flex justify-center gap-6 mb-12">
+                <a class="w-10 h-10 flex items-center justify-center border border-indigo-900/50 text-amber-200 hover:bg-white/5 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">share</span>
+                </a>
+                <a class="w-10 h-10 flex items-center justify-center border border-indigo-900/50 text-amber-200 hover:bg-white/5 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">public</span>
+                </a>
+                <a class="w-10 h-10 flex items-center justify-center border border-indigo-900/50 text-amber-200 hover:bg-white/5 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">alternate_email</span>
+                </a>
+            </div>
+            <p class="text-indigo-300/50 text-xs tracking-widest uppercase">
+                © 2026 TRYST Digital Gallery of Dreams. All rights reserved.
+            </p>
+        </div>
+    </footer>
+    <script>
+            (function () {
+                const daysEl = document.getElementById('countdown-days');
+                const hoursEl = document.getElementById('countdown-hours');
+                const minutesEl = document.getElementById('countdown-minutes');
+                const secondsEl = document.getElementById('countdown-seconds');
+
+                if (!daysEl || !hoursEl || !minutesEl || !secondsEl) {
+                    return;
+                }
+
+                const now = new Date();
+                let targetDate = new Date(now.getFullYear(), 3, 22, 0, 0, 0, 0);
+                if (now.getTime() > targetDate.getTime()) {
+                    targetDate = new Date(now.getFullYear() + 1, 3, 22, 0, 0, 0, 0);
+                }
+
+                function setCountdown(days, hours, minutes, seconds) {
+                    daysEl.textContent = String(days).padStart(2, '0');
+                    hoursEl.textContent = String(hours).padStart(2, '0');
+                    minutesEl.textContent = String(minutes).padStart(2, '0');
+                    secondsEl.textContent = String(seconds).padStart(2, '0');
+                }
+
+                function updateCountdown() {
+                    const nowTime = Date.now();
+                    const diff = targetDate.getTime() - nowTime;
+
+                    if (diff <= 0) {
+                        setCountdown(0, 0, 0, 0);
+                        return;
+                    }
+
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                    const seconds = Math.floor((diff / 1000) % 60);
+
+                    setCountdown(days, hours, minutes, seconds);
+                }
+
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            })();
+    </script>
+</body>
+
+</html>
