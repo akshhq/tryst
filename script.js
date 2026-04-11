@@ -8,10 +8,6 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 /* ═══ LOADER ═══ */
 window.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-
-  if (loader) loader.remove(); // completely remove loader instantly
-
   initHeroAnimations();
   initStars();
 });

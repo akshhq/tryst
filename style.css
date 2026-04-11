@@ -75,50 +75,6 @@ body > * {
 
 body:hover .custom-cursor { opacity: 1; }
 
-/* ═══ LOADER ═══ */
-#loader {
-  transition: opacity 0.8s ease, visibility 0.8s ease;
-}
-#loader.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.loader-ring {
-  position: absolute;
-  width: 160px;
-  height: 160px;
-  border: 1px solid rgba(201, 168, 76, 0.15);
-  border-top-color: var(--gold);
-  border-radius: 50%;
-  animation: spin 1.5s linear infinite;
-}
-
-.loader-logo {
-  position: relative;
-  z-index: 2;
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.loader-text {
-  letter-spacing: 0.5em;
-  animation: flicker 3s ease-in-out infinite;
-}
-
-.loader-bar-wrap {
-  width: 200px;
-  height: 1px;
-  background: rgba(201, 168, 76, 0.15);
-  overflow: hidden;
-}
-
-.loader-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  animation: loadBar 2.5s ease-out forwards;
-}
 
 @keyframes loadBar {
   0% { width: 0%; }
