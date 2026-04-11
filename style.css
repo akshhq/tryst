@@ -486,6 +486,7 @@ body:hover .custom-cursor { opacity: 1; }
   scrollbar-width: none;
   cursor: grab;
   user-select: none;
+  scroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
 }
 

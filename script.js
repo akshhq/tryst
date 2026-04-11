@@ -277,17 +277,19 @@ function applyInertia() {
 cardsTrack.addEventListener('touchstart', (e) => {
   startX = e.touches[0].pageX;
   scrollLeftStart = cardsTrack.scrollLeft;
-  velocity = 0;
 }, { passive: true });
 
 cardsTrack.addEventListener('touchmove', (e) => {
   const x = e.touches[0].pageX;
-  velocity = x - startX;
-  cardsTrack.scrollLeft = scrollLeftStart - (x - startX);
+
+  const walk = (x - startX); // ❌ no multiplier
+
+  cardsTrack.scrollLeft = scrollLeftStart - walk;
 }, { passive: true });
 
-cardsTrack.addEventListener('touchend', () => applyInertia());
-
+if (window.innerWidth > 768) {
+  // your existing mouse drag + inertia code
+}
 /* ═══ CARD 3D TILT ═══ */
 document.querySelectorAll('.nav-card').forEach(card => {
   card.addEventListener('mousemove', (e) => {
