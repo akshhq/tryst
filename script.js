@@ -340,19 +340,24 @@ document.querySelectorAll('[data-modal]').forEach(card => {
       'contact-modal': '#contact'
     };
 
-    if (scrollMap[modalId]) {
-      const target = document.querySelector(scrollMap[modalId]);
-      if (target) {
-        gsap.to(window, {
-          scrollTo: {
-            y: target,
-            offsetY: 80
-          },
-          duration: 0.32,
-          ease: "power2.out"
-});
-      }
-      return;
+    let isScrolling = false;
+
+    function scrollToSection(target) {
+      if (isScrolling) return;
+
+      isScrolling = true;
+
+      gsap.to(window, {
+        scrollTo: {
+          y: target,
+          offsetY: 80
+        },
+        duration: 0.32,
+        ease: "power2.out",
+        onComplete: () => {
+          isScrolling = false;
+        }
+      });
     }
 
     const targetModal = modalMap[modalId];

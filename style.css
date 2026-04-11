@@ -18,8 +18,6 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
-
 body {
   background-color: var(--navy);
   color: var(--white);
@@ -27,10 +25,27 @@ body {
   cursor: none;
 }
 
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--navy); }
 ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+.global-bg {
+  position: fixed;
+  inset: 0;
+
+  background: url("images/bg.jpeg") center/cover no-repeat;
+
+  opacity: 0.08; /* adjust */
+  z-index: 0;
+
+  pointer-events: none;
+}
 
 /* ═══ CUSTOM CURSOR ═══ */
 .custom-cursor {
