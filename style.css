@@ -126,6 +126,8 @@ body:hover .custom-cursor { opacity: 1; }
 
 /* ═══ NAVBAR ═══ */
 #navbar {
+  opacity: 0;
+  transform: translateY(-40px);
   background: transparent;
 }
 

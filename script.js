@@ -110,8 +110,13 @@ function initHeroAnimations() {
     .to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.8 }, '-=0.3')
     .to('.hero-date', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
     .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8 }, '-=0.3')
-    .to('#scroll-hint', { opacity: 0.6, y: 0, duration: 0.6 }, '-=0.3');
-
+    .to('#scroll-hint', { opacity: 0.6, y: 0, duration: 0.6 }, '-=0.3')
+    .to('#navbar', {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.5');
   // Hero parallax
   document.addEventListener('mousemove', (e) => {
     const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
