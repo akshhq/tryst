@@ -10,18 +10,10 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
 
-  setTimeout(() => {
-    gsap.to('#loader', {
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        loader.classList.add('hidden');
-        initHeroAnimations();
-        initStars();
-      }
-    });
-  }, 2600);
+  if (loader) loader.remove(); // completely remove loader instantly
+
+  initHeroAnimations();
+  initStars();
 });
 
 /* ═══ CUSTOM CURSOR ═══ */
