@@ -29,6 +29,33 @@ document.addEventListener('mousemove', (e) => {
   cursor.style.top = mouseY + 'px';
 });
 
+const mysteryWrapper = document.getElementById("mysteryLock");
+
+// Enable lock by default
+mysteryWrapper.classList.add("locked");
+
+function unlockMystery() {
+  const wrapper = document.getElementById("mysteryLock");
+  const overlay = document.getElementById("lockOverlay");
+
+  wrapper.classList.remove("locked");
+
+  if (overlay) overlay.remove();
+}
+
+function unlockMystery() {
+  const wrapper = document.getElementById("mysteryLock");
+  const btn = document.getElementById("revealBtnLocked");
+
+  // Enable button
+  btn.classList.remove("locked-btn");
+  btn.style.pointerEvents = "auto";
+
+  // Remove overlay
+  const overlay = wrapper.querySelector(".lock-overlay");
+  overlay.remove();
+}
+
 function animateFollower() {
   followerX += (mouseX - followerX) * 0.08;
   followerY += (mouseY - followerY) * 0.08;
@@ -316,7 +343,14 @@ document.querySelectorAll('[data-modal]').forEach(card => {
     if (scrollMap[modalId]) {
       const target = document.querySelector(scrollMap[modalId]);
       if (target) {
-        gsap.to(window, { scrollTo: target, duration: 1, ease: 'power3.inOut' });
+        gsap.to(window, {
+          scrollTo: {
+            y: target,
+            offsetY: 80
+          },
+          duration: 0.32,
+          ease: "power2.out"
+});
       }
       return;
     }

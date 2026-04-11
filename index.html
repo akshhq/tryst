@@ -141,7 +141,7 @@
       </p>
 
       <div class="hero-date font-rajdhani tracking-[0.3em] text-gold/70 text-sm mt-4 opacity-0 uppercase">
-        March 20–22, 2026 &nbsp;·&nbsp; IIT Delhi
+        March 20–22, 2026 &nbsp;·&nbsp; KMV, Delhi
       </div>
 
       <div class="hero-cta mt-10 opacity-0 flex flex-col sm:flex-row gap-4 items-center">
@@ -181,7 +181,7 @@
           <div class="nav-card-content">
             <div class="nav-card-icon">✦</div>
             <h3 class="nav-card-title font-cinzel">About</h3>
-            <p class="nav-card-desc font-cormorant">IIT Delhi's Flagship Technical & Cultural Festival</p>
+            <p class="nav-card-desc font-cormorant">Keshav Mahavidyalaya’s Flagship Technical & Cultural Festival</p>
             <div class="nav-card-arrow">→</div>
           </div>
           <div class="nav-card-glow"></div>
@@ -298,7 +298,7 @@
           </h2>
           <div class="gold-divider mb-8 fade-up"></div>
           <p class="font-cormorant text-white/70 text-xl leading-relaxed mb-6 fade-up">
-            TRYST is IIT Delhi's annual technical and cultural extravaganza — one of Asia's largest college fests. For over two decades, it has been the crucible where innovation meets artistry, where legends are made and history is written.
+            TRYST is Keshav Mahavidyalaya’s annual technical and cultural extravaganza — a dynamic college fest where innovation meets artistry, and where unforgettable experiences are created year after year.
           </p>
           <p class="font-cormorant text-white/60 text-lg leading-relaxed mb-10 fade-up">
             In 2026, we ascend beyond the ordinary. Two days of electrifying performances, mind-bending competitions, visionary workshops, and an atmosphere charged with the energy of 100,000 souls united by a singular passion.
@@ -332,8 +332,8 @@
           </div>
           <div class="about-float-card glass-card absolute -bottom-6 -left-6 p-4 w-48">
             <div class="font-cinzel text-gold text-xs tracking-widest mb-1">Established</div>
-            <div class="font-cinzel-deco text-white text-2xl">1998</div>
-            <div class="font-cormorant text-white/50 text-sm italic">IIT Delhi, India</div>
+            <div class="font-cinzel-deco text-white text-2xl">1994</div>
+            <div class="font-cormorant text-white/50 text-sm italic">Keshav mahavidyalaya, India</div>
           </div>
           <div class="about-float-badge absolute -top-4 -right-4 w-24 h-24 rounded-full border-2 border-gold/40 flex items-center justify-center bg-navy/80 backdrop-blur">
             <div class="text-center">
@@ -365,18 +365,24 @@
             <div class="surprise-q-mark font-cinzel-deco text-gold">?</div>
             <p class="font-cinzel text-white/60 text-sm tracking-widest uppercase mt-4">Click to Reveal</p>
           </div>
-          <img src="images/artists/BPRAAK.png" alt="Surprise Artist" class="surprise-img" id="surpriseImg" />
+          <img src="images/surprise_artist.jpg" alt="Surprise Artist" class="surprise-img" id="surpriseImg" />
           <div class="surprise-revealed" id="surpriseRevealed">
-            <div class="surprise-name font-cinzel-deco text-white">B Praak</div>
+            <div class="surprise-name font-cinzel-deco text-white">Name</div>
             <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Bollywood · Punjabi · Soul</div>
             <p class="font-cormorant text-white/60 text-lg italic mt-4 max-w-xs mx-auto">"Pain becomes music in his hands"</p>
           </div>
           <div class="surprise-veil" id="surpriseVeil"></div>
           <div class="surprise-glow-ring" id="surpriseGlowRing"></div>
         </div>
-        <button class="btn-reveal font-cinzel tracking-widest text-sm mt-8" id="revealBtn">
-          ✦ Unveil the Mystery ✦
-        </button>
+        <div class="locked-wrapper" id="mysteryLock">
+          <button id="revealBtn" class="btn-primary">
+            ✦ UNVEIL THE MYSTERY ✦
+          </button>
+
+          <div class="lock-overlay" id="lockOverlay">
+            <img src="images/lock.png" alt="locked">
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -864,14 +870,14 @@
               <div class="contact-icon">✉</div>
               <div>
                 <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Email</div>
-                <a href="mailto:tryst@iitd.ac.in" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">tryst@iitd.ac.in</a>
+                <a href="mailto:your@email.com" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">your@email.com</a>
               </div>
             </div>
             <div class="contact-item flex items-center gap-4">
               <div class="contact-icon">📍</div>
               <div>
                 <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Location</div>
-                <p class="font-cormorant text-white/80 text-lg">IIT Delhi, Hauz Khas, New Delhi — 110016</p>
+                <p class="font-cormorant text-white/80 text-lg">Keshav Mahavidyalaya, Pitampura, Near Sainik Vihar, Delhi-110034</p>
               </div>
             </div>
             <div class="contact-item flex items-center gap-4">
@@ -937,7 +943,7 @@
           <img src="images/tryst_logo.png" alt="TRYST" class="h-12 w-12 object-contain opacity-80" />
           <div>
             <div class="font-cinzel-deco text-gold text-xl tracking-widest">TRYST 2026</div>
-            <div class="font-rajdhani text-white/30 text-xs tracking-widest uppercase">IIT Delhi's Flagship Festival</div>
+            <div class="font-rajdhani text-white/30 text-xs tracking-widest uppercase">Keshav Mahavidyalaya’s Flagship Festival</div>
           </div>
         </div>
 
@@ -946,7 +952,7 @@
         </div>
 
         <div class="font-rajdhani text-white/20 text-xs tracking-widest uppercase text-center md:text-right">
-          © 2026 TRYST, IIT Delhi<br/>All Rights Reserved
+          © 2026 TRYST, KMV<br/>All Rights Reserved
         </div>
       </div>
 
@@ -965,13 +971,13 @@
     <button class="modal-close" onclick="closeModal()">&times;</button>
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">IIT Delhi Presents</div>
+        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">KMV Delhi Presents</div>
         <h2 class="modal-title font-cinzel-deco text-white text-3xl md:text-5xl mt-2">About TRYST</h2>
       </div>
       <div class="modal-body">
         <img src="images/inspo/basic inspo.jpeg" alt="TRYST" class="w-full h-56 object-cover rounded-sm mb-6 modal-img" />
-        <p class="font-cormorant text-white/70 text-lg leading-relaxed mb-4">TRYST is IIT Delhi's annual technical and cultural extravaganza, one of the largest college fests in Asia. Founded in 1998, it has grown into a 3-day spectacle that attracts over 100,000 visitors from across India and the world.</p>
-        <p class="font-cormorant text-white/70 text-lg leading-relaxed">The festival features 50+ competitions, workshops led by industry legends, cultural performances, and headlining musical acts that turn the IIT Delhi campus into an unforgettable universe of innovation, art, and unbridled energy.</p>
+        <p class="font-cormorant text-white/70 text-lg leading-relaxed mb-4">TRYST is Keshav Mahavidyalaya’s annual technical and cultural extravaganza, growing into a vibrant multi-day celebration that attracts students and participants from across Delhi and beyond.</p>
+        <p class="font-cormorant text-white/70 text-lg leading-relaxed">The festival features 20+ competitions, engaging workshops, cultural performances, and electrifying musical acts that transform the Keshav Mahavidyalaya campus into an immersive universe of creativity, art, and energy.</p>
       </div>
     </div>
   </div>
