@@ -84,7 +84,7 @@ function initStars() {
   const starsContainer = document.getElementById('stars');
   if (!starsContainer) return;
 
-  const count = 120;
+  const count = 80;
   for (let i = 0; i < count; i++) {
     const star = document.createElement('div');
     star.classList.add('star');
