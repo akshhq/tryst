@@ -219,7 +219,7 @@ cardsTrack.addEventListener('mousemove', (e) => {
   if (!isDragging) return;
   e.preventDefault();
   const x = e.pageX - cardsTrack.offsetLeft;
-  cardsTrack.scrollLeft = scrollLeftStart - (x - startX) * 1.2;
+  cardsTrack.scrollLeft = scrollLeftStart - (x - startX);
   velocity   = e.pageX - lastMouseX;
   lastMouseX = e.pageX;
 });
@@ -239,19 +239,20 @@ function applyInertia() {
 }
 
 // Touch support
+let touchStartX = 0;
+let scrollStart = 0;
+
 cardsTrack.addEventListener('touchstart', (e) => {
-  startX = e.touches[0].pageX;
-  scrollLeftStart = cardsTrack.scrollLeft;
-  velocity = 0;
+  touchStartX = e.touches[0].pageX;
+  scrollStart = cardsTrack.scrollLeft;
 }, { passive: true });
 
 cardsTrack.addEventListener('touchmove', (e) => {
-  const x = e.touches[0].pageX;
-  velocity = x - startX;
-  cardsTrack.scrollLeft = scrollLeftStart - (x - startX);
-}, { passive: true });
+  const currentX = e.touches[0].pageX;
+  const delta = currentX - touchStartX;
 
-cardsTrack.addEventListener('touchend', () => applyInertia());
+  cardsTrack.scrollLeft = scrollStart - delta;
+}, { passive: true });
 
 /* ═══════════════════════════════════════════════
    CARD 3D TILT  (desktop only)
