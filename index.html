@@ -6,20 +6,19 @@
   <title>TRYST 2026 — Where Legends Are Born</title>
   <link rel="icon" href="images/tryst_logo.png" />
 
-  <!-- Fonts -->
+  <!-- Fonts: preconnect + display=swap for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <!-- GSAP: defer non-critical -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
 
-  <!-- Custom Styles -->
   <link rel="stylesheet" href="style.css" />
 
   <script>
@@ -46,11 +45,11 @@
 <body class="bg-navy overflow-x-hidden">
   <div class="global-bg"></div>
 
-  <!-- ════════════════ CURSOR ════════════════ -->
+  <!-- CURSOR -->
   <div id="cursor" class="custom-cursor"></div>
   <div id="cursor-follower" class="cursor-follower"></div>
 
-  <!-- ════════════════ NAV ════════════════ -->
+  <!-- NAV -->
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 transition-all duration-500">
     <a href="#hero" class="flex items-center gap-3 group">
       <img src="images/tryst_logo.png" alt="TRYST" class="h-10 w-10 object-contain nav-logo" />
@@ -58,7 +57,7 @@
     </a>
     <ul class="hidden md:flex items-center gap-8">
       <li><a href="#about" class="nav-link font-rajdhani tracking-widest text-sm uppercase text-white/60 hover:text-gold transition-all">About</a></li>
-      <li><a href="#artists" class="nav-link font-rajdhani tracking-widest text-sm uppercase text-white/60 hover:text-gold transition-all">Artists</a></li>
+      <li><a href="#surprise" class="nav-link font-rajdhani tracking-widest text-sm uppercase text-white/60 hover:text-gold transition-all">Artists</a></li>
       <li><a href="#schedule" class="nav-link font-rajdhani tracking-widest text-sm uppercase text-white/60 hover:text-gold transition-all">Schedule</a></li>
       <li><a href="#gallery" class="nav-link font-rajdhani tracking-widest text-sm uppercase text-white/60 hover:text-gold transition-all">Gallery</a></li>
       <li><a href="#register" class="btn-gold-sm font-rajdhani tracking-widest text-sm uppercase">Register</a></li>
@@ -72,69 +71,60 @@
   <div id="mobile-menu" class="fixed inset-0 z-40 bg-navy/98 backdrop-blur-xl flex flex-col items-center justify-center hidden">
     <button id="menu-close" class="absolute top-6 right-8 text-gold text-3xl">&times;</button>
     <ul class="flex flex-col items-center gap-8">
-      <li><a href="#about" class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">About</a></li>
+      <li><a href="#about"     class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">About</a></li>
       <li><a href="#nav-cards" class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Explore</a></li>
-      <li><a href="#artists" class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Artists</a></li>
-      <li><a href="#schedule" class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Schedule</a></li>
-      <li><a href="#gallery" class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Gallery</a></li>
-      <li><a href="#register" class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Register</a></li>
-      <li><a href="#contact" class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Contact</a></li>
+      <li><a href="#surprise"   class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Artists</a></li>
+      <li><a href="#schedule"  class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Schedule</a></li>
+      <li><a href="#gallery"   class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Gallery</a></li>
+      <li><a href="#register"  class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Register</a></li>
+      <li><a href="#contact"   class="mobile-link font-cinzel text-2xl text-white hover:text-gold transition-colors">Contact</a></li>
     </ul>
   </div>
 
-  <!-- ════════════════ HERO SECTION ════════════════ -->
+  <!-- ═══════════════ HERO SECTION ═══════════════ -->
   <section id="hero" class="hero-section relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
 
-    <!-- Parallax Background -->
     <div id="hero-bg" class="hero-bg absolute inset-0 z-0">
+      <!-- Hero BG: NOT lazy (above fold) -->
       <img src="images/posters/bg.webp" alt="" class="w-full h-full object-cover scale-110" id="hero-bg-img" />
       <div class="hero-overlay absolute inset-0"></div>
-      <!-- Star particles -->
       <div class="stars-layer" id="stars"></div>
     </div>
 
-    <!-- Dragon / Cosmic Frame decoration -->
     <div class="hero-frame-top absolute top-0 left-0 right-0 z-10 h-32 bg-gradient-to-b from-navy to-transparent"></div>
     <div class="hero-frame-bottom absolute bottom-0 left-0 right-0 z-10 h-32 bg-gradient-to-t from-navy to-transparent"></div>
-    <div class="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-navy to-transparent z-10"></div>
-    <div class="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-navy to-transparent z-10"></div>
+    <div class="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-navy to-transparent z-10"></div>
+    <div class="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-navy to-transparent z-10"></div>
 
-    <!-- Gold corner ornaments -->
-    <div class="ornament-tl absolute top-8 left-8 z-20 opacity-60"></div>
-    <div class="ornament-tr absolute top-8 right-8 z-20 opacity-60"></div>
-    <div class="ornament-bl absolute bottom-8 left-8 z-20 opacity-60"></div>
-    <div class="ornament-br absolute bottom-8 right-8 z-20 opacity-60"></div>
+    <!-- Reduced corner ornaments (CSS handles size) -->
+    <div class="ornament-tl absolute top-6 left-6 z-20 opacity-50"></div>
+    <div class="ornament-tr absolute top-6 right-6 z-20 opacity-50"></div>
+    <div class="ornament-bl absolute bottom-6 left-6 z-20 opacity-50"></div>
+    <div class="ornament-br absolute bottom-6 right-6 z-20 opacity-50"></div>
 
-    <!-- Hero Content -->
     <div class="hero-content relative z-20 flex flex-col items-center text-center px-6">
-      <div class="hero-badge font-rajdhani tracking-[0.4em] text-gold-light text-xs uppercase mb-6 opacity-0">
+      <div class="hero-badge font-rajdhani tracking-[0.4em] text-gold-light text-xs uppercase mb-4 opacity-0">
         Keshav Mahavidyalaya Presents
       </div>
-
-      <div class="hero-logo-wrap mb-4 opacity-0">
-        <img src="images/tryst_logo.png" alt="TRYST Logo" class="h-28 w-28 object-contain mx-auto hero-logo-img" />
+      <div class="hero-logo-wrap mb-3 opacity-0">
+        <img src="images/tryst_logo.png" alt="TRYST Logo" class="h-24 w-24 object-contain mx-auto hero-logo-img" />
       </div>
-
       <h1 class="hero-title font-cinzel-deco text-white opacity-0 leading-none">
         <span class="hero-title-tryst block">TRYST</span>
-        <span class="hero-title-year block text-gold hero-year-num">2026</span>
+        <span class="hero-title-year block text-gold">2026</span>
       </h1>
-
-      <div class="hero-line my-6 opacity-0">
+      <div class="hero-line my-4 opacity-0">
         <span class="line-deco"></span>
         <span class="line-diamond"></span>
         <span class="line-deco"></span>
       </div>
-
       <p class="hero-subtitle font-cormorant text-white/80 opacity-0 max-w-xl">
         Where Legends Forge Their Destiny. <em>Two Days. One Universe.</em>
       </p>
-
-      <div class="hero-date font-rajdhani tracking-[0.3em] text-gold/70 text-sm mt-4 opacity-0 uppercase">
-        March 20–22, 2026 &nbsp;·&nbsp; KMV, Delhi
+      <div class="hero-date font-rajdhani tracking-[0.3em] text-gold/70 text-sm mt-3 opacity-0 uppercase">
+        March 20–21, 2026 &nbsp;·&nbsp; KMV, Delhi
       </div>
-
-      <div class="hero-cta mt-10 opacity-0 flex flex-col sm:flex-row gap-4 items-center">
+      <div class="hero-cta mt-8 opacity-0 flex flex-col sm:flex-row gap-4 items-center">
         <a href="#nav-cards" class="btn-primary font-cinzel tracking-widest uppercase text-sm">
           <span class="btn-inner">Enter Experience</span>
           <span class="btn-glow"></span>
@@ -145,114 +135,87 @@
       </div>
     </div>
 
-    <!-- Scroll indicator -->
-    
   </section>
 
-  <div class="scroll-indicator absolute bottom-13 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-0" id="scroll-hint">
-    <span class="font-rajdhani text-xs tracking-widest text-white/40 uppercase"></span>
-    <div class="scroll-arrow"></div>
-  </div>
-
-<!-- ════════════════ HORIZONTAL CARD NAVIGATION (UPDATED) ════════════════ -->
-  <section id="nav-cards" class="relative py-24 overflow-hidden">
+  <!-- ═══════════════ HORIZONTAL CARD NAVIGATION ═══════════════ -->
+  <section id="nav-cards" class="relative py-14 overflow-hidden">
     <div class="section-label">
       <span class="font-rajdhani tracking-[0.5em] text-gold/60 text-xs uppercase">- Navigate</span>
     </div>
-
-    <h2 class="section-title font-cinzel text-center text-white text-3xl md:text-5xl mb-4 fade-up">
+    <h2 class="section-title font-cinzel text-center text-white text-3xl md:text-4xl mb-3 fade-up">
       Explore <span class="text-gold">TRYST</span>
     </h2>
-
-    <p class="text-center font-cormorant text-white/50 text-lg mb-12 fade-up">
-      Drag to explore · Click to discover
-    </p>
+    <p class="text-center font-cormorant text-white/50 text-lg mb-10 fade-up">Drag to explore · Click to discover</p>
 
     <div class="cards-track-wrap relative">
       <div class="cards-track" id="cardsTrack">
 
-        <!-- ABOUT -->
         <div class="nav-card premium" data-modal="about">
           <div class="nav-card-bg" style="background-image:url('images/posters/campus.webp')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">ABOUT</span>
             <h3 class="card-title">About<br/>TRYST</h3>
           </div>
         </div>
 
-        <!-- EVENTS -->
         <div class="nav-card premium" data-modal="events">
           <div class="nav-card-bg" style="background-image:url('images/posters/stage.webp')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">EXPERIENCE</span>
-            <h3 class="card-title">Events<br/>& Shows</h3>
+            <h3 class="card-title">Events<br/>&amp; Shows</h3>
           </div>
         </div>
 
-        <!-- SURPRISE ARTIST -->
         <div class="nav-card premium" data-target="#surprise">
           <div class="nav-card-bg" style="background-image:url('images/posters/artist.webp')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">MAIN STAGE</span>
             <h3 class="card-title">Surprise<br/>Artist</h3>
           </div>
         </div>
 
-        <!-- PERFORMERS -->
         <div class="nav-card premium" data-modal="performers">
           <div class="nav-card-bg" style="background-image:url('images/posters/crowd.webp')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">HALL OF FAME</span>
             <h3 class="card-title">Past<br/>Performers</h3>
           </div>
         </div>
 
-        <!-- SCHEDULE -->
         <div class="nav-card premium" data-target="#schedule">
           <div class="nav-card-bg" style="background-image:url('images/posters/entry.webp')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">PLAN</span>
             <h3 class="card-title">Event<br/>Schedule</h3>
           </div>
         </div>
 
-        <!-- REGISTER -->
         <div class="nav-card premium" data-target="#register">
           <div class="nav-card-bg" style="background-image:url('images/posters/support.webp')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">JOIN US</span>
             <h3 class="card-title">Register<br/>Now</h3>
           </div>
         </div>
 
-        <!-- GALLERY -->
         <div class="nav-card premium" data-target="#gallery">
           <div class="nav-card-bg" style="background-image:url('images/inspo/cards.jpeg')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">MEMORIES</span>
             <h3 class="card-title">Photo<br/>Gallery</h3>
           </div>
         </div>
 
-        <!-- CONTACT -->
         <div class="nav-card premium" data-target="#contact">
           <div class="nav-card-bg" style="background-image:url('images/inspo/bg.jpeg')"></div>
           <div class="nav-card-overlay"></div>
-
           <div class="nav-card-content premium-content">
             <span class="card-label">CONNECT</span>
             <h3 class="card-title">Get In<br/>Touch</h3>
@@ -260,66 +223,62 @@
         </div>
 
       </div>
-
-      <!-- Scroll Hint -->
       <div class="cards-hint">
-        <span class="font-rajdhani text-xs tracking-widest text-white/30 uppercase">
-          ← Drag to explore →
-        </span>
+        <span class="font-rajdhani text-xs tracking-widest text-white/30 uppercase">← Drag to explore →</span>
       </div>
     </div>
   </section>
-  <!-- ════════════════ ABOUT SECTION ════════════════ -->
-  <section id="about" class="relative py-20 overflow-hidden">
+
+  <!-- ═══════════════ ABOUT SECTION ═══════════════ -->
+  <section id="about" class="relative py-14 overflow-hidden">
     <div class="about-bg-decor"></div>
     <div class="container mx-auto px-6 md:px-16">
-      <div class="grid md:grid-cols-2 gap-16 items-center">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="about-text-col">
           <div class="section-eyebrow fade-up">About the Fest</div>
-          <h2 class="font-cinzel text-4xl md:text-6xl text-white mb-6 leading-tight fade-up">
+          <h2 class="font-cinzel text-3xl md:text-5xl text-white mb-4 leading-tight fade-up">
             A Legacy<br/><span class="text-gold">Reborn</span>
           </h2>
-          <div class="gold-divider mb-8 fade-up"></div>
-          <p class="font-cormorant text-white/70 text-xl leading-relaxed mb-6 fade-up">
-            TRYST is Keshav Mahavidyalaya’s annual technical and cultural extravaganza — a dynamic college fest where innovation meets artistry, and where unforgettable experiences are created year after year.
+          <div class="gold-divider mb-6 fade-up"></div>
+          <p class="font-cormorant text-white/70 text-lg leading-relaxed mb-4 fade-up">
+            TRYST is Keshav Mahavidyalaya's annual technical and cultural extravaganza — a dynamic college fest where innovation meets artistry, and where unforgettable experiences are created year after year.
           </p>
-          <p class="font-cormorant text-white/60 text-lg leading-relaxed mb-10 fade-up">
-            In 2026, we ascend beyond the ordinary. Two days of electrifying performances, mind-bending competitions, visionary workshops, and an atmosphere charged with the energy of 100,000 souls united by a singular passion.
+          <p class="font-cormorant text-white/60 text-base leading-relaxed mb-8 fade-up">
+            In 2026, we ascend beyond the ordinary. Two days of electrifying performances, mind-bending competitions, visionary workshops, and an atmosphere charged with pure passion.
           </p>
-          <div class="stats-row flex gap-10 mb-10 fade-up">
+          <div class="stats-row flex gap-8 mb-8 fade-up">
             <div class="stat-item">
-              <div class="stat-num font-cinzel-deco text-gold text-4xl">25+</div>
+              <div class="stat-num font-cinzel-deco text-gold text-3xl">25+</div>
               <div class="stat-label font-rajdhani text-white/50 text-xs tracking-widest uppercase mt-1">Years of Legacy</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-              <div class="stat-num font-cinzel-deco text-gold text-4xl">100K</div>
+              <div class="stat-num font-cinzel-deco text-gold text-3xl">100K</div>
               <div class="stat-label font-rajdhani text-white/50 text-xs tracking-widest uppercase mt-1">Attendees</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-              <div class="stat-num font-cinzel-deco text-gold text-4xl">50+</div>
+              <div class="stat-num font-cinzel-deco text-gold text-3xl">50+</div>
               <div class="stat-label font-rajdhani text-white/50 text-xs tracking-widest uppercase mt-1">Events</div>
             </div>
           </div>
-          
         </div>
 
         <div class="about-img-col fade-in-right relative">
           <div class="about-img-frame">
-            <img src="images/posters/tryst.jpeg" alt="TRYST" class="w-full h-full object-cover rounded-sm" />
+            <img src="images/posters/tryst.jpeg" alt="TRYST" class="w-full h-full object-cover rounded-sm" loading="lazy" />
             <div class="about-img-overlay absolute inset-0"></div>
           </div>
-          <div class="about-float-card glass-card absolute -bottom-6 -left-6 p-4 w-48">
+          <div class="about-float-card glass-card absolute -bottom-4 -left-4 p-4 w-44">
             <div class="font-cinzel text-gold text-xs tracking-widest mb-1">Established</div>
-            <div class="font-cinzel-deco text-white text-2xl">1994</div>
-            <div class="font-cormorant text-white/50 text-sm italic">Keshav mahavidyalaya, India</div>
+            <div class="font-cinzel-deco text-white text-xl">1994</div>
+            <div class="font-cormorant text-white/50 text-sm italic">Keshav Mahavidyalaya, India</div>
           </div>
-          <div class="about-float-badge absolute -top-4 -right-4 w-24 h-24 rounded-full border-2 border-gold/40 flex items-center justify-center bg-navy/80 backdrop-blur">
+          <div class="about-float-badge absolute -top-3 -right-3 w-20 h-20 rounded-full border-2 border-gold/40 flex items-center justify-center bg-navy/80 backdrop-blur">
             <div class="text-center">
-              <div class="font-cinzel-deco text-gold text-xs leading-none">Asia's</div>
-              <div class="font-cinzel-deco text-white text-xs leading-none">Biggest</div>
-              <div class="font-cinzel-deco text-gold text-[9px] leading-none mt-1">TECH FEST</div>
+              <div class="font-cinzel-deco text-gold text-[9px] leading-none">Asia's</div>
+              <div class="font-cinzel-deco text-white text-[9px] leading-none">Biggest</div>
+              <div class="font-cinzel-deco text-gold text-[8px] leading-none mt-1">TECH FEST</div>
             </div>
           </div>
         </div>
@@ -327,16 +286,16 @@
     </div>
   </section>
 
-  <!-- ════════════════ SURPRISE ARTIST ════════════════ -->
-  <section id="surprise" class="relative py-20 overflow-hidden">
+  <!-- ═══════════════ SURPRISE ARTIST ═══════════════ -->
+  <section id="surprise" class="relative py-14 overflow-hidden">
     <div class="surprise-bg absolute inset-0 z-0"></div>
     <div class="container mx-auto px-6 text-center relative z-10">
       <div class="section-eyebrow fade-up">The Grand Reveal</div>
-      <h2 class="font-cinzel text-4xl md:text-6xl text-white mb-4 fade-up">
+      <h2 class="font-cinzel text-3xl md:text-5xl text-white mb-3 fade-up">
         Surprise <span class="text-gold">Artist</span>
       </h2>
-      <p class="font-cormorant text-white/60 text-xl mb-16 fade-up max-w-2xl mx-auto">
-        An icon shrouded in mystery. A performance that will become legend. Are you ready to unveil the secret?
+      <p class="font-cormorant text-white/60 text-lg mb-10 fade-up max-w-xl mx-auto">
+        An icon shrouded in mystery. Are you ready to unveil the secret?
       </p>
 
       <div class="surprise-stage mx-auto fade-up" id="surpriseStage">
@@ -345,46 +304,44 @@
             <div class="surprise-q-mark font-cinzel-deco text-gold">?</div>
             <p class="font-cinzel text-white/60 text-sm tracking-widest uppercase mt-4">Coming Soon</p>
           </div>
-          <img src="images/surprise_artist.jpg" alt="Surprise Artist" class="surprise-img" id="surpriseImg" />
+          <img src="images/surprise_artist.jpg" alt="Surprise Artist" class="surprise-img" id="surpriseImg" loading="lazy" />
           <div class="surprise-revealed" id="surpriseRevealed">
             <div class="surprise-name font-cinzel-deco text-white">Name</div>
             <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Bollywood · Punjabi · Soul</div>
-            <p class="font-cormorant text-white/60 text-lg italic mt-4 max-w-xs mx-auto">"Pain becomes music in his hands"</p>
           </div>
           <div class="surprise-veil" id="surpriseVeil"></div>
           <div class="surprise-glow-ring" id="surpriseGlowRing"></div>
         </div>
-        <div class="locked-wrapper" id="mysteryLock">
-          <button id="revealBtn" class="btn-primary">
-            ✦ UNVEIL THE MYSTERY ✦
+        <div class="locked-wrapper mt-6" id="mysteryLock">
+          <button id="revealBtn" class="btn-primary font-cinzel tracking-widest text-sm">
+            <span class="btn-inner">✦ UNVEIL THE MYSTERY ✦</span>
+            <span class="btn-glow"></span>
           </button>
-
           <div class="lock-overlay" id="lockOverlay">
-            <img src="images/lock.png" alt="locked">
+            <img src="images/lock.png" alt="locked" loading="lazy" />
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════ PAST PERFORMERS ════════════════ -->
-  <section id="artists" class="relative py-32 overflow-hidden">
+  <!-- ═══════════════ PAST PERFORMERS ═══════════════ -->
+  <section id="artists" class="relative py-14 overflow-hidden">
     <div class="container mx-auto px-6">
       <div class="section-eyebrow text-center fade-up">Hall of Fame</div>
-      <h2 class="font-cinzel text-4xl md:text-6xl text-white text-center mb-4 fade-up">
+      <h2 class="font-cinzel text-3xl md:text-5xl text-white text-center mb-3 fade-up">
         Past <span class="text-gold">Performers</span>
       </h2>
-      <p class="font-cormorant text-white/50 text-xl text-center mb-16 fade-up">Icons who turned our stage into a sacred ground</p>
+      <p class="font-cormorant text-white/50 text-lg text-center mb-10 fade-up">Icons who turned our stage into a sacred ground</p>
 
       <div class="artists-grid">
-        <!-- Artist Cards -->
         <div class="artist-card">
           <div class="artist-img-wrap">
-            <img src="images/artists/amanrajgill.png" alt="Aman Raj Gill" class="artist-img" />
+            <img src="images/artists/amanrajgill.jpg" alt="Aman Raj Gill" class="artist-img" loading="lazy" />
             <div class="artist-overlay">
               <div class="artist-overlay-content">
-                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Pop · R&B</span>
-                <p class="font-cormorant text-white/80 text-sm italic mt-2">"Velvet voice of a generation"</p>
+                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Pop · R&amp;B</span>
+                <p class="font-cormorant text-white/80 text-sm italic mt-1">"Velvet voice of a generation"</p>
               </div>
             </div>
           </div>
@@ -396,75 +353,11 @@
 
         <div class="artist-card">
           <div class="artist-img-wrap">
-            <img src="images/artists/BPRAAK.png" alt="B Praak" class="artist-img" />
-            <div class="artist-overlay">
-              <div class="artist-overlay-content">
-                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Bollywood · Punjabi · Soul</span>
-                <p class="font-cormorant text-white/80 text-sm italic mt-2">"Pain becomes music in his hands"</p>
-              </div>
-            </div>
-          </div>
-          <div class="artist-info">
-            <h3 class="artist-name font-cinzel text-white">B Praak</h3>
-            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Singer · Director</span>
-          </div>
-        </div>
-
-        <div class="artist-card">
-          <div class="artist-img-wrap">
-            <img src="images/artists/Antariksh.jpg" alt="Antariksh" class="artist-img" />
-            <div class="artist-overlay">
-              <div class="artist-overlay-content">
-                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Indie · Rock</span>
-                <p class="font-cormorant text-white/80 text-sm italic mt-2">"Stories woven into strings"</p>
-              </div>
-            </div>
-          </div>
-          <div class="artist-info">
-            <h3 class="artist-name font-cinzel text-white">Antariksh</h3>
-            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Indie Band</span>
-          </div>
-        </div>
-
-        <div class="artist-card">
-          <div class="artist-img-wrap">
-            <img src="images/artists/Ikka.jpg" alt="Ikka" class="artist-img" />
-            <div class="artist-overlay">
-              <div class="artist-overlay-content">
-                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Hip-Hop · Rap</span>
-                <p class="font-cormorant text-white/80 text-sm italic mt-2">"Delhi's finest rhyme architect"</p>
-              </div>
-            </div>
-          </div>
-          <div class="artist-info">
-            <h3 class="artist-name font-cinzel text-white">Ikka</h3>
-            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Rapper</span>
-          </div>
-        </div>
-
-        <div class="artist-card">
-          <div class="artist-img-wrap">
-            <img src="images/artists/jassie_gill.jpg" alt="Jassie Gill" class="artist-img" />
-            <div class="artist-overlay">
-              <div class="artist-overlay-content">
-                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Punjabi · Bhangra</span>
-                <p class="font-cormorant text-white/80 text-sm italic mt-2">"Punjab's golden voice"</p>
-              </div>
-            </div>
-          </div>
-          <div class="artist-info">
-            <h3 class="artist-name font-cinzel text-white">Jassie Gill</h3>
-            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Punjabi Singer</span>
-          </div>
-        </div>
-
-        <div class="artist-card">
-          <div class="artist-img-wrap">
-            <img src="images/artists/milind_gaba.webp" alt="Milind Gaba" class="artist-img" />
+            <img src="images/artists/milind_gaba.webp" alt="Milind Gaba" class="artist-img" loading="lazy" />
             <div class="artist-overlay">
               <div class="artist-overlay-content">
                 <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Punjabi · Electronic</span>
-                <p class="font-cormorant text-white/80 text-sm italic mt-2">"Beats that move the cosmos"</p>
+                <p class="font-cormorant text-white/80 text-sm italic mt-1">"Beats that move the cosmos"</p>
               </div>
             </div>
           </div>
@@ -476,11 +369,27 @@
 
         <div class="artist-card">
           <div class="artist-img-wrap">
-            <img src="images/artists/nikk.jpg" alt="Nikk" class="artist-img" />
+            <img src="images/artists/BPRAAK.png" alt="B Praak" class="artist-img" loading="lazy" />
+            <div class="artist-overlay">
+              <div class="artist-overlay-content">
+                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Bollywood · Punjabi</span>
+                <p class="font-cormorant text-white/80 text-sm italic mt-1">"Pain becomes music"</p>
+              </div>
+            </div>
+          </div>
+          <div class="artist-info">
+            <h3 class="artist-name font-cinzel text-white">B Praak</h3>
+            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Singer · Director</span>
+          </div>
+        </div>
+
+        <div class="artist-card">
+          <div class="artist-img-wrap">
+            <img src="images/artists/nikk.jpg" alt="Nikk" class="artist-img" loading="lazy" />
             <div class="artist-overlay">
               <div class="artist-overlay-content">
                 <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Punjabi · Urban</span>
-                <p class="font-cormorant text-white/80 text-sm italic mt-2">"New school royalty"</p>
+                <p class="font-cormorant text-white/80 text-sm italic mt-1">"New school royalty"</p>
               </div>
             </div>
           </div>
@@ -489,30 +398,78 @@
             <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Punjabi Artist</span>
           </div>
         </div>
+        
+        <div class="artist-card">
+          <div class="artist-img-wrap">
+            <img src="images/artists/Ikka.jpg" alt="Ikka" class="artist-img" loading="lazy" />
+            <div class="artist-overlay">
+              <div class="artist-overlay-content">
+                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Hip-Hop · Rap</span>
+                <p class="font-cormorant text-white/80 text-sm italic mt-1">"Delhi's finest rhyme architect"</p>
+              </div>
+            </div>
+          </div>
+          <div class="artist-info">
+            <h3 class="artist-name font-cinzel text-white">Ikka</h3>
+            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Rapper</span>
+          </div>
+        </div>
+
+        <div class="artist-card">
+          <div class="artist-img-wrap">
+            <img src="images/artists/jassie_gill.jpg" alt="Jassie Gill" class="artist-img" loading="lazy" />
+            <div class="artist-overlay">
+              <div class="artist-overlay-content">
+                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Punjabi · Bhangra</span>
+                <p class="font-cormorant text-white/80 text-sm italic mt-1">"Punjab's golden voice"</p>
+              </div>
+            </div>
+          </div>
+          <div class="artist-info">
+            <h3 class="artist-name font-cinzel text-white">Jassie Gill</h3>
+            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Punjabi Singer</span>
+          </div>
+        </div>
+
+        <div class="artist-card">
+          <div class="artist-img-wrap">
+            <img src="images/artists/Antariksh.jpg" alt="Antariksh" class="artist-img" loading="lazy" />
+            <div class="artist-overlay">
+              <div class="artist-overlay-content">
+                <span class="font-cinzel text-gold text-xs tracking-widest uppercase">Indie · Rock</span>
+                <p class="font-cormorant text-white/80 text-sm italic mt-1">"Stories woven into strings"</p>
+              </div>
+            </div>
+          </div>
+          <div class="artist-info">
+            <h3 class="artist-name font-cinzel text-white">Antariksh</h3>
+            <span class="artist-tag font-rajdhani text-gold/70 text-xs tracking-widest uppercase">Indie Band</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════ SCHEDULE ════════════════ -->
-  <section id="schedule" class="relative py-20 overflow-hidden">
+  <!-- ═══════════════ SCHEDULE ═══════════════ -->
+  <section id="schedule" class="relative py-12 overflow-hidden">
     <div class="schedule-bg absolute inset-0 z-0"></div>
     <div class="container mx-auto px-6 relative z-10">
       <div class="section-eyebrow text-center fade-up">The Itinerary</div>
-      <h2 class="font-cinzel text-4xl md:text-6xl text-white text-center mb-4 fade-up">
+      <h2 class="font-cinzel text-3xl md:text-5xl text-white text-center mb-2 fade-up">
         Event <span class="text-gold">Schedule</span>
       </h2>
-      <p class="font-cormorant text-white/50 text-xl text-center mb-12 fade-up">Two days carved from eternity</p>
+      <p class="font-cormorant text-white/50 text-base text-center mb-6 fade-up">Two days carved from eternity</p>
 
-      <!-- Day Tabs -->
-      <div class="schedule-tabs flex justify-center gap-4 mb-12 fade-up">
-        <button class="schedule-tab active font-cinzel text-sm tracking-widest uppercase" data-day="1">Day I</button>
-        <button class="schedule-tab font-cinzel text-sm tracking-widest uppercase" data-day="2">Day II</button>
+      <div class="schedule-tabs flex justify-center gap-3 mb-6 fade-up">
+        <button class="schedule-tab active font-cinzel text-xs tracking-widest uppercase" data-day="1">Day I</button>
+        <button class="schedule-tab font-cinzel text-xs tracking-widest uppercase" data-day="2">Day II</button>
       </div>
 
       <!-- Day 1 -->
       <div class="schedule-day active" data-day="1">
         <div class="schedule-timeline">
-          <div class="schedule-event fade-up">
+
+          <div class="schedule-event fade-up" data-event-id="lamp-lighting">
             <div class="event-time-col">
               <div class="event-time font-rajdhani text-gold tracking-widest">10:00 AM</div>
               <div class="event-time-line"></div>
@@ -520,278 +477,349 @@
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
-                  <div class="event-tag font-rajdhani text-gold/60 text-xs tracking-widest uppercase mb-1"></div>
-                  <h3 class="event-title font-cinzel text-white text-lg">Lamp Lighting</h3>
+                  <div class="event-tag font-rajdhani text-gold/60 text-xs tracking-widest uppercase mb-0.5">Opening</div>
+                  <h3 class="event-title font-cinzel text-white">Lamp Lighting</h3>
                 </div>
-                <div class="event-toggle font-cinzel text-gold text-xl">+</div>
+                <div class="event-toggle font-cinzel text-gold">+</div>
               </div>
               <div class="event-body">
-                <p class="font-cormorant text-white/60 text-lg">Pooja</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/campus.webp" class="event-poster" alt="Lamp Lighting" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Grand opening ceremony with traditional Pooja and lamp lighting. The official start of TRYST 2026.</p>
+                    <div class="event-meta-row">📍 Main Auditorium</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="nrityaang">
             <div class="event-time-col">
-              <div class="event-time font-rajdhani text-gold tracking-widest">10:00 AM – 11:20 AM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">10:00–11:20 AM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Dance</div>
-                  <h3 class="event-title">Nrityaang – Mridang</h3>
+                  <h3 class="event-title font-cinzel text-white">Nrityaang – Mridang</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Solo Classical Dance — Auditorium</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/stage.webp" class="event-poster" alt="Nrityaang" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Solo Classical Dance competition showcasing the finest classical traditions.</p>
+                    <div class="event-meta-row">📍 Auditorium</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="uthaan">
             <div class="event-time-col">
-              <div class="event-time font-rajdhani text-gold tracking-widest">11:30 AM – 1:30 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">11:30 AM–1:30 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Dance</div>
-                  <h3 class="event-title">Uthaan</h3>
+                  <h3 class="event-title font-cinzel text-white">Uthaan</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Group Folk Dance — Auditorium</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/crowd.webp" class="event-poster" alt="Uthaan" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Group Folk Dance competition celebrating the vibrant dance traditions of India.</p>
+                    <div class="event-meta-row">📍 Auditorium</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="inaayat">
             <div class="event-time-col">
-              <div class="event-time">1:30 PM – 6:30 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">1:30–6:30 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Dance</div>
-                  <h3 class="event-title">Inaayat</h3>
+                  <h3 class="event-title font-cinzel text-white">Inaayat</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Western Group Dance — Auditorium</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/entry.webp" class="event-poster" alt="Inaayat" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Western Group Dance competition — a high-energy battle of choreography and style.</p>
+                    <div class="event-meta-row">📍 Auditorium</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="advaitaa">
             <div class="event-time-col">
-              <div class="event-time">2:00 PM – 3:00 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">2:00–3:00 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Dance</div>
-                  <h3 class="event-title">Advaitaa – Nazaat</h3>
+                  <h3 class="event-title font-cinzel text-white">Advaitaa – Nazaat</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Western Solo Dance — Auditorium</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/artist.webp" class="event-poster" alt="Advaitaa" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Western Solo Dance — individual excellence in contemporary performance.</p>
+                    <div class="event-meta-row">📍 Auditorium</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="performance-showcase">
             <div class="event-time-col">
-              <div class="event-time">2:00 PM – 4:30 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">2:00–4:30 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Showcase</div>
-                  <h3 class="event-title">Performance Showcase</h3>
+                  <h3 class="event-title font-cinzel text-white">Performance Showcase</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Amphitheatre</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/support.webp" class="event-poster" alt="Showcase" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Open showcase at the Amphitheatre — talent without boundaries.</p>
+                    <div class="event-meta-row">📍 Amphitheatre</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
       <!-- Day 2 -->
       <div class="schedule-day" data-day="2">
         <div class="schedule-timeline">
-          <div class="schedule-event fade-up">
+
+          <div class="schedule-event fade-up" data-event-id="illuminati">
             <div class="event-time-col">
-              <div class="event-time">9:00 AM – 5:00 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">9:00 AM–5:00 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Competition</div>
-                  <h3 class="event-title">Illuminati</h3>
+                  <h3 class="event-title font-cinzel text-white">Illuminati</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Lecture Hall-2</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/stage.webp" class="event-poster" alt="Illuminati" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">The ultimate knowledge competition — test your intellect across disciplines.</p>
+                    <div class="event-meta-row">📍 Lecture Hall-2</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="anhad">
             <div class="event-time-col">
-              <div class="event-time">10:00 AM – 2:00 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">10:00 AM–2:00 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Music</div>
-                  <h3 class="event-title">Anhad – Slaycapella</h3>
+                  <h3 class="event-title font-cinzel text-white">Anhad – Slaycapella</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Reading Room</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/crowd.webp" class="event-poster" alt="Anhad" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">A cappella competition — pure voice, pure artistry, no instruments needed.</p>
+                    <div class="event-meta-row">📍 Reading Room</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="baithak">
             <div class="event-time-col">
-              <div class="event-time">10:00 AM – 5:00 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">10:00 AM–5:00 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Theatre + Debate</div>
-                  <h3 class="event-title">Baithak + Vagmita Debsoc</h3>
+                  <h3 class="event-title font-cinzel text-white">Baithak + Vagmita Debsoc</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Shades Lawn / Seminar Room</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/entry.webp" class="event-poster" alt="Baithak" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Theatre and debate events running in parallel — drama meets discourse.</p>
+                    <div class="event-meta-row">📍 Shades Lawn / Seminar Room</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="vagmita-poetry">
             <div class="event-time-col">
-              <div class="event-time">11:00 AM – 1:00 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">11:00 AM–1:00 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Literary</div>
-                  <h3 class="event-title">Vagmita Poetry – Irshaad</h3>
+                  <h3 class="event-title font-cinzel text-white">Vagmita Poetry – Irshaad</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>LT-4</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/artist.webp" class="event-poster" alt="Poetry" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">An open mic poetry event — where words become worlds.</p>
+                    <div class="event-meta-row">📍 LT-4</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="maniera">
             <div class="event-time-col">
-              <div class="event-time">11:00 AM – 3:00 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">11:00 AM–3:00 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Exhibition</div>
-                  <h3 class="event-title">Maniera: Atrang Rangmanch</h3>
+                  <h3 class="event-title font-cinzel text-white">Maniera: Atrang Rangmanch</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>Parking Asar Near Gill's Hostel</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/campus.webp" class="event-poster" alt="Maniera" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">A vibrant art exhibition celebrating colour, form, and creative expression.</p>
+                    <div class="event-meta-row">📍 Parking Area, Near Gill's Hostel</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="schedule-event fade-up">
+          <div class="schedule-event fade-up" data-event-id="chitrakala">
             <div class="event-time-col">
-              <div class="event-time">11:00 AM – 2:00 PM</div>
+              <div class="event-time font-rajdhani text-gold tracking-widest">11:00 AM–2:00 PM</div>
               <div class="event-time-line"></div>
             </div>
             <div class="event-card glass-card">
               <div class="event-header" onclick="toggleEvent(this)">
                 <div>
                   <div class="event-tag">Art</div>
-                  <h3 class="event-title">Maniera: Chitrakala / Kala Sangini</h3>
+                  <h3 class="event-title font-cinzel text-white">Maniera: Chitrakala / Kala Sangini</h3>
                 </div>
                 <div class="event-toggle">+</div>
               </div>
               <div class="event-body">
-                <p>LT-1 and LT-3</p>
+                <div class="event-body-inner">
+                  <img src="images/posters/support.webp" class="event-poster" alt="Chitrakala" loading="lazy" />
+                  <div class="event-details">
+                    <p class="font-cormorant text-white/70">Fine art competition — painting, sketching, and mixed media on display.</p>
+                    <div class="event-meta-row">📍 LT-1 and LT-3</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
-
+    </div>
   </section>
 
-  <!-- ════════════════ REGISTER ════════════════ -->
-  <section id="register" class="relative py-36 overflow-hidden">
+  <!-- ═══════════════ REGISTER ═══════════════ -->
+  <section id="register" class="relative py-28 overflow-hidden">
     <div class="register-bg absolute inset-0 z-0">
-      <img src="images/posters/crowd.webp" alt="" class="w-full h-full object-cover opacity-20" />
+      <img src="images/posters/crowd.webp" alt="" class="w-full h-full object-cover opacity-20" loading="lazy" />
       <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy"></div>
     </div>
     <div class="container mx-auto px-6 relative z-10 text-center">
       <div class="section-eyebrow fade-up">Your Legend Awaits</div>
-      <h2 class="font-cinzel-deco text-5xl md:text-8xl text-white mb-6 fade-up leading-none">
+      <h2 class="font-cinzel-deco text-4xl md:text-7xl text-white mb-4 fade-up leading-none">
         Join the<br/><span class="text-gold">Saga</span>
       </h2>
-      <p class="font-cormorant text-white/60 text-xl md:text-2xl mb-12 fade-up max-w-2xl mx-auto leading-relaxed">
-        Secure your passage to the most extraordinary college festival in Asia. Register now and become part of a legacy that will be remembered for generations to come.
+      <p class="font-cormorant text-white/60 text-xl mb-10 fade-up max-w-xl mx-auto leading-relaxed">
+        Secure your passage to the most extraordinary college festival. Register now and become part of a legacy.
       </p>
 
-      <div class="register-countdown flex justify-center gap-8 mb-12 fade-up">
+      <div class="register-countdown flex justify-center gap-6 mb-10 fade-up">
         <div class="countdown-item text-center">
           <div class="countdown-num font-cinzel-deco text-gold text-5xl" id="days">00</div>
           <div class="countdown-label font-rajdhani text-white/40 text-xs tracking-widest uppercase mt-1">Days</div>
         </div>
-        <div class="countdown-sep font-cinzel-deco text-gold text-4xl self-start mt-2">:</div>
+        <div class="countdown-sep font-cinzel-deco text-gold text-4xl self-start mt-1">:</div>
         <div class="countdown-item text-center">
           <div class="countdown-num font-cinzel-deco text-gold text-5xl" id="hours">00</div>
           <div class="countdown-label font-rajdhani text-white/40 text-xs tracking-widest uppercase mt-1">Hours</div>
         </div>
-        <div class="countdown-sep font-cinzel-deco text-gold text-4xl self-start mt-2">:</div>
+        <div class="countdown-sep font-cinzel-deco text-gold text-4xl self-start mt-1">:</div>
         <div class="countdown-item text-center">
           <div class="countdown-num font-cinzel-deco text-gold text-5xl" id="mins">00</div>
           <div class="countdown-label font-rajdhani text-white/40 text-xs tracking-widest uppercase mt-1">Mins</div>
         </div>
-        <div class="countdown-sep font-cinzel-deco text-gold text-4xl self-start mt-2">:</div>
+        <div class="countdown-sep font-cinzel-deco text-gold text-4xl self-start mt-1">:</div>
         <div class="countdown-item text-center">
           <div class="countdown-num font-cinzel-deco text-gold text-5xl" id="secs">00</div>
           <div class="countdown-label font-rajdhani text-white/40 text-xs tracking-widest uppercase mt-1">Secs</div>
         </div>
       </div>
-      <a href="https://www.instagram.com/tryst_26_official/" 
-        target="_blank" 
-        rel="noopener noreferrer"
+
+      <a href="https://www.instagram.com/tryst_26_official/" target="_blank" rel="noopener noreferrer"
         class="btn-register font-cinzel tracking-widest text-base uppercase fade-up">
-        
         <span class="btn-register-inner">✦ Register Now ✦</span>
         <span class="btn-register-glow"></span>
       </a>
@@ -799,46 +827,46 @@
     </div>
   </section>
 
-  <!-- ════════════════ GALLERY ════════════════ -->
-  <section id="gallery" class="relative py-32 overflow-hidden">
+  <!-- ═══════════════ GALLERY ═══════════════ -->
+  <section id="gallery" class="relative py-14 overflow-hidden">
     <div class="container mx-auto px-6">
       <div class="section-eyebrow text-center fade-up">Visual Odyssey</div>
-      <h2 class="font-cinzel text-4xl md:text-6xl text-white text-center mb-4 fade-up">
+      <h2 class="font-cinzel text-3xl md:text-5xl text-white text-center mb-3 fade-up">
         The <span class="text-gold">Gallery</span>
       </h2>
-      <p class="font-cormorant text-white/50 text-xl text-center mb-16 fade-up">Moments distilled into eternity</p>
+      <p class="font-cormorant text-white/50 text-lg text-center mb-10 fade-up">Moments distilled into eternity</p>
 
       <div class="gallery-masonry fade-up">
         <div class="gallery-item gallery-item--tall" data-src="images/posters/stage.webp">
-          <img src="images/posters/stage.webp" alt="Stage" />
+          <img src="images/posters/stage.webp" alt="Stage" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Stage</span></div>
         </div>
         <div class="gallery-item" data-src="images/posters/crowd.webp">
-          <img src="images/posters/crowd.webp" alt="Crowd" />
+          <img src="images/posters/crowd.webp" alt="Crowd" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Crowd</span></div>
         </div>
         <div class="gallery-item" data-src="images/posters/artist.webp">
-          <img src="images/posters/artist.webp" alt="Artist" />
+          <img src="images/posters/artist.webp" alt="Artist" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Artist</span></div>
         </div>
         <div class="gallery-item gallery-item--wide" data-src="images/posters/campus.webp">
-          <img src="images/posters/campus.webp" alt="Campus" />
+          <img src="images/posters/campus.webp" alt="Campus" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Campus</span></div>
         </div>
         <div class="gallery-item gallery-item--tall" data-src="images/posters/entry.webp">
-          <img src="images/posters/entry.webp" alt="Entry" />
+          <img src="images/posters/entry.webp" alt="Entry" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Gateway</span></div>
         </div>
         <div class="gallery-item" data-src="images/posters/support.webp">
-          <img src="images/posters/support.webp" alt="Support" />
+          <img src="images/posters/support.webp" alt="Support" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Community</span></div>
         </div>
         <div class="gallery-item" data-src="images/inspo/landingpage.jpeg">
-          <img src="images/inspo/landingpage.jpeg" alt="Inspo" />
+          <img src="images/inspo/landingpage.jpeg" alt="Inspo" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Vision</span></div>
         </div>
         <div class="gallery-item gallery-item--wide" data-src="images/inspo/bg.jpeg">
-          <img src="images/inspo/bg.jpeg" alt="Background" />
+          <img src="images/inspo/bg.jpeg" alt="Background" loading="lazy" />
           <div class="gallery-overlay"><span class="font-cinzel text-white text-sm tracking-widest">The Atmosphere</span></div>
         </div>
       </div>
@@ -856,45 +884,45 @@
     </div>
   </div>
 
-  <!-- ════════════════ CONTACT ════════════════ -->
-  <section id="contact" class="relative py-32 overflow-hidden">
+  <!-- ═══════════════ CONTACT ═══════════════ -->
+  <section id="contact" class="relative py-14 overflow-hidden">
     <div class="container mx-auto px-6">
-      <div class="grid md:grid-cols-2 gap-16 items-start">
+      <div class="grid md:grid-cols-2 gap-12 items-start">
         <div>
           <div class="section-eyebrow fade-up">Get In Touch</div>
-          <h2 class="font-cinzel text-4xl md:text-5xl text-white mb-6 fade-up leading-tight">
+          <h2 class="font-cinzel text-3xl md:text-5xl text-white mb-4 fade-up leading-tight">
             Connect <br/><span class="text-gold">With Us</span>
           </h2>
-          <div class="gold-divider mb-8 fade-up"></div>
-          <p class="font-cormorant text-white/60 text-xl mb-10 fade-up">
+          <div class="gold-divider mb-6 fade-up"></div>
+          <p class="font-cormorant text-white/60 text-lg mb-8 fade-up">
             Questions, partnerships, sponsorships, or just want to be part of the magic? Our team is ready to guide you.
           </p>
 
-          <div class="contact-items flex flex-col gap-6 fade-up">
+          <div class="contact-items flex flex-col gap-5 fade-up">
             <div class="contact-item flex items-center gap-4">
               <div class="contact-icon">✉</div>
               <div>
                 <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Email</div>
-                <a href="mailto:your@email.com" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">your@email.com</a>
+                <a href="mailto:tryst@kmv.ac.in" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">tryst@kmv.ac.in</a>
               </div>
             </div>
             <div class="contact-item flex items-center gap-4">
               <div class="contact-icon">📍</div>
               <div>
                 <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Location</div>
-                <p class="font-cormorant text-white/80 text-lg">Keshav Mahavidyalaya, Pitampura, Near Sainik Vihar, Delhi-110034</p>
+                <p class="font-cormorant text-white/80 text-base">Keshav Mahavidyalaya, Pitampura, Near Sainik Vihar, Delhi-110034</p>
               </div>
             </div>
             <div class="contact-item flex items-center gap-4">
-              <div class="contact-icon">📞</div>
+              <div class="contact-icon">📱</div>
               <div>
-                <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Phone</div>
-                <a href="tel:+912444666600" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">+91 2444666600</a>
+                <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Instagram</div>
+                <a href="https://www.instagram.com/tryst_26_official/" target="_blank" rel="noopener" class="font-cormorant text-white/80 text-base hover:text-gold transition-colors">@tryst_26_official</a>
               </div>
             </div>
           </div>
 
-          <div class="social-links flex gap-4 mt-10 fade-up">
+          <div class="social-links flex gap-4 mt-8 fade-up">
             <a href="https://www.instagram.com/tryst_26_official/" class="social-btn" aria-label="Instagram">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
@@ -904,139 +932,215 @@
             <a href="#" class="social-btn" aria-label="YouTube">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
-            <a href="#" class="social-btn" aria-label="LinkedIn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            </a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ════════════════ FOOTER ════════════════ -->
-  <footer class="relative z-20 py-16 border-t border-gold/10 overflow-hidden">
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="relative z-20 py-12 border-t border-gold/10 overflow-hidden">
     <div class="container mx-auto px-6">
-      <div class="flex flex-col md:flex-row items-center md:items-center gap-6 text-center md:text-left">
-        <div class="flex flex-col md:flex-row items-center gap-4 text-center md:text-left md:w-1/3">
-          <img src="images/tryst_logo.png" alt="TRYST" class="h-12 w-12 object-contain opacity-80" />
+      <div class="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+        <div class="flex flex-col md:flex-row items-center gap-4 md:w-1/3">
+          <img src="images/tryst_logo.png" alt="TRYST" class="h-10 w-10 object-contain opacity-80" loading="lazy" />
           <div>
-            <div class="font-cinzel-deco text-gold text-xl tracking-widest">TRYST 2026</div>
-            <div class="font-rajdhani text-white/30 text-xs tracking-widest uppercase">Keshav Mahavidyalaya’s Flagship Festival</div>
+            <div class="font-cinzel-deco text-gold text-lg tracking-widest">TRYST 2026</div>
+            <div class="font-rajdhani text-white/30 text-xs tracking-widest uppercase">Keshav Mahavidyalaya's Flagship Festival</div>
           </div>
         </div>
-
         <div class="font-cormorant text-white/30 text-center italic text-sm md:w-1/3">
-          Where Legends Are Born · March 20–22, 2026 · New Delhi, India
+          Where Legends Are Born · March 20–21, 2026 · New Delhi, India
         </div>
-
         <div class="font-rajdhani text-white/20 text-xs tracking-widest uppercase text-center md:text-right md:w-1/3">
           © 2026 TRYST, KMV<br/>All Rights Reserved
         </div>
       </div>
-
-      <div class="footer-line mt-8 mx-auto max-w-xs h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"></div>
-      <p class="text-center font-cormorant text-white/20 text-sm mt-6 italic">
+      <div class="footer-line mt-6 mx-auto max-w-xs h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"></div>
+      <p class="text-center font-cormorant text-white/20 text-sm mt-4 italic">
         "In the crucible of TRYST, ordinary students become extraordinary legends."
       </p>
     </div>
   </footer>
-<!-- ════════════════ MODALS (UPDATED) ════════════════ -->
 
+  <!-- ═══════════════ MODALS ═══════════════ -->
   <div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
 
-  <!-- ═══ ABOUT MODAL (SPLIT DESIGN) ═══ -->
+  <!-- ABOUT MODAL -->
   <div class="modal" id="modal-about">
-
     <div class="modal-content split-modal">
-
-      <!-- LEFT IMAGE -->
       <div class="modal-image">
-        <img src="images/inspo/basic inspo.jpeg" alt="TRYST">
+        <img src="images/inspo/basic inspo.jpeg" alt="TRYST" loading="lazy" />
       </div>
-
-      <!-- RIGHT CONTENT -->
       <div class="modal-info">
         <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">KMV Delhi Presents</div>
+        <h2 class="modal-title font-cinzel-deco text-3xl md:text-4xl mt-2">About TRYST</h2>
+        <p class="modal-text">TRYST is Keshav Mahavidyalaya's annual technical and cultural extravaganza, growing into a vibrant multi-day celebration that attracts students and participants from across Delhi and beyond.</p>
+        <p class="modal-text">The festival features 20+ competitions, engaging workshops, cultural performances, and electrifying musical acts that transform the campus into an immersive universe of creativity and energy.</p>
+        <div class="modal-location">📍 Keshav Mahavidyalaya Campus, DU</div>
+      </div>
+    </div>
+  </div>
 
-        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">
-          KMV Delhi Presents
+  <!-- EVENTS MODAL — with event list and Know More links -->
+  <div class="modal" id="modal-events">
+    <div class="modal-content events-modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase mb-2">The Experience</div>
+      <h2 class="modal-title font-cinzel-deco text-2xl md:text-3xl mb-4">Events &amp; Shows</h2>
+
+      <!-- Day tabs -->
+      <div class="events-modal-tabs">
+        <button class="events-modal-tab active" data-events-day="1">Day I</button>
+        <button class="events-modal-tab" data-events-day="2">Day II</button>
+      </div>
+
+      <!-- Day 1 Events -->
+      <div class="events-modal-day active" data-events-day="1">
+        <div class="events-modal-item" data-event-id="lamp-lighting">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div>
+              <span class="events-modal-tag">Opening</span>
+              <div class="events-modal-name">Lamp Lighting</div>
+            </div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Grand opening ceremony with traditional Pooja.</p>
+            <button class="know-more-btn" data-event-id="lamp-lighting" data-day="1" onclick="goToEvent(this)">Know More →</button>
+          </div>
         </div>
-
-        <h2 class="modal-title font-cinzel-deco text-3xl md:text-5xl mt-2">
-          About TRYST
-        </h2>
-
-        <p class="modal-text">
-          TRYST is Keshav Mahavidyalaya’s annual technical and cultural extravaganza, growing into a vibrant multi-day celebration that attracts students and participants from across Delhi and beyond.
-        </p>
-
-        <p class="modal-text">
-          The festival features 20+ competitions, engaging workshops, cultural performances, and electrifying musical acts that transform the campus into an immersive universe of creativity and energy.
-        </p>
-
-        <div class="modal-location">
-          📍 Keshav Mahavidyalaya Campus, DU
+        <div class="events-modal-item" data-event-id="nrityaang">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Dance</span><div class="events-modal-name">Nrityaang – Mridang</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Solo Classical Dance · Auditorium</p>
+            <button class="know-more-btn" data-event-id="nrityaang" data-day="1" onclick="goToEvent(this)">Know More →</button>
+          </div>
         </div>
+        <div class="events-modal-item" data-event-id="uthaan">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Dance</span><div class="events-modal-name">Uthaan</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Group Folk Dance · Auditorium</p>
+            <button class="know-more-btn" data-event-id="uthaan" data-day="1" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="inaayat">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Dance</span><div class="events-modal-name">Inaayat</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Western Group Dance · Auditorium</p>
+            <button class="know-more-btn" data-event-id="inaayat" data-day="1" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="advaitaa">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Dance</span><div class="events-modal-name">Advaitaa – Nazaat</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Western Solo Dance · Auditorium</p>
+            <button class="know-more-btn" data-event-id="advaitaa" data-day="1" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="performance-showcase">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Showcase</span><div class="events-modal-name">Performance Showcase</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Open Showcase · Amphitheatre</p>
+            <button class="know-more-btn" data-event-id="performance-showcase" data-day="1" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+      </div>
 
+      <!-- Day 2 Events -->
+      <div class="events-modal-day" data-events-day="2">
+        <div class="events-modal-item" data-event-id="illuminati">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Competition</span><div class="events-modal-name">Illuminati</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Knowledge competition · Lecture Hall-2</p>
+            <button class="know-more-btn" data-event-id="illuminati" data-day="2" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="anhad">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Music</span><div class="events-modal-name">Anhad – Slaycapella</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>A cappella competition · Reading Room</p>
+            <button class="know-more-btn" data-event-id="anhad" data-day="2" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="baithak">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Theatre</span><div class="events-modal-name">Baithak + Vagmita Debsoc</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Theatre & debate · Shades Lawn</p>
+            <button class="know-more-btn" data-event-id="baithak" data-day="2" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="vagmita-poetry">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Literary</span><div class="events-modal-name">Vagmita Poetry – Irshaad</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Open mic poetry · LT-4</p>
+            <button class="know-more-btn" data-event-id="vagmita-poetry" data-day="2" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="maniera">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Exhibition</span><div class="events-modal-name">Maniera: Atrang Rangmanch</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Art exhibition · Parking Area</p>
+            <button class="know-more-btn" data-event-id="maniera" data-day="2" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
+        <div class="events-modal-item" data-event-id="chitrakala">
+          <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
+            <div><span class="events-modal-tag">Art</span><div class="events-modal-name">Maniera: Chitrakala</div></div>
+            <span class="events-modal-arrow">›</span>
+          </div>
+          <div class="events-modal-body">
+            <p>Painting & sketching · LT-1 and LT-3</p>
+            <button class="know-more-btn" data-event-id="chitrakala" data-day="2" onclick="goToEvent(this)">Know More →</button>
+          </div>
+        </div>
       </div>
 
     </div>
   </div>
 
-
-  <!-- ═══ EVENTS MODAL (UNCHANGED STRUCTURE) ═══ -->
-  <div class="modal" id="modal-events">
-  <div class="modal-content split-modal">
-
-    <div class="modal-image">
-      <img src="images/posters/stage.webp">
-    </div>
-
-    <div class="modal-info">
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-
-      <div class="modal-eyebrow">THE EXPERIENCE</div>
-      <h2 class="modal-title">Events & Shows</h2>
-
-      <p class="modal-text">
-        Dive into an electrifying lineup of competitions, workshops, and exhibitions designed to challenge and inspire.
-      </p>
-
-      <p class="modal-text">
-        From hackathons to cultural showcases, TRYST brings together innovation and creativity on one stage.
-      </p>
-
-      <a href="#events" class="modal-btn" onclick="closeModal()">
-        Explore Events →
-      </a>
-    </div>
-
-  </div>
-</div>
-
-
-  <!-- ═══ SURPRISE MODAL ═══ -->
+  <!-- SURPRISE MODAL -->
   <div class="modal" id="modal-surprise">
     <button class="modal-close" onclick="closeModal()">&times;</button>
-
     <div class="modal-content text-center">
       <div class="modal-header">
-        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">
-          The Grand Secret
-        </div>
-        <h2 class="modal-title font-cinzel-deco text-white text-3xl md:text-5xl mt-2">
-          Mystery Artist
-        </h2>
+        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">The Grand Secret</div>
+        <h2 class="modal-title font-cinzel-deco text-white text-2xl md:text-4xl mt-2">Mystery Artist</h2>
       </div>
-
       <div class="modal-body">
-        <p class="font-cormorant text-white/60 text-lg mb-6">
-          The identity of TRYST 2026's headline artist remains a closely guarded secret.
-        </p>
-
-        <a href="#surprise"
-          class="btn-primary font-cinzel tracking-widest uppercase text-sm inline-block"
-          onclick="closeModal()">
+        <p class="font-cormorant text-white/60 text-lg mb-6">The identity of TRYST 2026's headline artist remains a closely guarded secret.</p>
+        <a href="#surprise" class="btn-primary font-cinzel tracking-widest uppercase text-sm inline-block" onclick="closeModal()">
           <span class="btn-inner">✦ Reveal Now ✦</span>
           <span class="btn-glow"></span>
         </a>
@@ -1044,37 +1148,23 @@
     </div>
   </div>
 
-
-  <!-- ═══ PERFORMERS MODAL ═══ -->
+  <!-- PERFORMERS MODAL -->
   <div class="modal" id="modal-performers">
-  <div class="modal-content split-modal">
-
-    <div class="modal-image">
-      <img src="images/posters/crowd.webp">
+    <div class="modal-content split-modal">
+      <div class="modal-image">
+        <img src="images/posters/crowd.webp" loading="lazy" alt="Past Performers" />
+      </div>
+      <div class="modal-info">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div class="modal-eyebrow">HALL OF FAME</div>
+        <h2 class="modal-title">Past Performers</h2>
+        <p class="modal-text">TRYST has hosted legendary artists who turned our stage into an unforgettable experience.</p>
+        <p class="modal-text">From chart-topping singers to electrifying performers, the legacy continues.</p>
+        <a href="#artists" class="modal-btn" onclick="closeModal()">View Artists →</a>
+      </div>
     </div>
-
-    <div class="modal-info">
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-
-      <div class="modal-eyebrow">HALL OF FAME</div>
-      <h2 class="modal-title">Past Performers</h2>
-
-      <p class="modal-text">
-        TRYST has hosted legendary artists who turned our stage into an unforgettable experience.
-      </p>
-
-      <p class="modal-text">
-        From chart-topping singers to electrifying performers, the legacy continues.
-      </p>
-
-      <a href="#artists" class="modal-btn" onclick="closeModal()">
-        View Artists →
-      </a>
-    </div>
-
   </div>
-</div>
-  <!-- Script -->
-  <script src="script.js"></script>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
