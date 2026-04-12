@@ -25,6 +25,34 @@ body {
   cursor: none;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: url("images/inspo/bg.jpeg") center/cover no-repeat;
+
+  opacity: 0.05; /* 🔥 VERY IMPORTANT */
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: radial-gradient(circle at center, transparent 50%, #0a0f1f 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.surprise-bg,
+.schedule-bg,
+.about-bg-decor {
+  opacity: 0.04 !important;
+}
+
 body > * {
   position: relative;
   z-index: 1;
@@ -350,6 +378,7 @@ body:hover .custom-cursor { opacity: 1; }
 .hero-badge {
   font-size: 11px;
   letter-spacing: 0.5em;
+  margin-top: 30px;
 }
 
 .hero-title-tryst {
@@ -395,12 +424,20 @@ body:hover .custom-cursor { opacity: 1; }
 
 /* Scroll Indicator */
 .scroll-arrow {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 40px) rotate(45deg);
+
+  margin-top: 40px; /* 👈 pulls it upward into hero */
+
   width: 20px;
   height: 20px;
   border-right: 1px solid rgba(255,255,255,0.3);
   border-bottom: 1px solid rgba(255,255,255,0.3);
-  transform: rotate(45deg);
+
   animation: bounce-down 1.5s ease-in-out infinite;
+
+  z-index: 2;
 }
 
 @keyframes bounce-down {
@@ -1350,6 +1387,11 @@ body:hover .custom-cursor { opacity: 1; }
   .hero-title-tryst { font-size: clamp(4rem, 20vw, 6rem); }
   .hero-title-year { font-size: clamp(2.5rem, 12vw, 4rem); }
 
+  .hero-buttons {
+  position: relative;
+  z-index: 2; /* above arrow */
+  }
+  
   .about-img-frame { height: 300px; }
   .about-float-card { display: none; }
 

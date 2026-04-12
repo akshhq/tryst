@@ -6,6 +6,14 @@
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+};
+
+window.addEventListener("load", () => {
+  window.scrollTo(0, 0);
+});
+
 /* ═══ LOADER ═══ */
 window.addEventListener('load', () => {
   initHeroAnimations();
