@@ -385,12 +385,16 @@ function openModal(modalId) {
   overlay.classList.add('active');
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  document.body.classList.add('modal-open');
+  document.getElementById(id).classList.add('active');
 }
 
 function closeModal() {
   document.querySelectorAll('.modal.active').forEach(m => m.classList.remove('active'));
   document.getElementById('modal-overlay').classList.remove('active');
   document.body.style.overflow = '';
+  document.body.classList.remove('modal-open');
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
 }
 
 window.closeModal = closeModal;
@@ -821,3 +825,4 @@ criticalImages.forEach(src => {
 console.log('%cTRYST 2026', 'font-family: serif; font-size: 32px; color: #C9A84C; font-weight: bold;');
 console.log('%cWhere Legends Are Born', 'font-family: serif; font-size: 14px; color: #E5C97E; font-style: italic;');
 console.log('%cIIT Delhi · March 20–22, 2026', 'font-family: monospace; font-size: 10px; color: #666;');
+

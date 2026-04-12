@@ -154,129 +154,121 @@
     <div class="scroll-arrow"></div>
   </div>
 
-  <!-- ════════════════ HORIZONTAL CARD NAVIGATION ════════════════ -->
+<!-- ════════════════ HORIZONTAL CARD NAVIGATION (UPDATED) ════════════════ -->
   <section id="nav-cards" class="relative py-24 overflow-hidden">
     <div class="section-label">
-      <span class="font-rajdhani tracking-[0.5em] text-gold/60 text-xs uppercase">-  Navigate</span>
+      <span class="font-rajdhani tracking-[0.5em] text-gold/60 text-xs uppercase">- Navigate</span>
     </div>
+
     <h2 class="section-title font-cinzel text-center text-white text-3xl md:text-5xl mb-4 fade-up">
       Explore <span class="text-gold">TRYST</span>
     </h2>
-    <p class="text-center font-cormorant text-white/50 text-lg mb-12 fade-up">Drag to explore · Click to discover</p>
+
+    <p class="text-center font-cormorant text-white/50 text-lg mb-12 fade-up">
+      Drag to explore · Click to discover
+    </p>
 
     <div class="cards-track-wrap relative">
       <div class="cards-track" id="cardsTrack">
-        <!-- Card: About -->
-        <div class="nav-card" data-modal="about">
+
+        <!-- ABOUT -->
+        <div class="nav-card premium" data-modal="about">
           <div class="nav-card-bg" style="background-image:url('images/posters/campus.png')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">✦</div>
-            <h3 class="nav-card-title font-cinzel">About</h3>
-            <p class="nav-card-desc font-cormorant">Keshav Mahavidyalaya’s Flagship Technical & Cultural Festival</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">ABOUT</span>
+            <h3 class="card-title">About<br/>TRYST</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
 
-        <!-- Card: Events -->
-        <div class="nav-card" data-modal="events">
+        <!-- EVENTS -->
+        <div class="nav-card premium" data-modal="events">
           <div class="nav-card-bg" style="background-image:url('images/posters/stage.png')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">⚡</div>
-            <h3 class="nav-card-title font-cinzel">Events</h3>
-            <p class="nav-card-desc font-cormorant">50+ Competitions, Workshops & Exhibitions</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">EXPERIENCE</span>
+            <h3 class="card-title">Events<br/>& Shows</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
 
-        <!-- Card: Surprise Artist -->
-        <div class="nav-card nav-card--special" data-modal="surprise">
+        <!-- SURPRISE ARTIST -->
+        <div class="nav-card premium" data-target="#surprise">
           <div class="nav-card-bg" style="background-image:url('images/posters/artist.png')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">🔮</div>
-            <h3 class="nav-card-title font-cinzel">Mystery</h3>
-            <p class="nav-card-desc font-cormorant">The Surprise Artist Awaits Your Discovery</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">MAIN STAGE</span>
+            <h3 class="card-title">Surprise<br/>Artist</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
 
-        <!-- Card: Past Performers -->
-        <div class="nav-card" data-modal="performers">
+        <!-- PERFORMERS -->
+        <div class="nav-card premium" data-modal="performers">
           <div class="nav-card-bg" style="background-image:url('images/posters/crowd.png')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">🎵</div>
-            <h3 class="nav-card-title font-cinzel">Performers</h3>
-            <p class="nav-card-desc font-cormorant">Legendary Artists Who Graced Our Stage</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">HALL OF FAME</span>
+            <h3 class="card-title">Past<br/>Performers</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
 
-        <!-- Card: Schedule -->
-        <div class="nav-card" data-target="#schedule">
+        <!-- SCHEDULE -->
+        <div class="nav-card premium" data-target="#schedule">
           <div class="nav-card-bg" style="background-image:url('images/posters/entry.png')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">📅</div>
-            <h3 class="nav-card-title font-cinzel">Schedule</h3>
-            <p class="nav-card-desc font-cormorant">Two Days of Infinite Possibilities</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">PLAN</span>
+            <h3 class="card-title">Event<br/>Schedule</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
 
-        <!-- Card: Register -->
-        <div class="nav-card nav-card--cta" data-target="#register">
+        <!-- REGISTER -->
+        <div class="nav-card premium" data-target="#register">
           <div class="nav-card-bg" style="background-image:url('images/posters/support.png')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">🏆</div>
-            <h3 class="nav-card-title font-cinzel">Register</h3>
-            <p class="nav-card-desc font-cormorant">Claim Your Place in History</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">JOIN US</span>
+            <h3 class="card-title">Register<br/>Now</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
 
-        <!-- Card: Gallery -->
-        <div class="nav-card" data-target="#gallery">
+        <!-- GALLERY -->
+        <div class="nav-card premium" data-target="#gallery">
           <div class="nav-card-bg" style="background-image:url('images/inspo/cards.jpeg')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">🖼</div>
-            <h3 class="nav-card-title font-cinzel">Gallery</h3>
-            <p class="nav-card-desc font-cormorant">Moments Frozen in Time</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">MEMORIES</span>
+            <h3 class="card-title">Photo<br/>Gallery</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
 
-        <!-- Card: Contact -->
-        <div class="nav-card" data-target="#contact">
+        <!-- CONTACT -->
+        <div class="nav-card premium" data-target="#contact">
           <div class="nav-card-bg" style="background-image:url('images/inspo/bg.jpeg')"></div>
           <div class="nav-card-overlay"></div>
-          <div class="nav-card-content">
-            <div class="nav-card-icon">✉</div>
-            <h3 class="nav-card-title font-cinzel">Contact</h3>
-            <p class="nav-card-desc font-cormorant">Reach Out to the Organizers</p>
-            <div class="nav-card-arrow">→</div>
+
+          <div class="nav-card-content premium-content">
+            <span class="card-label">CONNECT</span>
+            <h3 class="card-title">Get In<br/>Touch</h3>
           </div>
-          <div class="nav-card-glow"></div>
         </div>
+
+      </div>
 
       <!-- Scroll Hint -->
       <div class="cards-hint">
-        <span class="font-rajdhani text-xs tracking-widest text-white/30 uppercase">← Drag to explore →</span>
+        <span class="font-rajdhani text-xs tracking-widest text-white/30 uppercase">
+          ← Drag to explore →
+        </span>
       </div>
     </div>
   </section>
-
   <!-- ════════════════ ABOUT SECTION ════════════════ -->
   <section id="about" class="relative py-20 overflow-hidden">
     <div class="about-bg-decor"></div>
@@ -795,8 +787,11 @@
           <div class="countdown-label font-rajdhani text-white/40 text-xs tracking-widest uppercase mt-1">Secs</div>
         </div>
       </div>
-
-      <a href="https://www.instagram.com/tryst_26_official/" class="btn-register font-cinzel tracking-widest text-base uppercase fade-up">
+      <a href="https://www.instagram.com/tryst_26_official/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="btn-register font-cinzel tracking-widest text-base uppercase fade-up">
+        
         <span class="btn-register-inner">✦ Register Now ✦</span>
         <span class="btn-register-glow"></span>
       </a>
@@ -945,84 +940,140 @@
       </p>
     </div>
   </footer>
+<!-- ════════════════ MODALS (UPDATED) ════════════════ -->
 
-  <!-- ════════════════ MODALS ════════════════ -->
   <div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
 
-  <!-- About Modal -->
+  <!-- ═══ ABOUT MODAL (SPLIT DESIGN) ═══ -->
   <div class="modal" id="modal-about">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">KMV Delhi Presents</div>
-        <h2 class="modal-title font-cinzel-deco text-white text-3xl md:text-5xl mt-2">About TRYST</h2>
-      </div>
-      <div class="modal-body">
-        <img src="images/inspo/basic inspo.jpeg" alt="TRYST" class="w-full h-56 object-cover rounded-sm mb-6 modal-img" />
-        <p class="font-cormorant text-white/70 text-lg leading-relaxed mb-4">TRYST is Keshav Mahavidyalaya’s annual technical and cultural extravaganza, growing into a vibrant multi-day celebration that attracts students and participants from across Delhi and beyond.</p>
-        <p class="font-cormorant text-white/70 text-lg leading-relaxed">The festival features 20+ competitions, engaging workshops, cultural performances, and electrifying musical acts that transform the Keshav Mahavidyalaya campus into an immersive universe of creativity, art, and energy.</p>
-      </div>
-    </div>
-  </div>
 
-  <!-- Events Modal -->
-  <div class="modal" id="modal-events">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">Competitions & More</div>
-        <h2 class="modal-title font-cinzel-deco text-white text-3xl md:text-5xl mt-2">Events</h2>
+    <div class="modal-content split-modal">
+
+      <!-- LEFT IMAGE -->
+      <div class="modal-image">
+        <img src="images/inspo/basic inspo.jpeg" alt="TRYST">
       </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-2 gap-4">
-          <div class="event-modal-card glass-card p-4"><div class="text-gold text-2xl mb-2">⚡</div><h3 class="font-cinzel text-white text-sm">Hackathon</h3><p class="font-cormorant text-white/50 text-sm">₹5L Prize Pool</p></div>
-          <div class="event-modal-card glass-card p-4"><div class="text-gold text-2xl mb-2">🤖</div><h3 class="font-cinzel text-white text-sm">Robowar</h3><p class="font-cormorant text-white/50 text-sm">Battle of Machines</p></div>
-          <div class="event-modal-card glass-card p-4"><div class="text-gold text-2xl mb-2">🎨</div><h3 class="font-cinzel text-white text-sm">Design Sprint</h3><p class="font-cormorant text-white/50 text-sm">UI/UX Challenge</p></div>
-          <div class="event-modal-card glass-card p-4"><div class="text-gold text-2xl mb-2">🧠</div><h3 class="font-cinzel text-white text-sm">Quiz Masters</h3><p class="font-cormorant text-white/50 text-sm">Grand National Quiz</p></div>
-          <div class="event-modal-card glass-card p-4"><div class="text-gold text-2xl mb-2">🚀</div><h3 class="font-cinzel text-white text-sm">Startup Pitch</h3><p class="font-cormorant text-white/50 text-sm">VC Funding Round</p></div>
-          <div class="event-modal-card glass-card p-4"><div class="text-gold text-2xl mb-2">🎭</div><h3 class="font-cinzel text-white text-sm">Dramatics</h3><p class="font-cormorant text-white/50 text-sm">National Theatre Fest</p></div>
+
+      <!-- RIGHT CONTENT -->
+      <div class="modal-info">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+
+        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">
+          KMV Delhi Presents
         </div>
-        <a href="#schedule" class="btn-primary font-cinzel tracking-widest uppercase text-sm mt-6 inline-block w-full text-center" onclick="closeModal()"><span class="btn-inner">View Full Schedule</span><span class="btn-glow"></span></a>
+
+        <h2 class="modal-title font-cinzel-deco text-3xl md:text-5xl mt-2">
+          About TRYST
+        </h2>
+
+        <p class="modal-text">
+          TRYST is Keshav Mahavidyalaya’s annual technical and cultural extravaganza, growing into a vibrant multi-day celebration that attracts students and participants from across Delhi and beyond.
+        </p>
+
+        <p class="modal-text">
+          The festival features 20+ competitions, engaging workshops, cultural performances, and electrifying musical acts that transform the campus into an immersive universe of creativity and energy.
+        </p>
+
+        <div class="modal-location">
+          📍 Keshav Mahavidyalaya Campus, DU
+        </div>
+
       </div>
+
     </div>
   </div>
 
-  <!-- Surprise Modal -->
+
+  <!-- ═══ EVENTS MODAL (UNCHANGED STRUCTURE) ═══ -->
+  <div class="modal" id="modal-events">
+  <div class="modal-content split-modal">
+
+    <div class="modal-image">
+      <img src="images/posters/stage.png">
+    </div>
+
+    <div class="modal-info">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+
+      <div class="modal-eyebrow">THE EXPERIENCE</div>
+      <h2 class="modal-title">Events & Shows</h2>
+
+      <p class="modal-text">
+        Dive into an electrifying lineup of competitions, workshops, and exhibitions designed to challenge and inspire.
+      </p>
+
+      <p class="modal-text">
+        From hackathons to cultural showcases, TRYST brings together innovation and creativity on one stage.
+      </p>
+
+      <a href="#events" class="modal-btn" onclick="closeModal()">
+        Explore Events →
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- ═══ SURPRISE MODAL ═══ -->
   <div class="modal" id="modal-surprise">
     <button class="modal-close" onclick="closeModal()">&times;</button>
+
     <div class="modal-content text-center">
       <div class="modal-header">
-        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">The Grand Secret</div>
-        <h2 class="modal-title font-cinzel-deco text-white text-3xl md:text-5xl mt-2">Mystery Artist</h2>
-      </div>
-      <div class="modal-body">
-        <p class="font-cormorant text-white/60 text-lg mb-6">The identity of TRYST 2026's headline artist remains a closely guarded secret. Head to the Surprise Artist section to unveil the mystery...</p>
-        <a href="#surprise" class="btn-primary font-cinzel tracking-widest uppercase text-sm inline-block" onclick="closeModal()"><span class="btn-inner">✦ Reveal Now ✦</span><span class="btn-glow"></span></a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Performers Modal -->
-  <div class="modal" id="modal-performers">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">Hall of Fame</div>
-        <h2 class="modal-title font-cinzel-deco text-white text-3xl md:text-5xl mt-2">Past Performers</h2>
-      </div>
-      <div class="modal-body">
-        <div class="grid grid-cols-3 gap-3">
-          <div class="text-center"><img src="images/artists/amanrajgill.png" alt="Aman Raj Gill" class="w-full h-24 object-cover rounded-sm mb-2"/><p class="font-cinzel text-white text-xs">Aman Raj Gill</p></div>
-          <div class="text-center"><img src="images/artists/Antariksh.jpg" alt="Antariksh" class="w-full h-24 object-cover rounded-sm mb-2"/><p class="font-cinzel text-white text-xs">Antariksh</p></div>
-          <div class="text-center"><img src="images/artists/Ikka.jpg" alt="Ikka" class="w-full h-24 object-cover rounded-sm mb-2"/><p class="font-cinzel text-white text-xs">Ikka</p></div>
-          <div class="text-center"><img src="images/artists/jassie_gill.jpg" alt="Jassie Gill" class="w-full h-24 object-cover rounded-sm mb-2"/><p class="font-cinzel text-white text-xs">Jassie Gill</p></div>
-          <div class="text-center"><img src="images/artists/milind_gaba.webp" alt="Milind Gaba" class="w-full h-24 object-cover rounded-sm mb-2"/><p class="font-cinzel text-white text-xs">Milind Gaba</p></div>
-          <div class="text-center"><img src="images/artists/nikk.jpg" alt="Nikk" class="w-full h-24 object-cover rounded-sm mb-2"/><p class="font-cinzel text-white text-xs">Nikk</p></div>
+        <div class="modal-eyebrow font-rajdhani text-gold text-xs tracking-widest uppercase">
+          The Grand Secret
         </div>
+        <h2 class="modal-title font-cinzel-deco text-white text-3xl md:text-5xl mt-2">
+          Mystery Artist
+        </h2>
+      </div>
+
+      <div class="modal-body">
+        <p class="font-cormorant text-white/60 text-lg mb-6">
+          The identity of TRYST 2026's headline artist remains a closely guarded secret.
+        </p>
+
+        <a href="#surprise"
+          class="btn-primary font-cinzel tracking-widest uppercase text-sm inline-block"
+          onclick="closeModal()">
+          <span class="btn-inner">✦ Reveal Now ✦</span>
+          <span class="btn-glow"></span>
+        </a>
       </div>
     </div>
   </div>
 
+
+  <!-- ═══ PERFORMERS MODAL ═══ -->
+  <div class="modal" id="modal-performers">
+  <div class="modal-content split-modal">
+
+    <div class="modal-image">
+      <img src="images/posters/crowd.png">
+    </div>
+
+    <div class="modal-info">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+
+      <div class="modal-eyebrow">HALL OF FAME</div>
+      <h2 class="modal-title">Past Performers</h2>
+
+      <p class="modal-text">
+        TRYST has hosted legendary artists who turned our stage into an unforgettable experience.
+      </p>
+
+      <p class="modal-text">
+        From chart-topping singers to electrifying performers, the legacy continues.
+      </p>
+
+      <a href="#artists" class="modal-btn" onclick="closeModal()">
+        View Artists →
+      </a>
+    </div>
+
+  </div>
+</div>
   <!-- Script -->
   <script src="script.js"></script>
 </body>
