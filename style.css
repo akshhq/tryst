@@ -301,6 +301,13 @@ footer { margin-top: 20px; }
 /* Hero typography */
 .hero-badge { font-size: 11px; letter-spacing: 0.5em; margin-top: 20px; }
 
+
+@media (max-width: 768px) {
+  .hero-badge {
+    margin-top: 4px;
+  }
+}
+
 .hero-title-tryst {
   font-size: clamp(4.5rem, 16vw, 12rem);
   letter-spacing: 0.08em;
