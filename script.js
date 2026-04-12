@@ -575,7 +575,7 @@ document.addEventListener('keydown', (e) => {
    COUNTDOWN TIMER
 ═══════════════════════════════════════════════ */
 function updateCountdown() {
-  const diff = new Date('2026-03-20T10:00:00') - new Date();
+  const diff = new Date('2026-04-21T10:00:00') - new Date();
   const pad  = n => String(Math.max(0, n)).padStart(2, '0');
   const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = pad(v); };
   if (diff <= 0) { ['days','hours','mins','secs'].forEach(id => set(id, 0)); return; }
