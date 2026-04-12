@@ -134,12 +134,6 @@ function initHeroAnimations() {
     .to('.hero-date', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
     .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8 }, '-=0.3')
     .to('#scroll-hint', { opacity: 0.6, y: 0, duration: 0.6 }, '-=0.3')
-    .to('#navbar', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: 'power3.out'
-    }, '-=0.5');
   // Hero parallax
   document.addEventListener('mousemove', (e) => {
     const xPercent = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -174,26 +168,21 @@ function initHeroAnimations() {
 }
 
 /* ═══ NAVBAR SCROLL ═══ */
+
 const navbar = document.getElementById('navbar');
-let lastScroll = 0;
 
 window.addEventListener('scroll', () => {
   const scrollY = window.pageYOffset;
 
   if (scrollY > 80) {
+    // Show navbar
+    navbar.classList.add('visible');
     navbar.classList.add('scrolled');
   } else {
+    // Hide navbar at top
+    navbar.classList.remove('visible');
     navbar.classList.remove('scrolled');
   }
-
-  // Hide/show on scroll direction
-  if (scrollY > lastScroll && scrollY > 300) {
-    gsap.to(navbar, { y: '-100%', duration: 0.4, ease: 'power2.inOut' });
-  } else {
-    gsap.to(navbar, { y: '0%', duration: 0.4, ease: 'power2.inOut' });
-  }
-
-  lastScroll = scrollY;
 });
 
 /* ═══ MOBILE MENU ═══ */

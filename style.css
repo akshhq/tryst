@@ -126,7 +126,9 @@ body:hover .custom-cursor { opacity: 1; }
 /* ═══ NAVBAR ═══ */
 #navbar {
   opacity: 0;
-  transform: translateY(-40px);
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
   background: transparent;
 }
 
@@ -134,6 +136,12 @@ body:hover .custom-cursor { opacity: 1; }
   background: rgba(10, 15, 30, 0.92);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+#navbar.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .nav-logo {
