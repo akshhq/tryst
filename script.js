@@ -305,6 +305,25 @@ document.querySelectorAll('.nav-card').forEach(card => {
   });
 });
 
+/* ═══ NAV CARD SCROLL ═══ */
+document.querySelectorAll('.nav-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const targetSelector = card.getAttribute('data-target');
+    const target = document.querySelector(targetSelector);
+
+    if (!target) return;
+
+    gsap.to(window, {
+      scrollTo: {
+        y: target,
+        offsetY: 80
+      },
+      duration: 0.32,
+      ease: "power2.out"
+    });
+  });
+});
+
 /* ═══ CARD MODAL TRIGGERS ═══ */
 document.querySelectorAll('[data-modal]').forEach(card => {
   card.addEventListener('click', () => {

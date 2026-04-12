@@ -794,6 +794,7 @@ body:hover .custom-cursor { opacity: 1; }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
+  align-items: stretch;
 }
 
 .artist-card {
@@ -802,6 +803,9 @@ body:hover .custom-cursor { opacity: 1; }
   overflow: hidden;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .artist-card:hover {
@@ -813,6 +817,7 @@ body:hover .custom-cursor { opacity: 1; }
   position: relative;
   height: 320px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .artist-img {
@@ -850,10 +855,12 @@ body:hover .custom-cursor { opacity: 1; }
 
 .artist-info {
   padding: 16px 20px;
+  flex-grow: 1;
   background: var(--navy-mid);
   border-top: 1px solid var(--glass-border);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 4px;
 }
 
