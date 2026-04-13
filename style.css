@@ -21,6 +21,7 @@
   --glass-border: rgba(201, 168, 76, 0.2);
   --transition-fast: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-std: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --bg-opacity: 0.05; /* ← single value controls global background image visibility */
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -52,14 +53,39 @@ body > * { position: relative; z-index: 1; }
 ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-/* Global background image */
+/* Global background image — cinematic texture layer
+   ─────────────────────────────────────────────────
+   Two-layer system mirroring the #register section pattern:
+     ::before  →  the actual image  (opacity via --bg-opacity)
+     ::after   →  dark gradient overlay  (ensures readability)
+   Change --bg-opacity in :root to control image visibility.
+   ───────────────────────────────────────────────── */
 .global-bg {
   position: fixed;
   inset: 0;
-  background: url("images/bg.jpeg") center/cover no-repeat;
-  opacity: 0.06;
-  z-index: 0;
+  z-index: 0;           /* behind z-index:1 content, above body::after vignette */
   pointer-events: none;
+}
+
+/* Image layer — opacity controlled by single variable */
+.global-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("images/background.jpeg") center / cover no-repeat;
+  background-attachment: fixed; /* stays put while page scrolls */
+  opacity: var(--bg-opacity);   /* ← change --bg-opacity in :root to tune */
+}
+
+/* Gradient overlay — same dark vignette as #register section */
+.global-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, #0a0f1f 0%, transparent 18%, transparent 82%, #0a0f1f 100%),
+    linear-gradient(to right,  #0a0f1f 0%, transparent 12%, transparent 88%, #0a0f1f 100%);
+  /* edges fade to solid navy — keeps focus on center content */
 }
 
 .surprise-bg, .schedule-bg, .about-bg-decor {
@@ -1150,7 +1176,8 @@ footer { margin-top: 20px; }
   /* Performance: reduce blur on mobile */
   .glass-card { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
   .event-card  { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
-  .global-bg   { display: none; } /* Skip bg texture on mobile */
+  /* Reduce background image opacity further on mobile for better performance */
+  :root { --bg-opacity: 0.03; }
 }
 
 @media (max-width: 480px) {
