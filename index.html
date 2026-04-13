@@ -819,6 +819,7 @@
       </div>
 
       <a href="https://www.instagram.com/tryst_26_official/" target="_blank" rel="noopener noreferrer"
+        id="register-now-btn"
         class="btn-register font-cinzel tracking-widest text-base uppercase fade-up">
         <span class="btn-register-inner">✦ Register Now ✦</span>
         <span class="btn-register-glow"></span>
@@ -903,7 +904,7 @@
               <div class="contact-icon">✉</div>
               <div>
                 <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Email</div>
-                <a href="mailto:tryst@kmv.ac.in" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">tryst@kmv.ac.in</a>
+                <a href="/cdn-cgi/l/email-protection#1460666d6760547f79623a75773a7d7a" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors"><span class="__cf_email__" data-cfemail="fe8a8c878d8abe959388d09f9dd09790">[email&#160;protected]</span></a>
               </div>
             </div>
             <div class="contact-item flex items-center gap-4">
@@ -1164,6 +1165,145 @@
       </div>
     </div>
   </div>
+
+  <!-- ═══════════════ REGISTRATION MODAL ═══════════════ -->
+  <div class="register-overlay" id="registerOverlay"></div>
+
+  <div class="register-modal" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="regModalTitle">
+    <div class="register-card" id="registerCard">
+
+      <!-- Decorative corners -->
+      <div class="reg-ornament reg-ornament--tl"></div>
+      <div class="reg-ornament reg-ornament--tr"></div>
+      <div class="reg-ornament reg-ornament--bl"></div>
+      <div class="reg-ornament reg-ornament--br"></div>
+
+      <!-- Close -->
+      <button class="reg-close-btn" id="registerCloseBtn" aria-label="Close">&times;</button>
+
+      <!-- Header -->
+      <div class="register-card-header">
+        <div class="reg-eyebrow font-rajdhani">TRYST 2026 · KMV Delhi</div>
+        <h2 class="reg-title font-cinzel-deco" id="regModalTitle">Registeration Form</h2>
+        <p class="reg-description font-cormorant"></p>
+      </div>
+
+      <!-- Divider -->
+      <div class="reg-divider">
+        <span class="reg-divider-line"></span>
+        <span class="reg-divider-diamond"></span>
+        <span class="reg-divider-line"></span>
+      </div>
+
+      <!-- Scrollable body -->
+      <div class="register-card-body">
+        <form id="registrationForm" novalidate autocomplete="off">
+
+          <!-- Row 1: Name + Email -->
+          <div class="reg-form-row">
+            <div class="reg-field">
+              <label class="reg-label font-rajdhani" for="reg-name">Full Name <span class="reg-required">*</span></label>
+              <input type="text" id="reg-name" name="fullName" class="reg-input" placeholder="Enter your full name" required />
+            </div>
+            <div class="reg-field">
+              <label class="reg-label font-rajdhani" for="reg-email">Email ID <span class="reg-required">*</span></label>
+              <input type="email" id="reg-email" name="email" class="reg-input" placeholder="your@email.com" required />
+            </div>
+          </div>
+
+          <!-- Row 2: Phone + College -->
+          <div class="reg-form-row">
+            <div class="reg-field">
+              <label class="reg-label font-rajdhani" for="reg-phone">Phone Number <span class="reg-required">*</span></label>
+              <input type="tel" id="reg-phone" name="phone" class="reg-input" placeholder="+91 00000 00000" required />
+            </div>
+            <div class="reg-field">
+              <label class="reg-label font-rajdhani" for="reg-college">College Name <span class="reg-required">*</span></label>
+              <input type="text" id="reg-college" name="college" class="reg-input" placeholder="Your college name" required />
+            </div>
+          </div>
+
+          <!-- Row 3: Course + Year + Gender -->
+          <div class="reg-form-row reg-form-row--three">
+            <div class="reg-field">
+              <label class="reg-label font-rajdhani" for="reg-course">Course <span class="reg-required">*</span></label>
+              <input type="text" id="reg-course" name="course" class="reg-input" placeholder="e.g. B.Sc Honours" required />
+            </div>
+            <div class="reg-field">
+              <label class="reg-label font-rajdhani" for="reg-year">Year <span class="reg-required">*</span></label>
+              <select id="reg-year" name="year" class="reg-input reg-select" required>
+                <option value="" disabled selected>Select Year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
+            </div>
+            <div class="reg-field">
+              <label class="reg-label font-rajdhani" for="reg-gender">Gender <span class="reg-required">*</span></label>
+              <select id="reg-gender" name="gender" class="reg-input reg-select" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="non-binary">Non-Binary</option>
+                <option value="prefer-not">Prefer Not to Say</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Image Uploads -->
+          <div class="reg-uploads-section">
+            <div class="reg-uploads-heading font-rajdhani">Document Uploads <span class="reg-required">*</span></div>
+            <div class="reg-uploads-grid">
+
+              <label class="reg-upload-zone" for="reg-college-id" id="zone-college-id">
+                <div class="reg-upload-preview" id="preview-college-id"></div>
+                <div class="reg-upload-placeholder">
+                  <span class="reg-upload-icon">🪪</span>
+                  <span class="reg-upload-label font-cinzel">College ID</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to upload</span>
+                </div>
+                <input type="file" id="reg-college-id" name="collegeId" class="reg-file-input" accept="image/*" required />
+              </label>
+
+              <label class="reg-upload-zone" for="reg-sponsor-1" id="zone-sponsor-1">
+                <div class="reg-upload-preview" id="preview-sponsor-1"></div>
+                <div class="reg-upload-placeholder">
+                  <span class="reg-upload-icon">📸</span>
+                  <span class="reg-upload-label font-cinzel">Sponsor Task 1</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to upload</span>
+                </div>
+                <input type="file" id="reg-sponsor-1" name="sponsorTask1" class="reg-file-input" accept="image/*" required />
+              </label>
+
+              <label class="reg-upload-zone" for="reg-sponsor-2" id="zone-sponsor-2">
+                <div class="reg-upload-preview" id="preview-sponsor-2"></div>
+                <div class="reg-upload-placeholder">
+                  <span class="reg-upload-icon">📸</span>
+                  <span class="reg-upload-label font-cinzel">Sponsor Task 2</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to upload</span>
+                </div>
+                <input type="file" id="reg-sponsor-2" name="sponsorTask2" class="reg-file-input" accept="image/*" required />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="reg-submit-btn font-cinzel" id="regSubmitBtn">
+            <span class="reg-submit-inner">✦ Submit Registration ✦</span>
+            <span class="reg-submit-glow"></span>
+          </button>
+
+          <p class="reg-disclaimer font-cormorant">
+            All fields are mandatory. By submitting you agree to the terms &amp; conditions of TRYST 2026.
+          </p>
+
+        </form>
+      </div><!-- /register-card-body -->
+    </div><!-- /register-card -->
+  </div><!-- /register-modal -->
+  <!-- ═══════════════ END REGISTRATION MODAL ═══════════════ -->
 
   <script src="script.js" defer></script>
 </body>

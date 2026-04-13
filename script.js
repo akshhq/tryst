@@ -701,6 +701,203 @@ if (sendBtn) {
 }
 
 /* ═══════════════════════════════════════════════
+   REGISTRATION MODAL
+   Completely isolated — uses .reg-active class,
+   separate overlay, separate GSAP timeline.
+   Does NOT touch openModal() / closeModal().
+═══════════════════════════════════════════════ */
+
+(function () {
+  /* ── Elements ─────────────────────────────── */
+  const regOverlay  = document.getElementById('registerOverlay');
+  const regModal    = document.getElementById('registerModal');
+  const regCard     = document.getElementById('registerCard');
+  const regCloseBtn = document.getElementById('registerCloseBtn');
+  const regForm     = document.getElementById('registrationForm');
+  const regNowBtn   = document.getElementById('register-now-btn');
+
+  if (!regOverlay || !regModal || !regCard) return; // guard
+
+  /* ── Open ─────────────────────────────────── */
+  function openRegisterModal() {
+    regOverlay.classList.add('reg-active');
+    regModal.classList.add('reg-active');
+    document.body.style.overflow = 'hidden';
+
+    // GSAP: fade + scale-in
+    gsap.fromTo(regCard,
+      { opacity: 0, scale: 0.91, y: 22 },
+      { opacity: 1, scale: 1,    y: 0,
+        duration: 0.42,
+        ease: 'expo.out',
+        clearProps: 'transform' }
+    );
+  }
+
+  /* ── Close ────────────────────────────────── */
+  function closeRegisterModal() {
+    // GSAP: fade + scale-out
+    gsap.to(regCard, {
+      opacity: 0,
+      scale: 0.93,
+      y: 14,
+      duration: 0.26,
+      ease: 'power3.in',
+      onComplete: () => {
+        regOverlay.classList.remove('reg-active');
+        regModal.classList.remove('reg-active');
+        document.body.style.overflow = '';
+        // reset GSAP inline styles so next open starts fresh
+        gsap.set(regCard, { clearProps: 'all' });
+      }
+    });
+  }
+
+  /* ── Trigger: "Register Now" button ──────── */
+  if (regNowBtn) {
+    regNowBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // stop Instagram redirect
+      openRegisterModal();
+    });
+  }
+
+  /* ── Close: button ────────────────────────── */
+  if (regCloseBtn) {
+    regCloseBtn.addEventListener('click', closeRegisterModal);
+  }
+
+  /* ── Close: overlay click ─────────────────── */
+  regOverlay.addEventListener('click', closeRegisterModal);
+
+  /* ── Close: Escape key ────────────────────── */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && regModal.classList.contains('reg-active')) {
+      closeRegisterModal();
+    }
+  });
+
+  /* ── Image upload preview ─────────────────── */
+  const uploadFields = [
+    { inputId: 'reg-college-id', previewId: 'preview-college-id', zoneId: 'zone-college-id' },
+    { inputId: 'reg-sponsor-1',  previewId: 'preview-sponsor-1',  zoneId: 'zone-sponsor-1'  },
+    { inputId: 'reg-sponsor-2',  previewId: 'preview-sponsor-2',  zoneId: 'zone-sponsor-2'  },
+  ];
+
+  uploadFields.forEach(({ inputId, previewId, zoneId }) => {
+    const input   = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    const zone    = document.getElementById(zoneId);
+    if (!input || !preview || !zone) return;
+
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.style.backgroundImage = `url('${e.target.result}')`;
+        zone.classList.add('reg-has-file');
+
+        // Gold pulse on upload
+        gsap.fromTo(zone,
+          { boxShadow: '0 0 0 2px rgba(201,168,76,0.6)' },
+          { boxShadow: '0 0 0 0px rgba(201,168,76,0)',
+            duration: 0.8, ease: 'power2.out' }
+        );
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  /* ── Inline field validation helper ──────── */
+  function validateField(input) {
+    const isEmpty = !input.value.trim();
+    if (isEmpty) {
+      input.classList.add('reg-error');
+      gsap.fromTo(input,
+        { x: -5 },
+        { x: 5, repeat: 4, yoyo: true, duration: 0.07,
+          onComplete: () => { gsap.set(input, { x: 0 }); }
+        }
+      );
+    } else {
+      input.classList.remove('reg-error');
+    }
+    return !isEmpty;
+  }
+
+  /* ── Form submit handler ──────────────────── */
+  if (regForm) {
+    regForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fields = regForm.querySelectorAll('.reg-input');
+      let allValid = true;
+
+      fields.forEach(field => {
+        if (!validateField(field)) allValid = false;
+      });
+
+      if (!allValid) return;
+
+      // Collect all values
+      const formData = {
+        fullName:    document.getElementById('reg-name').value.trim(),
+        email:       document.getElementById('reg-email').value.trim(),
+        phone:       document.getElementById('reg-phone').value.trim(),
+        college:     document.getElementById('reg-college').value.trim(),
+        course:      document.getElementById('reg-course').value.trim(),
+        year:        document.getElementById('reg-year').value,
+        gender:      document.getElementById('reg-gender').value,
+        collegeId:   document.getElementById('reg-college-id').files[0] || null,
+        sponsorTask1: document.getElementById('reg-sponsor-1').files[0]  || null,
+        sponsorTask2: document.getElementById('reg-sponsor-2').files[0]  || null,
+      };
+
+      // TODO: Replace with Firebase integration
+      console.group('%cTRYST 2026 — Registration Submitted', 'color:#C9A84C;font-weight:bold;font-size:14px;');
+      console.table({
+        'Full Name':    formData.fullName,
+        'Email':        formData.email,
+        'Phone':        formData.phone,
+        'College':      formData.college,
+        'Course':       formData.course,
+        'Year':         formData.year,
+        'Gender':       formData.gender,
+        'College ID':   formData.collegeId  ? formData.collegeId.name  : '—',
+        'Sponsor 1':    formData.sponsorTask1 ? formData.sponsorTask1.name : '—',
+        'Sponsor 2':    formData.sponsorTask2 ? formData.sponsorTask2.name : '—',
+      });
+      console.groupEnd();
+
+      // Success state
+      const submitBtn = document.getElementById('regSubmitBtn');
+      submitBtn.classList.add('reg-loading');
+      submitBtn.querySelector('.reg-submit-inner').textContent = '✦ Submitted! ✦';
+
+      gsap.to(regCard, {
+        boxShadow: '0 0 0 2px rgba(201,168,76,0.5), 0 8px 32px rgba(0,0,0,0.6), 0 0 60px rgba(201,168,76,0.12)',
+        duration: 0.5, ease: 'power2.out',
+        onComplete: () => {
+          gsap.to(regCard, {
+            boxShadow: '0 0 0 1px rgba(201,168,76,0.06), 0 8px 32px rgba(0,0,0,0.6)',
+            duration: 1.5, delay: 1, ease: 'power2.in'
+          });
+        }
+      });
+
+      // Auto-close after 2s
+      setTimeout(() => closeRegisterModal(), 2200);
+    });
+  }
+
+  // Expose for external use if needed
+  window.openRegisterModal  = openRegisterModal;
+  window.closeRegisterModal = closeRegisterModal;
+
+})();
+
+/* ═══════════════════════════════════════════════
    CONSOLE SIGNATURE
 ═══════════════════════════════════════════════ */
 console.log('%cTRYST 2026', 'font-family:serif;font-size:28px;color:#C9A84C;font-weight:bold;');

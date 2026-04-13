@@ -21,7 +21,6 @@
   --glass-border: rgba(201, 168, 76, 0.2);
   --transition-fast: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-std: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  --bg-opacity: 0.05; /* ← single value controls global background image visibility */
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,39 +52,14 @@ body > * { position: relative; z-index: 1; }
 ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-/* Global background image — cinematic texture layer
-   ─────────────────────────────────────────────────
-   Two-layer system mirroring the #register section pattern:
-     ::before  →  the actual image  (opacity via --bg-opacity)
-     ::after   →  dark gradient overlay  (ensures readability)
-   Change --bg-opacity in :root to control image visibility.
-   ───────────────────────────────────────────────── */
+/* Global background image */
 .global-bg {
   position: fixed;
   inset: 0;
-  z-index: 0;           /* behind z-index:1 content, above body::after vignette */
+  background: url("images/bg.jpeg") center/cover no-repeat;
+  opacity: 0.06;
+  z-index: 0;
   pointer-events: none;
-}
-
-/* Image layer — opacity controlled by single variable */
-.global-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("images/background.jpeg") center / cover no-repeat;
-  background-attachment: fixed; /* stays put while page scrolls */
-  opacity: var(--bg-opacity);   /* ← change --bg-opacity in :root to tune */
-}
-
-/* Gradient overlay — same dark vignette as #register section */
-.global-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, #0a0f1f 0%, transparent 18%, transparent 82%, #0a0f1f 100%),
-    linear-gradient(to right,  #0a0f1f 0%, transparent 12%, transparent 88%, #0a0f1f 100%);
-  /* edges fade to solid navy — keeps focus on center content */
 }
 
 .surprise-bg, .schedule-bg, .about-bg-decor {
@@ -1176,8 +1150,7 @@ footer { margin-top: 20px; }
   /* Performance: reduce blur on mobile */
   .glass-card { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
   .event-card  { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
-  /* Reduce background image opacity further on mobile for better performance */
-  :root { --bg-opacity: 0.03; }
+  .global-bg   { display: none; } /* Skip bg texture on mobile */
 }
 
 @media (max-width: 480px) {
@@ -1188,4 +1161,420 @@ footer { margin-top: 20px; }
   .event-body-inner { grid-template-columns: 1fr; }
   .event-poster { width: 100%; height: 90px; }
   .schedule-event { grid-template-columns: 72px 1fr; }
+}
+/* ═══════════════════════════════════════════════
+   REGISTRATION MODAL
+   Fully isolated — prefixed .register- / .reg-
+   Does NOT touch or override any existing styles.
+═══════════════════════════════════════════════ */
+
+/* ── Overlay ───────────────────────────────── */
+.register-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;                          /* below card (9100), above everything else */
+  background: rgba(8, 12, 26, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+.register-overlay.reg-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* ── Modal wrapper ─────────────────────────── */
+.register-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  pointer-events: none;
+  visibility: hidden;
+}
+.register-modal.reg-active {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* ── Card ──────────────────────────────────── */
+.register-card {
+  position: relative;
+  width: min(700px, 100%);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+
+  /* Glassmorphism dark card */
+  background: linear-gradient(
+    145deg,
+    rgba(13, 21, 48, 0.97) 0%,
+    rgba(10, 15, 30, 0.99) 100%
+  );
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  border-radius: 16px;
+
+  /* Layered premium shadow */
+  box-shadow:
+    0 0 0 1px rgba(201, 168, 76, 0.06),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 32px 80px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(201, 168, 76, 0.12);
+
+  /* Start hidden for GSAP */
+  opacity: 0;
+  transform: scale(0.92) translateY(18px);
+  overflow: hidden;
+}
+
+/* Inner top highlight line */
+.register-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 16px; right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.45), transparent);
+  pointer-events: none;
+}
+
+/* ── Corner ornaments ──────────────────────── */
+.reg-ornament {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.55;
+}
+.reg-ornament--tl { top: 12px;  left: 12px;  border-top: 1px solid var(--gold); border-left:  1px solid var(--gold); }
+.reg-ornament--tr { top: 12px;  right: 12px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+.reg-ornament--bl { bottom: 12px; left: 12px;  border-bottom: 1px solid var(--gold); border-left:  1px solid var(--gold); }
+.reg-ornament--br { bottom: 12px; right: 12px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+/* ── Close button ──────────────────────────── */
+.reg-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 20;
+  width: 34px;
+  height: 34px;
+  background: rgba(201, 168, 76, 0.06);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 1.3rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+}
+.reg-close-btn:hover {
+  background: rgba(201, 168, 76, 0.15);
+  border-color: var(--gold);
+  transform: rotate(90deg);
+}
+
+/* ── Header ────────────────────────────────── */
+.register-card-header {
+  padding: 28px 32px 0;
+  flex-shrink: 0;
+}
+
+.reg-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.75;
+  margin-bottom: 8px;
+}
+
+.reg-title {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.reg-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* ── Divider ───────────────────────────────── */
+.reg-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  flex-shrink: 0;
+}
+.reg-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.3), transparent);
+}
+.reg-divider-diamond {
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* ── Card body — scrollable ────────────────── */
+.register-card-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 32px 28px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 168, 76, 0.35) transparent;
+}
+.register-card-body::-webkit-scrollbar { width: 3px; }
+.register-card-body::-webkit-scrollbar-thumb { background: rgba(201, 168, 76, 0.35); border-radius: 2px; }
+
+/* ── Form layout ───────────────────────────── */
+.reg-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.reg-form-row--three {
+  grid-template-columns: 1.4fr 1fr 1fr;
+}
+
+.reg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Labels ────────────────────────────────── */
+.reg-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+.reg-required { color: var(--gold); margin-left: 2px; }
+
+/* ── Inputs & selects ──────────────────────── */
+.reg-input {
+  background: rgba(20, 32, 68, 0.55);
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  color: #fff;
+  padding: 10px 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  outline: none;
+  border-radius: 6px;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  width: 100%;
+}
+.reg-input::placeholder { color: rgba(255, 255, 255, 0.2); }
+.reg-input:focus {
+  border-color: rgba(201, 168, 76, 0.55);
+  background: rgba(20, 32, 68, 0.75);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.08), 0 0 18px rgba(201, 168, 76, 0.06);
+}
+.reg-input.reg-error {
+  border-color: rgba(255, 80, 80, 0.55);
+  box-shadow: 0 0 0 3px rgba(255, 80, 80, 0.08);
+}
+
+.reg-select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9A84C' opacity='0.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.reg-select option {
+  background: #0d1530;
+  color: #fff;
+}
+
+/* ── Upload section ────────────────────────── */
+.reg-uploads-section {
+  margin-bottom: 20px;
+}
+.reg-uploads-heading {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 12px;
+}
+.reg-uploads-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.reg-upload-zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 110px;
+  border: 1px dashed rgba(201, 168, 76, 0.3);
+  border-radius: 8px;
+  background: rgba(20, 32, 68, 0.4);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+  text-align: center;
+  padding: 12px 8px;
+}
+.reg-upload-zone:hover {
+  border-color: rgba(201, 168, 76, 0.6);
+  background: rgba(20, 32, 68, 0.65);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.07);
+}
+.reg-upload-zone.reg-has-file {
+  border-color: rgba(201, 168, 76, 0.55);
+  border-style: solid;
+}
+
+.reg-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Image preview fills the zone when uploaded */
+.reg-upload-preview {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  border-radius: 7px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.reg-upload-zone.reg-has-file .reg-upload-preview { opacity: 1; }
+.reg-upload-zone.reg-has-file .reg-upload-placeholder { opacity: 0; pointer-events: none; }
+
+.reg-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.2s;
+  position: relative;
+  z-index: 0;
+}
+.reg-upload-icon { font-size: 1.5rem; line-height: 1; }
+.reg-upload-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+.reg-upload-hint {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.32);
+  font-style: italic;
+}
+
+/* ── Submit button ─────────────────────────── */
+.reg-submit-btn {
+  position: relative;
+  width: 100%;
+  padding: 15px 20px;
+  margin-bottom: 14px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: color 0.28s ease;
+}
+.reg-submit-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 0;
+}
+.reg-submit-btn:hover { color: var(--navy); }
+.reg-submit-btn:hover::before { transform: scaleX(1); }
+.reg-submit-btn:hover .reg-submit-glow {
+  box-shadow: 0 0 30px rgba(201, 168, 76, 0.35), inset 0 0 20px rgba(201, 168, 76, 0.08);
+}
+.reg-submit-inner {
+  position: relative;
+  z-index: 2;
+}
+.reg-submit-glow {
+  position: absolute;
+  inset: -2px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: box-shadow 0.28s;
+  pointer-events: none;
+  z-index: 1;
+}
+.reg-submit-btn.reg-loading {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* ── Disclaimer ────────────────────────────── */
+.reg-disclaimer {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 640px) {
+  .register-card-header { padding: 22px 20px 0; }
+  .register-card-body   { padding: 0 20px 22px; }
+  .reg-divider          { padding: 12px 20px; }
+
+  .reg-form-row,
+  .reg-form-row--three  { grid-template-columns: 1fr; gap: 10px; }
+
+  .reg-uploads-grid     { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .reg-upload-zone      { min-height: 90px; }
+  .reg-upload-label     { font-size: 0.55rem; }
+  .reg-upload-hint      { display: none; }
+}
+
+@media (max-width: 380px) {
+  .reg-uploads-grid     { grid-template-columns: 1fr; }
+  .reg-upload-zone      { min-height: 70px; flex-direction: row; justify-content: flex-start; gap: 10px; padding: 10px 14px; }
 }
