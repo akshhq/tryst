@@ -1578,3 +1578,62 @@ footer { margin-top: 20px; }
   .reg-uploads-grid     { grid-template-columns: 1fr; }
   .reg-upload-zone      { min-height: 70px; flex-direction: row; justify-content: flex-start; gap: 10px; padding: 10px 14px; }
 }
+/* TASK CARD */
+.task-card {
+  border: 1px dashed rgba(201,168,76,0.25);
+  border-radius: 10px;
+  padding: 16px;
+  background: rgba(20,32,68,0.4);
+  transition: 0.3s;
+}
+
+.task-card:hover {
+  border-color: var(--gold);
+}
+
+/* COLLAPSED */
+.task-collapsed {
+  text-align: center;
+  cursor: pointer;
+}
+
+.task-collapsed .reg-upload-label {
+  display: block;
+  margin-top: 6px;
+}
+
+.task-collapsed .reg-upload-hint {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* EXPANDED */
+.task-expanded {
+  display: none;
+  margin-top: 12px;
+}
+
+.task-card.active .task-expanded {
+  display: block;
+}
+
+.task-card.active .task-collapsed {
+  display: none;
+}
+
+/* CONTENT */
+.task-title {
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.task-desc {
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 10px;
+}
+
+.task-sample {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}

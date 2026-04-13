@@ -818,12 +818,12 @@
         </div>
       </div>
 
-      <a href="https://www.instagram.com/tryst_26_official/" target="_blank" rel="noopener noreferrer"
+      <button
         id="register-now-btn"
         class="btn-register font-cinzel tracking-widest text-base uppercase fade-up">
         <span class="btn-register-inner">✦ Register Now ✦</span>
         <span class="btn-register-glow"></span>
-      </a>
+      </button>
       <p class="font-cormorant text-white/30 text-sm mt-6 fade-up italic">Registration closes February 28, 2026</p>
     </div>
   </section>
@@ -1253,9 +1253,13 @@
 
           <!-- Image Uploads -->
           <div class="reg-uploads-section">
-            <div class="reg-uploads-heading font-rajdhani">Document Uploads <span class="reg-required">*</span></div>
+            <div class="reg-uploads-heading font-rajdhani">
+              Document Uploads <span class="reg-required">*</span>
+            </div>
+
             <div class="reg-uploads-grid">
 
+              <!-- College ID (UNCHANGED) -->
               <label class="reg-upload-zone" for="reg-college-id" id="zone-college-id">
                 <div class="reg-upload-preview" id="preview-college-id"></div>
                 <div class="reg-upload-placeholder">
@@ -1263,28 +1267,66 @@
                   <span class="reg-upload-label font-cinzel">College ID</span>
                   <span class="reg-upload-hint font-cormorant">Tap to upload</span>
                 </div>
-                <input type="file" id="reg-college-id" name="collegeId" class="reg-file-input" accept="image/*" required />
+                <input type="file" id="reg-college-id" name="collegeId" class="reg-file-input" accept="image/*,.pdf" required />
               </label>
 
-              <label class="reg-upload-zone" for="reg-sponsor-1" id="zone-sponsor-1">
-                <div class="reg-upload-preview" id="preview-sponsor-1"></div>
-                <div class="reg-upload-placeholder">
+
+              <!-- ✅ Sponsor Task 1 (UPDATED) -->
+              <div class="task-card">
+
+                <!-- Collapsed -->
+                <div class="task-collapsed" onclick="toggleTask(this.parentElement)">
                   <span class="reg-upload-icon">📸</span>
                   <span class="reg-upload-label font-cinzel">Sponsor Task 1</span>
-                  <span class="reg-upload-hint font-cormorant">Tap to upload</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to view</span>
                 </div>
-                <input type="file" id="reg-sponsor-1" name="sponsorTask1" class="reg-file-input" accept="image/*" required />
-              </label>
 
-              <label class="reg-upload-zone" for="reg-sponsor-2" id="zone-sponsor-2">
-                <div class="reg-upload-preview" id="preview-sponsor-2"></div>
-                <div class="reg-upload-placeholder">
+                <!-- Expanded -->
+                <div class="task-expanded">
+                  <h3 class="task-title">*Task 1 Title*</h3>
+                  <p class="task-desc">*Task 1 Description goes here*</p>
+
+                  <img src="images/sample1.jpg" class="task-sample" />
+
+                  <label class="reg-upload-zone" for="reg-sponsor-1" id="zone-sponsor-1">
+                    <div class="reg-upload-preview" id="preview-sponsor-1"></div>
+                    <div class="reg-upload-placeholder">
+                      <span class="reg-upload-label font-cinzel">Upload Image</span>
+                    </div>
+                    <input type="file" id="reg-sponsor-1" name="sponsorTask1" class="reg-file-input" accept="image/*,.pdf" required />
+                  </label>
+                </div>
+
+              </div>
+
+
+              <!-- ✅ Sponsor Task 2 (UPDATED) -->
+              <div class="task-card">
+
+                <!-- Collapsed -->
+                <div class="task-collapsed" onclick="toggleTask(this.parentElement)">
                   <span class="reg-upload-icon">📸</span>
                   <span class="reg-upload-label font-cinzel">Sponsor Task 2</span>
-                  <span class="reg-upload-hint font-cormorant">Tap to upload</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to view</span>
                 </div>
-                <input type="file" id="reg-sponsor-2" name="sponsorTask2" class="reg-file-input" accept="image/*" required />
-              </label>
+
+                <!-- Expanded -->
+                <div class="task-expanded">
+                  <h3 class="task-title">*Task 2 Title*</h3>
+                  <p class="task-desc">*Task 2 Description goes here*</p>
+
+                  <img src="images/sample2.jpg" class="task-sample" />
+
+                  <label class="reg-upload-zone" for="reg-sponsor-2" id="zone-sponsor-2">
+                    <div class="reg-upload-preview" id="preview-sponsor-2"></div>
+                    <div class="reg-upload-placeholder">
+                      <span class="reg-upload-label font-cinzel">Upload Image</span>
+                    </div>
+                    <input type="file" id="reg-sponsor-2" name="sponsorTask2" class="reg-file-input" accept="image/*,.pdf" required />
+                  </label>
+                </div>
+
+              </div>
 
             </div>
           </div>

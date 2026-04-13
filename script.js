@@ -707,6 +707,14 @@ if (sendBtn) {
    Does NOT touch openModal() / closeModal().
 ═══════════════════════════════════════════════ */
 
+function toggleTask(card) {
+  document.querySelectorAll('.task-card').forEach(c => {
+    if (c !== card) c.classList.remove('active');
+  });
+
+  card.classList.toggle('active');
+}
+
 (function () {
   /* ── Elements ─────────────────────────────── */
   const regOverlay  = document.getElementById('registerOverlay');
@@ -787,25 +795,33 @@ if (sendBtn) {
     const input   = document.getElementById(inputId);
     const preview = document.getElementById(previewId);
     const zone    = document.getElementById(zoneId);
-    if (!input || !preview || !zone) return;
 
     input.addEventListener('change', () => {
       const file = input.files[0];
-      if (!file || !file.type.startsWith('image/')) return;
+      if (!file) return;
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        preview.style.backgroundImage = `url('${e.target.result}')`;
-        zone.classList.add('reg-has-file');
+      // ✅ Show file name instead of preview
+      preview.innerHTML = `✔ Added<br>${file.name}`;
 
-        // Gold pulse on upload
-        gsap.fromTo(zone,
-          { boxShadow: '0 0 0 2px rgba(201,168,76,0.6)' },
-          { boxShadow: '0 0 0 0px rgba(201,168,76,0)',
-            duration: 0.8, ease: 'power2.out' }
-        );
-      };
-      reader.readAsDataURL(file);
+      // Optional: style tweak (so it looks clean)
+      preview.style.backgroundImage = 'none';
+      preview.style.display = 'flex';
+      preview.style.alignItems = 'center';
+      preview.style.justifyContent = 'center';
+      preview.style.fontSize = '12px';
+      preview.style.color = '#C9A84C';
+      preview.style.textAlign = 'center';
+      preview.style.padding = '10px';
+
+      // Mark as uploaded
+      zone.classList.add('reg-has-file');
+
+      // Gold animation (keep your existing feel)
+      gsap.fromTo(zone,
+        { boxShadow: '0 0 0 2px rgba(201,168,76,0.6)' },
+        { boxShadow: '0 0 0 0px rgba(201,168,76,0)',
+          duration: 0.8, ease: 'power2.out' }
+      );
     });
   });
 
