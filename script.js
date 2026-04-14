@@ -422,7 +422,7 @@ window.goToEvent = function(btn) {
 (function surpriseArtistSystem() {
 
   // ── CONFIG ─────────────────────────────────
-  const UNLOCK_TIME = new Date('2026-04-27T17:00:00'); // ← change this date/time
+  const UNLOCK_TIME = new Date('2026-03-27T17:00:00'); // ← change this date/time
   // ───────────────────────────────────────────
 
   const revealBtn      = document.getElementById('revealBtn');
