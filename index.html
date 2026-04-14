@@ -150,6 +150,7 @@
     <div class="cards-track-wrap relative">
       <div class="cards-track" id="cardsTrack">
 
+        <!-- 1. About TRYST -->
         <div class="nav-card premium" data-modal="about">
           <div class="nav-card-bg" style="background-image:url('images/posters/campus.webp')"></div>
           <div class="nav-card-overlay"></div>
@@ -159,15 +160,7 @@
           </div>
         </div>
 
-        <div class="nav-card premium" data-modal="events">
-          <div class="nav-card-bg" style="background-image:url('images/posters/stage.webp')"></div>
-          <div class="nav-card-overlay"></div>
-          <div class="nav-card-content premium-content">
-            <span class="card-label">EXPERIENCE</span>
-            <h3 class="card-title">Events<br/>&amp; Shows</h3>
-          </div>
-        </div>
-
+        <!-- 2. Surprise Artist -->
         <div class="nav-card premium" data-target="#surprise">
           <div class="nav-card-bg" style="background-image:url('images/posters/artist.webp')"></div>
           <div class="nav-card-overlay"></div>
@@ -177,24 +170,27 @@
           </div>
         </div>
 
-        <div class="nav-card premium" data-modal="performers">
-          <div class="nav-card-bg" style="background-image:url('images/posters/crowd.webp')"></div>
+        <!-- 3. Events & Shows -->
+        <div class="nav-card premium" data-modal="events">
+          <div class="nav-card-bg" style="background-image:url('images/posters/stage.webp')"></div>
           <div class="nav-card-overlay"></div>
           <div class="nav-card-content premium-content">
-            <span class="card-label">HALL OF FAME</span>
-            <h3 class="card-title">Past<br/>Performers</h3>
+            <span class="card-label">EXPERIENCE</span>
+            <h3 class="card-title">Events<br/>&amp; Shows</h3>
           </div>
         </div>
 
-        <div class="nav-card premium" data-target="#schedule">
+        <!-- 4. Student Union -->
+        <div class="nav-card premium" data-target="#student-union">
           <div class="nav-card-bg" style="background-image:url('images/posters/entry.webp')"></div>
           <div class="nav-card-overlay"></div>
           <div class="nav-card-content premium-content">
-            <span class="card-label">PLAN</span>
-            <h3 class="card-title">Event<br/>Schedule</h3>
+            <span class="card-label">LEADERSHIP</span>
+            <h3 class="card-title">Student<br/>Union</h3>
           </div>
         </div>
 
+        <!-- 5. Register Now -->
         <div class="nav-card premium" data-target="#register">
           <div class="nav-card-bg" style="background-image:url('images/posters/support.webp')"></div>
           <div class="nav-card-overlay"></div>
@@ -204,15 +200,27 @@
           </div>
         </div>
 
+        <!-- 6. Past Performers -->
+        <div class="nav-card premium" data-modal="performers">
+          <div class="nav-card-bg" style="background-image:url('images/posters/crowd.webp')"></div>
+          <div class="nav-card-overlay"></div>
+          <div class="nav-card-content premium-content">
+            <span class="card-label">HALL OF FAME</span>
+            <h3 class="card-title">Past<br/>Performers</h3>
+          </div>
+        </div>
+
+        <!-- 7. Museum (Gallery) -->
         <div class="nav-card premium" data-target="#gallery">
           <div class="nav-card-bg" style="background-image:url('images/inspo/cards.jpeg')"></div>
           <div class="nav-card-overlay"></div>
           <div class="nav-card-content premium-content">
-            <span class="card-label">MEMORIES</span>
+            <span class="card-label">MUSEUM</span>
             <h3 class="card-title">Photo<br/>Gallery</h3>
           </div>
         </div>
 
+        <!-- 8. Get in Touch -->
         <div class="nav-card premium" data-target="#contact">
           <div class="nav-card-bg" style="background-image:url('images/inspo/bg.jpeg')"></div>
           <div class="nav-card-overlay"></div>
@@ -266,7 +274,7 @@
 
         <div class="about-img-col fade-in-right relative">
           <div class="about-img-frame">
-            <img src="images/posters/tryst.jpeg" alt="TRYST" class="w-full h-full object-cover rounded-sm" loading="lazy" />
+            <img src="images/tryst_logo.jpeg" alt="TRYST" class="w-full h-full object-cover rounded-sm" loading="lazy" />
             <div class="about-img-overlay absolute inset-0"></div>
           </div>
           <div class="about-float-card glass-card absolute -bottom-4 -left-4 p-4 w-44">
@@ -295,33 +303,57 @@
         Surprise <span class="text-gold">Artist</span>
       </h2>
       <p class="font-cormorant text-white/60 text-lg mb-10 fade-up max-w-xl mx-auto">
-        An icon shrouded in mystery. Are you ready to unveil the secret?
+        Icons shrouded in mystery. Are you ready to unveil the secret?
       </p>
 
-      <div class="surprise-stage mx-auto fade-up" id="surpriseStage">
-        <div class="surprise-frame" id="surpriseFrame">
-          <div class="surprise-question-wrap" id="surpriseQuestion">
+      <!-- Two-card stage: cards sit in a relative container for z-depth animation -->
+      <div class="surprise-dual-stage fade-up" id="surpriseStage">
+
+        <!-- ARTIST 1 — always shown first -->
+        <div class="surprise-frame" id="surpriseFrame1">
+          <div class="surprise-question-wrap" id="surpriseQuestion1">
             <div class="surprise-q-mark font-cinzel-deco text-gold">?</div>
             <p class="font-cinzel text-white/60 text-sm tracking-widest uppercase mt-4">Coming Soon</p>
           </div>
-          <img src="images/surprise_artist.jpg" alt="Surprise Artist" class="surprise-img" id="surpriseImg" loading="lazy" />
-          <div class="surprise-revealed" id="surpriseRevealed">
-            <div class="surprise-name font-cinzel-deco text-white">Name</div>
-            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Bollywood · Punjabi · Soul</div>
+          <img src="images/surprise_artist.jpg" alt="Surprise Artist 1" class="surprise-img" id="surpriseImg1" loading="lazy" />
+          <div class="surprise-revealed" id="surpriseRevealed1">
+            <div class="surprise-name font-cinzel-deco text-white">Artist 1</div>
+            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Bollywood · Soul</div>
           </div>
-          <div class="surprise-veil" id="surpriseVeil"></div>
-          <div class="surprise-glow-ring" id="surpriseGlowRing"></div>
+          <div class="surprise-veil" id="surpriseVeil1"></div>
+          <div class="surprise-glow-ring" id="surpriseGlowRing1"></div>
         </div>
-        <div class="locked-wrapper mt-6" id="mysteryLock">
-          <button id="revealBtn" class="btn-primary font-cinzel tracking-widest text-sm">
-            <span class="btn-inner">✦ UNVEIL THE MYSTERY ✦</span>
-            <span class="btn-glow"></span>
-          </button>
-          <div class="lock-overlay" id="lockOverlay">
-            <img src="images/lock.png" alt="locked" loading="lazy" />
+
+        <!-- ARTIST 2 — hidden behind artist 1, animated out on reveal -->
+        <div class="surprise-frame surprise-frame--hidden" id="surpriseFrame2">
+          <div class="surprise-question-wrap" id="surpriseQuestion2">
+            <div class="surprise-q-mark font-cinzel-deco text-gold">?</div>
+            <p class="font-cinzel text-white/60 text-sm tracking-widest uppercase mt-4">Coming Soon</p>
           </div>
+          <img src="images/surprise_artist2.jpg" alt="Surprise Artist 2" class="surprise-img" id="surpriseImg2" loading="lazy" />
+          <div class="surprise-revealed" id="surpriseRevealed2">
+            <div class="surprise-name font-cinzel-deco text-white">Artist 2</div>
+            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Punjabi · Electronic</div>
+          </div>
+          <div class="surprise-veil" id="surpriseVeil2"></div>
+          <div class="surprise-glow-ring" id="surpriseGlowRing2"></div>
+        </div>
+
+      </div>
+
+      <!-- Reveal button with lock wrapper -->
+      <div class="locked-wrapper mt-8" id="mysteryLock">
+        <button id="revealBtn" class="btn-primary font-cinzel tracking-widest text-sm">
+          <span class="btn-inner">✦ UNVEIL THE MYSTERY ✦</span>
+          <span class="btn-glow"></span>
+        </button>
+        <div class="lock-overlay" id="lockOverlay">
+          <img src="images/lock.png" alt="locked" loading="lazy" />
         </div>
       </div>
+
+      <!-- Countdown to unlock -->
+      <p class="surprise-unlock-hint font-cormorant text-white/40 text-sm mt-4 italic" id="surpriseUnlockHint"></p>
     </div>
   </section>
 
@@ -781,6 +813,63 @@
     </div>
   </section>
 
+  <!-- ═══════════════ STUDENT UNION ═══════════════ -->
+  <section id="student-union" class="relative py-14 overflow-hidden">
+    <div class="container mx-auto px-6">
+      <div class="section-eyebrow text-center fade-up">The Leadership</div>
+      <h2 class="font-cinzel text-3xl md:text-5xl text-white text-center mb-3 fade-up">
+        Student <span class="text-gold">Union</span>
+      </h2>
+      <p class="font-cormorant text-white/50 text-lg text-center mb-12 fade-up">
+        The visionaries driving TRYST 2026 forward
+      </p>
+
+      <div class="su-grid">
+
+        <!-- Mohit Kumar — President -->
+        <div class="su-card glass-card fade-up">
+          <div class="su-img-wrap">
+            <img src="images/union/mohit.jpg" alt="Mohit Kumar" class="su-img" loading="lazy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="su-img-placeholder" style="display:none">
+              <span class="font-cinzel-deco text-gold text-4xl">M</span>
+            </div>
+            <div class="su-img-overlay"></div>
+          </div>
+          <div class="su-info">
+            <div class="su-role font-rajdhani">President</div>
+            <h3 class="su-name font-cinzel">Mohit Kumar</h3>
+            <div class="su-divider"></div>
+            <p class="su-desc font-cormorant">
+              A passionate leader with a vision to make TRYST 2026 the most memorable festival in the history of Keshav Mahavidyalaya. Committed to bringing the best experiences to every student.
+            </p>
+          </div>
+        </div>
+
+        <!-- Jitender Sisodiya — Secretary -->
+        <div class="su-card glass-card fade-up">
+          <div class="su-img-wrap">
+            <img src="images/union/jitender.jpg" alt="Jitender Sisodiya" class="su-img" loading="lazy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="su-img-placeholder" style="display:none">
+              <span class="font-cinzel-deco text-gold text-4xl">J</span>
+            </div>
+            <div class="su-img-overlay"></div>
+          </div>
+          <div class="su-info">
+            <div class="su-role font-rajdhani">Secretary</div>
+            <h3 class="su-name font-cinzel">Jitender Sisodiya</h3>
+            <div class="su-divider"></div>
+            <p class="su-desc font-cormorant">
+              The driving force behind the seamless coordination of TRYST 2026. Dedicated to ensuring every competition, performance, and event runs with precision and excellence.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════════════ REGISTER ═══════════════ -->
   <section id="register" class="relative py-28 overflow-hidden">
     <div class="register-bg absolute inset-0 z-0">
@@ -904,7 +993,14 @@
               <div class="contact-icon">✉</div>
               <div>
                 <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Email</div>
-                <a href="/cdn-cgi/l/email-protection#1460666d6760547f79623a75773a7d7a" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors"><span class="__cf_email__" data-cfemail="fe8a8c878d8abe959388d09f9dd09790">[email&#160;protected]</span></a>
+                <a href="mailto:tryst@kmv.ac.in" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">tryst@kmv.ac.in</a>
+              </div>
+            </div>
+            <div class="contact-item flex items-center gap-4">
+              <div class="contact-icon">📞</div>
+              <div>
+                <div class="font-rajdhani text-gold text-xs tracking-widest uppercase mb-1">Phone</div>
+                <a href="tel:+919999999999" class="font-cormorant text-white/80 text-lg hover:text-gold transition-colors">+91 99999 99999</a>
               </div>
             </div>
             <div class="contact-item flex items-center gap-4">
@@ -923,15 +1019,13 @@
             </div>
           </div>
 
+          <!-- Only 2 Instagram social buttons -->
           <div class="social-links flex gap-4 mt-8 fade-up">
-            <a href="https://www.instagram.com/tryst_26_official/" class="social-btn" aria-label="Instagram">
+            <a href="https://www.instagram.com/tryst_26_official/" target="_blank" rel="noopener" class="social-btn" aria-label="TRYST Instagram">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
-            <a href="#" class="social-btn" aria-label="Twitter">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a href="#" class="social-btn" aria-label="YouTube">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <a href="https://www.instagram.com/kmv_official/" target="_blank" rel="noopener" class="social-btn" aria-label="KMV Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
           </div>
         </div>
@@ -960,6 +1054,10 @@
       <div class="footer-line mt-6 mx-auto max-w-xs h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"></div>
       <p class="text-center font-cormorant text-white/20 text-sm mt-4 italic">
         "In the crucible of TRYST, ordinary students become extraordinary legends."
+      </p>
+      <p class="text-center mt-4 font-rajdhani text-white/20 text-xs tracking-widest">
+        Built by <a href="https://www.instagram.com/akshkumarrrr/" target="_blank" rel="noopener noreferrer"
+          class="footer-credit-link">Aksh Kumar</a>
       </p>
     </div>
   </footer>
@@ -1331,6 +1429,12 @@
             </div>
           </div>
 
+          <!-- Event registration CTA -->
+          <div class="reg-event-cta">
+            <span class="font-cormorant text-white/50 text-sm">Want to participate in an event? </span>
+            <a href="#schedule" class="reg-event-link font-cormorant" onclick="closeRegisterModal()">View Event Schedule →</a>
+          </div>
+
           <!-- Submit -->
           <button type="submit" class="reg-submit-btn font-cinzel" id="regSubmitBtn">
             <span class="reg-submit-inner">✦ Submit Registration ✦</span>
@@ -1346,6 +1450,137 @@
     </div><!-- /register-card -->
   </div><!-- /register-modal -->
   <!-- ═══════════════ END REGISTRATION MODAL ═══════════════ -->
+
+  <!-- ═══════════════ EVENT REGISTRATION MODAL ═══════════════ -->
+  <div class="register-overlay" id="eventRegOverlay"></div>
+  <div class="register-modal" id="eventRegModal" role="dialog" aria-modal="true" aria-labelledby="eventRegTitle">
+    <div class="register-card" id="eventRegCard">
+      <div class="reg-ornament reg-ornament--tl"></div>
+      <div class="reg-ornament reg-ornament--tr"></div>
+      <div class="reg-ornament reg-ornament--bl"></div>
+      <div class="reg-ornament reg-ornament--br"></div>
+      <button class="reg-close-btn" id="eventRegCloseBtn" aria-label="Close">&times;</button>
+
+      <!-- Step 1: Participation Type -->
+      <div id="eventRegStep1" class="ereg-step">
+        <div class="register-card-header">
+          <div class="reg-eyebrow font-rajdhani">TRYST 2026 · Event Entry</div>
+          <h2 class="reg-title font-cinzel-deco" id="eventRegTitle">Event Registration</h2>
+          <p class="reg-description font-cormorant">Select your participation type to begin</p>
+        </div>
+        <div class="reg-divider">
+          <span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span>
+        </div>
+        <div class="register-card-body">
+          <div class="ereg-type-grid">
+            <button class="ereg-type-btn font-cinzel" data-type="solo">
+              <span class="ereg-type-icon">👤</span>
+              <span class="ereg-type-label">Solo</span>
+              <span class="ereg-type-sub font-cormorant">1 participant</span>
+            </button>
+            <button class="ereg-type-btn font-cinzel" data-type="duo">
+              <span class="ereg-type-icon">👥</span>
+              <span class="ereg-type-label">Duo</span>
+              <span class="ereg-type-sub font-cormorant">2 participants</span>
+            </button>
+            <button class="ereg-type-btn font-cinzel" data-type="group">
+              <span class="ereg-type-icon">🎭</span>
+              <span class="ereg-type-label">Group</span>
+              <span class="ereg-type-sub font-cormorant">3 or more</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Form -->
+      <div id="eventRegStep2" class="ereg-step" style="display:none">
+        <div class="register-card-header">
+          <div class="reg-eyebrow font-rajdhani ereg-step-label">Step 2 of 3 · Details</div>
+          <h2 class="reg-title font-cinzel-deco">Participant Details</h2>
+          <p class="reg-description font-cormorant ereg-type-heading"></p>
+        </div>
+        <div class="reg-divider">
+          <span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span>
+        </div>
+        <div class="register-card-body">
+          <form id="eventRegForm" novalidate autocomplete="off">
+
+            <!-- Brand Name (common to all types) -->
+            <div class="reg-field" style="margin-bottom:14px">
+              <label class="reg-label font-rajdhani" for="ereg-brand">Brand / Team Name <span class="reg-required">*</span></label>
+              <input type="text" id="ereg-brand" name="brandName" class="reg-input ereg-input" placeholder="Your team or stage name" required />
+            </div>
+
+            <!-- Group size (only for group) -->
+            <div class="reg-field ereg-group-size-wrap" style="margin-bottom:14px;display:none">
+              <label class="reg-label font-rajdhani" for="ereg-group-count">Number of Members <span class="reg-required">*</span></label>
+              <select id="ereg-group-count" name="groupCount" class="reg-input reg-select ereg-input">
+                <option value="" disabled selected>Select count</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+              <button type="button" class="ereg-gen-btn font-rajdhani" id="eregGenBtn">Generate Fields →</button>
+            </div>
+
+            <!-- Dynamic participant fields injected here -->
+            <div id="eregParticipantsWrap"></div>
+
+            <div class="ereg-nav-row">
+              <button type="button" class="ereg-back-btn font-cinzel" id="eregBackBtn">← Back</button>
+              <button type="button" class="ereg-next-btn font-cinzel" id="eregToStep3Btn">
+                <span>Review →</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Step 3: Confirmation -->
+      <div id="eventRegStep3" class="ereg-step" style="display:none">
+        <div class="register-card-header">
+          <div class="reg-eyebrow font-rajdhani ereg-step-label">Step 3 of 3 · Confirm</div>
+          <h2 class="reg-title font-cinzel-deco">Confirm Registration</h2>
+          <p class="reg-description font-cormorant">Review your details before submitting</p>
+        </div>
+        <div class="reg-divider">
+          <span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span>
+        </div>
+        <div class="register-card-body">
+          <div class="ereg-confirm-box glass-card">
+            <div class="ereg-confirm-row">
+              <span class="ereg-confirm-key font-rajdhani">Brand Name</span>
+              <span class="ereg-confirm-val font-cormorant" id="confirm-brand">—</span>
+            </div>
+            <div class="ereg-confirm-row">
+              <span class="ereg-confirm-key font-rajdhani">Type</span>
+              <span class="ereg-confirm-val font-cormorant" id="confirm-type">—</span>
+            </div>
+            <div class="ereg-confirm-row">
+              <span class="ereg-confirm-key font-rajdhani">Members</span>
+              <span class="ereg-confirm-val font-cormorant" id="confirm-count">—</span>
+            </div>
+            <div class="ereg-confirm-divider"></div>
+            <div id="confirm-participants-list"></div>
+          </div>
+          <div class="ereg-nav-row" style="margin-top:20px">
+            <button type="button" class="ereg-back-btn font-cinzel" id="eregBackToStep2Btn">← Edit</button>
+            <button type="button" class="reg-submit-btn font-cinzel" id="eregFinalSubmit" style="flex:1;margin:0">
+              <span class="reg-submit-inner">✦ Submit Entry ✦</span>
+              <span class="reg-submit-glow"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- ═══════════════ END EVENT REGISTRATION MODAL ═══════════════ -->
 
   <script src="script.js" defer></script>
 </body>

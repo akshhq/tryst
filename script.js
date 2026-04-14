@@ -413,34 +413,126 @@ window.goToEvent = function(btn) {
 };
 
 /* ═══════════════════════════════════════════════
-   SURPRISE ARTIST REVEAL
+   SURPRISE ARTIST — DUAL CARD + TIMER LOCK
+   ─────────────────────────────────────────────
+   CONFIGURATION: Set UNLOCK_TIME to the exact
+   datetime when the button becomes active.
+   Format: 'YYYY-MM-DDTHH:MM:SS'  (local time)
 ═══════════════════════════════════════════════ */
-let isRevealed = false;
+(function surpriseArtistSystem() {
 
-const revealBtn = document.getElementById('revealBtn');
-if (revealBtn) {
+  // ── CONFIG ─────────────────────────────────
+  const UNLOCK_TIME = new Date('2026-04-27T17:00:00'); // ← change this date/time
+  // ───────────────────────────────────────────
+
+  const revealBtn      = document.getElementById('revealBtn');
+  const lockOverlay    = document.getElementById('lockOverlay');
+  const mysteryLock    = document.getElementById('mysteryLock');
+  const unlockHint     = document.getElementById('surpriseUnlockHint');
+  if (!revealBtn) return;
+
+  let isRevealed   = false;
+  let timerInterval = null;
+
+  /* ── Lock / Unlock logic ─────────────────── */
+  function checkUnlockTime() {
+    const now  = new Date();
+    const diff = UNLOCK_TIME - now;
+
+    if (diff <= 0) {
+      // Unlock!
+      if (mysteryLock) mysteryLock.classList.remove('locked');
+      if (lockOverlay) {
+        gsap.to(lockOverlay, {
+          opacity: 0, duration: 0.5,
+          onComplete: () => { lockOverlay.style.display = 'none'; }
+        });
+      }
+      if (unlockHint) unlockHint.textContent = 'The mystery is ready to be unveiled!';
+      clearInterval(timerInterval);
+    } else {
+      // Still locked — show countdown
+      if (mysteryLock) mysteryLock.classList.add('locked');
+      const days  = Math.floor(diff / 86400000);
+      const hrs   = Math.floor((diff / 3600000) % 24);
+      const mins  = Math.floor((diff / 60000) % 60);
+      const secs  = Math.floor((diff / 1000) % 60);
+      const pad   = n => String(n).padStart(2, '0');
+      if (unlockHint) {
+        unlockHint.textContent = days > 0
+          ? `Unlocks in ${days}d`
+          : `Unlocks in ${pad(hrs)}h`;
+      }
+    }
+  }
+
+  checkUnlockTime();
+  timerInterval = setInterval(checkUnlockTime, 1000);
+
+  /* ── Reveal sequence ─────────────────────── */
   revealBtn.addEventListener('click', () => {
     if (isRevealed) return;
+    if (mysteryLock.classList.contains('locked')) return;
     isRevealed = true;
 
-    const img      = document.getElementById('surpriseImg');
-    const question = document.getElementById('surpriseQuestion');
-    const revealed = document.getElementById('surpriseRevealed');
-    const veil     = document.getElementById('surpriseVeil');
-    const glowRing = document.getElementById('surpriseGlowRing');
+    const question1 = document.getElementById('surpriseQuestion1');
+    const img1      = document.getElementById('surpriseImg1');
+    const revealed1 = document.getElementById('surpriseRevealed1');
+    const veil1     = document.getElementById('surpriseVeil1');
+    const glow1     = document.getElementById('surpriseGlowRing1');
 
-    gsap.timeline()
-      .to(question,  { opacity: 0, scale: 1.12, duration: 0.32, ease: 'power2.in' })
-      .set(question, { visibility: 'hidden' })
-      .to(revealBtn, { opacity: 0, y: 7, duration: 0.22 }, '<')
-      .to(veil,      { opacity: 0, duration: 0.65, ease: 'power2.inOut' }, '-=0.1')
-      .call(() => { img.classList.add('revealed'); glowRing.classList.add('active'); })
-      .to({}, { duration: 0.75 })
-      .call(() => revealed.classList.add('show'));
+    const frame2    = document.getElementById('surpriseFrame2');
+    const question2 = document.getElementById('surpriseQuestion2');
+    const img2      = document.getElementById('surpriseImg2');
+    const revealed2 = document.getElementById('surpriseRevealed2');
+    const veil2     = document.getElementById('surpriseVeil2');
+    const glow2     = document.getElementById('surpriseGlowRing2');
 
+    // Particle burst on stage
     createParticleBurst(document.getElementById('surpriseStage'));
+
+    // ── TIMELINE ────────────────────────────
+    const tl = gsap.timeline();
+
+    // 1. Hide the button
+    tl.to(revealBtn, { opacity: 0, y: 8, duration: 0.22 });
+
+    // 2. Reveal Artist 1
+    tl.to(question1, { opacity: 0, scale: 1.12, duration: 0.3, ease: 'power2.in' }, '+=0.1')
+      .set(question1, { visibility: 'hidden' })
+      .to(veil1, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
+      .call(() => { img1.classList.add('revealed'); glow1.classList.add('active'); })
+      .to({}, { duration: 0.8 }) // let blur transition breathe
+      .call(() => revealed1.classList.add('show'));
+
+    // 3. Animate Artist 2 out from behind Artist 1
+    //    Step: make frame2 position:relative, then slide/scale in
+    tl.call(() => {
+        frame2.classList.remove('surprise-frame--hidden');
+        frame2.classList.add('revealed-card');
+        // Start from behind / overlapping with frame1
+        gsap.set(frame2, { opacity: 0, scale: 0.7, x: -60, rotateY: -15 });
+      })
+      .to(frame2, {
+        opacity: 1, scale: 1, x: 0, rotateY: 0,
+        duration: 0.9,
+        ease: 'expo.out',
+        transformPerspective: 1200,
+      }, '+=0.2')
+
+    // 4. Reveal Artist 2
+      .to(question2, { opacity: 0, scale: 1.12, duration: 0.3, ease: 'power2.in' }, '-=0.3')
+      .set(question2, { visibility: 'hidden' })
+      .to(veil2, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
+      .call(() => { img2.classList.add('revealed'); glow2.classList.add('active'); })
+      .to({}, { duration: 0.8 })
+      .call(() => revealed2.classList.add('show'));
+
+    // 5. Second particle burst for drama
+    tl.call(() => createParticleBurst(document.getElementById('surpriseStage')));
   });
-}
+
+})();
 
 function createParticleBurst(parent) {
   if (!parent) return;
@@ -576,7 +668,7 @@ document.addEventListener('keydown', (e) => {
    COUNTDOWN TIMER
 ═══════════════════════════════════════════════ */
 function updateCountdown() {
-  const diff = new Date('2026-04-21T10:00:00') - new Date();
+  const diff = new Date('2026-04-27T08:00:00') - new Date();
   const pad  = n => String(Math.max(0, n)).padStart(2, '0');
   const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = pad(v); };
   if (diff <= 0) { ['days','hours','mins','secs'].forEach(id => set(id, 0)); return; }
@@ -919,3 +1011,214 @@ function toggleTask(card) {
 console.log('%cTRYST 2026', 'font-family:serif;font-size:28px;color:#C9A84C;font-weight:bold;');
 console.log('%cWhere Legends Are Born', 'font-family:serif;font-size:13px;color:#E5C97E;font-style:italic;');
 console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monospace;font-size:10px;color:#666;');
+/* ═══════════════════════════════════════════════
+   EVENT REGISTRATION MODAL
+═══════════════════════════════════════════════ */
+(function eventRegSystem() {
+  const overlay  = document.getElementById('eventRegOverlay');
+  const modal    = document.getElementById('eventRegModal');
+  const card     = document.getElementById('eventRegCard');
+  const closeBtn = document.getElementById('eventRegCloseBtn');
+  if (!modal) return;
+
+  let selectedType     = '';
+  let participantCount = 1;
+
+  function open() {
+    overlay.classList.add('reg-active');
+    modal.classList.add('reg-active');
+    document.body.style.overflow = 'hidden';
+    gsap.fromTo(card,
+      { opacity: 0, scale: 0.91, y: 22 },
+      { opacity: 1, scale: 1,    y: 0, duration: 0.42, ease: 'expo.out' }
+    );
+  }
+
+  function close() {
+    gsap.to(card, {
+      opacity: 0, scale: 0.93, y: 14, duration: 0.26, ease: 'power3.in',
+      onComplete: () => {
+        overlay.classList.remove('reg-active');
+        modal.classList.remove('reg-active');
+        document.body.style.overflow = '';
+        gsap.set(card, { clearProps: 'all' });
+        resetToStep1();
+      }
+    });
+  }
+
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('reg-active')) close();
+  });
+
+  function showStep(n) {
+    [1, 2, 3].forEach(i => {
+      const s = document.getElementById(`eventRegStep${i}`);
+      if (s) s.style.display = (i === n) ? 'flex' : 'none';
+    });
+    gsap.from(card, { y: 6, duration: 0.22, ease: 'expo.out' });
+  }
+
+  function resetToStep1() {
+    selectedType = '';
+    document.querySelectorAll('.ereg-type-btn').forEach(b => b.classList.remove('selected'));
+    const wrap = document.getElementById('eregParticipantsWrap');
+    if (wrap) wrap.innerHTML = '';
+    const brand = document.getElementById('ereg-brand');
+    if (brand) brand.value = '';
+    const gc = document.getElementById('ereg-group-count');
+    if (gc) gc.value = '';
+    showStep(1);
+  }
+
+  /* ── Step 1: Type selection ─────────────── */
+  document.querySelectorAll('.ereg-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedType = btn.dataset.type;
+      document.querySelectorAll('.ereg-type-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      const heading = document.querySelector('.ereg-type-heading');
+      if (heading) heading.textContent =
+        selectedType.charAt(0).toUpperCase() + selectedType.slice(1) + ' Registration';
+
+      const groupWrap = document.querySelector('.ereg-group-size-wrap');
+      if (groupWrap) groupWrap.style.display = (selectedType === 'group') ? 'block' : 'none';
+
+      const autoCount = selectedType === 'solo' ? 1 : selectedType === 'duo' ? 2 : 0;
+      participantCount = autoCount;
+      if (autoCount > 0) generateParticipantFields(autoCount);
+
+      setTimeout(() => showStep(2), 140);
+    });
+  });
+
+  /* ── Group: generate fields button ─────── */
+  const genBtn = document.getElementById('eregGenBtn');
+  if (genBtn) {
+    genBtn.addEventListener('click', () => {
+      const n = parseInt(document.getElementById('ereg-group-count').value);
+      if (!n) return;
+      participantCount = n;
+      generateParticipantFields(n);
+    });
+  }
+
+  function generateParticipantFields(n) {
+    const wrap = document.getElementById('eregParticipantsWrap');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    for (let i = 1; i <= n; i++) {
+      const block = document.createElement('div');
+      block.className = 'ereg-participant-block';
+      block.innerHTML = `
+        <div class="ereg-participant-num">Participant ${i}</div>
+        <div class="reg-form-row">
+          <div class="reg-field">
+            <label class="reg-label font-rajdhani">Name <span class="reg-required">*</span></label>
+            <input type="text" name="p${i}_name" class="reg-input ereg-input" placeholder="Full name" required />
+          </div>
+          <div class="reg-field">
+            <label class="reg-label font-rajdhani">Phone <span class="reg-required">*</span></label>
+            <input type="tel" name="p${i}_phone" class="reg-input ereg-input" placeholder="+91 00000 00000" required />
+          </div>
+        </div>`;
+      wrap.appendChild(block);
+      gsap.from(block, { opacity: 0, y: 10, duration: 0.25, delay: i * 0.06, ease: 'expo.out' });
+    }
+  }
+
+  /* ── Back: step 2 → 1 ───────────────────── */
+  const backBtn = document.getElementById('eregBackBtn');
+  if (backBtn) backBtn.addEventListener('click', () => showStep(1));
+
+  /* ── Next: step 2 → 3 (with validation) ── */
+  const toStep3 = document.getElementById('eregToStep3Btn');
+  if (toStep3) {
+    toStep3.addEventListener('click', () => {
+      const inputs = document.querySelectorAll('#eventRegForm .ereg-input');
+      let valid = true;
+      inputs.forEach(inp => {
+        if (!inp.value.trim()) {
+          valid = false;
+          inp.classList.add('reg-error');
+          gsap.fromTo(inp,
+            { x: -4 },
+            { x: 4, repeat: 4, yoyo: true, duration: 0.07,
+              onComplete: () => gsap.set(inp, { x: 0 }) }
+          );
+        } else {
+          inp.classList.remove('reg-error');
+        }
+      });
+      if (!valid) return;
+
+      // Populate confirmation screen
+      const brand = document.getElementById('ereg-brand').value;
+      document.getElementById('confirm-brand').textContent = brand;
+      document.getElementById('confirm-type').textContent =
+        selectedType.charAt(0).toUpperCase() + selectedType.slice(1);
+      document.getElementById('confirm-count').textContent = participantCount;
+
+      const list = document.getElementById('confirm-participants-list');
+      list.innerHTML = '';
+      for (let i = 1; i <= participantCount; i++) {
+        const nameInp = document.querySelector(`[name="p${i}_name"]`);
+        if (!nameInp) continue;
+        const div = document.createElement('div');
+        div.className = 'ereg-confirm-participant';
+        div.textContent = `${i}. ${nameInp.value}`;
+        list.appendChild(div);
+      }
+
+      showStep(3);
+    });
+  }
+
+  /* ── Back: step 3 → 2 ───────────────────── */
+  const backToStep2 = document.getElementById('eregBackToStep2Btn');
+  if (backToStep2) backToStep2.addEventListener('click', () => showStep(2));
+
+  /* ── Final submit ───────────────────────── */
+  const finalBtn = document.getElementById('eregFinalSubmit');
+  if (finalBtn) {
+    finalBtn.addEventListener('click', () => {
+      const brand = document.getElementById('ereg-brand').value;
+      const participants = [];
+      for (let i = 1; i <= participantCount; i++) {
+        const n = document.querySelector(`[name="p${i}_name"]`);
+        const p = document.querySelector(`[name="p${i}_phone"]`);
+        if (n) participants.push({ name: n.value, phone: p ? p.value : '' });
+      }
+
+      // TODO: Replace with Firebase integration
+      console.group('%cTRYST 2026 — Event Registration', 'color:#C9A84C;font-weight:bold;font-size:14px;');
+      console.log(`Brand: ${brand} | Type: ${selectedType} | Members: ${participantCount}`);
+      console.table(participants);
+      console.groupEnd();
+
+      // Success feedback
+      const inner = finalBtn.querySelector('.reg-submit-inner');
+      if (inner) inner.textContent = '✦ Entry Submitted! ✦';
+      finalBtn.style.pointerEvents = 'none';
+
+      gsap.to(card, {
+        boxShadow: '0 0 0 2px rgba(201,168,76,0.5), 0 8px 32px rgba(0,0,0,0.6), 0 0 60px rgba(201,168,76,0.12)',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: () => gsap.to(card, {
+          boxShadow: '0 0 0 1px rgba(201,168,76,0.06), 0 8px 32px rgba(0,0,0,0.6)',
+          duration: 1.2, delay: 0.8
+        })
+      });
+
+      setTimeout(() => close(), 2200);
+    });
+  }
+
+  /* ── Expose globally ────────────────────── */
+  window.openEventRegModal  = open;
+  window.closeEventRegModal = close;
+
+})();
