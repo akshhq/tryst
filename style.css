@@ -2352,3 +2352,101 @@ footer { margin-top: 20px; }
   .ed-poster-col { height: 160px; }
   .ed-title { font-size: 1.25rem; }
 }
+
+/* Production additions: structured event details + JSON submission states */
+.ed-card {
+  height: min(720px, 88vh);
+}
+
+.reg-status {
+  min-height: 22px;
+  margin: -4px 0 12px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.reg-status.is-success { color: var(--gold); }
+.reg-status.is-error { color: #ff8a8a; }
+
+.reg-submit-btn:disabled,
+.ereg-next-btn:disabled,
+.ed-register-btn:disabled {
+  cursor: wait;
+}
+
+.reg-input[readonly] {
+  opacity: 0.82;
+  cursor: default;
+}
+
+.ed-info-section {
+  margin-bottom: 18px;
+}
+
+.ed-section-title {
+  margin-bottom: 7px;
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.ed-rich-text,
+.ed-rich-text li {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.ed-rich-text ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.ed-rich-text li + li {
+  margin-top: 5px;
+}
+
+.ed-action-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.ed-society-link {
+  color: rgba(201,168,76,0.76);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(201,168,76,0.32);
+  padding-bottom: 4px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.ed-society-link:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.ereg-member-upload {
+  margin-top: 2px;
+  min-height: 86px;
+}
+
+@media (max-width: 768px) {
+  .ed-card {
+    height: 92vh;
+  }
+
+  .ed-action-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ed-society-link {
+    align-self: center;
+  }
+}

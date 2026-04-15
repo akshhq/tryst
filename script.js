@@ -285,10 +285,8 @@ document.querySelectorAll('.nav-card[data-target]').forEach(card => {
 document.querySelectorAll('.nav-card[data-modal]').forEach(card => {
   card.addEventListener('click', () => {
     const map = {
-      about: 'modal-about',
       events: 'modal-events',
-      surprise: 'modal-surprise',
-      performers: 'modal-performers'
+      surprise: 'modal-surprise'
     };
     const modalId = map[card.dataset.modal];
     if (modalId) openModal(modalId);
