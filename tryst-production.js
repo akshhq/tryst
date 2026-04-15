@@ -928,41 +928,47 @@
 
   if (attendeeForm) {
     attendeeForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      try {
-        const f = attendeeForm;
+    const formData = new FormData(attendeeForm);
 
-        const data = {
-          formType: "attendee",
-          name: f.name.value,
-          email: f.email.value,
-          phone: f.phone.value,
-          college: f.college.value,
-          course: f.course.value,
-          year: f.year.value,
-          gender: f.gender.value,
-          collegeId: await toBase64(f.collegeId.files[0]),
-          task1: await toBase64(f.task1.files[0]),
-          task2: await toBase64(f.task2.files[0])
-        };
+    // convert files to base64 manually
+    const collegeId = await toBase64(attendeeForm.collegeId.files[0]);
+    const task1 = await toBase64(attendeeForm.task1.files[0]);
+    const task2 = await toBase64(attendeeForm.task2.files[0]);
 
-        const res = await fetch(SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
+    const payload = {
+      formType: "attendee",
+      name: attendeeForm.name.value,
+      email: attendeeForm.email.value,
+      phone: attendeeForm.phone.value,
+      college: attendeeForm.college.value,
+      course: attendeeForm.course.value,
+      year: attendeeForm.year.value,
+      gender: attendeeForm.gender.value,
+      collegeId,
+      task1,
+      task2
+    };
 
-        const result = await res.json();
+    // 🔥 CREATE HIDDEN FORM (BYPASS CORS)
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = SCRIPT_URL;
+    form.target = "hidden_iframe";
 
-        alert(`🎉 Registered! ID: ${result.regId}`);
-        attendeeForm.reset();
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "data";
+    input.value = JSON.stringify(payload);
 
-      } catch (err) {
-        console.error(err);
-        alert("❌ Error submitting form");
-      }
-    });
+    form.appendChild(input);
+    document.body.appendChild(form);
+
+    form.submit();
+
+    alert("Submitted successfully!");
+  });
   }
 
 
