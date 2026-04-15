@@ -52,8 +52,8 @@
   <!-- NAV -->
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 transition-all duration-500">
     <a href="#hero" class="flex items-center gap-3 group">
-      <img src="images/tryst_logo.png" alt="TRYST" class="h-12 object-contain nav-logo" />
-      <span class="font-cinzel-deco text-gold text-lg tracking-widest group-hover:text-gold-light transition-colors">TRYST</span>
+      <img src="images/tryst_logo.png" alt="TRYST" class="w-12 object-contain nav-logo" />
+      <span class="font-cinzel-deco text-gold text-lg tracking-widest group-hover:text-gold-light transition-colors"></span>
     </a>
     <ul class="hidden md:flex items-center gap-8">
       <li><a href="#about" class="nav-link font-rajdhani tracking-widest text-sm uppercase text-white/60 hover:text-gold transition-all">About</a></li>
@@ -109,10 +109,11 @@
       <div class="hero-logo-wrap mb-3 opacity-0">
         <img src="images/tryst_logo.png" alt="TRYST Logo" class="h-24 w-24 object-contain mx-auto hero-logo-img" />
       </div>
-      <h1 class="hero-title font-cinzel-deco text-white opacity-0 leading-none">
+      <img src="images/tryst_logo4.png" alt="TRYST" class="hero-deco opacity-1 mb-1 h-24 md:h-72 w-auto" gap="4" />
+      <!-- <h1 class="hero-title font-cinzel-deco text-white opacity-0 leading-none">
         <span class="hero-title-tryst block">TRYST</span>
         <span class="hero-title-year block text-gold">2026</span>
-      </h1>
+      </h1> -->
       <div class="hero-line my-4 opacity-0">
         <span class="line-deco"></span>
         <span class="line-diamond"></span>
@@ -122,7 +123,7 @@
         THE GALLERY IS OPEN . <em>THE REALM IS YOURS.</em>
       </p>
       <div class="hero-date font-rajdhani tracking-[0.3em] text-gold/70 text-sm mt-3 opacity-0 uppercase">
-        March 20–21, 2026 &nbsp;·&nbsp; KMV, Delhi
+        APRIL 27,28 2026 &nbsp;·&nbsp; KMV, Delhi
       </div>
       <div class="hero-cta mt-8 opacity-0 flex flex-col sm:flex-row gap-4 items-center">
         <a href="#nav-cards" class="btn-primary font-cinzel tracking-widest uppercase text-sm">
@@ -151,7 +152,7 @@
       <div class="cards-track" id="cardsTrack">
 
         <!-- 1. About TRYST -->
-        <div class="nav-card premium" data-modal="about">
+        <div class="nav-card premium" data-target="#about">
           <div class="nav-card-bg" style="background-image:url('images/posters/campus.webp')"></div>
           <div class="nav-card-overlay"></div>
           <div class="nav-card-content premium-content">
@@ -201,7 +202,7 @@
         </div>
 
         <!-- 6. Past Performers -->
-        <div class="nav-card premium" data-modal="performers">
+        <div class="nav-card premium" data-target="#artists">
           <div class="nav-card-bg" style="background-image:url('images/posters/crowd.webp')"></div>
           <div class="nav-card-overlay"></div>
           <div class="nav-card-content premium-content">
@@ -1628,14 +1629,32 @@
 
           <!-- Only this section scrolls if content overflows -->
           <div class="ed-desc-scroll">
-            <p class="ed-desc font-cormorant" id="edDesc"></p>
+            <section class="ed-info-section">
+              <h3 class="ed-section-title font-rajdhani">Description</h3>
+              <p class="ed-desc font-cormorant" id="edDesc"></p>
+            </section>
+            <section class="ed-info-section">
+              <h3 class="ed-section-title font-rajdhani">Format</h3>
+              <div class="ed-rich-text font-cormorant" id="edFormat"></div>
+            </section>
+            <section class="ed-info-section">
+              <h3 class="ed-section-title font-rajdhani">Rules</h3>
+              <div class="ed-rich-text font-cormorant" id="edRules"></div>
+            </section>
+            <section class="ed-info-section">
+              <h3 class="ed-section-title font-rajdhani">Judging Criteria</h3>
+              <div class="ed-rich-text font-cormorant" id="edJudging"></div>
+            </section>
           </div>
 
           <!-- Register button -->
-          <button class="ed-register-btn font-cinzel" id="edRegisterBtn">
-            <span class="ed-register-inner">✦ Register Now ✦</span>
-            <span class="ed-register-glow"></span>
-          </button>
+          <div class="ed-action-row">
+            <button class="ed-register-btn font-cinzel" id="edRegisterBtn">
+              <span class="ed-register-inner">✦ Register Now ✦</span>
+              <span class="ed-register-glow"></span>
+            </button>
+            <a href="#student-union" class="ed-society-link font-rajdhani" id="edSocietyLink">About Society</a>
+          </div>
         </div>
 
         <!-- RIGHT — poster (object-fit: contain, full aspect ratio) -->
