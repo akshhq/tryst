@@ -277,8 +277,7 @@
   const toBase64 = fileToBase64;
   window.toBase64 = toBase64;
 
-  async function postJSON(payload) {
-    function postJSON(payload) {
+  function postJSON(payload) {
     const form = document.createElement("form");
     form.method = "POST";
     form.action = POST_URL;
@@ -294,22 +293,11 @@
 
     form.submit();
 
-    // fake response (since iframe doesn't return)
-    return Promise.resolve({ status: "success", regId: "Submitted" });
-  }
-
-    let data;
-    try {
-      data = await response.json();
-    } catch (error) {
-      throw new Error('Backend did not return JSON. Check the Apps Script deployment.');
-    }
-
-    const failedStatus = data?.status && data.status !== 'success';
-    if (!response.ok || failedStatus || data?.ok === false || data?.success === false) {
-      throw new Error(data?.message || 'Submission failed. Please try again.');
-    }
-    return data;
+    // ✅ fake success response
+    return Promise.resolve({
+      status: "success",
+      regId: "SUBMITTED"
+    });
   }
 
   function responseId(data) {
@@ -1040,6 +1028,17 @@
 
         form.submit();
 
+        // ⏳ wait a bit for backend to write
+        setTimeout(async () => {
+          const regId = await getLatestRegId("Attendees");
+
+          if (regId) {
+            alert(`🎉 Registered! ID: ${regId}`);
+          } else {
+            alert("Submitted! Check email for confirmation.");
+          }
+        }, 2000);
+
         // ✅ FAKE SUCCESS (since no response)
         alert("🎉 Registration submitted successfully!");
 
@@ -1056,3 +1055,18 @@
   }
 
 })();
+
+async function getLatestRegId(sheetName = "Attendees") {
+  try {
+    const res = await fetch(`${POST_URL}?sheet=${sheetName}`);
+    const data = await res.json();
+
+    if (data.status === "success") {
+      return data.regId;
+    }
+  } catch (err) {
+    console.error("Polling error:", err);
+  }
+
+  return null;
+}
