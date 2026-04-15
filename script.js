@@ -1482,3 +1482,24 @@ if (edRegBtn) {
 /* ── Expose globally ─────────────────────────── */
 window.openEventDetailModal  = openEventDetailModal;
 window.closeEventDetailModal = closeEventDetailModal;
+
+function openEventDetail(el) {
+  const id = el.dataset.eventId || el.closest(".events-modal-item")?.dataset.eventId;
+  const data = fullEventDetails[id];
+
+  if (!data) return;
+
+  document.getElementById("event-detail-title").innerText = data.title;
+  document.getElementById("event-detail-desc").innerText = data.desc;
+  document.getElementById("event-detail-format").innerText = data.format;
+  document.getElementById("event-detail-rules").innerText = data.rules;
+  document.getElementById("event-detail-judging").innerText = data.judging;
+
+  document.getElementById("event-detail-modal").classList.remove("hidden");
+  document.getElementById("event-detail-modal").classList.add("flex");
+}
+
+function closeEventDetailModal() {
+  document.getElementById("event-detail-modal").classList.add("hidden");
+  document.getElementById("event-detail-modal").classList.remove("flex");
+}

@@ -174,10 +174,71 @@
     }
   };
 
-  const eventOrder = Object.keys(TRYST_EVENTS);
   const $ = id => document.getElementById(id);
   const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const listHTML = items => `<ul>${(Array.isArray(items) ? items : [items]).filter(Boolean).map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>`;
+  const eventOrder = Array.from(new Set(
+    Array.from(document.querySelectorAll('.event-header[data-event-id], .events-modal-item[data-event-id]'))
+      .map(el => el.dataset.eventId)
+      .filter(Boolean)
+  ));
+
+  function attr(value) {
+    return String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  }
+
+  function eventHeader(id) {
+    return document.querySelector(`.event-header[data-event-id="${attr(id)}"], .schedule-event[data-event-id="${attr(id)}"] .event-header`);
+  }
+
+  function eventRow(id) {
+    const header = eventHeader(id);
+    return header?.closest('.schedule-event') || document.querySelector(`.schedule-event[data-event-id="${attr(id)}"]`);
+  }
+
+  function eventModalItem(id) {
+    return document.querySelector(`.events-modal-item[data-event-id="${attr(id)}"]`);
+  }
+
+  function posterForTag(tag) {
+    const value = String(tag || '').toLowerCase();
+    if (value.includes('music')) return 'images/posters/crowd.webp';
+    if (value.includes('art') || value.includes('photo') || value.includes('media')) return 'images/posters/gallery.jpg';
+    if (value.includes('theatre') || value.includes('debate') || value.includes('poetry') || value.includes('writing')) return 'images/posters/entry.webp';
+    return 'images/posters/stage.webp';
+  }
+
+  function inferEventData(id) {
+    const header = eventHeader(id);
+    const item = eventModalItem(id);
+    const title = header?.querySelector('.event-title')?.textContent.trim()
+      || item?.querySelector('.events-modal-name')?.textContent.trim()
+      || id.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+    const tag = header?.querySelector('.event-tag')?.textContent.trim()
+      || item?.querySelector('.events-modal-tag')?.textContent.trim()
+      || 'Event';
+    const row = eventRow(id);
+    const dayPanel = row?.closest('.schedule-day') || item?.closest('.events-modal-day');
+    const time = row?.querySelector('.event-time')?.textContent.trim() || '';
+
+    return {
+      day: dayPanel?.dataset.day || dayPanel?.dataset.eventsDay || '1',
+      title,
+      society: `${tag} Society`,
+      time,
+      location: 'TRYST 2026 Venue',
+      poster: posterForTag(tag),
+      description: `${title} is a TRYST 2026 ${tag.toLowerCase()} event crafted for focused, high-energy participation.`,
+      format: ['Register through the event form.', 'Participants perform or compete in the slot assigned by organisers.', 'Final round details will be shared by the organising society.'],
+      rules: commonRules,
+      judging: commonJudging,
+      societyLink: '#student-union'
+    };
+  }
+
+  function getEventData(id) {
+    return { ...inferEventData(id), ...(TRYST_EVENTS[id] || {}) };
+  }
 
   function setStatus(el, message, type = '') {
     if (!el) return;
@@ -195,6 +256,14 @@
     inner.textContent = loading ? text : btn.dataset.defaultText;
   }
 
+  function resetButtonText(btn) {
+    if (!btn) return;
+    const inner = btn.querySelector('.reg-submit-inner, .ed-register-inner') || btn;
+    inner.textContent = btn.dataset.defaultText || inner.textContent;
+    btn.disabled = false;
+    btn.classList.remove('reg-loading');
+  }
+
   function fileToBase64(file) {
     return new Promise((resolve, reject) => {
       if (!file) return resolve('');
@@ -205,14 +274,25 @@
     });
   }
 
+  const toBase64 = fileToBase64;
+  window.toBase64 = toBase64;
+
   async function postJSON(payload) {
     const response = await fetch(POST_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    const data = await response.json();
-    if (!response.ok || data?.ok === false || data?.success === false) {
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (error) {
+      throw new Error('Backend did not return JSON. Check the Apps Script deployment.');
+    }
+
+    const failedStatus = data?.status && data.status !== 'success';
+    if (!response.ok || failedStatus || data?.ok === false || data?.success === false) {
       throw new Error(data?.message || 'Submission failed. Please try again.');
     }
     return data;
@@ -288,9 +368,9 @@
       const wrap = document.querySelector(`.events-modal-day[data-events-day="${day}"]`);
       if (!wrap) return;
       wrap.innerHTML = eventOrder
-        .filter(id => TRYST_EVENTS[id].day === day)
+        .filter(id => getEventData(id).day === day)
         .map(id => {
-          const event = TRYST_EVENTS[id];
+          const event = getEventData(id);
           return `
             <div class="events-modal-item" data-event-id="${id}">
               <div class="events-modal-row" onclick="toggleEventsModalItem(this)">
@@ -311,9 +391,8 @@
 
   function syncScheduleLabels() {
     eventOrder.forEach(id => {
-      const row = document.querySelector(`.schedule-event[data-event-id="${id}"]`);
-      const tag = row?.querySelector('.event-tag');
-      if (tag) tag.textContent = TRYST_EVENTS[id].society;
+      const tag = eventHeader(id)?.querySelector('.event-tag');
+      if (tag) tag.textContent = getEventData(id).society;
     });
   }
 
@@ -341,19 +420,30 @@
   const edSocietyLink = $('edSocietyLink');
 
   function openEventDetailById(eventId) {
-    const event = TRYST_EVENTS[eventId];
+    const event = getEventData(eventId);
     if (event) window.openEventDetailModal({ ...event, eventId });
   }
 
   window.toggleEvent = function(header) {
-    const row = header.closest('.schedule-event');
-    if (row) openEventDetailById(row.dataset.eventId);
+    const id = header?.dataset?.eventId || header?.closest('.schedule-event')?.dataset?.eventId;
+    if (id) openEventDetailById(id);
+  };
+
+  window.openEventDetail = function(source) {
+    const eventId = source?.dataset?.eventId || source?.closest('[data-event-id]')?.dataset?.eventId;
+    if (!eventId) return;
+    if (source.closest('#modal-events')) {
+      window.goToEvent({ dataset: { eventId, day: getEventData(eventId).day } });
+      return;
+    }
+    openEventDetailById(eventId);
   };
 
   window.goToEvent = function(source) {
     const eventId = typeof source === 'string' ? source : source?.dataset?.eventId;
-    const day = typeof source === 'string' ? TRYST_EVENTS[eventId]?.day : source?.dataset?.day || TRYST_EVENTS[eventId]?.day;
     if (!eventId) return;
+    const event = getEventData(eventId);
+    const day = typeof source === 'string' ? event?.day : source?.dataset?.day || event?.day;
 
     if (typeof window.closeModal === 'function') closeModal();
     setTimeout(() => {
@@ -365,7 +455,7 @@
         ease: 'expo.inOut',
         onComplete: () => {
           setScheduleDay(day);
-          const row = document.querySelector(`.schedule-event[data-event-id="${eventId}"]`);
+          const row = eventRow(eventId);
           if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setTimeout(() => openEventDetailById(eventId), 320);
         }
@@ -374,7 +464,7 @@
   };
 
   window.openEventDetailModal = function(event) {
-    const data = TRYST_EVENTS[event.eventId] || event;
+    const data = event.eventId ? getEventData(event.eventId) : event;
     if (!data || !edModal) return;
 
     $('edTag').textContent = data.society || 'Organising Society';
@@ -461,6 +551,20 @@
   });
 
   const attendeeForm = $('registrationForm');
+  $('register-now-btn')?.addEventListener('click', () => {
+    setStatus($('regStatus'), '');
+    resetButtonText($('regSubmitBtn'));
+  }, true);
+
+  if (typeof window.openRegisterModal === 'function') {
+    const openRegisterModalBase = window.openRegisterModal;
+    window.openRegisterModal = function(...args) {
+      setStatus($('regStatus'), '');
+      resetButtonText($('regSubmitBtn'));
+      return openRegisterModalBase.apply(this, args);
+    };
+  }
+
   attendeeForm?.addEventListener('submit', async event => {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -485,9 +589,9 @@
         course: $('reg-course').value.trim(),
         year: $('reg-year').value,
         gender: $('reg-gender').value,
-        collegeId: await fileToBase64($('reg-college-id').files[0]),
-        task1: await fileToBase64($('reg-sponsor-1').files[0]),
-        task2: await fileToBase64($('reg-sponsor-2').files[0])
+        collegeId: await toBase64($('reg-college-id').files[0]),
+        task1: await toBase64($('reg-sponsor-1').files[0]),
+        task2: await toBase64($('reg-sponsor-2').files[0])
       };
 
       const result = await postJSON(payload);
@@ -529,6 +633,8 @@
     eventRegForm?.reset();
     eventRegForm?.querySelectorAll('input[type="file"]').forEach(resetUploadZone);
     document.querySelectorAll('.ereg-type-btn').forEach(btn => btn.classList.remove('selected'));
+    resetButtonText($('eregFinalSubmit'));
+    resetButtonText($('eregToStep3Btn'));
     showEventRegStep(1);
   }
 
@@ -587,10 +693,10 @@
     const brand = $('ereg-brand');
     const brandStar = document.querySelector('.ereg-brand-required');
     if (brand) {
-      brand.required = type === 'group';
-      brand.placeholder = type === 'group' ? 'Team X' : 'Optional stage or team name';
+      brand.required = true;
+      brand.placeholder = type === 'solo' ? 'Stage name or participant name' : 'Team name';
     }
-    if (brandStar) brandStar.style.display = type === 'group' ? 'inline' : 'none';
+    if (brandStar) brandStar.style.display = 'inline';
 
     if (type === 'solo' || type === 'duo') generateParticipantFields(eventReg.participantCount);
     if (type === 'group' && $('eregParticipantsWrap')) $('eregParticipantsWrap').innerHTML = '';
@@ -677,12 +783,11 @@
         phone: memberField(i, 'phone')?.value.trim() || '',
         course: memberField(i, 'course')?.value.trim() || '',
         year: memberField(i, 'year')?.value || '',
-        idFile: await fileToBase64(memberField(i, 'idFile')?.files?.[0])
+        idFile: await toBase64(memberField(i, 'idFile')?.files?.[0])
       });
     }
 
     return {
-      formType: 'event',
       event: eventReg.currentEvent,
       type: eventReg.selectedType,
       brand: $('ereg-brand').value.trim(),
@@ -719,6 +824,12 @@
     }, true);
   });
 
+  eventRegForm?.addEventListener('submit', event => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    $('eregToStep3Btn')?.click();
+  }, true);
+
   $('eregGenBtn')?.addEventListener('click', event => {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -726,6 +837,11 @@
     if (!count) return markInvalid($('ereg-group-count'));
     generateParticipantFields(count);
   }, true);
+
+  $('ereg-group-count')?.addEventListener('change', () => {
+    const count = parseInt($('ereg-group-count').value, 10);
+    if (count) generateParticipantFields(count);
+  });
 
   $('eregBackBtn')?.addEventListener('click', event => {
     event.preventDefault();
@@ -785,4 +901,125 @@
 
   renderEventsModal();
   syncScheduleLabels();
+})();
+
+/* =====================
+   🔥 TRYST FORM PATCH
+   Add this at the END of tryst-production.js
+===================== */
+
+(function formIntegration() {
+
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQAna9huOq3pPHqSAAu86QmoNRV0I2oKPdakbNGdIHuQwKHCOnvlJiE5gfkPZF7rZn/exec';
+
+  function toBase64(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+    });
+  }
+
+  /* =====================
+     🎫 ATTENDEE FORM
+  ===================== */
+
+  const attendeeForm = document.getElementById("registrationForm");
+
+  if (attendeeForm) {
+    attendeeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      try {
+        const f = attendeeForm;
+
+        const data = {
+          formType: "attendee",
+          name: f.name.value,
+          email: f.email.value,
+          phone: f.phone.value,
+          college: f.college.value,
+          course: f.course.value,
+          year: f.year.value,
+          gender: f.gender.value,
+          collegeId: await toBase64(f.collegeId.files[0]),
+          task1: await toBase64(f.task1.files[0]),
+          task2: await toBase64(f.task2.files[0])
+        };
+
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        alert(`🎉 Registered! ID: ${result.regId}`);
+        attendeeForm.reset();
+
+      } catch (err) {
+        console.error(err);
+        alert("❌ Error submitting form");
+      }
+    });
+  }
+
+
+  /* =====================
+     🎟️ EVENT FORM
+  ===================== */
+
+  const eventForm = document.getElementById("eventForm");
+
+  if (eventForm) {
+    eventForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      try {
+        const f = eventForm;
+        const type = f.type.value;
+
+        const members = [];
+        let i = 1;
+
+        while (f[`name${i}`]) {
+          members.push({
+            name: f[`name${i}`].value,
+            email: f[`email${i}`]?.value || "",
+            phone: f[`phone${i}`].value,
+            course: f[`course${i}`].value,
+            year: f[`year${i}`].value,
+            idFile: await toBase64(f[`id${i}`].files[0])
+          });
+          i++;
+        }
+
+        const data = {
+          event: f.event.value,
+          type: type,
+          brand: f.brand.value,
+          mainEmail: members[0]?.email || "",
+          mainPhone: members[0]?.phone || "",
+          members: members
+        };
+
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        alert(`🎉 Registered! ID: ${result.regId}`);
+        eventForm.reset();
+
+      } catch (err) {
+        console.error(err);
+        alert("❌ Error submitting event form");
+      }
+    });
+  }
+
 })();
