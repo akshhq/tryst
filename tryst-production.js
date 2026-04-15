@@ -285,7 +285,7 @@
 
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "payload";
+    input.name = "data";
     input.value = JSON.stringify(payload);
 
     form.appendChild(input);
@@ -961,7 +961,7 @@
 
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "payload";
+    input.name = "data";
     input.value = JSON.stringify(payload);
 
     form.appendChild(input);
@@ -1020,7 +1020,7 @@
 
         const input = document.createElement("input");
         input.type = "hidden";
-        input.name = "payload";
+        input.name = "data";
         input.value = JSON.stringify(data);
 
         form.appendChild(input);
@@ -1029,29 +1029,23 @@
         form.submit();
 
         // ⏳ wait a bit for backend to write
-        async function waitForRegId(sheetName = "Attendees", retries = 5) {
-          for (let i = 0; i < retries; i++) {
-            const regId = await getLatestRegId(sheetName);
+        setTimeout(async () => {
+          const regId = await getLatestRegId("Attendees");
 
-            if (regId) return regId;
-
-            await new Promise(r => setTimeout(r, 2000)); // wait 2 sec
+          if (regId) {
+            alert(`🎉 Registered! ID: ${regId}`);
+          } else {
+            alert("Submitted! Check email for confirmation.");
           }
-          return null;
-        }
+        }, 2000);
 
         // ✅ FAKE SUCCESS (since no response)
         alert("🎉 Registration submitted successfully!");
 
         eventForm.reset();
 
-        const regId = await waitForRegId("Attendees");
-
-        if (regId) {
-          alert(`🎉 Registered! ID: ${regId}`);
-        } else {
-          alert("Submitted! Check email.");
-        }
+        alert(`🎉 Registered! ID: ${result.regId}`);
+        eventForm.reset();
 
       } catch (err) {
         console.error(err);
