@@ -21,6 +21,7 @@
   --glass-border: rgba(201, 168, 76, 0.2);
   --transition-fast: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-std: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --logo-scale: 1.5;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
