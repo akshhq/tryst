@@ -285,7 +285,7 @@
 
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "data";
+    input.name = "payload";
     input.value = JSON.stringify(payload);
 
     form.appendChild(input);
@@ -961,7 +961,7 @@
 
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "data";
+    input.name = "payload";
     input.value = JSON.stringify(payload);
 
     form.appendChild(input);
@@ -1020,7 +1020,7 @@
 
         const input = document.createElement("input");
         input.type = "hidden";
-        input.name = "data";
+        input.name = "payload";
         input.value = JSON.stringify(data);
 
         form.appendChild(input);
@@ -1032,11 +1032,7 @@
         setTimeout(async () => {
           const regId = await getLatestRegId("Attendees");
 
-          if (regId) {
-            alert(`🎉 Registered! ID: ${regId}`);
-          } else {
-            alert("Submitted! Check email for confirmation.");
-          }
+          alert(`🎉 Registered! ID: ${regId}`);
         }, 2000);
 
         // ✅ FAKE SUCCESS (since no response)
