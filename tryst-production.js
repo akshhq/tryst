@@ -1029,19 +1029,29 @@
         form.submit();
 
         // ⏳ wait a bit for backend to write
-        setTimeout(async () => {
-          const regId = await getLatestRegId("Attendees");
+        async function waitForRegId(sheetName = "Attendees", retries = 5) {
+          for (let i = 0; i < retries; i++) {
+            const regId = await getLatestRegId(sheetName);
 
-          alert(`🎉 Registered! ID: ${regId}`);
-        }, 2000);
+            if (regId) return regId;
+
+            await new Promise(r => setTimeout(r, 2000)); // wait 2 sec
+          }
+          return null;
+        }
 
         // ✅ FAKE SUCCESS (since no response)
         alert("🎉 Registration submitted successfully!");
 
         eventForm.reset();
 
-        alert(`🎉 Registered! ID: ${result.regId}`);
-        eventForm.reset();
+        const regId = await waitForRegId("Attendees");
+
+        if (regId) {
+          alert(`🎉 Registered! ID: ${regId}`);
+        } else {
+          alert("Submitted! Check email.");
+        }
 
       } catch (err) {
         console.error(err);
