@@ -1222,3 +1222,265 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   window.closeEventRegModal = close;
 
 })();
+/* ═══════════════════════════════════════════════
+   EVENT DETAIL MODAL
+   ─────────────────────────────────────────────
+   • Overrides toggleEvent() — click opens popup
+     instead of inline accordion expand.
+   • Rich data per event via EVENT_DATA map.
+   • Register button passes event title into the
+     existing eventRegModal (step 1 title update).
+   • Fully GSAP animated open/close.
+═══════════════════════════════════════════════ */
+
+/* ── Event data map ─────────────────────────────
+   Keys match data-event-id on .schedule-event.
+   Add / edit here to update modal content.
+─────────────────────────────────────────────── */
+const EVENT_DATA = {
+  'lamp-lighting': {
+    title:    'Lamp Lighting',
+    tag:      'Opening Ceremony',
+    time:     '10:00 AM',
+    location: '📍 Main Auditorium',
+    poster:   'images/posters/campus.webp',
+    desc:     'The grand opening ceremony of TRYST 2026 begins with a traditional Pooja and the sacred lighting of the ceremonial lamp. This ritual marks the official commencement of the festival, symbolising the illumination of knowledge, creativity, and cultural unity. Faculty, student leaders, and special guests gather to inaugurate two extraordinary days of performances, competitions, and celebrations.'
+  },
+  'nrityaang': {
+    title:    'Nrityaang – Mridang',
+    tag:      'Dance',
+    time:     '10:00 AM – 11:20 AM',
+    location: '📍 Auditorium',
+    poster:   'images/posters/stage.webp',
+    desc:     'Nrityaang – Mridang is a prestigious Solo Classical Dance competition that invites performers to showcase the depth and grace of India\'s classical dance traditions. Whether it be Bharatanatyam, Kathak, Odissi, or Kuchipudi, each performance is an offering of devotion and artistry. Judges evaluate technique, expression (abhinaya), rhythm, and stage presence. Open to solo participants from any college.'
+  },
+  'uthaan': {
+    title:    'Uthaan',
+    tag:      'Dance',
+    time:     '11:30 AM – 1:30 PM',
+    location: '📍 Auditorium',
+    poster:   'images/posters/crowd.webp',
+    desc:     'Uthaan is a vibrant Group Folk Dance competition celebrating the rich tapestry of India\'s regional dance heritage. Teams perform folk forms from across the country — from the energetic Bhangra and Giddha to the graceful Garba and the rhythmic Lavani. The competition rewards authenticity, synchronisation, and the infectious joy that folk dance brings. Teams of 6–12 members are welcome.'
+  },
+  'inaayat': {
+    title:    'Inaayat',
+    tag:      'Dance',
+    time:     '1:30 PM – 6:30 PM',
+    location: '📍 Auditorium',
+    poster:   'images/posters/entry.webp',
+    desc:     'Inaayat is TRYST\'s flagship Western Group Dance competition — a high-energy, cinematic battle of choreography, style, and synchronisation.<br><br>' +
+
+              '<b>I. Competition Format – Western Group Dance Competition</b><br>' +
+              'A platform for teams to showcase coordination, creativity, and power.<br><br>' +
+
+              '• Format: Team performances in front of judges<br>' +
+              '• Structure: Performances will be judged and top teams will secure winning positions<br>' +
+              '• Time Limit: 6–8 minutes per team (strictly followed)<br>' +
+              '• Audio: Teams must bring their music in a pen drive<br><br>' +
+
+              '<b>II. Rules & Conduct</b><br>' +
+              '• Only college teams are allowed<br>' +
+              '• Minimum 5 members in each team<br>' +
+              '• Western dance styles should be the main focus<br>' +
+              '• Props are allowed but must be safe and manageable<br>' +
+              '• Any vulgar or inappropriate content will lead to disqualification<br>' +
+              '• Participants must carry their college ID cards<br>' +
+              '• Teams must follow the time limit strictly<br>' +
+              '• Judges’ decision will be final and binding<br><br>' +
+
+              '<b>III. Judging Criteria</b><br>' +
+              '• Choreography and formations<br>' +
+              '• Synchronization and teamwork<br>' +
+              '• Energy and execution<br>' +
+              '• Creativity and originality<br>' +
+              '• Stage presence and crowd connection'
+  },
+  'advaitaa': {
+    title:    'Advaitaa – Nazaat',
+    tag:      'Dance',
+    time:     '2:00 PM – 3:00 PM',
+    location: '📍 Auditorium',
+    poster:   'images/posters/artist.webp',
+    desc:     'Advaitaa – Nazaat is a Western Solo Dance competition designed for individual performers who command the stage alone. From neo-classical to street-style, participants express their unique voice through movement. The competition rewards technical proficiency, personal style, musicality, and the ability to hold an audience captive for an entire performance. Solo entries from all colleges welcome.'
+  },
+  'performance-showcase': {
+    title:    'Performance Showcase',
+    tag:      'Showcase',
+    time:     '2:00 PM – 4:30 PM',
+    location: '📍 Amphitheatre',
+    poster:   'images/posters/support.webp',
+    desc:     'The Performance Showcase is an open platform for talent without boundaries. Set against the open sky of the Amphitheatre, this showcase invites students to present acts in any performance art form — spoken word, stand-up comedy, acrobatics, juggling, magic, or any creative expression that defies categorisation. No competition, no pressure — just pure artistry shared with an enthusiastic crowd.'
+  },
+  'illuminati': {
+    title:    'Illuminati',
+    tag:      'Competition',
+    time:     '9:00 AM – 5:00 PM',
+    location: '📍 Lecture Hall-2',
+    poster:   'images/posters/stage.webp',
+    desc:     'Illuminati is TRYST\'s ultimate knowledge competition — a rigorous intellectual challenge spanning disciplines from science and technology to literature, history, and pop culture. Participants are tested across multiple rounds including written qualifiers, rapid-fire buzzer rounds, and a grand finale. This is a competition for the curious, the widely-read, and the quick-witted. Open to solo or duo entries.'
+  },
+  'anhad': {
+    title:    'Anhad – Slaycapella',
+    tag:      'Music',
+    time:     '10:00 AM – 2:00 PM',
+    location: '📍 Reading Room',
+    poster:   'images/posters/crowd.webp',
+    desc:     'Anhad – Slaycapella is an a cappella competition where voice is the only instrument. Groups perform entirely without musical backing — every beat, every melody, every harmonic texture is produced by human voice alone. The event celebrates the power of the human voice in its most authentic form. Judges assess vocal quality, arrangement creativity, synchronisation, and performance energy. Groups of 4–12 members.'
+  },
+  'baithak': {
+    title:    'Baithak + Vagmita Debsoc',
+    tag:      'Theatre & Debate',
+    time:     '10:00 AM – 5:00 PM',
+    location: '📍 Shades Lawn / Seminar Room',
+    poster:   'images/posters/entry.webp',
+    desc:     'Two powerful events running in parallel: Baithak brings the drama of street theatre and nukkad natak to the Shades Lawn, where teams enact socially relevant narratives for an open-air audience. Simultaneously, Vagmita Debsoc hosts a formal parliamentary debate competition in the Seminar Room. Together these events represent the full spectrum of spoken word — from passionate street performance to measured intellectual argument.'
+  },
+  'vagmita-poetry': {
+    title:    'Vagmita Poetry – Irshaad',
+    tag:      'Literary',
+    time:     '11:00 AM – 1:00 PM',
+    location: '📍 LT-4',
+    poster:   'images/posters/artist.webp',
+    desc:     'Irshaad is an open mic poetry competition where words become worlds. Participants bring original compositions in Hindi, Urdu, or English — spoken word, shayari, poetry slams — and perform them live. The event celebrates raw emotion, linguistic beauty, and the power of language to move people. Poems may address love, society, identity, resistance, or any theme the poet chooses. Open to all, every voice welcome.'
+  },
+  'maniera': {
+    title:    'Maniera: Atrang Rangmanch',
+    tag:      'Exhibition',
+    time:     '11:00 AM – 3:00 PM',
+    location: '📍 Parking Area, Near Gill\'s Hostel',
+    poster:   'images/posters/campus.webp',
+    desc:     'Atrang Rangmanch is a vibrant outdoor art exhibition and street art installation event celebrating colour, form, and creative expression. Artists transform the festival space with murals, installations, live painting sessions, and mixed-media works. The exhibition is open for all attendees to experience, interact with, and be inspired by. Part showcase, part community art space — Atrang Rangmanch is where TRYST becomes a canvas.'
+  },
+  'chitrakala': {
+    title:    'Maniera: Chitrakala / Kala Sangini',
+    tag:      'Art',
+    time:     '11:00 AM – 2:00 PM',
+    location: '📍 LT-1 and LT-3',
+    poster:   'images/posters/support.webp',
+    desc:     'Chitrakala is a fine arts competition inviting participants to express their vision through painting, sketching, watercolour, and mixed media. Kala Sangini runs alongside as a rangoli and traditional art competition celebrating India\'s classical decorative traditions. Both events provide a quiet, focused space for artists to create under time constraints, with judges evaluating technique, originality, and artistic expression.'
+  }
+};
+
+/* ── DOM refs ────────────────────────────────── */
+const edOverlay    = document.getElementById('edOverlay');
+const edModal      = document.getElementById('edModal');
+const edCard       = document.getElementById('edCard');
+const edCloseBtn   = document.getElementById('edCloseBtn');
+const edRegBtn     = document.getElementById('edRegisterBtn');
+
+const edTagEl      = document.getElementById('edTag');
+const edTitleEl    = document.getElementById('edTitle');
+const edMetaEl     = document.getElementById('edMeta');
+const edDescEl     = document.getElementById('edDesc');
+const edPosterImg  = document.getElementById('edPosterImg');
+
+/* ── Override toggleEvent ────────────────────────
+   Called from onclick="toggleEvent(this)" on
+   every .event-header. We intercept and open the
+   detail modal instead.
+─────────────────────────────────────────────── */
+window.toggleEvent = function(header) {
+  // Get event data from parent .schedule-event
+  const scheduleEvent = header.closest('.schedule-event');
+  if (!scheduleEvent) return;
+
+  const eventId = scheduleEvent.dataset.eventId;
+  const data    = EVENT_DATA[eventId];
+
+  // Fallback: read from DOM if not in map
+  const title   = data?.title    || header.querySelector('.event-title')?.textContent  || 'Event';
+  const tag     = data?.tag      || header.querySelector('.event-tag')?.textContent    || '';
+  const time    = data?.time     || scheduleEvent.querySelector('.event-time')?.textContent || '';
+  const location = data?.location || scheduleEvent.querySelector('.event-meta-row')?.textContent || '';
+  const desc    = data?.desc     || scheduleEvent.querySelector('.event-details p')?.textContent || '';
+  const poster  = data?.poster   || scheduleEvent.querySelector('.event-poster')?.src  || '';
+
+  openEventDetailModal({ title, tag, time, location, desc, poster, eventId });
+};
+
+/* ── Open modal ──────────────────────────────── */
+function openEventDetailModal({ title, tag, time, location, desc, poster, eventId }) {
+  // Populate content
+  edTagEl.textContent     = tag;
+  edTitleEl.textContent   = title;
+  edMetaEl.textContent    = [time, location].filter(Boolean).join('  ·  ');
+  edDescEl.textContent    = desc;
+  edPosterImg.src         = poster;
+  edPosterImg.alt         = title;
+
+  // Store event id on register button for context
+  edRegBtn.dataset.eventId = eventId || '';
+  edRegBtn.dataset.eventTitle = title;
+
+  // Reset desc scroll position
+  const scrollWrap = document.querySelector('.ed-desc-scroll');
+  if (scrollWrap) scrollWrap.scrollTop = 0;
+
+  // Show
+  edOverlay.classList.add('ed-active');
+  edModal.classList.add('ed-active');
+  document.body.style.overflow = 'hidden';
+
+  // GSAP: fade + scale in
+  gsap.fromTo(edCard,
+    { opacity: 0, scale: 0.91, y: 18 },
+    { opacity: 1, scale: 1,    y: 0,
+      duration: 0.38,
+      ease: 'expo.out',
+      clearProps: 'transform'
+    }
+  );
+}
+
+/* ── Close modal ─────────────────────────────── */
+function closeEventDetailModal() {
+  gsap.to(edCard, {
+    opacity: 0, scale: 0.93, y: 12,
+    duration: 0.24, ease: 'power3.in',
+    onComplete: () => {
+      edOverlay.classList.remove('ed-active');
+      edModal.classList.remove('ed-active');
+      document.body.style.overflow = '';
+      gsap.set(edCard, { clearProps: 'all' });
+    }
+  });
+}
+
+/* ── Event listeners ─────────────────────────── */
+if (edCloseBtn)  edCloseBtn.addEventListener('click', closeEventDetailModal);
+if (edOverlay)   edOverlay.addEventListener('click',  closeEventDetailModal);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && edModal?.classList.contains('ed-active')) {
+    closeEventDetailModal();
+  }
+});
+
+/* ── Register button inside event detail modal ──
+   Pre-fills event title in eventRegModal title,
+   then opens the existing 3-step event reg flow.
+─────────────────────────────────────────────── */
+if (edRegBtn) {
+  edRegBtn.addEventListener('click', () => {
+    const eventTitle = edRegBtn.dataset.eventTitle || 'Event';
+
+    // Update the event reg modal title with the event name
+    const eregTitleEl = document.getElementById('eventRegTitle');
+    if (eregTitleEl) eregTitleEl.textContent = eventTitle;
+
+    const eregEyebrow = document.querySelector('#eventRegStep1 .reg-eyebrow');
+    if (eregEyebrow) eregEyebrow.textContent = `TRYST 2026 · ${eventTitle}`;
+
+    // Close event detail modal first, then open event reg modal
+    closeEventDetailModal();
+    setTimeout(() => {
+      if (typeof window.openEventRegModal === 'function') {
+        window.openEventRegModal();
+      }
+    }, 280);
+  });
+}
+
+/* ── Expose globally ─────────────────────────── */
+window.openEventDetailModal  = openEventDetailModal;
+window.closeEventDetailModal = closeEventDetailModal;
