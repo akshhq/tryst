@@ -1014,8 +1014,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       time: '10:00 AM',
       location: 'Main Auditorium',
       poster: 'images/posters/campus.webp',
-      description: 'The ceremonial opening of TRYST 2026 with the organising team, faculty, guests, and student representatives.',
-      
+      description: 'The ceremonial opening of TRYST 2026 with the organising team, faculty, guests, and student representatives. This sacred tradition marks the beginning of two days of cultural excellence, welcoming all participants and guests to the festival.',
+      descriptionOnly: true
     },
     'inaayat': {
       day: '1',
@@ -1988,15 +1988,31 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     $('edTitle').textContent = data.title || 'Event';
     $('edMeta').textContent = [data.time, data.location].filter(Boolean).join(' | ');
     $('edDesc').textContent = data.description || '';
-    $('edFormat').innerHTML = listHTML(data.format);
-    $('edRules').innerHTML = listHTML(data.rules);
-    $('edJudging').innerHTML = listHTML(data.judging);
+
+    const isDescOnly = !!data.descriptionOnly;
+
+    // Format / Rules / Judging — hide for description-only events
+    const formatSection = $('edFormat')?.closest('.ed-info-section');
+    const rulesSection  = $('edRules')?.closest('.ed-info-section');
+    const judgingSection= $('edJudging')?.closest('.ed-info-section');
+    if (formatSection)  formatSection.style.display  = isDescOnly ? 'none' : '';
+    if (rulesSection)   rulesSection.style.display   = isDescOnly ? 'none' : '';
+    if (judgingSection) judgingSection.style.display = isDescOnly ? 'none' : '';
+    if (!isDescOnly) {
+      $('edFormat').innerHTML  = listHTML(data.format);
+      $('edRules').innerHTML   = listHTML(data.rules);
+      $('edJudging').innerHTML = listHTML(data.judging);
+    }
 
     const poster = $('edPosterImg');
     if (poster) {
       poster.src = data.poster || '';
       poster.alt = data.title || 'Event poster';
     }
+
+    // Register button — hide for description-only events
+    const edActionRow = document.querySelector('.ed-action-row');
+    if (edActionRow) edActionRow.style.display = isDescOnly ? 'none' : '';
 
     if (edRegBtn) {
       edRegBtn.dataset.eventId = event.eventId || '';
@@ -2041,8 +2057,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     event.preventDefault();
     event.stopImmediatePropagation();
     const title = edRegBtn.dataset.eventTitle || 'Event';
+    const eid   = edRegBtn.dataset.eventId    || '';
     window.closeEventDetailModal();
-    setTimeout(() => window.openEventRegModal?.(title), 280);
+    setTimeout(() => window.openEventRegModal?.(title, eid), 280);
   }, true);
 
   edCloseBtn?.addEventListener('click', event => {
@@ -2123,66 +2140,155 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     }
   }, true);
 
+  // ═══════════════════════════════════════════════
+  //  EVENT META — defines form type + conditional flags per event
+  // ═══════════════════════════════════════════════
+  const eventMeta = {
+    mridang:       { formType: 'solo',    prelims: true  },
+    inaayat:       { formType: 'team',    audio: true    },
+    aaghaaz:       { formType: 'dynamic'                 },
+    nocturne:      { formType: 'team',    prelims: true  },
+    khayaal:       { formType: 'team',    prelims: true  },
+    pixel:         { formType: 'solo',    prelims: true  },
+    syncstroke:    { formType: 'team',    lockedCount: 2 },
+    uthaan:        { formType: 'team',    minMembers: 6, maxMembers: 12 },
+    envogue:       { formType: 'team',    minMembers: 4, maxMembers: 12 },
+    baithak_mime:  { formType: 'team',    maxMembers: 15 },
+    baithak_street:{ formType: 'team'                    }
+  };
+
+  // Team member limits per event
+  const teamLimits = {
+    inaayat:       { min: 5 },
+    uthaan:        { min: 6, max: 12 },
+    envogue:       { min: 4, max: 12 },
+    baithak_mime:  { max: 15 }
+  };
+
   const eventReg = {
-    currentEvent: 'Event Registration',
-    selectedType: '',
-    participantCount: 0
+    currentEvent:  'Event Registration',
+    currentEventId:'',
+    formType:      'solo',   // 'solo' | 'team' | 'dynamic'
+    selectedType:  '',       // for aaghaaz: 'solo' | 'crew'
+    participantCount: 0,
+    hasPrelims:    false,
+    hasAudio:      false,
+    lockedCount:   0,
+    minMembers:    1,
+    maxMembers:    50
   };
 
   const eventRegOverlay = $('eventRegOverlay');
-  const eventRegModal = $('eventRegModal');
-  const eventRegCard = $('eventRegCard');
-  const eventRegForm = $('eventRegForm');
+  const eventRegModal   = $('eventRegModal');
+  const eventRegCard    = $('eventRegCard');
 
+  // ── Step visibility ─────────────────────────────────
   function showEventRegStep(step) {
-    [1, 2, 3].forEach(i => {
-      const panel = $(`eventRegStep${i}`);
-      if (panel) panel.style.display = i === step ? 'flex' : 'none';
+    ['ereg-step-solo','ereg-step-team-1','ereg-step-team-2','ereg-step-aaghaaz','ereg-step-confirm'].forEach(id => {
+      const el = $(id);
+      if (el) el.style.display = 'none';
     });
+    const map = {
+      'solo-form':    'ereg-step-solo',
+      'team-1':       'ereg-step-team-1',
+      'team-2':       'ereg-step-team-2',
+      'aaghaaz':      'ereg-step-aaghaaz',
+      'confirm':      'ereg-step-confirm'
+    };
+    const id = map[step];
+    if (id && $(id)) $(id).style.display = 'flex';
     if (eventRegCard) gsap.from(eventRegCard, { y: 6, duration: 0.22, ease: 'expo.out' });
   }
 
   function resetEventReg() {
-    eventReg.selectedType = '';
-    eventReg.participantCount = 0;
     setStatus($('eventRegStatus'), '');
-    if ($('eregParticipantsWrap')) $('eregParticipantsWrap').innerHTML = '';
-    eventRegForm?.reset();
-    eventRegForm?.querySelectorAll('input[type="file"]').forEach(resetUploadZone);
-    document.querySelectorAll('.ereg-type-btn').forEach(btn => btn.classList.remove('selected'));
-    resetButtonText($('eregFinalSubmit'));
-    resetButtonText($('eregToStep3Btn'));
-    showEventRegStep(1);
+    ['ereg-solo-form','ereg-team-form-1','ereg-team-form-2'].forEach(fid => {
+      const f = $(fid);
+      if (f) {
+        f.reset?.();
+        f.querySelectorAll('input[type="file"]').forEach(resetUploadZone);
+      }
+    });
+    if ($('ereg-members-wrap')) $('ereg-members-wrap').innerHTML = '';
+    resetButtonText($('eregSoloSubmit'));
+    resetButtonText($('eregTeamSubmit'));
   }
 
-  window.openEventRegModal = function(eventTitle = 'Event Registration') {
-    eventReg.currentEvent = eventTitle;
+  window.openEventRegModal = function(eventTitle = 'Event Registration', eventId = '') {
+    eventReg.currentEvent   = eventTitle;
+    eventReg.currentEventId = eventId || eventTitle.toLowerCase().replace(/\s+/g, '_');
     resetEventReg();
-    if ($('eventRegTitle')) $('eventRegTitle').textContent = eventTitle;
-    if ($('ereg-event-name')) $('ereg-event-name').value = eventTitle;
-    const eyebrow = document.querySelector('#eventRegStep1 .reg-eyebrow');
-    if (eyebrow) eyebrow.textContent = `TRYST 2026 | ${eventTitle}`;
+
+    const meta = eventMeta[eventReg.currentEventId] || {};
+    eventReg.formType    = meta.formType    || 'solo';
+    eventReg.hasPrelims  = !!(meta.prelims || meta.audio);
+    eventReg.hasAudio    = !!meta.audio;
+    eventReg.lockedCount = meta.lockedCount || 0;
+
+    const limits = teamLimits[eventReg.currentEventId] || {};
+    eventReg.minMembers  = limits.min || 1;
+    eventReg.maxMembers  = limits.max || 50;
+
+    // Set event name in all hidden fields
+    document.querySelectorAll('.ereg-event-name-field').forEach(el => el.value = eventTitle);
+    document.querySelectorAll('.ereg-event-title-display').forEach(el => el.textContent = eventTitle);
+
+    // Show/hide Drive Link field
+    document.querySelectorAll('.ereg-drive-wrap').forEach(el => {
+      el.style.display = eventReg.hasPrelims ? '' : 'none';
+      el.querySelectorAll('input').forEach(i => {
+        if (eventReg.hasPrelims) i.setAttribute('required',''); else i.removeAttribute('required');
+      });
+    });
+    // Label: audio vs prelims
+    document.querySelectorAll('.ereg-drive-label').forEach(el => {
+      el.textContent = eventReg.hasAudio ? 'Audio / Drive Link *' : 'Prelims Drive Link *';
+    });
+
+    // Update modal header
+    const eyebrow1 = document.querySelector('#ereg-step-solo .reg-eyebrow, #ereg-step-team-1 .reg-eyebrow, #ereg-step-aaghaaz .reg-eyebrow');
+    document.querySelectorAll('.ereg-modal-eyebrow').forEach(el => el.textContent = `TRYST 2026 · ${eventTitle}`);
 
     eventRegOverlay?.classList.add('reg-active');
     eventRegModal?.classList.add('reg-active');
     document.body.style.overflow = 'hidden';
-    gsap.fromTo(eventRegCard, { opacity: 0, scale: 0.91, y: 22 }, {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      duration: 0.42,
-      ease: 'expo.out'
-    });
+    gsap.fromTo(eventRegCard, { opacity: 0, scale: 0.91, y: 22 }, { opacity: 1, scale: 1, y: 0, duration: 0.42, ease: 'expo.out' });
+
+    // Route to first step
+    if (eventReg.formType === 'dynamic') {
+      showEventRegStep('aaghaaz');
+    } else if (eventReg.formType === 'solo') {
+      showEventRegStep('solo-form');
+    } else {
+      // team
+      if (eventReg.lockedCount) {
+        $('ereg-member-count').value = eventReg.lockedCount;
+        $('ereg-member-count').disabled = true;
+      } else {
+        $('ereg-member-count').disabled = false;
+        $('ereg-member-count').value = '';
+      }
+      // Set min/max info display
+      const hint = $('ereg-member-count-hint');
+      if (hint) {
+        if (eventReg.minMembers > 1 || eventReg.maxMembers < 50) {
+          const parts = [];
+          if (eventReg.minMembers > 1) parts.push(`min ${eventReg.minMembers}`);
+          if (eventReg.maxMembers < 50) parts.push(`max ${eventReg.maxMembers}`);
+          hint.textContent = `(${parts.join(', ')})`;
+          hint.style.display = '';
+        } else {
+          hint.style.display = 'none';
+        }
+      }
+      showEventRegStep('team-1');
+    }
   };
 
   window.closeEventRegModal = function() {
     if (!eventRegModal?.classList.contains('reg-active')) return;
     gsap.to(eventRegCard, {
-      opacity: 0,
-      scale: 0.93,
-      y: 14,
-      duration: 0.26,
-      ease: 'power3.in',
+      opacity: 0, scale: 0.93, y: 14, duration: 0.26, ease: 'power3.in',
       onComplete: () => {
         eventRegOverlay?.classList.remove('reg-active');
         eventRegModal.classList.remove('reg-active');
@@ -2193,77 +2299,184 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     });
   };
 
-  function configureType(type) {
-    eventReg.selectedType = type;
-    eventReg.participantCount = type === 'solo' ? 1 : type === 'duo' ? 2 : 0;
+  // ── AAGHAAZ type selection ─────────────────────────────
+  document.querySelectorAll('.ereg-aaghaaz-btn').forEach(btn => {
+    btn.addEventListener('click', ev => {
+      ev.preventDefault(); ev.stopImmediatePropagation();
+      const choice = btn.dataset.choice; // 'solo' or 'crew'
+      eventReg.selectedType = choice;
+      if (choice === 'solo') {
+        eventReg.formType = 'solo';
+        showEventRegStep('solo-form');
+      } else {
+        eventReg.formType = 'team';
+        $('ereg-member-count').disabled = false;
+        $('ereg-member-count').value = '';
+        const hint = $('ereg-member-count-hint');
+        if (hint) hint.style.display = 'none';
+        showEventRegStep('team-1');
+      }
+    }, true);
+  });
 
-    document.querySelectorAll('.ereg-type-btn').forEach(btn => {
-      btn.classList.toggle('selected', btn.dataset.type === type);
-    });
+  // ── SOLO FORM — file uploads ───────────────────────────
+  $('ereg-solo-form')?.querySelectorAll('.reg-file-input').forEach(bindUploadLabel);
 
-    const heading = document.querySelector('.ereg-type-heading');
-    if (heading) heading.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Registration`;
-
-    const groupWrap = document.querySelector('.ereg-group-size-wrap');
-    if (groupWrap) groupWrap.style.display = type === 'group' ? 'flex' : 'none';
-
-    const brand = $('ereg-brand');
-    const brandStar = document.querySelector('.ereg-brand-required');
-    if (brand) {
-      brand.required = true;
-      brand.placeholder = type === 'solo' ? 'Stage name or participant name' : 'Team name';
+  // ── SOLO FORM — submit / confirm ──────────────────────
+  $('ereg-solo-review-btn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    const form = $('ereg-solo-form');
+    if (!validateRequired(form.querySelectorAll('input[required],select[required]'))) {
+      setStatus($('eventRegStatus'), 'Please complete all required fields.', 'error');
+      return;
     }
-    if (brandStar) brandStar.style.display = 'inline';
+    setStatus($('eventRegStatus'), '');
+    // Fill confirm
+    $('confirm-event').textContent       = eventReg.currentEvent;
+    $('confirm-type').textContent        = 'Solo';
+    $('confirm-brand').textContent       = $('ereg-solo-name').value.trim();
+    $('confirm-college').textContent     = $('ereg-solo-college').value.trim();
+    $('confirm-contact').textContent     = `${$('ereg-solo-email').value.trim()} | ${$('ereg-solo-phone').value.trim()}`;
+    $('confirm-count').textContent       = '1';
+    const list = $('confirm-participants-list');
+    if (list) {
+      list.innerHTML = `<div class="ereg-confirm-participant">1. ${escapeHTML($('ereg-solo-name').value.trim())} — ${escapeHTML($('ereg-solo-course').value.trim())}, Year ${escapeHTML($('ereg-solo-year').value)}</div>`;
+    }
+    showEventRegStep('confirm');
+  }, true);
 
-    if (type === 'solo' || type === 'duo') generateParticipantFields(eventReg.participantCount);
-    if (type === 'group' && $('eregParticipantsWrap')) $('eregParticipantsWrap').innerHTML = '';
-    showEventRegStep(2);
-  }
+  // ── TEAM PAGE 1 → PAGE 2 ─────────────────────────────
+  $('ereg-team-next-btn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    const form = $('ereg-team-form-1');
+    if (!validateRequired(form.querySelectorAll('input[required],select[required]'))) {
+      setStatus($('eventRegStatus'), 'Please complete all required team fields.', 'error');
+      return;
+    }
+    const countVal = parseInt($('ereg-member-count').value, 10);
+    if (!countVal || isNaN(countVal)) {
+      markInvalid($('ereg-member-count'));
+      setStatus($('eventRegStatus'), 'Please enter number of members.', 'error');
+      return;
+    }
+    if (eventReg.minMembers > 1 && countVal < eventReg.minMembers) {
+      markInvalid($('ereg-member-count'));
+      setStatus($('eventRegStatus'), `Minimum ${eventReg.minMembers} members required for this event.`, 'error');
+      return;
+    }
+    if (eventReg.maxMembers < 50 && countVal > eventReg.maxMembers) {
+      markInvalid($('ereg-member-count'));
+      setStatus($('eventRegStatus'), `Maximum ${eventReg.maxMembers} members allowed for this event.`, 'error');
+      return;
+    }
+    setStatus($('eventRegStatus'), '');
+    eventReg.participantCount = countVal;
+    generateMemberFields(countVal);
+    showEventRegStep('team-2');
+  }, true);
 
-  function generateParticipantFields(count) {
-    const wrap = $('eregParticipantsWrap');
+  // ── TEAM PAGE 2 → CONFIRM ────────────────────────────
+  $('ereg-team-review-btn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    const form2 = $('ereg-team-form-2');
+    if (!validateRequired(form2.querySelectorAll('input[required],select[required]'))) {
+      setStatus($('eventRegStatus'), 'Please complete all member details.', 'error');
+      return;
+    }
+    setStatus($('eventRegStatus'), '');
+    // Fill confirm
+    $('confirm-event').textContent   = eventReg.currentEvent;
+    $('confirm-type').textContent    = 'Team';
+    $('confirm-brand').textContent   = $('ereg-team-name').value.trim();
+    $('confirm-college').textContent = $('ereg-team-college').value.trim();
+    $('confirm-contact').textContent = `${$('ereg-team-email').value.trim()} | ${$('ereg-team-phone').value.trim()}`;
+    $('confirm-count').textContent   = eventReg.participantCount;
+    const list = $('confirm-participants-list');
+    if (list) {
+      list.innerHTML = '';
+      for (let i = 1; i <= eventReg.participantCount; i++) {
+        const div = document.createElement('div');
+        div.className = 'ereg-confirm-participant';
+        div.textContent = `${i}. ${form2.querySelector(`[name="m${i}_name"]`)?.value || ''} — ${form2.querySelector(`[name="m${i}_course"]`)?.value || ''}, Year ${form2.querySelector(`[name="m${i}_year"]`)?.value || ''}`;
+        list.appendChild(div);
+      }
+    }
+    showEventRegStep('confirm');
+  }, true);
+
+  // ── BACK BUTTONS ────────────────────────────────────
+  $('ereg-solo-back-btn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    if (eventReg.formType === 'dynamic') showEventRegStep('aaghaaz');
+    else window.closeEventRegModal();
+  }, true);
+
+  $('ereg-team-back-btn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    if (eventReg.formType === 'dynamic') showEventRegStep('aaghaaz');
+    else window.closeEventRegModal();
+  }, true);
+
+  $('ereg-team-2-back-btn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    showEventRegStep('team-1');
+  }, true);
+
+  $('ereg-confirm-back-btn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
+    if (eventReg.formType === 'solo' || eventReg.selectedType === 'solo') {
+      showEventRegStep('solo-form');
+    } else {
+      showEventRegStep('team-2');
+    }
+  }, true);
+
+  // ── Generate member fields ────────────────────────────
+  function generateMemberFields(count) {
+    const wrap = $('ereg-members-wrap');
     if (!wrap) return;
     wrap.innerHTML = '';
-    eventReg.participantCount = count;
-
     for (let i = 1; i <= count; i++) {
       const block = document.createElement('div');
       block.className = 'ereg-participant-block';
       block.innerHTML = `
-        <div class="ereg-participant-num">Member ${i}${i === 1 ? ' - Main Contact' : ''}</div>
+        <div class="ereg-participant-num font-rajdhani">Member ${i}${i === 1 ? ' · Main Contact' : ''}</div>
         <div class="reg-form-row">
           <div class="reg-field">
-            <label class="reg-label font-rajdhani">Name <span class="reg-required">*</span></label>
-            <input type="text" name="p${i}_name" class="reg-input ereg-input" placeholder="Full name" required />
+            <label class="reg-label font-rajdhani">Full Name <span class="reg-required">*</span></label>
+            <input type="text" name="m${i}_name" class="reg-input ereg-input" placeholder="Full name" required />
           </div>
           <div class="reg-field">
             <label class="reg-label font-rajdhani">Phone <span class="reg-required">*</span></label>
-            <input type="tel" name="p${i}_phone" class="reg-input ereg-input" placeholder="+91 00000 00000" required />
+            <input type="tel" name="m${i}_phone" class="reg-input ereg-input" placeholder="+91 00000 00000" required />
           </div>
         </div>
         <div class="reg-form-row">
           <div class="reg-field">
-            <label class="reg-label font-rajdhani">Course <span class="reg-required">*</span></label>
-            <input type="text" name="p${i}_course" class="reg-input ereg-input" placeholder="Course" required />
+            <label class="reg-label font-rajdhani">Email ${i === 1 ? '<span class="reg-required">*</span>' : ''}</label>
+            <input type="email" name="m${i}_email" class="reg-input ereg-input" placeholder="email@example.com" ${i === 1 ? 'required' : ''} />
           </div>
           <div class="reg-field">
-            <label class="reg-label font-rajdhani">Year <span class="reg-required">*</span></label>
-            <select name="p${i}_year" class="reg-input reg-select ereg-input" required>
-              <option value="" disabled selected>Select Year</option>
-              <option value="1">1st Year</option>
-              <option value="2">2nd Year</option>
-              <option value="3">3rd Year</option>
-              <option value="4">4th Year</option>
-            </select>
+            <label class="reg-label font-rajdhani">Course / Year <span class="reg-required">*</span></label>
+            <div style="display:flex;gap:6px">
+              <input type="text" name="m${i}_course" class="reg-input ereg-input" placeholder="Course" required style="flex:2" />
+              <select name="m${i}_year" class="reg-input reg-select ereg-input" required style="flex:1">
+                <option value="" disabled selected>Yr</option>
+                <option value="1">1st</option>
+                <option value="2">2nd</option>
+                <option value="3">3rd</option>
+                <option value="4">4th</option>
+              </select>
+            </div>
           </div>
         </div>
-        <label class="reg-upload-zone ereg-member-upload" for="p${i}_idFile">
+        <label class="reg-upload-zone ereg-member-upload" for="m${i}_idFile">
           <div class="reg-upload-preview"></div>
           <div class="reg-upload-placeholder">
-            <span class="reg-upload-label font-cinzel">College ID</span>
-            <span class="reg-upload-hint font-cormorant">Tap to upload</span>
+            <span class="reg-upload-label font-cinzel">College ID <span class="reg-required">*</span></span>
+            <span class="reg-upload-hint font-cormorant">Tap to upload · image or PDF</span>
           </div>
-          <input type="file" id="p${i}_idFile" name="p${i}_idFile" class="reg-file-input ereg-input" accept="image/*,.pdf" required />
+          <input type="file" id="m${i}_idFile" name="m${i}_idFile" class="reg-file-input ereg-input" accept="image/*,.pdf" required />
         </label>`;
       wrap.appendChild(block);
       bindUploadLabel(block.querySelector('input[type="file"]'));
@@ -2271,148 +2484,94 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     }
   }
 
-  function visibleEventInputs() {
-    return Array.from(eventRegForm.querySelectorAll('.ereg-input')).filter(input => {
-      if (input.readOnly) return false;
-      return input.offsetParent !== null || input.type === 'file';
-    });
-  }
-
-  function validateEventStep() {
-    if (eventReg.selectedType === 'group' && !$('ereg-group-count').value) {
-      markInvalid($('ereg-group-count'));
-      return false;
-    }
-    if (!eventReg.participantCount) return false;
-    return validateRequired(visibleEventInputs());
-  }
-
-  function memberField(index, key) {
-    return eventRegForm.querySelector(`[name="p${index}_${key}"]`);
-  }
-
-  async function buildEventPayload() {
-    const members = [];
-    for (let i = 1; i <= eventReg.participantCount; i++) {
-      members.push({
-        name: memberField(i, 'name')?.value.trim() || '',
-        email: i === 1 ? $('ereg-main-email').value.trim() : '',
-        phone: memberField(i, 'phone')?.value.trim() || '',
-        course: memberField(i, 'course')?.value.trim() || '',
-        year: memberField(i, 'year')?.value || '',
-        idFile: await toBase64(memberField(i, 'idFile')?.files?.[0])
-      });
-    }
-
-    return {
-      event: eventReg.currentEvent,
-      type: eventReg.selectedType,
-      brand: $('ereg-brand').value.trim(),
-      mainEmail: $('ereg-main-email').value.trim(),
-      mainPhone: $('ereg-main-phone').value.trim(),
-      college: $('ereg-college').value.trim(),
-      members
-    };
-  }
-
-  function fillEventConfirm() {
-    $('confirm-event').textContent = eventReg.currentEvent;
-    $('confirm-brand').textContent = $('ereg-brand').value.trim() || '-';
-    $('confirm-college').textContent = $('ereg-college').value.trim();
-    $('confirm-contact').textContent = `${$('ereg-main-email').value.trim()} | ${$('ereg-main-phone').value.trim()}`;
-    $('confirm-type').textContent = eventReg.selectedType.charAt(0).toUpperCase() + eventReg.selectedType.slice(1);
-    $('confirm-count').textContent = eventReg.participantCount;
-
-    const list = $('confirm-participants-list');
-    list.innerHTML = '';
-    for (let i = 1; i <= eventReg.participantCount; i++) {
-      const div = document.createElement('div');
-      div.className = 'ereg-confirm-participant';
-      div.textContent = `${i}. ${memberField(i, 'name')?.value || ''}`;
-      list.appendChild(div);
-    }
-  }
-
-  document.querySelectorAll('.ereg-type-btn').forEach(btn => {
-    btn.addEventListener('click', event => {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      configureType(btn.dataset.type);
-    }, true);
-  });
-
-  eventRegForm?.addEventListener('submit', event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    $('eregToStep3Btn')?.click();
-  }, true);
-
-  $('eregGenBtn')?.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    const count = parseInt($('ereg-group-count').value, 10);
-    if (!count) return markInvalid($('ereg-group-count'));
-    generateParticipantFields(count);
-  }, true);
-
-  $('ereg-group-count')?.addEventListener('change', () => {
-    const count = parseInt($('ereg-group-count').value, 10);
-    if (count) generateParticipantFields(count);
-  });
-
-  $('eregBackBtn')?.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    showEventRegStep(1);
-  }, true);
-
-  $('eregToStep3Btn')?.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    if (!validateEventStep()) {
-      setStatus($('eventRegStatus'), 'Please complete all required event fields.', 'error');
-      return;
-    }
-    setStatus($('eventRegStatus'), '');
-    fillEventConfirm();
-    showEventRegStep(3);
-  }, true);
-
-  $('eregBackToStep2Btn')?.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    showEventRegStep(2);
-  }, true);
-
-  $('eregFinalSubmit')?.addEventListener('click', async event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
+  // ── FINAL SUBMIT ─────────────────────────────────────
+  $('eregFinalSubmit')?.addEventListener('click', async ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
     const status = $('eventRegStatus');
-    const btn = $('eregFinalSubmit');
+    const btn    = $('eregFinalSubmit');
     setStatus(status, '');
     setButtonLoading(btn, true, 'Submitting...');
     try {
-      const result = await postJSON(await buildEventPayload());
-      const id = responseId(result);
-      setStatus(status, id ? `Event registration successful. Reg ID: ${id}` : 'Event registration successful.', 'success');
-      setButtonLoading(btn, false);
-      btn.querySelector('.reg-submit-inner').textContent = 'Submitted';
-      setTimeout(() => window.closeEventRegModal(), 2200);
-    } catch (error) {
-      setStatus(status, error.message || 'Could not submit right now. Please try again.', 'error');
+      const payload = await buildNewEventPayload();
+      const result  = await postJSON(payload);
+      const id      = responseId(result);
+      setStatus(status, id && id !== 'SUBMITTED'
+        ? `Registration successful! Reg ID: ${id}`
+        : 'Registration submitted successfully!', 'success');
+      btn.querySelector('.reg-submit-inner').textContent = 'Submitted ✓';
+      setTimeout(() => window.closeEventRegModal(), 2400);
+    } catch (err) {
+      setStatus(status, err.message || 'Could not submit. Please try again.', 'error');
       setButtonLoading(btn, false);
     }
   }, true);
 
-  $('eventRegCloseBtn')?.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
+  async function buildNewEventPayload() {
+    const isSolo = (eventReg.formType === 'solo') || (eventReg.selectedType === 'solo');
+    const eventId = eventReg.currentEventId;
+
+    if (isSolo) {
+      const f = $('ereg-solo-form');
+      const idFileInput = f.querySelector('[name="solo_idFile"]');
+      const driveInput  = f.querySelector('[name="solo_driveLink"]');
+      return {
+        formType:  'event',
+        eventId,
+        event:     eventReg.currentEvent,
+        type:      'solo',
+        brand:     $('ereg-solo-name').value.trim(),
+        mainEmail: $('ereg-solo-email').value.trim(),
+        mainPhone: $('ereg-solo-phone').value.trim(),
+        college:   $('ereg-solo-college').value.trim(),
+        driveLink: driveInput?.value.trim() || '',
+        members: [{
+          name:   $('ereg-solo-name').value.trim(),
+          email:  $('ereg-solo-email').value.trim(),
+          phone:  $('ereg-solo-phone').value.trim(),
+          course: $('ereg-solo-course').value.trim(),
+          year:   $('ereg-solo-year').value,
+          idFile: await toBase64(idFileInput?.files?.[0])
+        }]
+      };
+    } else {
+      // team
+      const f1 = $('ereg-team-form-1');
+      const f2 = $('ereg-team-form-2');
+      const driveInput = f1.querySelector('[name="team_driveLink"]');
+      const members = [];
+      for (let i = 1; i <= eventReg.participantCount; i++) {
+        members.push({
+          name:   f2.querySelector(`[name="m${i}_name"]`)?.value.trim()   || '',
+          email:  f2.querySelector(`[name="m${i}_email"]`)?.value.trim()  || '',
+          phone:  f2.querySelector(`[name="m${i}_phone"]`)?.value.trim()  || '',
+          course: f2.querySelector(`[name="m${i}_course"]`)?.value.trim() || '',
+          year:   f2.querySelector(`[name="m${i}_year"]`)?.value          || '',
+          idFile: await toBase64(f2.querySelector(`[name="m${i}_idFile"]`)?.files?.[0])
+        });
+      }
+      return {
+        formType:  'event',
+        eventId,
+        event:     eventReg.currentEvent,
+        type:      'team',
+        brand:     $('ereg-team-name').value.trim(),
+        mainEmail: $('ereg-team-email').value.trim(),
+        mainPhone: $('ereg-team-phone').value.trim(),
+        college:   $('ereg-team-college').value.trim(),
+        driveLink: driveInput?.value.trim() || '',
+        members
+      };
+    }
+  }
+
+  // ── Close button & overlay ────────────────────────────
+  $('eventRegCloseBtn')?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
     window.closeEventRegModal();
   }, true);
 
-  eventRegOverlay?.addEventListener('click', event => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
+  eventRegOverlay?.addEventListener('click', ev => {
+    ev.preventDefault(); ev.stopImmediatePropagation();
     window.closeEventRegModal();
   }, true);
 

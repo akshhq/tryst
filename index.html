@@ -1334,121 +1334,192 @@ Have fun, do a little foolishness, create memories that last a lifetime, but alw
       <div class="reg-ornament reg-ornament--br"></div>
       <button class="reg-close-btn" id="eventRegCloseBtn" aria-label="Close">&times;</button>
 
-      <!-- Step 1: Participation Type -->
-      <div id="eventRegStep1" class="ereg-step">
+      <!-- ─── AAGHAZ: Choose Solo or Crew ─── -->
+      <div id="ereg-step-aaghaaz" class="ereg-step" style="display:none">
         <div class="register-card-header">
-          <div class="reg-eyebrow font-rajdhani">TRYST 2026 · Event Entry</div>
-          <h2 class="reg-title font-cinzel-deco" id="eventRegTitle">Event Registration</h2>
-          <p class="reg-description font-cormorant">Select your participation type to begin</p>
+          <div class="reg-eyebrow font-rajdhani ereg-modal-eyebrow">TRYST 2026 · Event Entry</div>
+          <h2 class="reg-title font-cinzel-deco" id="eventRegTitle">AAGHAZ</h2>
+          <p class="reg-description font-cormorant">Choose your battle format</p>
         </div>
-        <div class="reg-divider">
-          <span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span>
-        </div>
+        <div class="reg-divider"><span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span></div>
         <div class="register-card-body">
           <div class="ereg-type-grid">
-            <button class="ereg-type-btn font-cinzel" data-type="solo">
+            <button class="ereg-type-btn font-cinzel ereg-aaghaaz-btn" data-choice="solo">
               <span class="ereg-type-icon">👤</span>
               <span class="ereg-type-label">Solo</span>
-              <span class="ereg-type-sub font-cormorant">1 participant</span>
+              <span class="ereg-type-sub font-cormorant">1v1 Solo Battle</span>
             </button>
-            <button class="ereg-type-btn font-cinzel" data-type="duo">
-              <span class="ereg-type-icon">👥</span>
-              <span class="ereg-type-label">Duo</span>
-              <span class="ereg-type-sub font-cormorant">2 participants</span>
-            </button>
-            <button class="ereg-type-btn font-cinzel" data-type="group">
+            <button class="ereg-type-btn font-cinzel ereg-aaghaaz-btn" data-choice="crew">
               <span class="ereg-type-icon">🎭</span>
-              <span class="ereg-type-label">Group</span>
-              <span class="ereg-type-sub font-cormorant">3 or more</span>
+              <span class="ereg-type-label">Crew</span>
+              <span class="ereg-type-sub font-cormorant">Crew vs Crew</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Step 2: Form -->
-      <div id="eventRegStep2" class="ereg-step" style="display:none">
+      <!-- ─── SOLO FORM (Step 1 of 2) ─── -->
+      <div id="ereg-step-solo" class="ereg-step" style="display:none">
         <div class="register-card-header">
-          <div class="reg-eyebrow font-rajdhani ereg-step-label">Step 2 of 3 · Details</div>
-          <h2 class="reg-title font-cinzel-deco">Participant Details</h2>
-          <p class="reg-description font-cormorant ereg-type-heading"></p>
+          <div class="reg-eyebrow font-rajdhani ereg-modal-eyebrow">TRYST 2026 · Solo Entry</div>
+          <h2 class="reg-title font-cinzel-deco">Solo Registration</h2>
+          <p class="reg-description font-cormorant ereg-event-title-display"></p>
         </div>
-        <div class="reg-divider">
-          <span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span>
-        </div>
+        <div class="reg-divider"><span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span></div>
         <div class="register-card-body">
-          <form id="eventRegForm" novalidate autocomplete="off">
+          <form id="ereg-solo-form" novalidate autocomplete="off">
+            <input type="hidden" name="solo_eventName" class="ereg-event-name-field" />
 
             <div class="reg-form-row">
               <div class="reg-field">
-                <label class="reg-label font-rajdhani" for="ereg-event-name">Event</label>
-                <input type="text" id="ereg-event-name" name="eventName" class="reg-input ereg-input" readonly />
+                <label class="reg-label font-rajdhani" for="ereg-solo-name">Full Name <span class="reg-required">*</span></label>
+                <input type="text" id="ereg-solo-name" name="solo_name" class="reg-input" placeholder="Your full name" required />
               </div>
               <div class="reg-field">
-                <label class="reg-label font-rajdhani" for="ereg-brand">Brand / Team Name <span class="reg-required ereg-brand-required">*</span></label>
-                <input type="text" id="ereg-brand" name="brandName" class="reg-input ereg-input" placeholder="Team or stage name" required />
+                <label class="reg-label font-rajdhani" for="ereg-solo-college">College <span class="reg-required">*</span></label>
+                <input type="text" id="ereg-solo-college" name="solo_college" class="reg-input" placeholder="College name" required />
               </div>
             </div>
 
             <div class="reg-form-row">
               <div class="reg-field">
-                <label class="reg-label font-rajdhani" for="ereg-college">College <span class="reg-required">*</span></label>
-                <input type="text" id="ereg-college" name="college" class="reg-input ereg-input" placeholder="Your college name" required />
+                <label class="reg-label font-rajdhani" for="ereg-solo-course">Course <span class="reg-required">*</span></label>
+                <input type="text" id="ereg-solo-course" name="solo_course" class="reg-input" placeholder="e.g. B.A. English" required />
               </div>
               <div class="reg-field">
-                <label class="reg-label font-rajdhani" for="ereg-main-email">Main Email <span class="reg-required">*</span></label>
-                <input type="email" id="ereg-main-email" name="mainEmail" class="reg-input ereg-input" placeholder="team@email.com" required />
+                <label class="reg-label font-rajdhani" for="ereg-solo-year">Year <span class="reg-required">*</span></label>
+                <select id="ereg-solo-year" name="solo_year" class="reg-input reg-select" required>
+                  <option value="" disabled selected>Select year</option>
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3">3rd Year</option>
+                  <option value="4">4th Year</option>
+                </select>
               </div>
             </div>
 
             <div class="reg-form-row">
               <div class="reg-field">
-                <label class="reg-label font-rajdhani" for="ereg-main-phone">Main Phone <span class="reg-required">*</span></label>
-                <input type="tel" id="ereg-main-phone" name="mainPhone" class="reg-input ereg-input" placeholder="+91 00000 00000" required />
+                <label class="reg-label font-rajdhani" for="ereg-solo-phone">Phone <span class="reg-required">*</span></label>
+                <input type="tel" id="ereg-solo-phone" name="solo_phone" class="reg-input" placeholder="+91 00000 00000" required />
               </div>
-
-              <!-- Group size (only for group) -->
-              <div class="reg-field ereg-group-size-wrap" style="display:none">
-              <label class="reg-label font-rajdhani" for="ereg-group-count">Member Count <span class="reg-required">*</span></label>
-              <select id="ereg-group-count" name="groupCount" class="reg-input reg-select ereg-input">
-                <option value="" disabled selected>Select count</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-              </select>
-              <button type="button" class="ereg-gen-btn font-rajdhani" id="eregGenBtn">Generate Fields →</button>
+              <div class="reg-field">
+                <label class="reg-label font-rajdhani" for="ereg-solo-email">Email <span class="reg-required">*</span></label>
+                <input type="email" id="ereg-solo-email" name="solo_email" class="reg-input" placeholder="you@email.com" required />
               </div>
             </div>
 
-            <!-- Dynamic participant fields injected here -->
-            <div id="eregParticipantsWrap"></div>
+            <!-- College ID upload -->
+            <label class="reg-upload-zone" for="ereg-solo-idFile">
+              <div class="reg-upload-preview"></div>
+              <div class="reg-upload-placeholder">
+                <span class="reg-upload-label font-cinzel">College ID <span class="reg-required">*</span></span>
+                <span class="reg-upload-hint font-cormorant">Tap to upload · image or PDF</span>
+              </div>
+              <input type="file" id="ereg-solo-idFile" name="solo_idFile" class="reg-file-input" accept="image/*,.pdf" required />
+            </label>
 
-            <div class="ereg-nav-row">
-              <button type="button" class="ereg-back-btn font-cinzel" id="eregBackBtn">← Back</button>
-              <button type="button" class="ereg-next-btn font-cinzel" id="eregToStep3Btn">
-                <span>Review →</span>
-              </button>
+            <!-- Drive / Audio Link (conditional) -->
+            <div class="ereg-drive-wrap" style="display:none">
+              <div class="reg-field" style="margin-top:12px">
+                <label class="reg-label font-rajdhani ereg-drive-label">Prelims Drive Link <span class="reg-required">*</span></label>
+                <input type="url" name="solo_driveLink" class="reg-input" placeholder="https://drive.google.com/..." />
+              </div>
+            </div>
+
+            <div class="ereg-nav-row" style="margin-top:18px">
+              <button type="button" class="ereg-back-btn font-cinzel" id="ereg-solo-back-btn">← Back</button>
+              <button type="button" class="ereg-next-btn font-cinzel" id="ereg-solo-review-btn"><span>Review →</span></button>
             </div>
           </form>
         </div>
       </div>
 
-      <!-- Step 3: Confirmation -->
-      <div id="eventRegStep3" class="ereg-step" style="display:none">
+      <!-- ─── TEAM FORM PAGE 1: Team Info ─── -->
+      <div id="ereg-step-team-1" class="ereg-step" style="display:none">
         <div class="register-card-header">
-          <div class="reg-eyebrow font-rajdhani ereg-step-label">Step 3 of 3 · Confirm</div>
+          <div class="reg-eyebrow font-rajdhani ereg-modal-eyebrow">TRYST 2026 · Team Entry · Step 1 of 3</div>
+          <h2 class="reg-title font-cinzel-deco">Team Info</h2>
+          <p class="reg-description font-cormorant ereg-event-title-display"></p>
+        </div>
+        <div class="reg-divider"><span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span></div>
+        <div class="register-card-body">
+          <form id="ereg-team-form-1" novalidate autocomplete="off">
+            <input type="hidden" name="team_eventName" class="ereg-event-name-field" />
+
+            <div class="reg-form-row">
+              <div class="reg-field">
+                <label class="reg-label font-rajdhani" for="ereg-team-name">Team Name <span class="reg-required">*</span></label>
+                <input type="text" id="ereg-team-name" name="team_name" class="reg-input" placeholder="Your team name" required />
+              </div>
+              <div class="reg-field">
+                <label class="reg-label font-rajdhani" for="ereg-team-college">College <span class="reg-required">*</span></label>
+                <input type="text" id="ereg-team-college" name="team_college" class="reg-input" placeholder="College name" required />
+              </div>
+            </div>
+
+            <div class="reg-form-row">
+              <div class="reg-field">
+                <label class="reg-label font-rajdhani" for="ereg-member-count">
+                  Number of Members <span class="reg-required">*</span>
+                  <span id="ereg-member-count-hint" class="font-cormorant" style="font-size:12px;color:#C9A84C;margin-left:4px;display:none"></span>
+                </label>
+                <input type="number" id="ereg-member-count" name="team_memberCount" class="reg-input" placeholder="e.g. 5" min="1" max="50" required />
+              </div>
+              <div class="reg-field">
+                <label class="reg-label font-rajdhani" for="ereg-team-email">Main Email <span class="reg-required">*</span></label>
+                <input type="email" id="ereg-team-email" name="team_email" class="reg-input" placeholder="team@email.com" required />
+              </div>
+            </div>
+
+            <div class="reg-form-row">
+              <div class="reg-field">
+                <label class="reg-label font-rajdhani" for="ereg-team-phone">Main Phone <span class="reg-required">*</span></label>
+                <input type="tel" id="ereg-team-phone" name="team_phone" class="reg-input" placeholder="+91 00000 00000" required />
+              </div>
+              <!-- Drive / Audio Link (conditional) -->
+              <div class="reg-field ereg-drive-wrap" style="display:none">
+                <label class="reg-label font-rajdhani ereg-drive-label">Prelims Drive Link <span class="reg-required">*</span></label>
+                <input type="url" name="team_driveLink" class="reg-input" placeholder="https://drive.google.com/..." />
+              </div>
+            </div>
+
+            <div class="ereg-nav-row" style="margin-top:18px">
+              <button type="button" class="ereg-back-btn font-cinzel" id="ereg-team-back-btn">← Back</button>
+              <button type="button" class="ereg-next-btn font-cinzel" id="ereg-team-next-btn"><span>Members →</span></button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ─── TEAM FORM PAGE 2: Members ─── -->
+      <div id="ereg-step-team-2" class="ereg-step" style="display:none">
+        <div class="register-card-header">
+          <div class="reg-eyebrow font-rajdhani ereg-modal-eyebrow">TRYST 2026 · Team Entry · Step 2 of 3</div>
+          <h2 class="reg-title font-cinzel-deco">Member Details</h2>
+          <p class="reg-description font-cormorant">Fill in details for each member</p>
+        </div>
+        <div class="reg-divider"><span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span></div>
+        <div class="register-card-body">
+          <form id="ereg-team-form-2" novalidate autocomplete="off">
+            <!-- Dynamic member blocks injected here -->
+            <div id="ereg-members-wrap"></div>
+            <div class="ereg-nav-row" style="margin-top:18px">
+              <button type="button" class="ereg-back-btn font-cinzel" id="ereg-team-2-back-btn">← Back</button>
+              <button type="button" class="ereg-next-btn font-cinzel" id="ereg-team-review-btn"><span>Review →</span></button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ─── CONFIRM (Step: last) ─── -->
+      <div id="ereg-step-confirm" class="ereg-step" style="display:none">
+        <div class="register-card-header">
+          <div class="reg-eyebrow font-rajdhani ereg-modal-eyebrow">TRYST 2026 · Confirm Entry</div>
           <h2 class="reg-title font-cinzel-deco">Confirm Registration</h2>
           <p class="reg-description font-cormorant">Review your details before submitting</p>
         </div>
-        <div class="reg-divider">
-          <span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span>
-        </div>
+        <div class="reg-divider"><span class="reg-divider-line"></span><span class="reg-divider-diamond"></span><span class="reg-divider-line"></span></div>
         <div class="register-card-body">
           <div class="ereg-confirm-box glass-card">
             <div class="ereg-confirm-row">
@@ -1456,7 +1527,7 @@ Have fun, do a little foolishness, create memories that last a lifetime, but alw
               <span class="ereg-confirm-val font-cormorant" id="confirm-event">—</span>
             </div>
             <div class="ereg-confirm-row">
-              <span class="ereg-confirm-key font-rajdhani">Brand Name</span>
+              <span class="ereg-confirm-key font-rajdhani">Name / Team</span>
               <span class="ereg-confirm-val font-cormorant" id="confirm-brand">—</span>
             </div>
             <div class="ereg-confirm-row">
@@ -1464,7 +1535,7 @@ Have fun, do a little foolishness, create memories that last a lifetime, but alw
               <span class="ereg-confirm-val font-cormorant" id="confirm-college">—</span>
             </div>
             <div class="ereg-confirm-row">
-              <span class="ereg-confirm-key font-rajdhani">Main Contact</span>
+              <span class="ereg-confirm-key font-rajdhani">Contact</span>
               <span class="ereg-confirm-val font-cormorant" id="confirm-contact">—</span>
             </div>
             <div class="ereg-confirm-row">
@@ -1479,7 +1550,7 @@ Have fun, do a little foolishness, create memories that last a lifetime, but alw
             <div id="confirm-participants-list"></div>
           </div>
           <div class="ereg-nav-row" style="margin-top:20px">
-            <button type="button" class="ereg-back-btn font-cinzel" id="eregBackToStep2Btn">← Edit</button>
+            <button type="button" class="ereg-back-btn font-cinzel" id="ereg-confirm-back-btn">← Edit</button>
             <button type="button" class="reg-submit-btn font-cinzel" id="eregFinalSubmit" style="flex:1;margin:0">
               <span class="reg-submit-inner">✦ Submit Entry ✦</span>
               <span class="reg-submit-glow"></span>
@@ -1566,6 +1637,7 @@ Have fun, do a little foolishness, create memories that last a lifetime, but alw
   <!-- ═══════════════ END EVENT DETAIL MODAL ═══════════════ -->
 
   <script src="script.js" defer></script>
+  <script src="tryst-production.js" defer></script>
   <iframe name="hidden_iframe" style="display:none;"></iframe>
 </body>
 </html>
