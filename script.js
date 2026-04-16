@@ -1048,6 +1048,10 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Creativity and originality',
         'Stage presence and crowd connection'
       ],
+      supportSection: [
+        'Name - 0000000000',
+        'Name - 0000000000'
+      ],
       societyLink: '#student-union'
     },
     'aaghaaz': {
@@ -1995,13 +1999,16 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     const formatSection = $('edFormat')?.closest('.ed-info-section');
     const rulesSection  = $('edRules')?.closest('.ed-info-section');
     const judgingSection= $('edJudging')?.closest('.ed-info-section');
+    const supportSection= $('edSupport')?.closest('.ed-info-section');
     if (formatSection)  formatSection.style.display  = isDescOnly ? 'none' : '';
     if (rulesSection)   rulesSection.style.display   = isDescOnly ? 'none' : '';
     if (judgingSection) judgingSection.style.display = isDescOnly ? 'none' : '';
+    if (supportSection) supportSection.style.display = isDescOnly ? 'none' : '';
     if (!isDescOnly) {
       $('edFormat').innerHTML  = listHTML(data.format);
       $('edRules').innerHTML   = listHTML(data.rules);
       $('edJudging').innerHTML = listHTML(data.judging);
+      $('edSupport').innerHTML = listHTML(data.support);
     }
 
     const poster = $('edPosterImg');
@@ -2744,3 +2751,249 @@ async function getLatestRegId(sheetName = "Attendees") {
 
   return null;
 }
+/* ═══════════════════════════════════════════════
+   TRYST 2026 — ADDITIONS
+   Tasks: 3 · 4 · 6+8 · 7 · 9
+═══════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   TASK 3 — Success Popup
+───────────────────────────────────────────── */
+(function successPopupSystem() {
+  const overlay = document.getElementById('successPopupOverlay');
+  const popup   = document.getElementById('successPopup');
+  const regIdEl = document.getElementById('successPopupRegId');
+  if (!popup) return;
+
+  window.showSuccessPopup = function(regId) {
+    if (regIdEl) {
+      regIdEl.textContent = regId ? ('Reg ID: ' + regId) : '';
+    }
+    overlay.classList.add('sp-active');
+    document.body.style.overflow = 'hidden';
+
+    gsap.fromTo(popup,
+      { opacity: 0, scale: 0.88, y: 20, visibility: 'hidden' },
+      { opacity: 1, scale: 1,    y: 0,  visibility: 'visible',
+        duration: 0.38, ease: 'expo.out', clearProps: 'transform' }
+    );
+  };
+
+  window.closeSuccessPopup = function() {
+    gsap.to(popup, {
+      opacity: 0, scale: 0.93, y: 12,
+      duration: 0.24, ease: 'power3.in',
+      onComplete: () => {
+        popup.style.visibility = 'hidden';
+        overlay.classList.remove('sp-active');
+        document.body.style.overflow = '';
+        gsap.set(popup, { clearProps: 'all' });
+      }
+    });
+  };
+
+  // Close on overlay click
+  overlay.addEventListener('click', window.closeSuccessPopup);
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('sp-active')) {
+      window.closeSuccessPopup();
+    }
+  });
+
+  /* ── Hook into existing attendee form submit ──────────────────
+     The attendee form (§ 21 formIntegration IIFE) calls alert().
+     We intercept the submit event at capture phase AFTER the
+     production system so we can show the popup instead.
+     We also hook into the production system's eregFinalSubmit.
+  ─────────────────────────────────────────────────────────────── */
+
+  // Patch attendee form: replace alert with popup on successful submit
+  const attendeeForm = document.getElementById('registrationForm');
+  if (attendeeForm) {
+    attendeeForm.addEventListener('submit', () => {
+      // Wait for iframe POST to propagate, then show popup
+      setTimeout(() => {
+        window.showSuccessPopup('');
+        resetAttendeeForm();
+      }, 800);
+    }, false);
+  }
+
+  // Patch event registration final submit button
+  const eregFinal = document.getElementById('eregFinalSubmit');
+  if (eregFinal) {
+    eregFinal.addEventListener('click', () => {
+      // Show popup after a short delay (backend call in progress)
+      setTimeout(() => {
+        window.showSuccessPopup('');
+      }, 600);
+    }, { capture: false, passive: true });
+  }
+
+})();
+
+/* ─────────────────────────────────────────────
+   TASK 4 — Form Reset After Submission
+───────────────────────────────────────────── */
+function resetAttendeeForm() {
+  const form = document.getElementById('registrationForm');
+  if (!form) return;
+
+  // Reset all text / select fields
+  form.reset();
+
+  // Clear upload previews and has-file states
+  ['zone-college-id', 'zone-sponsor-1', 'zone-sponsor-2'].forEach(zoneId => {
+    const zone    = document.getElementById(zoneId);
+    const preview = zone?.querySelector('.reg-upload-preview');
+    if (zone)    zone.classList.remove('reg-has-file');
+    if (preview) { preview.innerHTML = ''; preview.style = ''; }
+  });
+
+  // Reset task cards to collapsed
+  document.querySelectorAll('.task-card').forEach(c => c.classList.remove('active'));
+
+  // Scroll form body back to top
+  const body = document.querySelector('#registerCard .register-card-body');
+  if (body) body.scrollTop = 0;
+}
+
+/* ─────────────────────────────────────────────
+   TASK 6+8 — Student Union Swipe Carousel
+───────────────────────────────────────────── */
+(function suCarousel() {
+  document.querySelectorAll('.su-swipe-card').forEach(card => {
+    const track  = card.querySelector('.su-swipe-track');
+    const dots   = card.querySelectorAll('.su-dot');
+    let current  = 0;
+    const total  = dots.length;
+
+    // Touch state
+    let touchStartX = 0;
+    let touchDeltaX = 0;
+
+    function goTo(index) {
+      current = (index + total) % total;
+      // Slide the track: each page is 50% of the 200%-wide track
+      // → offset = current * (100% / total) expressed on the track itself
+      // Since track is 200% wide and pages are 50% each:
+      // page 0 → translateX(0%), page 1 → translateX(-50%)
+      track.style.transform = `translateX(-${current * 50}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    // Dot click
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goTo(i));
+    });
+
+    // Touch swipe (text area only — image stays fixed)
+    card.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchDeltaX = 0;
+    }, { passive: true });
+
+    card.addEventListener('touchmove', e => {
+      touchDeltaX = e.touches[0].clientX - touchStartX;
+    }, { passive: true });
+
+    card.addEventListener('touchend', () => {
+      if (touchDeltaX < -40) goTo(current + 1); // swipe left → next
+      if (touchDeltaX >  40) goTo(current - 1); // swipe right → prev
+      touchDeltaX = 0;
+    });
+
+    // Mouse drag support (desktop)
+    let mouseStartX = 0;
+    let dragging    = false;
+    card.addEventListener('mousedown', e => { dragging = true; mouseStartX = e.clientX; });
+    card.addEventListener('mousemove', e => { if (dragging) touchDeltaX = e.clientX - mouseStartX; });
+    card.addEventListener('mouseup',   () => {
+      if (!dragging) return;
+      dragging = false;
+      if (touchDeltaX < -40) goTo(current + 1);
+      if (touchDeltaX >  40) goTo(current - 1);
+      touchDeltaX = 0;
+    });
+    card.addEventListener('mouseleave', () => { dragging = false; touchDeltaX = 0; });
+  });
+})();
+
+/* ─────────────────────────────────────────────
+   TASK 7 — Event Modal Society Toggle
+───────────────────────────────────────────── */
+(function edSocietyToggle() {
+  let societyVisible = false;
+
+  window.toggleEdSociety = function() {
+    const eventPanel   = document.getElementById('edEventPanel');
+    const societyPanel = document.getElementById('edSocietyPanel');
+    const btn          = document.getElementById('edSocietyToggleBtn');
+    if (!eventPanel || !societyPanel || !btn) return;
+
+    societyVisible = !societyVisible;
+
+    if (societyVisible) {
+      // Show society, hide event info
+      eventPanel.style.display   = 'none';
+      societyPanel.classList.add('ed-society-visible');
+      societyPanel.style.display = 'flex';
+      btn.textContent = 'About the Event';
+    } else {
+      // Show event info, hide society
+      societyPanel.classList.remove('ed-society-visible');
+      societyPanel.style.display = 'none';
+      eventPanel.style.display   = '';
+      btn.textContent = 'About the Society';
+    }
+
+    // Animate panel swap
+    const activePanel = societyVisible ? societyPanel : eventPanel;
+    gsap.from(activePanel, {
+      opacity: 0, y: 8, duration: 0.22, ease: 'expo.out'
+    });
+  };
+
+  // Reset toggle state whenever the event detail modal opens
+  const origOpen = window.openEventDetailModal;
+  window.openEventDetailModal = function(data) {
+    societyVisible = false;
+    const eventPanel   = document.getElementById('edEventPanel');
+    const societyPanel = document.getElementById('edSocietyPanel');
+    const btn          = document.getElementById('edSocietyToggleBtn');
+    if (eventPanel)   eventPanel.style.display   = '';
+    if (societyPanel) { societyPanel.style.display = 'none'; societyPanel.classList.remove('ed-society-visible'); }
+    if (btn)          btn.textContent = 'About the Society';
+
+    // Populate society panel from event data if available
+    const societyName = document.getElementById('edSocietyName');
+    const societyBody = document.getElementById('edSocietyBody');
+    if (societyName && data && data.society) societyName.textContent = data.society;
+    if (societyBody && data && data.societyDesc) societyBody.textContent = data.societyDesc;
+
+    if (origOpen) origOpen(data);
+  };
+})();
+
+/* ─────────────────────────────────────────────
+   TASK 9 — FAQ Accordion
+───────────────────────────────────────────── */
+window.toggleFaq = function(btn) {
+  const item   = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('faq-open');
+
+  // Close all
+  document.querySelectorAll('.faq-item.faq-open').forEach(i => {
+    i.classList.remove('faq-open');
+  });
+
+  if (!isOpen) {
+    item.classList.add('faq-open');
+    // Subtle GSAP entrance for the answer
+    const answer = item.querySelector('.faq-answer p');
+    if (answer) gsap.from(answer, { opacity: 0, y: -6, duration: 0.22, ease: 'expo.out' });
+  }
+};
+

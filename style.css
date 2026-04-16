@@ -936,13 +936,20 @@ footer { margin-top: 20px; }
 
 .modal-close {
   position: absolute; top: 14px; right: 18px;
-  background: none; border: 1px solid var(--glass-border);
+  background: none; border: none;
   color: var(--gold); font-size: 1.4rem;
   width: 34px; height: 34px;
   display: flex; align-items: center; justify-content: center;
-  cursor: none; z-index: 10; transition: all 0.22s;
+  cursor: pointer; z-index: 10;
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+  border-radius: 0;
 }
-.modal-close:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+.modal-close:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 12px rgba(201,168,76,0.8), 0 0 24px rgba(201,168,76,0.4);
+  background: none;
+  border-color: transparent;
+}
 
 .modal-header { padding: 30px 30px 0; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; margin-bottom: 20px; }
 .modal-body { padding: 0 30px 30px; }
@@ -1011,7 +1018,7 @@ footer { margin-top: 20px; }
 .events-modal-item {
   border: 1px solid var(--glass-border);
   border-radius: 6px; margin-bottom: 6px;
-  overflow: hidden;
+  overflow: visible;               /* ← was hidden, caused clipping */
   transition: border-color 0.2s;
 }
 .events-modal-item:hover { border-color: rgba(201,168,76,0.35); }
@@ -1021,6 +1028,7 @@ footer { margin-top: 20px; }
   padding: 10px 14px;
   cursor: pointer;
   transition: background 0.2s;
+  min-height: 48px;                /* guaranteed visible height */
 }
 .events-modal-row:hover { background: rgba(201,168,76,0.04); }
 
@@ -1036,15 +1044,17 @@ footer { margin-top: 20px; }
 .events-modal-arrow {
   color: var(--gold); font-size: 1.1rem;
   transition: transform 0.2s;
+  flex-shrink: 0; margin-left: 8px;
 }
 .events-modal-item.open .events-modal-arrow { transform: rotate(90deg); }
 
 .events-modal-body {
   max-height: 0; overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.16,1,0.3,1);
+  transition: max-height 0.32s cubic-bezier(0.16,1,0.3,1);
   padding: 0;
 }
-.events-modal-item.open .events-modal-body { max-height: 100px; }
+/* Enough room for description + button — no clipping */
+.events-modal-item.open .events-modal-body { max-height: 160px; }
 .events-modal-body p {
   padding: 0 14px 8px;
   font-family: 'Cormorant Garamond', serif;
@@ -1267,9 +1277,9 @@ footer { margin-top: 20px; }
   z-index: 20;
   width: 34px;
   height: 34px;
-  background: rgba(201, 168, 76, 0.06);
-  border: 1px solid rgba(201, 168, 76, 0.25);
-  border-radius: 50%;
+  background: none;
+  border: none;
+  border-radius: 0;
   color: var(--gold);
   font-size: 1.3rem;
   line-height: 1;
@@ -1277,12 +1287,13 @@ footer { margin-top: 20px; }
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
 }
 .reg-close-btn:hover {
-  background: rgba(201, 168, 76, 0.15);
-  border-color: var(--gold);
-  transform: rotate(90deg);
+  transform: scale(1.1);
+  text-shadow: 0 0 12px rgba(201,168,76,0.8), 0 0 24px rgba(201,168,76,0.4);
+  background: none;
+  border-color: transparent;
 }
 
 /* ── Header ────────────────────────────────── */
@@ -2134,20 +2145,20 @@ footer { margin-top: 20px; }
   top: 14px; right: 16px;
   z-index: 20;
   width: 34px; height: 34px;
-  background: rgba(201, 168, 76, 0.06);
-  border: 1px solid rgba(201, 168, 76, 0.22);
-  border-radius: 50%;
+  background: none;
+  border: none;
+  border-radius: 0;
   color: var(--gold);
   font-size: 1.25rem;
   line-height: 1;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
 }
 .ed-close-btn:hover {
-  background: rgba(201, 168, 76, 0.14);
-  border-color: var(--gold);
-  transform: rotate(90deg);
+  transform: scale(1.1);
+  text-shadow: 0 0 12px rgba(201,168,76,0.8), 0 0 24px rgba(201,168,76,0.4);
+  background: none;
 }
 
 /* ── Split layout ─────────────────────────────── */
@@ -2449,4 +2460,378 @@ footer { margin-top: 20px; }
   .ed-society-link {
     align-self: center;
   }
+}
+/* ═══════════════════════════════════════════════
+   TRYST 2026 — ADDITIONS (Tasks 1, 3, 4, 6+8, 7, 9)
+═══════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   TASK 1 — Schedule Footnote
+───────────────────────────────────────────── */
+.schedule-footnote {
+  text-align: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.32);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.schedule-footnote strong {
+  color: rgba(201, 168, 76, 0.55);
+  font-weight: 600;
+}
+.schedule-footnote-sep {
+  color: rgba(201, 168, 76, 0.25);
+  font-size: 0.9rem;
+}
+
+/* ─────────────────────────────────────────────
+   TASK 3 — Success Popup
+───────────────────────────────────────────── */
+.success-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9800;
+  background: rgba(7, 11, 24, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+  pointer-events: none;
+}
+.success-popup-overlay.sp-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  z-index: 9900;
+  width: min(480px, 92vw);
+  padding: 48px 36px 36px;
+  text-align: center;
+  visibility: hidden;
+  opacity: 0;
+
+  background: linear-gradient(145deg, rgba(13,21,48,0.98), rgba(10,15,30,0.99));
+  border: 1px solid rgba(201,168,76,0.28);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,0.05),
+    0 8px 32px rgba(0,0,0,0.65),
+    0 32px 80px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(201,168,76,0.12);
+
+  /* top shine */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 16px; right: 16px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+  }
+}
+/* Fallback for browsers without &::before nesting */
+.success-popup::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 16px; right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+}
+
+.success-popup.sp-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.success-popup-icon {
+  font-size: 2.2rem;
+  color: var(--gold);
+  margin-bottom: 12px;
+  text-shadow: 0 0 20px rgba(201,168,76,0.5);
+}
+
+.success-popup-title {
+  font-size: 1.6rem;
+  color: #fff;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.success-popup-reg {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+  margin-bottom: 16px;
+  min-height: 1.2em;
+}
+
+.success-popup-body {
+  font-size: 1.02rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.72;
+  margin-bottom: 24px;
+}
+
+.success-popup-link {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,168,76,0.4);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  transition: color 0.2s, border-color 0.2s;
+}
+.success-popup-link:hover {
+  color: var(--gold-light);
+  border-color: var(--gold-light);
+}
+
+.success-popup-close-btn {
+  position: relative;
+  padding: 12px 36px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: color 0.25s;
+}
+.success-popup-close-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.76,0,0.24,1);
+  z-index: 0;
+}
+.success-popup-close-btn span { position: relative; z-index: 1; }
+.success-popup-close-btn:hover { color: var(--navy); }
+.success-popup-close-btn:hover::before { transform: scaleX(1); }
+
+/* ─────────────────────────────────────────────
+   TASK 4 — Form steps scroll fix
+───────────────────────────────────────────── */
+/* Ensure each ereg-step's card-body scrolls independently */
+.ereg-step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;          /* cap at viewport */
+  overflow: hidden;           /* let card-body scroll */
+}
+
+.ereg-step .register-card-body {
+  flex: 1;
+  min-height: 0;              /* critical — allows overflow-y to work */
+  overflow-y: auto;
+  padding: 0 32px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,168,76,0.3) transparent;
+}
+.ereg-step .register-card-body::-webkit-scrollbar { width: 3px; }
+.ereg-step .register-card-body::-webkit-scrollbar-thumb {
+  background: rgba(201,168,76,0.3); border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────────
+   TASK 6+8 — Student Union Swipe Carousel
+───────────────────────────────────────────── */
+/* Override su-info when it becomes a swipe card */
+.su-swipe-card {
+  overflow: hidden;
+  padding: 0;                /* remove inner padding — track handles it */
+  position: relative;
+  user-select: none;
+}
+
+.su-swipe-track {
+  display: flex;
+  width: 200%;                /* 2 pages side by side */
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.su-swipe-page {
+  width: 50%;                 /* each page = 50% of 200% track = 100% of card */
+  flex-shrink: 0;
+  padding: 28px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+/* Pagination dots */
+.su-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 0 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.su-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.25);
+  border: 1px solid rgba(201,168,76,0.3);
+  cursor: pointer;
+  transition: background 0.22s ease, transform 0.22s ease;
+}
+.su-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  transform: scale(1.25);
+  box-shadow: 0 0 8px rgba(201,168,76,0.5);
+}
+
+/* ─────────────────────────────────────────────
+   TASK 7 — Event Modal Society Toggle
+───────────────────────────────────────────── */
+.ed-toggle-btn {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 16px;
+  border: 1px solid rgba(201,168,76,0.35);
+  background: transparent;
+  color: rgba(201,168,76,0.8);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.ed-toggle-btn:hover {
+  background: rgba(201,168,76,0.1);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* Society panel — hidden by default, revealed by toggle */
+.ed-society-panel {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeInPanel 0.22s ease;
+}
+.ed-society-panel.ed-society-visible {
+  display: flex;
+}
+.ed-event-panels.ed-society-visible .ed-desc-scroll {
+  display: none;
+}
+
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ed-society-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+.ed-society-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────────
+   TASK 9 — FAQ Section
+───────────────────────────────────────────── */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.22s;
+}
+.faq-item:hover { border-color: rgba(201,168,76,0.35); }
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.faq-question:hover {
+  background: rgba(201,168,76,0.04);
+  color: #fff;
+}
+.faq-question span:first-child { flex: 1; }
+
+.faq-arrow {
+  color: var(--gold);
+  font-size: 1.1rem;
+  transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+  flex-shrink: 0;
+}
+.faq-item.faq-open .faq-arrow { transform: rotate(90deg); }
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.faq-item.faq-open .faq-answer { max-height: 300px; }
+
+.faq-answer p {
+  padding: 0 20px 18px;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE additions
+───────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .schedule-footnote { flex-direction: column; gap: 4px; }
+  .schedule-footnote-sep { display: none; }
+  .success-popup { padding: 40px 24px 28px; }
+  .faq-question { font-size: 0.82rem; padding: 14px 16px; }
+  .faq-answer p  { padding: 0 16px 14px; }
 }
