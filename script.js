@@ -990,7 +990,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
 ═══════════════════════════════════════════════════════════════════ */
 
 (function trystProductionSystem() {
-  const POST_URL = 'https://script.google.com/macros/s/AKfycbyQAna9huOq3pPHqSAAu86QmoNRV0I2oKPdakbNGdIHuQwKHCOnvlJiE5gfkPZF7rZn/exec';
+  const POST_URL = 'https://script.google.com/macros/s/AKfycbziAlj2zqIrnktyPRolQ3i_zctCi9EMp0vfFay6l5gEsfDbXKNgzzQPbUaVBRZLSACI/exec';
 
   const commonRules = [
     'Participants must carry valid college ID cards.',
@@ -2604,7 +2604,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
 
 (function formIntegration() {
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQAna9huOq3pPHqSAAu86QmoNRV0I2oKPdakbNGdIHuQwKHCOnvlJiE5gfkPZF7rZn/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziAlj2zqIrnktyPRolQ3i_zctCi9EMp0vfFay6l5gEsfDbXKNgzzQPbUaVBRZLSACI/exec';
 
   function toBase64(file) {
     return new Promise((resolve) => {
