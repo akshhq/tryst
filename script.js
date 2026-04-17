@@ -136,7 +136,7 @@ function unlockMystery() {
 function initStars() {
   const container = document.getElementById('stars');
   if (!container) return;
-  const count = IS_MOBILE ? 40 : 80;
+  const count = IS_MOBILE ? 40 : 100;
   for (let i = 0; i < count; i++) {
     const star  = document.createElement('div');
     const size  = Math.random() * 2.5 + 0.5;
@@ -1021,6 +1021,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Inaayat',
       society: 'Advaitaa Dance Society',
+      societyDesc: 'Advaitaa is the Western Dance Society of Keshav Mahavidyalaya. Founded with a passion for movement and expression, Advaitaa has consistently delivered electrifying performances and competitions at TRYST. From contemporary to hip-hop, the society celebrates every form of Western dance with energy, precision, and artistry. Reach out to them for collaborations, auditions, or queries.',
       time: 'TBA',
       location: 'Auditorium',
       poster: 'images/posters/Inaayat.png',
@@ -1058,6 +1059,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'AAGHAZ',
       society: 'Advaitaa Dance Society',
+      societyDesc: 'Advaitaa is the Western Dance Society of Keshav Mahavidyalaya. Founded with a passion for movement and expression, Advaitaa has consistently delivered electrifying performances and competitions at TRYST. From contemporary to hip-hop, the society celebrates every form of Western dance with energy, precision, and artistry. Reach out to them for collaborations, auditions, or queries.',
       time: '2:00 PM - 3:00 PM',
       location: 'Auditorium',
       poster: 'images/posters/Aaghaaz.png',
@@ -1088,6 +1090,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Nocturne',
       society: 'Anhad – Western Music Society',
+      societyDesc: 'Anhad is the Western Music Society of Keshav Mahavidyalaya, dedicated to celebrating the art of vocal and instrumental performance. From acappella to bands, Anhad creates spaces for musicians to experiment, collaborate, and shine. Their events at TRYST are known for high production quality and a deep love for music in all its forms.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Nocturne.png',
@@ -1119,6 +1122,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Khayaal',
       society: 'ANHAD – The Indian Music Society',
+      societyDesc: 'ANHAD — The Indian Music Society of Keshav Mahavidyalaya — is a collective of students passionate about the vast heritage of Indian classical and folk music. The society hosts workshops, rehearsals, and competitions that keep classical traditions alive among young minds. Their events showcase the depth of ragas, talas, and the timeless beauty of Indian vocal traditions.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Khayaal.png',
@@ -1153,6 +1157,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Rebuttal’26',
       society: 'Vagmitā – DebSoc',
+      societyDesc: 'Vagmitā is the Debate Society of Keshav Mahavidyalaya, fostering critical thinking, eloquent expression, and intellectual courage. The society runs English and Hindi debate events, nurturing students who argue persuasively on any topic.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Rebuttal’26.png',
@@ -1181,6 +1186,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'खंडन’26',
       society: 'वाग्मिता – DebSoc',
+      societyDesc: 'वाग्मिता — केशव महाविद्यालय की वाद-विवाद समिति — आलोचनात्मक सोच और प्रभावशाली अभिव्यक्ति को बढ़ावा देती है। समिति अंग्रेज़ी और हिंदी दोनों वाद-विवाद आयोजित करती है।',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/खंडन’26.png',
@@ -1209,6 +1215,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Jhalak',
       society: 'Illuminati – Photography Society',
+      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Jhalak.png',
@@ -1238,6 +1245,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Cinematica',
       society: 'Illuminati – Photography Society',
+      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Cinematica.png',
@@ -1267,6 +1275,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Pixel 6.0',
       society: 'Illuminati – Photography Society',
+      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
       time: 'TBA',
       location: 'Online',
       poster: 'images/posters/Pixel 6.0.png',
@@ -1296,6 +1305,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Lenscraft',
       society: 'Illuminati – Photography Society',
+      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Lenscraft.png',
@@ -1324,6 +1334,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Draped Duality',
       society: 'Maniera – Fashion & Art Society',
+      societyDesc: 'Maniera is the Fashion and Art Society of Keshav Mahavidyalaya. The society blends aesthetics, creativity, and craftsmanship to host competitions that celebrate wearable art, painting, and collaborative visual expression. Maniera events at TRYST are known for their conceptual depth and stunning visual impact.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Draped Duality.png',
@@ -1356,6 +1367,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Reframe the Fame',
       society: 'Maniera – Fashion & Art Society',
+      societyDesc: 'Maniera is the Fashion and Art Society of Keshav Mahavidyalaya. The society blends aesthetics, creativity, and craftsmanship to host competitions that celebrate wearable art, painting, and collaborative visual expression. Maniera events at TRYST are known for their conceptual depth and stunning visual impact.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Reframe the Fame.png',
@@ -1387,6 +1399,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'SyncStroke',
       society: 'Maniera – Fashion & Art Society',
+      societyDesc: 'Maniera is the Fashion and Art Society of Keshav Mahavidyalaya. The society blends aesthetics, creativity, and craftsmanship to host competitions that celebrate wearable art, painting, and collaborative visual expression. Maniera events at TRYST are known for their conceptual depth and stunning visual impact.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/SyncStroke.png',
@@ -1419,6 +1432,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Envogue - Group',
       society: 'Naksh – Fashion Society',
+      societyDesc: 'Naksh is the Fashion Society of Keshav Mahavidyalaya. With a flair for style and creative expression, Naksh organises fashion shows, ramp walks, and design challenges that celebrate personal aesthetic and cutting-edge fashion. Their ENVOGUE events are among the most anticipated spectacles at TRYST.',
+
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/envogue_group.png',
@@ -1485,6 +1500,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Mridang',
       society: 'Nrityaang – Dance Society',
+      societyDesc: 'Nrityaang is the Indian Classical and Folk Dance Society of Keshav Mahavidyalaya. Dedicated to preserving the richness of Indian dance traditions, Nrityaang trains and showcases performers in classical forms like Bharatanatyam and Kathak, as well as vibrant folk dances from across India.',
       time: 'TBA',
       location: 'Auditorium',
       poster: 'images/posters/mridang.png',
@@ -1516,6 +1532,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Uthaan',
       society: 'Nrityaang – Dance Society',
+      societyDesc: 'Nrityaang is the Indian Classical and Folk Dance Society of Keshav Mahavidyalaya. Dedicated to preserving the richness of Indian dance traditions, Nrityaang trains and showcases performers in classical forms like Bharatanatyam and Kathak, as well as vibrant folk dances from across India.',
       time: 'TBA',
       location: 'Auditorium',
       poster: 'images/posters/uthaan.png',
@@ -1547,6 +1564,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Evince',
       society: 'Vagmita – Poetry Society',
+      societyDesc: 'Vagmita is the Poetry Society of Keshav Mahavidyalaya, dedicated to the art of the written and spoken word. The society celebrates both English and Hindi/Urdu poetry through readings, competitions, and open mic sessions. Their events at TRYST bring together voices that move, provoke, and inspire.',
       time: '10:00 AM - 12:30 PM',
       location: 'Keshav Mahavidyalaya',
       poster: 'images/posters/Evince.png',
@@ -1577,6 +1595,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Irshaad',
       society: 'Vagmita – Poetry Society',
+      societyDesc: 'Vagmita is the Poetry Society of Keshav Mahavidyalaya, dedicated to the art of the written and spoken word. The society celebrates both English and Hindi/Urdu poetry through readings, competitions, and open mic sessions. Their events at TRYST bring together voices that move, provoke, and inspire.',
       time: '3:00 PM - 4:30 PM',
       location: 'Keshav Mahavidyalaya',
       poster: 'images/posters/Irshaad.png',
@@ -1607,6 +1626,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Kaaghaz',
       society: 'Vagmita – Poetry Society',
+      societyDesc: 'Vagmita is the Poetry Society of Keshav Mahavidyalaya, dedicated to the art of the written and spoken word. The society celebrates both English and Hindi/Urdu poetry through readings, competitions, and open mic sessions. Their events at TRYST bring together voices that move, provoke, and inspire.',
       time: '1:00 PM - 2:30 PM',
       location: 'Keshav Mahavidyalaya',
       poster: 'images/posters/Kaaghaz.png',
@@ -1637,6 +1657,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Baithak Street',
       society: 'Shades – Dramatics Society',
+      societyDesc: 'Shades is the Dramatics Society of Keshav Mahavidyalaya. From Nukkad Natak to mime and theatrical performances, Shades uses the power of storytelling to spark conversations about society, culture, and identity. Their events at TRYST consistently captivate audiences with powerful performances.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Baithak Street.png',
@@ -1664,6 +1685,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Baithak Mime',
       society: 'Shades – Dramatics Society',
+      societyDesc: 'Shades is the Dramatics Society of Keshav Mahavidyalaya. From Nukkad Natak to mime and theatrical performances, Shades uses the power of storytelling to spark conversations about society, culture, and identity. Their events at TRYST consistently captivate audiences with powerful performances.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Baithak Mime.png',
@@ -1938,7 +1960,6 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   const edCard = $('edCard');
   const edCloseBtn = $('edCloseBtn');
   const edRegBtn = $('edRegisterBtn');
-  const edSocietyLink = $('edSocietyLink');
 
   function openEventDetailById(eventId) {
     const event = getEventData(eventId);
@@ -2017,18 +2038,18 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       poster.alt = data.title || 'Event poster';
     }
 
-    // Register button — hide for description-only events
-    const edActionRow = document.querySelector('.ed-action-row');
+    // Register button + toggle — hide for description-only events
+    const edActionRow = $('edActionRow');
     if (edActionRow) edActionRow.style.display = isDescOnly ? 'none' : '';
 
     if (edRegBtn) {
-      edRegBtn.dataset.eventId = event.eventId || '';
+      edRegBtn.dataset.eventId    = event.eventId || '';
       edRegBtn.dataset.eventTitle = data.title || 'Event';
     }
-    if (edSocietyLink) edSocietyLink.href = data.societyLink || '#student-union';
 
-    const scrollWrap = document.querySelector('.ed-desc-scroll');
-    if (scrollWrap) scrollWrap.scrollTop = 0;
+    // Scroll panels back to top on each open
+    const panelsScroll = document.querySelector('.ed-panels-scroll');
+    if (panelsScroll) panelsScroll.scrollTop = 0;
 
     edOverlay?.classList.add('ed-active');
     edModal.classList.add('ed-active');
@@ -2080,16 +2101,6 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     event.stopImmediatePropagation();
     window.closeEventDetailModal();
   }, true);
-
-  edSocietyLink?.addEventListener('click', event => {
-    const target = document.querySelector(edSocietyLink.getAttribute('href'));
-    if (!target) return;
-    event.preventDefault();
-    window.closeEventDetailModal();
-    setTimeout(() => {
-      gsap.to(window, { scrollTo: { y: target, offsetY: 76 }, duration: 0.75, ease: 'expo.inOut' });
-    }, 260);
-  });
 
   const attendeeForm = $('registrationForm');
   $('register-now-btn')?.addEventListener('click', () => {
@@ -2922,7 +2933,15 @@ function resetAttendeeForm() {
 })();
 
 /* ─────────────────────────────────────────────
-   TASK 7 — Event Modal Society Toggle
+   EVENT MODAL — Society / Event Panel Toggle
+   ─────────────────────────────────────────────
+   HTML structure (new):
+     .ed-panels-scroll        ← scrollable wrapper
+       #edEventPanel          ← event info (default visible)
+       #edSocietyPanel        ← society info (hidden by default)
+     .ed-action-row
+       #edRegisterBtn         ← always visible
+       #edSocietyToggleBtn    ← toggles between panels
 ───────────────────────────────────────────── */
 (function edSocietyToggle() {
   let societyVisible = false;
@@ -2931,50 +2950,64 @@ function resetAttendeeForm() {
     const eventPanel   = document.getElementById('edEventPanel');
     const societyPanel = document.getElementById('edSocietyPanel');
     const btn          = document.getElementById('edSocietyToggleBtn');
+    const scroll       = document.querySelector('.ed-panels-scroll');
     if (!eventPanel || !societyPanel || !btn) return;
 
     societyVisible = !societyVisible;
 
     if (societyVisible) {
-      // Show society, hide event info
       eventPanel.style.display   = 'none';
-      societyPanel.classList.add('ed-society-visible');
-      societyPanel.style.display = 'flex';
+      societyPanel.style.display = 'block';
       btn.textContent = 'About the Event';
+      btn.classList.add('society-active');
     } else {
-      // Show event info, hide society
-      societyPanel.classList.remove('ed-society-visible');
       societyPanel.style.display = 'none';
       eventPanel.style.display   = '';
       btn.textContent = 'About the Society';
+      btn.classList.remove('society-active');
     }
 
-    // Animate panel swap
-    const activePanel = societyVisible ? societyPanel : eventPanel;
-    gsap.from(activePanel, {
-      opacity: 0, y: 8, duration: 0.22, ease: 'expo.out'
-    });
+    // Scroll to top of panel on each switch
+    if (scroll) scroll.scrollTop = 0;
+
+    // Animate the incoming panel
+    const incoming = societyVisible ? societyPanel : eventPanel;
+    if (window.gsap) {
+      gsap.from(incoming, { opacity: 0, y: 8, duration: 0.22, ease: 'expo.out' });
+    }
   };
 
-  // Reset toggle state whenever the event detail modal opens
+  // ── Wrap openEventDetailModal to reset toggle + populate society data ──
   const origOpen = window.openEventDetailModal;
   window.openEventDetailModal = function(data) {
+    // Reset panel state before populating
     societyVisible = false;
     const eventPanel   = document.getElementById('edEventPanel');
     const societyPanel = document.getElementById('edSocietyPanel');
     const btn          = document.getElementById('edSocietyToggleBtn');
-    if (eventPanel)   eventPanel.style.display   = '';
-    if (societyPanel) { societyPanel.style.display = 'none'; societyPanel.classList.remove('ed-society-visible'); }
-    if (btn)          btn.textContent = 'About the Society';
 
-    // Populate society panel from event data if available
+    if (eventPanel)   eventPanel.style.display   = '';
+    if (societyPanel) societyPanel.style.display = 'none';
+    if (btn) {
+      btn.textContent = 'About the Society';
+      btn.classList.remove('society-active');
+    }
+
+    // Populate society panel
+    // ─── To update society descriptions: edit the `societyDesc` key
+    //     in each event object inside TRYST_EVENTS in script.js ───
     const societyName = document.getElementById('edSocietyName');
     const societyBody = document.getElementById('edSocietyBody');
-    if (societyName && data && data.society) societyName.textContent = data.society;
-    if (societyBody && data && data.societyDesc) societyBody.textContent = data.societyDesc;
+    if (societyName) societyName.textContent = data?.society || '';
+    if (societyBody) {
+      societyBody.textContent = data?.societyDesc
+        || 'This society organises some of the most energetic and celebrated events at TRYST. Rooted in passion for their craft, they work year-round to create competitions and showcases that inspire students from across Delhi and beyond. Reach out to them via the Student Union for collaborations or queries.';
+    }
 
+    // Call original modal open
     if (origOpen) origOpen(data);
   };
+
 })();
 
 /* ─────────────────────────────────────────────
@@ -2996,4 +3029,286 @@ window.toggleFaq = function(btn) {
     if (answer) gsap.from(answer, { opacity: 0, y: -6, duration: 0.22, ease: 'expo.out' });
   }
 };
+/* ═══════════════════════════════════════════════════════════════════
+   ─────────────────────────────────────────────────────────────────
 
+   § A  REGISTRATION STATUS FLAG
+        ┌──────────────────────────────────────────────────────┐
+        │  Set REGISTRATION_OPEN = true  → registrations work  │
+        │  Set REGISTRATION_OPEN = false → show "coming soon"  │
+        └──────────────────────────────────────────────────────┘
+   § B  REGISTRATION CLOSED POPUP  (3-second auto-dismiss + manual)
+   § C  EVENTS MENU MODAL  (new interactive card matching screenshot)
+
+═══════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   § A — REGISTRATION STATUS FLAG
+   ✏️  CHANGE THIS ONE VALUE TO OPEN/CLOSE REGISTRATIONS
+───────────────────────────────────────────── */
+const REGISTRATION_OPEN = false;   // ← true = open | false = show "coming soon"
+
+/* ─────────────────────────────────────────────
+   § B — REGISTRATION CLOSED POPUP
+───────────────────────────────────────────── */
+(function registrationGate() {
+  const rcOverlay = document.getElementById('regClosedOverlay');
+  const rcPopup   = document.getElementById('regClosedPopup');
+  const rcTimer   = document.getElementById('regClosedTimer');
+  const rcDismiss = document.getElementById('regClosedDismiss');
+
+  if (!rcPopup) return;
+
+  let timerInterval = null;
+
+  /* Open popup with 3-second countdown */
+  function openRegClosedPopup() {
+    rcOverlay.classList.add('rc-active');
+    rcPopup.classList.add('rc-active');
+    document.body.style.overflow = 'hidden';
+
+    gsap.fromTo(rcPopup,
+      { opacity: 0, scale: 0.88, y: 20, visibility: 'hidden' },
+      { opacity: 1, scale: 1,    y: 0,  visibility: 'visible',
+        duration: 0.36, ease: 'expo.out' }
+    );
+
+    // Countdown
+    let seconds = 5;
+    if (rcTimer) rcTimer.textContent = `Closing in ${seconds}s`;
+
+    timerInterval = setInterval(() => {
+      seconds--;
+      if (seconds > 0) {
+        if (rcTimer) rcTimer.textContent = `Closing in ${seconds}s`;
+      } else {
+        clearInterval(timerInterval);
+        if (rcTimer) rcTimer.textContent = '';
+        closeRegClosedPopup();
+      }
+    }, 1000);
+  }
+
+  function closeRegClosedPopup() {
+    clearInterval(timerInterval);
+    gsap.to(rcPopup, {
+      opacity: 0, scale: 0.93, y: 12, duration: 0.22, ease: 'power3.in',
+      onComplete: () => {
+        rcOverlay.classList.remove('rc-active');
+        rcPopup.classList.remove('rc-active');
+        rcPopup.style.visibility = 'hidden';
+        document.body.style.overflow = '';
+        gsap.set(rcPopup, { clearProps: 'all' });
+      }
+    });
+  }
+
+  /* Dismiss button */
+  if (rcDismiss) rcDismiss.addEventListener('click', closeRegClosedPopup);
+  /* Overlay click */
+  if (rcOverlay) rcOverlay.addEventListener('click', closeRegClosedPopup);
+  /* Escape */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && rcOverlay?.classList.contains('rc-active')) closeRegClosedPopup();
+  });
+
+  /* ── Intercept ALL registration triggers ──────────────────────
+     When REGISTRATION_OPEN = false, intercept:
+       • #register-now-btn  (hero + register section)
+       • any .btn-register  click
+       • openRegisterModal() calls
+       • openEventRegModal() calls
+  ─────────────────────────────────────────────────────────────── */
+
+  if (!REGISTRATION_OPEN) {
+    // Override openRegisterModal before the IIFE defines it
+    const _origOpenReg = window.openRegisterModal;
+    window.openRegisterModal = function() { openRegClosedPopup(); };
+
+    const _origOpenEventReg = window.openEventRegModal;
+    window.openEventRegModal = function() { openRegClosedPopup(); };
+
+    // Button listeners (capture phase so we get them before existing handlers)
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('#register-now-btn, .btn-register, [id="edRegisterBtn"], .ed-register-btn, .ereg-type-btn');
+      if (btn) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        openRegClosedPopup();
+      }
+    }, true);
+  }
+
+  // Expose so other code can call it if needed
+  window.openRegClosedPopup  = openRegClosedPopup;
+  window.closeRegClosedPopup = closeRegClosedPopup;
+
+})();
+
+/* ─────────────────────────────────────────────
+   § C — EVENTS MENU MODAL
+   Interactive card matching the screenshot:
+     • Society name as eyebrow (small caps)
+     • Event name as main title (Cinzel)
+     • Arrow on right
+     • Click → close modal + scroll to schedule
+       + switch day tab + open event detail modal
+───────────────────────────────────────────── */
+(function eventsMenuModal() {
+
+  const evOverlay = document.getElementById('evMenuOverlay');
+  const evModal   = document.getElementById('evMenuModal');
+  const evCard    = document.getElementById('evMenuCard');
+  const evClose   = document.getElementById('evMenuClose');
+
+  if (!evModal) return;
+
+  /* ── Open / Close ─────────────────────────── */
+  function openEvMenu() {
+    buildEvMenu();   // populate rows fresh each open
+    evOverlay.classList.add('evm-active');
+    evModal.classList.add('evm-active');
+    document.body.style.overflow = 'hidden';
+    gsap.fromTo(evCard,
+      { opacity: 0, scale: 0.91, y: 18 },
+      { opacity: 1, scale: 1,    y: 0,
+        duration: 0.38, ease: 'expo.out', clearProps: 'transform' }
+    );
+  }
+
+  function closeEvMenu() {
+    gsap.to(evCard, {
+      opacity: 0, scale: 0.93, y: 12, duration: 0.24, ease: 'power3.in',
+      onComplete: () => {
+        evOverlay.classList.remove('evm-active');
+        evModal.classList.remove('evm-active');
+        document.body.style.overflow = '';
+        gsap.set(evCard, { clearProps: 'all' });
+      }
+    });
+  }
+
+  window.openEventsMenu  = openEvMenu;
+  window.closeEventsMenu = closeEvMenu;
+
+  /* ── Build event rows from TRYST_EVENTS data ─
+     Falls back to reading from DOM if production
+     system data isn't available yet.
+  ─────────────────────────────────────────────── */
+  function buildEvMenu() {
+    buildDay('1', document.getElementById('evMenuDay1'));
+    buildDay('2', document.getElementById('evMenuDay2'));
+  }
+
+  function buildDay(day, wrap) {
+    if (!wrap) return;
+    wrap.innerHTML = '';
+
+    // Try production system data first
+    const productionData = getEventsForDay(day);
+    if (productionData.length) {
+      productionData.forEach(({ id, title, society }) => {
+        wrap.appendChild(makeRow(id, title, society, day));
+      });
+      return;
+    }
+
+    // Fallback: read from existing schedule DOM
+    const scheduleDay = document.querySelector(`.schedule-day[data-day="${day}"]`);
+    if (!scheduleDay) return;
+    scheduleDay.querySelectorAll('.schedule-event').forEach(ev => {
+      const id      = ev.dataset.eventId || ev.querySelector('[data-event-id]')?.dataset.eventId || '';
+      const title   = ev.querySelector('.event-title')?.textContent?.trim() || '—';
+      const society = ev.querySelector('.event-tag')?.textContent?.trim() || '';
+      wrap.appendChild(makeRow(id, title, society, day));
+    });
+  }
+
+  /* Pull from TRYST_EVENTS if available (loaded by production system) */
+  function getEventsForDay(day) {
+    // Access the production system's TRYST_EVENTS via window if exposed
+    // It isn't directly exposed, so we collect from the rendered events-modal
+    const items = document.querySelectorAll(
+      `.events-modal-day[data-events-day="${day}"] .events-modal-item`
+    );
+    const results = [];
+    items.forEach(item => {
+      const id      = item.dataset.eventId || '';
+      const title   = item.querySelector('.events-modal-name')?.textContent?.trim() || '';
+      const society = item.querySelector('.events-modal-tag')?.textContent?.trim() || '';
+      if (title) results.push({ id, title, society });
+    });
+    return results;
+  }
+
+  function makeRow(eventId, title, society, day) {
+    const row = document.createElement('div');
+    row.className   = 'evmenu-row';
+    row.setAttribute('role', 'button');
+    row.setAttribute('tabindex', '0');
+    row.innerHTML = `
+      <div class="evmenu-row-left">
+        <span class="evmenu-society font-rajdhani">${escHTML(society)}</span>
+        <span class="evmenu-name font-cinzel">${escHTML(title)}</span>
+      </div>
+      <span class="evmenu-arrow">›</span>`;
+
+    function handleActivate() {
+      closeEvMenu();
+      // After modal closes (~280ms), scroll to schedule + open event detail
+      setTimeout(() => {
+        if (typeof window.goToEvent === 'function') {
+          window.goToEvent({ dataset: { eventId, day } });
+        } else {
+          // Fallback: just scroll to schedule
+          const schedule = document.getElementById('schedule');
+          if (schedule && window.gsap) {
+            gsap.to(window, { scrollTo: { y: schedule, offsetY: 76 }, duration: 0.85, ease: 'expo.inOut' });
+          }
+        }
+      }, 280);
+    }
+
+    row.addEventListener('click', handleActivate);
+    row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') handleActivate(); });
+    return row;
+  }
+
+  // Escape-safe HTML helper (scoped — does not conflict)
+  function escHTML(str) {
+    return String(str || '').replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])
+    );
+  }
+
+  /* ── Wire day tabs ────────────────────────── */
+  document.querySelectorAll('.evmenu-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const day = tab.dataset.evmenuDay;
+      document.querySelectorAll('.evmenu-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.evmenu-day').forEach(d => d.classList.remove('active'));
+      const panel = document.querySelector(`.evmenu-day[data-evmenu-day="${day}"]`);
+      if (panel) {
+        panel.classList.add('active');
+        gsap.from(panel, { opacity: 0, y: 8, duration: 0.22, ease: 'expo.out' });
+      }
+    });
+  });
+
+  /* ── Close triggers ───────────────────────── */
+  if (evClose)   evClose.addEventListener('click', closeEvMenu);
+  if (evOverlay) evOverlay.addEventListener('click', closeEvMenu);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && evModal?.classList.contains('evm-active')) closeEvMenu();
+  });
+
+  /* ── Hook nav card click ─────────────────────
+     The card now has data-modal="evmenu".
+     Patch into the existing nav card handler.
+  ─────────────────────────────────────────────── */
+  document.querySelectorAll('.nav-card[data-modal="evmenu"]').forEach(card => {
+    card.addEventListener('click', () => openEvMenu());
+  });
+
+})();

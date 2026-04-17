@@ -175,7 +175,7 @@
         </div>
 
         <!-- 3. Events & Shows -->
-        <div class="nav-card premium" data-modal="events">
+        <div class="nav-card premium" data-modal="evmenu">
           <div class="nav-card-bg" style="background-image:url('images/posters/stage.webp')"></div>
           <div class="nav-card-overlay"></div>
           <div class="nav-card-content premium-content">
@@ -1820,22 +1820,27 @@
       <!-- Split layout: left content, right poster -->
       <div class="ed-layout">
 
-        <!-- LEFT — scrollable description area -->
+        <!-- LEFT — header pinned, scrollable panels below, action row always visible -->
         <div class="ed-content-col">
-          <div class="ed-eyebrow font-rajdhani" id="edTag">Event</div>
-          <h2 class="ed-title font-cinzel" id="edTitle">Event Title</h2>
-          <div class="ed-meta font-rajdhani" id="edMeta"></div>
 
-          <div class="ed-divider">
-            <span class="ed-divider-line"></span>
-            <span class="ed-divider-diamond"></span>
-            <span class="ed-divider-line"></span>
+          <!-- ── Pinned header (never scrolls) ─────────────── -->
+          <div class="ed-header-wrap">
+            <div class="ed-eyebrow font-rajdhani" id="edTag">Event</div>
+            <h2 class="ed-title font-cinzel" id="edTitle">Event Title</h2>
+            <div class="ed-meta font-rajdhani" id="edMeta"></div>
+
+            <div class="ed-divider">
+              <span class="ed-divider-line"></span>
+              <span class="ed-divider-diamond"></span>
+              <span class="ed-divider-line"></span>
+            </div>
           </div>
 
-          <!-- Only this section scrolls if content overflows -->
-          <div class="ed-event-panels">
-            <!-- Event info panel (default) -->
-            <div class="ed-desc-scroll" id="edEventPanel">
+          <!-- ── Scrollable panels (event info OR society) ─── -->
+          <div class="ed-panels-scroll">
+
+            <!-- Event info panel (default visible) -->
+            <div id="edEventPanel">
               <section class="ed-info-section">
                 <h3 class="ed-section-title font-rajdhani">Description</h3>
                 <p class="ed-desc font-cormorant" id="edDesc"></p>
@@ -1858,29 +1863,39 @@
               </section>
             </div>
 
-            <!-- Society panel (shown on toggle) -->
-            <div class="ed-society-panel ed-desc-scroll" id="edSocietyPanel">
-              <p class="ed-society-title font-cinzel" id="edSocietyName"></p>
-              <p class="ed-society-body font-cormorant" id="edSocietyBody">
-                This society organises some of the most energetic and celebrated events at TRYST. Rooted in passion for their craft, they work year-round to create competitions and showcases that inspire students from across Delhi and beyond. Reach out to them via the Student Union for collaborations or queries.
-              </p>
+            <!-- Society panel (shown when toggle is active) -->
+            <div id="edSocietyPanel" style="display:none">
+              <section class="ed-info-section">
+                <h3 class="ed-section-title font-rajdhani">About the Society</h3>
+                <!--
+                  ╔══════════════════════════════════════════════════════╗
+                  ║  SOCIETY DESCRIPTIONS — editable per event via JS   ║
+                  ║  Each event's "societyDesc" key in TRYST_EVENTS      ║
+                  ║  populates this area automatically.                  ║
+                  ║  To change: edit the societyDesc field in script.js  ║
+                  ╚══════════════════════════════════════════════════════╝
+                -->
+                <p class="ed-society-title font-cinzel" id="edSocietyName"></p>
+                <p class="ed-society-body font-cormorant" id="edSocietyBody">
+                  This society organises some of the most energetic and celebrated events at TRYST. Rooted in passion for their craft, they work year-round to create competitions and showcases that inspire students from across Delhi and beyond.
+                </p>
+              </section>
             </div>
-          </div>
 
-          <!-- Toggle button — always below the panels -->
-          <button class="ed-toggle-btn font-rajdhani" id="edSocietyToggleBtn" onclick="toggleEdSociety()">
-            About the Society
-          </button>
+          </div><!-- /ed-panels-scroll -->
 
-          <!-- Register button -->
-          <div class="ed-action-row">
+          <!-- ── Always-visible action row ─────────────────── -->
+          <div class="ed-action-row" id="edActionRow">
             <button class="ed-register-btn font-cinzel" id="edRegisterBtn">
               <span class="ed-register-inner">✦ Register Now ✦</span>
               <span class="ed-register-glow"></span>
             </button>
-            <a href="#student-union" class="ed-society-link font-rajdhani" id="edSocietyLink">About Society</a>
+            <button class="ed-toggle-btn font-rajdhani" id="edSocietyToggleBtn" onclick="toggleEdSociety()">
+              About the Society
+            </button>
           </div>
-        </div>
+
+        </div><!-- /ed-content-col -->
 
         <!-- RIGHT — poster (object-fit: contain, full aspect ratio) -->
         <div class="ed-poster-col">
@@ -1913,6 +1928,53 @@
     </button>
   </div>
   <!-- ═══════════════ END SUCCESS POPUP ═══════════════ -->
+
+  <!-- ═══════════════ REGISTRATION CLOSED POPUP ═══════════════ -->
+  <!-- ✏️ EDIT: change the text inside .reg-closed-message to update the message shown -->
+  <div class="reg-closed-overlay" id="regClosedOverlay"></div>
+  <div class="reg-closed-popup" id="regClosedPopup" role="alertdialog">
+    <div class="reg-closed-icon">⏳</div>
+    <h3 class="reg-closed-title font-cinzel-deco">Coming Soon</h3>
+    <!-- ✏️ EDIT THIS TEXT FREELY -->
+    <p class="reg-closed-message font-cormorant">
+      Registrations will open soon.<br/>
+      Stay tuned on our Instagram for the launch announcement!
+    </p>
+    <div class="reg-closed-timer font-rajdhani" id="regClosedTimer">Closing in 3s</div>
+    <button class="reg-closed-btn font-cinzel" id="regClosedDismiss">Dismiss</button>
+  </div>
+  <!-- ═══════════════ END REGISTRATION CLOSED POPUP ═══════════════ -->
+
+  <!-- ═══════════════ EVENTS MENU MODAL ═══════════════ -->
+  <!-- Shown when "Events & Shows" nav card is clicked -->
+  <div class="evmenu-overlay" id="evMenuOverlay"></div>
+  <div class="evmenu-modal" id="evMenuModal" role="dialog" aria-modal="true" aria-label="Events Menu">
+    <div class="evmenu-card" id="evMenuCard">
+
+      <!-- Close button -->
+      <button class="evmenu-close" id="evMenuClose" aria-label="Close">&times;</button>
+
+      <!-- Header -->
+      <div class="evmenu-header">
+        <div class="evmenu-eyebrow font-rajdhani">TRYST 2026 · The Experience</div>
+        <h2 class="evmenu-title font-cinzel-deco">Events</h2>
+      </div>
+
+      <!-- Day tabs -->
+      <div class="evmenu-tabs">
+        <button class="evmenu-tab active font-cinzel" data-evmenu-day="1">Day I</button>
+        <button class="evmenu-tab font-cinzel" data-evmenu-day="2">Day II</button>
+      </div>
+
+      <!-- Scrollable event list — JS fills this -->
+      <div class="evmenu-body">
+        <div class="evmenu-day active" id="evMenuDay1" data-evmenu-day="1"></div>
+        <div class="evmenu-day" id="evMenuDay2" data-evmenu-day="2"></div>
+      </div>
+
+    </div>
+  </div>
+  <!-- ═══════════════ END EVENTS MENU MODAL ═══════════════ -->
 
   <script src="script.js" defer></script>
   <script src="tryst-production.js" defer></script>
