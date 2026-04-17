@@ -3046,7 +3046,7 @@ window.toggleFaq = function(btn) {
    § A — REGISTRATION STATUS FLAG
    ✏️  CHANGE THIS ONE VALUE TO OPEN/CLOSE REGISTRATIONS
 ───────────────────────────────────────────── */
-const REGISTRATION_OPEN = false;   // ← true = open | false = show "coming soon"
+const REGISTRATION_OPEN = true;   // ← true = open | false = show "coming soon"
 
 /* ─────────────────────────────────────────────
    § B — REGISTRATION CLOSED POPUP
