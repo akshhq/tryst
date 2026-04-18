@@ -1088,8 +1088,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
       societyLink: '#student-union',
       supportSection: [
-      'Vibhuti (President) - 8700796359',
-      'Pushkar (Vice President) - 8448935899'
+      'Vibhuti - 8700796359',
+      'Pushkar - 8448935899'
     ],
     },
     'nocturne': {
@@ -2854,80 +2854,178 @@ async function getLatestRegId(sheetName = "Attendees") {
 ═══════════════════════════════════════════════ */
 
 /* ─────────────────────────────────────────────
-   TASK 3 — Success Popup
+   DUAL SUCCESS POPUPS
+   ─────────────────────────────────────────────
+   Two separate popups — different messages,
+   same visual style:
+
+   showEventSuccessPopup(regId)
+     → shown after event registration
+     → reminds user to also register as attendee
+     → has "Register as Attendee →" link to #register
+
+   showAttendeeSuccessPopup(regId)
+     → shown after attendee registration
+     → explains entry rules (email + photo ID)
+
+   Both accept an optional regId string.
 ───────────────────────────────────────────── */
-(function successPopupSystem() {
-  const overlay = document.getElementById('successPopupOverlay');
-  const popup   = document.getElementById('successPopup');
-  const regIdEl = document.getElementById('successPopupRegId');
-  if (!popup) return;
+(function dualSuccessPopups() {
 
-  window.showSuccessPopup = function(regId) {
-    if (regIdEl) {
-      regIdEl.textContent = regId ? ('Reg ID: ' + regId) : '';
+  /* ── Shared factory: build open/close for one popup ── */
+  function makePopup(overlayId, popupId, closeTriggerId) {
+    const overlay = document.getElementById(overlayId);
+    const popup   = document.getElementById(popupId);
+    const closeBtn = document.getElementById(closeTriggerId);
+    if (!overlay || !popup) return { open: () => {}, close: () => {} };
+
+    function open(regId, regElId) {
+      // Stamp reg ID if provided
+      const regEl = regElId ? document.getElementById(regElId) : null;
+      if (regEl) regEl.textContent = regId ? ('Reg ID: ' + regId) : '';
+
+      overlay.classList.add('sp-active');
+      document.body.style.overflow = 'hidden';
+
+      gsap.fromTo(popup,
+        { opacity: 0, scale: 0.88, y: 22, visibility: 'hidden' },
+        { opacity: 1, scale: 1,    y: 0,  visibility: 'visible',
+          duration: 0.38, ease: 'expo.out', clearProps: 'transform' }
+      );
     }
-    overlay.classList.add('sp-active');
-    document.body.style.overflow = 'hidden';
 
-    gsap.fromTo(popup,
-      { opacity: 0, scale: 0.88, y: 20, visibility: 'hidden' },
-      { opacity: 1, scale: 1,    y: 0,  visibility: 'visible',
-        duration: 0.38, ease: 'expo.out', clearProps: 'transform' }
-    );
-  };
+    function close() {
+      gsap.to(popup, {
+        opacity: 0, scale: 0.93, y: 12,
+        duration: 0.24, ease: 'power3.in',
+        onComplete: () => {
+          popup.style.visibility = 'hidden';
+          overlay.classList.remove('sp-active');
+          document.body.style.overflow = '';
+          gsap.set(popup, { clearProps: 'all' });
+        }
+      });
+    }
 
-  window.closeSuccessPopup = function() {
-    gsap.to(popup, {
-      opacity: 0, scale: 0.93, y: 12,
-      duration: 0.24, ease: 'power3.in',
-      onComplete: () => {
-        popup.style.visibility = 'hidden';
-        overlay.classList.remove('sp-active');
-        document.body.style.overflow = '';
-        gsap.set(popup, { clearProps: 'all' });
+    // Wire close button
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    // Wire overlay click
+    overlay.addEventListener('click', close);
+    // Wire Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && overlay.classList.contains('sp-active')) close();
+    });
+
+    return { open, close };
+  }
+
+  /* ── Event success popup ────────────────────── */
+  const eventPopup = makePopup(
+    'eventSuccessOverlay',
+    'eventSuccessPopup',
+    'eventSuccessClose'
+  );
+
+  // "Register as Attendee →" link: close popup + scroll to #register
+  const eventRegLink = document.getElementById('eventSuccessRegLink');
+  if (eventRegLink) {
+    eventRegLink.addEventListener('click', e => {
+      e.preventDefault();
+      eventPopup.close();
+      setTimeout(() => {
+        const target = document.getElementById('register');
+        if (target && window.gsap) {
+          gsap.to(window, { scrollTo: { y: target, offsetY: 76 }, duration: 0.85, ease: 'expo.inOut' });
+        }
+      }, 280);
+    });
+  }
+
+  // Dismiss button
+  const eventDismiss = document.getElementById('eventSuccessDismiss');
+  if (eventDismiss) eventDismiss.addEventListener('click', () => eventPopup.close());
+
+  window.showEventSuccessPopup = (regId = '') =>
+    eventPopup.open(regId, 'eventSuccessRegId');
+  window.closeEventSuccessPopup = () => eventPopup.close();
+
+  /* ── Attendee success popup ─────────────────── */
+  const attendeePopup = makePopup(
+    'attendeeSuccessOverlay',
+    'attendeeSuccessPopup',
+    'attendeeSuccessClose'
+  );
+
+  const attendeeDismiss = document.getElementById('attendeeSuccessDismiss');
+  if (attendeeDismiss) attendeeDismiss.addEventListener('click', () => attendeePopup.close());
+
+  window.showAttendeeSuccessPopup = (regId = '') =>
+    attendeePopup.open(regId, 'attendeeSuccessRegId');
+  window.closeAttendeeSuccessPopup = () => attendeePopup.close();
+
+  /* ─────────────────────────────────────────────
+     HOOK 1 — Event reg final submit
+     The production system's eregFinalSubmit fires
+     in the capture phase and calls closeEventRegModal
+     after 2.4s. We listen (non-capture, passive) and
+     show the event popup when the status turns success.
+     We use a MutationObserver on #eventRegStatus so we
+     fire only on actual success, not validation errors.
+  ─────────────────────────────────────────────── */
+  const eventRegStatus = document.getElementById('eventRegStatus');
+  if (eventRegStatus) {
+    const mo = new MutationObserver(() => {
+      // The production system sets class 'status-success' on success
+      if (eventRegStatus.classList.contains('status-success') ||
+          eventRegStatus.textContent.toLowerCase().includes('success')) {
+        // Extract reg ID if present in the status text
+        const match = eventRegStatus.textContent.match(/TRYST[-\w]+/i);
+        window.showEventSuccessPopup(match ? match[0] : '');
       }
     });
-  };
+    mo.observe(eventRegStatus, { childList: true, subtree: true, characterData: true, attributes: true });
+  }
 
-  // Close on overlay click
-  overlay.addEventListener('click', window.closeSuccessPopup);
+  // Fallback: also hook the submit button directly (passive, fires after production handler)
+  const eregBtn = document.getElementById('eregFinalSubmit');
+  if (eregBtn) {
+    eregBtn.addEventListener('click', () => {
+      // Wait for the production system to complete + close the modal
+      setTimeout(() => {
+        if (!document.getElementById('eventRegModal')?.classList.contains('reg-active')) {
+          // Modal closed = submit was successful
+          window.showEventSuccessPopup('');
+        }
+      }, 2600);   // production system closes modal after 2400ms
+    }, { passive: true });
+  }
 
-  // Close on Escape
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && overlay.classList.contains('sp-active')) {
-      window.closeSuccessPopup();
-    }
-  });
+  /* ─────────────────────────────────────────────
+     HOOK 2 — Attendee form submit
+     The formIntegration IIFE (§ 21) submits via
+     iframe and calls alert(). We suppress the alert
+     and show the attendee popup instead.
+  ─────────────────────────────────────────────── */
 
-  /* ── Hook into existing attendee form submit ──────────────────
-     The attendee form (§ 21 formIntegration IIFE) calls alert().
-     We intercept the submit event at capture phase AFTER the
-     production system so we can show the popup instead.
-     We also hook into the production system's eregFinalSubmit.
-  ─────────────────────────────────────────────────────────────── */
-
-  // Patch attendee form: replace alert with popup on successful submit
+  // Override window.alert only during attendee form submission
+  const origAlert = window.alert;
   const attendeeForm = document.getElementById('registrationForm');
   if (attendeeForm) {
     attendeeForm.addEventListener('submit', () => {
-      // Wait for iframe POST to propagate, then show popup
+      // Temporarily replace alert so the old code's alert() becomes a no-op
+      window.alert = () => {};
+      // Show popup after iframe POST fires
       setTimeout(() => {
-        window.showSuccessPopup('');
+        window.alert = origAlert;  // restore
+        window.showAttendeeSuccessPopup('');
         resetAttendeeForm();
-      }, 800);
+      }, 900);
     }, false);
   }
 
-  // Patch event registration final submit button
-  const eregFinal = document.getElementById('eregFinalSubmit');
-  if (eregFinal) {
-    eregFinal.addEventListener('click', () => {
-      // Show popup after a short delay (backend call in progress)
-      setTimeout(() => {
-        window.showSuccessPopup('');
-      }, 600);
-    }, { capture: false, passive: true });
-  }
+  /* Keep legacy shim so any old callers don't crash */
+  window.showSuccessPopup   = window.showEventSuccessPopup;
+  window.closeSuccessPopup  = window.closeEventSuccessPopup;
 
 })();
 

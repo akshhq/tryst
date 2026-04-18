@@ -3182,3 +3182,37 @@ footer { margin-top: 20px; }
   .evmenu-row    { padding: 12px 14px; }
   .evmenu-name   { font-size: 0.85rem; }
 }
+/* ═══════════════════════════════════════════════
+   DUAL SUCCESS POPUPS — additions
+   (base styles reuse .success-popup-* classes)
+═══════════════════════════════════════════════ */
+
+/* Bold highlight inside popup body */
+.success-popup-highlight {
+  color: var(--gold);
+  font-style: normal;
+}
+
+/* "Register as Attendee →" action link — full-width soft gold button */
+.success-popup-action-btn {
+  display: block;
+  width: 100%;
+  padding: 13px 20px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.06));
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 4px;
+  color: var(--gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.22s, border-color 0.22s, color 0.22s;
+}
+.success-popup-action-btn:hover {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  border-color: var(--gold);
+  color: var(--navy);
+}
