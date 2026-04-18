@@ -3019,7 +3019,7 @@ async function getLatestRegId(sheetName = "Attendees") {
         window.alert = origAlert;  // restore
         window.showAttendeeSuccessPopup('');
         resetAttendeeForm();
-      }, 900);
+      }, 2000);
     }, false);
   }
 
@@ -3547,3 +3547,5 @@ const REGISTRATION_OPEN = true;   // ← true = open | false = show "coming soon
     }
   });
 })();
+
+
