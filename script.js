@@ -564,6 +564,8 @@ document.querySelectorAll('.schedule-tab').forEach(tab => {
 
 /* ═══════════════════════════════════════════════
    GALLERY LIGHTBOX
+   Works with Pinterest column masonry layout.
+   Clicking any .gallery-item opens full-screen view.
 ═══════════════════════════════════════════════ */
 const galleryItems    = document.querySelectorAll('.gallery-item');
 const lightbox        = document.getElementById('lightbox');
@@ -688,10 +690,10 @@ ScrollTrigger.create({
   onEnter: () => gsap.from('.artist-card', { opacity: 0, y: 28, stagger: 0.06, duration: 0.55, ease: 'expo.out', clearProps: "transform" })
 });
 
-// Gallery stagger
+// Gallery stagger — works with column masonry (items vary in height)
 ScrollTrigger.create({
-  trigger: '.gallery-masonry', start: 'top 84%', once: true,
-  onEnter: () => gsap.from('.gallery-item', { opacity: 0, scale: 0.95, stagger: 0.035, duration: 0.4, ease: 'expo.out' })
+  trigger: '.gallery-masonry', start: 'top 88%', once: true,
+  onEnter: () => gsap.from('.gallery-item', { opacity: 0, y: 20, stagger: { each: 0.06, from: 'start' }, duration: 0.45, ease: 'expo.out' })
 });
 
 // Register pulse — only on desktop (continuous animation is costly on mobile)
@@ -1050,8 +1052,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Stage presence and crowd connection'
       ],
       supportSection: [
-        'Name - 0000000000',
-        'Name - 0000000000'
+        'Vibhuti - 8700796359',
+        'Pushkar - 8448935899'
       ],
       societyLink: '#student-union'
     },
@@ -1084,7 +1086,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Individuality and personal style',
         'Stage presence and crowd engagement'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+      'Vibhuti (President) - 8700796359',
+      'Pushkar (Vice President) - 8448935899'
+    ],
     },
     'nocturne': {
       day: '1',
@@ -1116,7 +1122,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Harmony and rhythm',
         'Stage presence'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Lavanya - 9871042278',
+        'Karan - 9810237028'
+      ],
     },
     'khayaal': {
       day: '2',
@@ -1151,7 +1161,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Discipline and composition',
         'Overall presentation'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'XXX - XXX',
+        'XXX - XXX'
+      ],
     },
     'rebuttal': {
       day: '1',
@@ -1180,7 +1194,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Confidence and delivery',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Komal - +91 74283 90075',
+        'Rishita - +91 63888 03736'
+      ],
     },
     'khandan': {
       day: '2',
@@ -1209,7 +1227,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'आत्मविश्वास और प्रस्तुति',
         'समग्र प्रभाव'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Vaibhav - +91 98188 34790',
+        'Vanshika - +91 98717 60966'
+      ],
     },
     'jhalak': {
       day: '1',
@@ -1239,7 +1261,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Relevance to theme',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Viswajith P V - 9971284243',
+        'Akansha Bisht - 9266869504'
+      ],
     },
     'cinematica': {
       day: '2',
@@ -1269,7 +1295,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Engagement and impact',
         'Overall presentation'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Viswajith P V - 9971284243',
+        'Akansha Bisht - 9266869504'
+      ],
     },
     'pixel': {
       day: '1',
@@ -1299,7 +1329,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Composition and technique',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Viswajith P V - 9971284243',
+        'Akansha Bisht - 9266869504'
+      ],
     },
     'lenscraft': {
       day: '2',
@@ -1328,7 +1362,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Concept and depth',
         'Overall presentation'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Viswajith P V - 9971284243',
+        'Akansha Bisht - 9266869504'
+      ],
     },
     'draped_duality': {
       day: '1',
@@ -1361,7 +1399,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Presentation and storytelling',
         'Overall visual impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Pariksha Negi - 9205845788',
+        'Ahsan Raqeeb - 8700594375'
+      ],
     },
     'reframe_the_fame': {
       day: '1',
@@ -1393,7 +1435,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Originality',
         'Overall presentation'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Pariksha Negi - 9205845788',
+        'Ahsan Raqeeb - 8700594375'
+      ],
     },
     'syncstroke': {
       day: '2',
@@ -1426,7 +1472,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Artistic quality and technique',
         'Final composition and impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Pariksha Negi - 9205845788',
+        'Ahsan Raqeeb - 8700594375'
+      ],
     },
     'envogue_group': {
       day: '1',
@@ -1462,7 +1512,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Walking stance and attitude',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Sonia - 9953099058',
+        'Vaibhav Nikhil - 9870733523'
+      ],
     },
     'envogue_solo': {
       day: '2',
@@ -1494,7 +1548,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Stage presence',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Sonia - 9953099058',
+        'Vaibhav Nikhil - 9870733523'
+      ],
     },
     'mridang': {
       day: '1',
@@ -1526,7 +1584,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Stage presence',
         'Overall performance'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Tanishka - 9289390869',
+        'Parita - 9012029878'
+      ],
     },
     'uthaan': {
       day: '2',
@@ -1558,7 +1620,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Choreography and formations',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Tanishka - 9289390869',
+        'Parita - 9012029878'
+      ],
     },
     'evince': {
       day: '1',
@@ -1589,7 +1655,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Performance and delivery',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Shreeanshi - 7901832313',
+        'Tanya - 9625240393'
+      ],
     },
     'irshaad': {
       day: '2',
@@ -1620,7 +1690,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Performance and delivery',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Shreeanshi - 7901832313',
+        'Tanya - 9625240393'
+      ],
     },
     'kaaghaz': {
       day: '2',
@@ -1651,7 +1725,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Relevance to prompts',
         'Overall impact'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Shreeanshi - 7901832313',
+        'Tanya - 9625240393'
+      ],
     },
     'baithak_street': {
       day: '1',
@@ -1679,7 +1757,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Clarity of the topic',
         'Direction'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Kajal - 9717335644',
+        'Dhananjay - 8287244756'
+      ],
     },
     'baithak_mime': {
       day: '2',
@@ -1711,7 +1793,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         'Body language',
         'Makeup and costumes'
       ],
-      societyLink: '#student-union'
+      societyLink: '#student-union',
+      supportSection: [
+        'Kajal - 9717335644',
+        'Dhananjay - 8287244756'
+      ],
     }
   };
 
@@ -2029,7 +2115,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       $('edFormat').innerHTML  = listHTML(data.format);
       $('edRules').innerHTML   = listHTML(data.rules);
       $('edJudging').innerHTML = listHTML(data.judging);
-      $('edSupport').innerHTML = listHTML(data.support);
+      $('edSupport').innerHTML = listHTML(data.supportSection);
     }
 
     const poster = $('edPosterImg');
@@ -2935,67 +3021,67 @@ function resetAttendeeForm() {
 /* ─────────────────────────────────────────────
    EVENT MODAL — Society / Event Panel Toggle
    ─────────────────────────────────────────────
-   HTML structure (new):
-     .ed-panels-scroll        ← scrollable wrapper
-       #edEventPanel          ← event info (default visible)
-       #edSocietyPanel        ← society info (hidden by default)
-     .ed-action-row
-       #edRegisterBtn         ← always visible
-       #edSocietyToggleBtn    ← toggles between panels
+   Uses CSS animation class (.ed-panel-entering) instead of
+   GSAP to avoid conflicts with the card's own GSAP tween.
 ───────────────────────────────────────────── */
 (function edSocietyToggle() {
   let societyVisible = false;
+
+  function showPanel(panelToShow, panelToHide, btn) {
+    // Hide outgoing panel
+    panelToHide.style.display = 'none';
+    panelToHide.classList.remove('ed-panel-entering');
+
+    // Show incoming panel with CSS animation
+    panelToShow.style.display = 'block';
+    // Force reflow so animation restarts cleanly
+    void panelToShow.offsetWidth;
+    panelToShow.classList.add('ed-panel-entering');
+
+    // Scroll panel area to top
+    const scroll = document.querySelector('.ed-panels-scroll');
+    if (scroll) scroll.scrollTop = 0;
+  }
 
   window.toggleEdSociety = function() {
     const eventPanel   = document.getElementById('edEventPanel');
     const societyPanel = document.getElementById('edSocietyPanel');
     const btn          = document.getElementById('edSocietyToggleBtn');
-    const scroll       = document.querySelector('.ed-panels-scroll');
     if (!eventPanel || !societyPanel || !btn) return;
 
     societyVisible = !societyVisible;
 
     if (societyVisible) {
-      eventPanel.style.display   = 'none';
-      societyPanel.style.display = 'block';
       btn.textContent = 'About the Event';
       btn.classList.add('society-active');
+      showPanel(societyPanel, eventPanel, btn);
     } else {
-      societyPanel.style.display = 'none';
-      eventPanel.style.display   = '';
       btn.textContent = 'About the Society';
       btn.classList.remove('society-active');
-    }
-
-    // Scroll to top of panel on each switch
-    if (scroll) scroll.scrollTop = 0;
-
-    // Animate the incoming panel
-    const incoming = societyVisible ? societyPanel : eventPanel;
-    if (window.gsap) {
-      gsap.from(incoming, { opacity: 0, y: 8, duration: 0.22, ease: 'expo.out' });
+      showPanel(eventPanel, societyPanel, btn);
     }
   };
 
   // ── Wrap openEventDetailModal to reset toggle + populate society data ──
   const origOpen = window.openEventDetailModal;
   window.openEventDetailModal = function(data) {
-    // Reset panel state before populating
+    // Reset state before opening
     societyVisible = false;
+
     const eventPanel   = document.getElementById('edEventPanel');
     const societyPanel = document.getElementById('edSocietyPanel');
     const btn          = document.getElementById('edSocietyToggleBtn');
 
-    if (eventPanel)   eventPanel.style.display   = '';
-    if (societyPanel) societyPanel.style.display = 'none';
+    // Reset panels: show event, hide society — no animation on reset
+    if (eventPanel)   { eventPanel.style.display = 'block'; eventPanel.classList.remove('ed-panel-entering'); }
+    if (societyPanel) { societyPanel.style.display = 'none'; societyPanel.classList.remove('ed-panel-entering'); }
     if (btn) {
       btn.textContent = 'About the Society';
       btn.classList.remove('society-active');
     }
 
     // Populate society panel
-    // ─── To update society descriptions: edit the `societyDesc` key
-    //     in each event object inside TRYST_EVENTS in script.js ───
+    // ─── To update: edit the `societyDesc` key in TRYST_EVENTS in script.js ───
     const societyName = document.getElementById('edSocietyName');
     const societyBody = document.getElementById('edSocietyBody');
     if (societyName) societyName.textContent = data?.society || '';
@@ -3004,7 +3090,7 @@ function resetAttendeeForm() {
         || 'This society organises some of the most energetic and celebrated events at TRYST. Rooted in passion for their craft, they work year-round to create competitions and showcases that inspire students from across Delhi and beyond. Reach out to them via the Student Union for collaborations or queries.';
     }
 
-    // Call original modal open
+    // Call original modal open (runs its own GSAP on edCard — panels are untouched)
     if (origOpen) origOpen(data);
   };
 
@@ -3311,4 +3397,55 @@ const REGISTRATION_OPEN = true;   // ← true = open | false = show "coming soon
     card.addEventListener('click', () => openEvMenu());
   });
 
+})();
+/* ═══════════════════════════════════════════════
+   POSTER ZOOM LIGHTBOX
+   Opens when mobile user taps the poster area in
+   the event detail card (.ed-poster-col).
+   Also works on desktop (click-to-enlarge).
+═══════════════════════════════════════════════ */
+(function posterZoom() {
+  const plb      = document.getElementById('posterLightbox');
+  const plbImg   = document.getElementById('posterLightboxImg');
+  const plbClose = document.getElementById('posterLightboxClose');
+  if (!plb || !plbImg || !plbClose) return;
+
+  function openPosterLightbox(src, alt) {
+    if (!src) return;
+    plbImg.src = src;
+    plbImg.alt = alt || 'Event poster';
+    plb.classList.add('plb-active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePosterLightbox() {
+    plb.classList.remove('plb-active');
+    document.body.style.overflow = '';
+  }
+
+  // Tap/click on poster column opens zoom
+  // We delegate from document so it works even after modal re-opens
+  document.addEventListener('click', e => {
+    const posterCol = e.target.closest('.ed-poster-col');
+    if (posterCol) {
+      const img = posterCol.querySelector('.ed-poster-img');
+      if (img && img.src && !img.src.endsWith('/')) {
+        openPosterLightbox(img.src, img.alt);
+      }
+    }
+  });
+
+  plbClose.addEventListener('click', closePosterLightbox);
+
+  // Click backdrop (not the image) to close
+  plb.addEventListener('click', e => {
+    if (e.target === plb) closePosterLightbox();
+  });
+
+  // Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && plb.classList.contains('plb-active')) {
+      closePosterLightbox();
+    }
+  });
 })();

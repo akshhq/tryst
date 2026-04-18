@@ -792,39 +792,90 @@ footer { margin-top: 20px; }
 .countdown-num { font-variant-numeric: tabular-nums; line-height: 1; }
 
 /* ─────────────────────────────────────────────
-   SECTION — GALLERY
+   SECTION — GALLERY  (Pinterest / masonry columns)
 ───────────────────────────────────────────── */
 .gallery-masonry {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 180px;
-  gap: 10px;
+  /* CSS multi-column masonry — auto-adjusts to screen width */
+  column-count: 4;
+  column-gap: 10px;
 }
+
+/* Each item fills a column slot and doesn't break across columns */
 .gallery-item {
-  position: relative; overflow: hidden;
+  position: relative;
+  overflow: hidden;
   border-radius: var(--radius);
   border: 1px solid var(--glass-border);
-  cursor: none;
+  cursor: pointer;
+  break-inside: avoid;          /* never split an image across columns */
+  margin-bottom: 10px;          /* vertical gap between items */
+  display: block;
+  transition: box-shadow 0.28s ease;
 }
-.gallery-item--tall  { grid-row: span 2; }
-.gallery-item--wide  { grid-column: span 2; }
+.gallery-item:hover {
+  box-shadow: 0 0 22px rgba(201,168,76,0.18), 0 8px 32px rgba(0,0,0,0.4);
+}
 
+/* Images are full-width of their column, height is natural (aspect ratio preserved) */
 .gallery-item img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%;
+  height: auto;          /* KEY: natural height — no fixed row height */
+  display: block;
+  object-fit: cover;
   transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), filter 0.28s ease;
-  filter: brightness(0.72) saturate(0.8);
+  filter: brightness(0.78) saturate(0.85);
   will-change: transform, filter;
 }
-.gallery-item:hover img { transform: scale(1.05); filter: brightness(0.88) saturate(1); }
+.gallery-item:hover img {
+  transform: scale(1.04);
+  filter: brightness(0.92) saturate(1.05);
+}
 
+/* Overlay label — always shown at bottom on touch, hover on desktop */
 .gallery-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(10,15,30,0.88) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(10,15,30,0.9) 0%, transparent 55%);
   display: flex; align-items: flex-end;
-  padding: 14px; opacity: 0;
+  padding: 14px 12px;
+  opacity: 0;
   transition: opacity 0.22s ease;
 }
 .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+/* Tap-to-zoom hint — shown on mobile only */
+.gallery-tap-hint {
+  position: absolute;
+  top: 8px; right: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  background: rgba(10,15,30,0.65);
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 2px 7px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+@media (max-width: 768px) {
+  .gallery-tap-hint { opacity: 1; }
+  .gallery-overlay { opacity: 1; }  /* always show label on mobile */
+}
+
+/* ── Responsive column counts ─────────────────── */
+@media (max-width: 1200px) {
+  .gallery-masonry { column-count: 3; }
+}
+@media (max-width: 768px) {
+  .gallery-masonry { column-count: 2; column-gap: 8px; }
+  .gallery-item { margin-bottom: 8px; border-radius: 6px; }
+}
+@media (max-width: 420px) {
+  .gallery-masonry { column-count: 2; column-gap: 6px; }
+  .gallery-item { margin-bottom: 6px; }
+}
 
 /* Lightbox */
 .lightbox {
@@ -1132,9 +1183,7 @@ footer { margin-top: 20px; }
   .event-body-inner { grid-template-columns: 80px 1fr; gap: 8px; }
   .event-poster { height: 56px; }
 
-  /* Gallery */
-  .gallery-masonry { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 140px; }
-  .gallery-item--wide { grid-column: span 1; }
+  /* Gallery — column counts now handled in gallery section above */
 
   /* Stats */
   .stats-row { gap: 16px; }
@@ -1166,8 +1215,7 @@ footer { margin-top: 20px; }
 
 @media (max-width: 480px) {
   .artists-grid { grid-template-columns: repeat(2, 1fr); } /* Keep 2-col even on smallest screens */
-  .gallery-masonry { grid-template-columns: 1fr; grid-auto-rows: 160px; }
-  .gallery-item--tall, .gallery-item--wide { grid-column: span 1; grid-row: span 1; }
+  /* gallery handled above in masonry section */
   .hero-line .line-deco { width: 36px; }
   .event-body-inner { grid-template-columns: 1fr; }
   .event-poster { width: 100%; height: 90px; }
@@ -2329,6 +2377,58 @@ footer { margin-top: 20px; }
   display: block;
 }
 
+/* ── Poster zoom lightbox ─────────────────────── */
+.poster-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(5, 8, 18, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+  cursor: pointer;
+}
+.poster-lightbox.plb-active {
+  opacity: 1;
+  visibility: visible;
+}
+.poster-lightbox-img {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid rgba(201,168,76,0.2);
+  box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 120px rgba(0,0,0,0.4);
+  cursor: default;
+  transform: scale(0.94);
+  transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+}
+.poster-lightbox.plb-active .poster-lightbox-img {
+  transform: scale(1);
+}
+.poster-lightbox-close {
+  position: absolute;
+  top: 18px; right: 22px;
+  background: none;
+  border: none;
+  color: rgba(201,168,76,0.8);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+.poster-lightbox-close:hover {
+  color: var(--gold);
+  transform: scale(1.1);
+  text-shadow: 0 0 12px rgba(201,168,76,0.6);
+}
+
 /* ── Responsive ───────────────────────────────── */
 @media (max-width: 768px) {
   .ed-card {
@@ -2343,29 +2443,48 @@ footer { margin-top: 20px; }
     grid-template-rows: auto 1fr;
   }
 
-  /* Poster moves to top on mobile */
+  /* Poster moves to top on mobile — taller for better visibility */
   .ed-poster-col {
     order: -1;
     border-left: none;
     border-bottom: 1px solid rgba(201,168,76,0.1);
-    height: 200px;
+    height: 300px;
     flex-shrink: 0;
+    cursor: pointer; /* tap to zoom */
+    position: relative;
   }
 
-  .ed-poster-wrap { padding: 14px; }
+  /* Tap-to-zoom hint overlay on poster */
+  .ed-poster-col::after {
+    content: '⤢  Tap to expand';
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.7);
+    background: rgba(8, 12, 26, 0.72);
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid rgba(201,168,76,0.2);
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .ed-poster-wrap { padding: 10px; }
 
   .ed-header-wrap { padding: 18px 20px 0; }
   .ed-panels-scroll { padding: 0 20px 12px; }
   .ed-action-row { padding: 10px 20px 16px; }
 
   .ed-register-btn { align-self: auto; flex: 1; text-align: center; }
-
-  /* Mobile: toggle btn full width on very small screens */
 }
 
 @media (max-width: 480px) {
   .ed-card { border-radius: 10px; }
-  .ed-poster-col { height: 160px; }
+  .ed-poster-col { height: 260px; }
   .ed-title { font-size: 1.25rem; }
   .ed-action-row { flex-direction: column; gap: 8px; }
   .ed-register-btn, .ed-toggle-btn { width: 100%; text-align: center; align-self: stretch; }
@@ -2744,9 +2863,14 @@ footer { margin-top: 20px; }
   color: var(--gold);
 }
 
-/* Society panel — hidden by default */
-#edSocietyPanel {
-  animation: fadeInPanel 0.22s ease;
+/* Society panel — visibility controlled by JS via .ed-panel-visible class */
+#edSocietyPanel,
+#edEventPanel {
+  transition: opacity 0.2s ease;
+}
+/* Entering state */
+.ed-panel-entering {
+  animation: fadeInPanel 0.22s ease forwards;
 }
 
 @keyframes fadeInPanel {
