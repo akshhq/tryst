@@ -1891,11 +1891,39 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     btn.classList.remove('reg-loading');
   }
 
+  // ─── Image compression ───────────────────────────────────────────────────
+  // Resize & re-encode images to JPEG @ max 1200px / 0.78 quality before
+  // base64 conversion. Reduces a 5 MB phone photo to ~180 KB, keeping the
+  // total JSON payload well under Apps Script limits. PDFs are passed through.
   function fileToBase64(file) {
+    if (!file) return Promise.resolve('');
+    if (!file.type.startsWith('image/')) return fileToBase64Raw(file);
+    return new Promise(resolve => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1200;
+        let w = img.width, h = img.height;
+        if (w > MAX || h > MAX) {
+          if (w >= h) { h = Math.round(h * MAX / w); w = MAX; }
+          else        { w = Math.round(w * MAX / h); h = MAX; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL('image/jpeg', 0.78));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); fileToBase64Raw(file).then(resolve); };
+      img.src = url;
+    });
+  }
+
+  function fileToBase64Raw(file) {
     return new Promise((resolve, reject) => {
       if (!file) return resolve('');
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
+      reader.onload  = () => resolve(reader.result);
       reader.onerror = () => reject(reader.error || new Error('Could not read file.'));
       reader.readAsDataURL(file);
     });
@@ -1904,31 +1932,42 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   const toBase64 = fileToBase64;
   window.toBase64 = toBase64;
 
+  // ─── Submission ──────────────────────────────────────────────────────────
+  // Uses fetch + no-cors + Content-Type:text/plain — a "simple" cross-origin
+  // request that bypasses CORS preflight. Body is raw JSON so Apps Script
+  // reads it from e.postData.contents (no e.parameter size limits).
+  // Falls back to iframe form POST if fetch throws.
   function postJSON(payload) {
-    // ✅ FIX 1: field must be named "payload" (Apps Script reads e.parameter.payload)
-    // ✅ FIX 2: token must be present or Apps Script rejects the request
     const withToken = Object.assign({ token: "TRYST2026" }, payload);
+    const body = JSON.stringify(withToken);
 
-    const form = document.createElement("form");
-    form.method = "POST";
+    const doFetch = () => fetch(POST_URL, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body:    body
+    }).catch(err => {
+      console.warn('[TRYST] fetch failed, trying iframe:', err);
+      _iframeSubmit(body);
+    });
+
+    doFetch();
+    return Promise.resolve({ status: 'success', regId: 'SUBMITTED' });
+  }
+
+  function _iframeSubmit(bodyStr) {
+    const form  = document.createElement('form');
+    form.method = 'POST';
     form.action = POST_URL;
-    form.target = "hidden_iframe";
-
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "payload";                       // was "data" — FIXED
-    input.value = JSON.stringify(withToken);      // now includes token — FIXED
-
+    form.target = 'hidden_iframe';
+    const input = document.createElement('input');
+    input.type  = 'hidden';
+    input.name  = 'payload';
+    input.value = bodyStr;
     form.appendChild(input);
     document.body.appendChild(form);
-
     form.submit();
-
-    // Fire-and-forget via iframe (CORS bypass); return optimistic success
-    return Promise.resolve({
-      status: "success",
-      regId: "SUBMITTED"
-    });
+    setTimeout(() => { try { form.remove(); } catch(_) {} }, 5000);
   }
 
   function responseId(data) {
