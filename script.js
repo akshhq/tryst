@@ -1905,6 +1905,10 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   window.toBase64 = toBase64;
 
   function postJSON(payload) {
+    // ✅ FIX 1: field must be named "payload" (Apps Script reads e.parameter.payload)
+    // ✅ FIX 2: token must be present or Apps Script rejects the request
+    const withToken = Object.assign({ token: "TRYST2026" }, payload);
+
     const form = document.createElement("form");
     form.method = "POST";
     form.action = POST_URL;
@@ -1912,15 +1916,15 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
 
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = "data";
-    input.value = JSON.stringify(payload);
+    input.name = "payload";                       // was "data" — FIXED
+    input.value = JSON.stringify(withToken);      // now includes token — FIXED
 
     form.appendChild(input);
     document.body.appendChild(form);
 
     form.submit();
 
-    // ✅ fake success response
+    // Fire-and-forget via iframe (CORS bypass); return optimistic success
     return Promise.resolve({
       status: "success",
       regId: "SUBMITTED"
@@ -2688,151 +2692,11 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
    Add this at the END of tryst-production.js
 ===================== */
 
-(function formIntegration() {
-
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziAlj2zqIrnktyPRolQ3i_zctCi9EMp0vfFay6l5gEsfDbXKNgzzQPbUaVBRZLSACI/exec';
-
-  function toBase64(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-    });
-  }
-
-  /* =====================
-     🎫 ATTENDEE FORM
-  ===================== */
-
-  const attendeeForm = document.getElementById("registrationForm");
-
-  if (attendeeForm) {
-    attendeeForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(attendeeForm);
-
-    // convert files to base64 manually
-    const collegeId = await toBase64(attendeeForm.collegeId.files[0]);
-    const task1 = await toBase64(attendeeForm.task1.files[0]);
-    const task2 = await toBase64(attendeeForm.task2.files[0]);
-
-    const payload = {
-      formType: "attendee",
-      name: attendeeForm.name.value,
-      email: attendeeForm.email.value,
-      phone: attendeeForm.phone.value,
-      college: attendeeForm.college.value,
-      course: attendeeForm.course.value,
-      year: attendeeForm.year.value,
-      gender: attendeeForm.gender.value,
-      collegeId,
-      task1,
-      task2
-    };
-
-    // 🔥 CREATE HIDDEN FORM (BYPASS CORS)
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = SCRIPT_URL;
-    form.target = "hidden_iframe";
-
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "data";
-    input.value = JSON.stringify(payload);
-
-    form.appendChild(input);
-    document.body.appendChild(form);
-
-    form.submit();
-
-    alert("Submitted successfully!");
-  });
-  }
-
-
-  /* =====================
-     🎟️ EVENT FORM
-  ===================== */
-
-  const eventForm = document.getElementById("eventForm");
-
-  if (eventForm) {
-    eventForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      try {
-        const f = eventForm;
-        const type = f.type.value;
-
-        const members = [];
-        let i = 1;
-
-        while (f[`name${i}`]) {
-          members.push({
-            name: f[`name${i}`].value,
-            email: f[`email${i}`]?.value || "",
-            phone: f[`phone${i}`].value,
-            course: f[`course${i}`].value,
-            year: f[`year${i}`].value,
-            idFile: await toBase64(f[`id${i}`].files[0])
-          });
-          i++;
-        }
-
-        const data = {
-          event: f.event.value,
-          type: type,
-          brand: f.brand.value,
-          mainEmail: members[0]?.email || "",
-          mainPhone: members[0]?.phone || "",
-          members: members
-        };
-
-        // ✅ SUBMIT USING IFRAME (NO CORS)
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = SCRIPT_URL;
-        form.target = "hidden_iframe";
-
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "data";
-        input.value = JSON.stringify(data);
-
-        form.appendChild(input);
-        document.body.appendChild(form);
-
-        form.submit();
-
-        // ⏳ wait a bit for backend to write
-        setTimeout(async () => {
-          const regId = await getLatestRegId("Attendees");
-
-          if (regId) {
-            alert(`🎉 Registered! ID: ${regId}`);
-          } else {
-            alert("Submitted! Check email for confirmation.");
-          }
-        }, 2000);
-
-        // ✅ FAKE SUCCESS (since no response)
-        alert("🎉 Registration submitted successfully!");
-
-        eventForm.reset();
-
-        alert(`🎉 Registered! ID: ${result.regId}`);
-        eventForm.reset();
-
-      } catch (err) {
-        console.error(err);
-        alert("❌ Error submitting event form");
-      }
-    });
-  }
-
-})();
+/*
+  ✅ §21 formIntegration — REMOVED (was duplicate of §20 handlers).
+  §20's postJSON now correctly uses field name "payload" + token,
+  so no secondary listeners are needed here.
+*/
 
 async function getLatestRegId(sheetName = "Attendees") {
   try {
@@ -3547,5 +3411,3 @@ const REGISTRATION_OPEN = true;   // ← true = open | false = show "coming soon
     }
   });
 })();
-
-
