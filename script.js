@@ -1932,42 +1932,37 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   const toBase64 = fileToBase64;
   window.toBase64 = toBase64;
 
-  // ─── Submission ──────────────────────────────────────────────────────────
-  // Uses fetch + no-cors + Content-Type:text/plain — a "simple" cross-origin
-  // request that bypasses CORS preflight. Body is raw JSON so Apps Script
-  // reads it from e.postData.contents (no e.parameter size limits).
-  // Falls back to iframe form POST if fetch throws.
+  // ─── Submission via iframe form POST ────────────────────────────────────
+  // Apps Script web app URLs return a 302 redirect. fetch() follows that
+  // redirect but converts POST→GET (RFC 7231), so doPost() never fires.
+  // The reliable, Google-documented approach for cross-origin Apps Script
+  // calls is an HTML form targeting a hidden iframe — the browser follows
+  // the redirect natively, preserves the POST body, and the iframe absorbs
+  // the opaque response. Images are compressed before this call so the
+  // payload stays well under form-field limits (~500 KB total).
   function postJSON(payload) {
     const withToken = Object.assign({ token: "TRYST2026" }, payload);
     const body = JSON.stringify(withToken);
 
-    const doFetch = () => fetch(POST_URL, {
-      method:  'POST',
-      mode:    'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body:    body
-    }).catch(err => {
-      console.warn('[TRYST] fetch failed, trying iframe:', err);
-      _iframeSubmit(body);
-    });
-
-    doFetch();
-    return Promise.resolve({ status: 'success', regId: 'SUBMITTED' });
-  }
-
-  function _iframeSubmit(bodyStr) {
     const form  = document.createElement('form');
     form.method = 'POST';
     form.action = POST_URL;
     form.target = 'hidden_iframe';
+
     const input = document.createElement('input');
     input.type  = 'hidden';
     input.name  = 'payload';
-    input.value = bodyStr;
+    input.value = body;
+
     form.appendChild(input);
     document.body.appendChild(form);
     form.submit();
-    setTimeout(() => { try { form.remove(); } catch(_) {} }, 5000);
+
+    // Clean up the temporary form after it has been submitted
+    setTimeout(() => { try { form.remove(); } catch (_) {} }, 5000);
+
+    // Return optimistic success — response is opaque (cross-origin iframe)
+    return Promise.resolve({ status: 'success', regId: 'SUBMITTED' });
   }
 
   function responseId(data) {
