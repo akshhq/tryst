@@ -2286,25 +2286,38 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   //  EVENT META — defines form type + conditional flags per event
   // ═══════════════════════════════════════════════
   const eventMeta = {
-    mridang:       { formType: 'solo',    prelims: true  },
-    inaayat:       { formType: 'team',    audio: true    },
-    aaghaaz:       { formType: 'dynamic'                 },
-    nocturne:      { formType: 'team',    prelims: true  },
-    khayaal:       { formType: 'team',    prelims: true  },
-    pixel:         { formType: 'solo',    prelims: true  },
-    syncstroke:    { formType: 'team',    lockedCount: 2 },
-    uthaan:        { formType: 'team',    minMembers: 6, maxMembers: 12 },
-    envogue:       { formType: 'team',    minMembers: 4, maxMembers: 12 },
-    baithak_mime:  { formType: 'team',    maxMembers: 15 },
-    baithak_street:{ formType: 'team'                    }
+    mridang:        { formType: 'solo',    prelims: true,  audio: true },
+    uthaan:         { formType: 'team',    prelims: true,  audio: true, minMembers: 6, maxMembers: 12 },
+    inaayat:        { formType: 'team',    audio: true,    minMembers: 5 },
+    aaghaaz:        { formType: 'dynamic' },
+    nocturne:       { formType: 'team',    prelims: true },
+    khayaal:        { formType: 'team',    prelims: true, minMembers: 6, maxMembers: 15 },
+    jhalak:         { formType: 'solo' },
+    cinematica:     { formType: 'solo' },
+    pixel:          { formType: 'solo',    prelims: true },
+    lenscraft:      { formType: 'solo' }, // exhibition
+    draped_duality: { formType: 'team',    minMembers: 3, maxMembers: 4 },
+    reframe_the_fame:{ formType: 'solo' },
+    syncstroke:     { formType: 'team',    lockedCount: 2 },
+    envogue_group:  { formType: 'team',    minMembers: 4, maxMembers: 12 },
+    envogue_solo:   { formType: 'solo' },
+    rebuttal:       { formType: 'solo' },
+    khandan:        { formType: 'solo' },
+    evince:         { formType: 'solo',    prelims: true },
+    irshaad:        { formType: 'solo',    prelims: true },
+    kaaghaz:        { formType: 'solo' },
+    baithak_street: { formType: 'team' },
+    baithak_mime:   { formType: 'team',    maxMembers: 15 }
   };
 
   // Team member limits per event
   const teamLimits = {
-    inaayat:       { min: 5 },
-    uthaan:        { min: 6, max: 12 },
-    envogue:       { min: 4, max: 12 },
-    baithak_mime:  { max: 15 }
+    inaayat:        { min: 5 },
+    uthaan:         { min: 6, max: 12 },
+    khayaal:        { min: 6, max: 15 },
+    draped_duality: { min: 3, max: 4 },
+    envogue_group:  { min: 4, max: 12 },
+    baithak_mime:   { max: 15 }
   };
 
   const eventReg = {
@@ -2354,6 +2367,10 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     if ($('ereg-members-wrap')) $('ereg-members-wrap').innerHTML = '';
     resetButtonText($('eregSoloSubmit'));
     resetButtonText($('eregTeamSubmit'));
+    // eregFinalSubmit MUST also be reset — it is disabled on success and has
+    // no finally block, so without this every registration after the first
+    // silently fails (button is permanently disabled = no submit fires).
+    resetButtonText($('eregFinalSubmit'));
   }
 
   window.openEventRegModal = function(eventTitle = 'Event Registration', eventId = '') {
@@ -2644,6 +2661,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       setTimeout(() => window.closeEventRegModal(), 2400);
     } catch (err) {
       setStatus(status, err.message || 'Could not submit. Please try again.', 'error');
+    } finally {
+      // Always re-enable — resetEventReg also resets on next modal open,
+      // but the finally ensures the button is never stuck disabled.
       setButtonLoading(btn, false);
     }
   }, true);
