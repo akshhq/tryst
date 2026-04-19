@@ -1023,7 +1023,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Inaayat',
       society: 'Advaitaa Dance Society',
-      societyDesc: 'Advaitaa is the Western Dance Society of Keshav Mahavidyalaya. Founded with a passion for movement and expression, Advaitaa has consistently delivered electrifying performances and competitions at TRYST. From contemporary to hip-hop, the society celebrates every form of Western dance with energy, precision, and artistry. Reach out to them for collaborations, auditions, or queries.',
+      societyDesc: 'Established in 2012, Advaitaa, the Western Dance Society of Keshav Mahavidyalaya, has evolved into a high-energy powerhouse of rhythm, precision, and stage presence. Known for its avant-garde choreography and technical finesse, the society has consistently dominated the Delhi dance circuit. From prestigious stages like IIT Delhi, IIM Kashipur, and IIT Jodhpur to major inter-college competitions, Advaitaa has built a legacy of excellence with numerous top positions and accolades. Blending storytelling with explosive performances, the team continues to set benchmarks in Western dance while captivating audiences across platforms.',
       time: 'TBA',
       location: 'Auditorium',
       poster: 'images/posters/Inaayat.png',
@@ -1061,7 +1061,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'AAGHAZ',
       society: 'Advaitaa Dance Society',
-      societyDesc: 'Advaitaa is the Western Dance Society of Keshav Mahavidyalaya. Founded with a passion for movement and expression, Advaitaa has consistently delivered electrifying performances and competitions at TRYST. From contemporary to hip-hop, the society celebrates every form of Western dance with energy, precision, and artistry. Reach out to them for collaborations, auditions, or queries.',
+      societyDesc: 'Established in 2012, Advaitaa, the Western Dance Society of Keshav Mahavidyalaya, has evolved into a high-energy powerhouse of rhythm, precision, and stage presence. Known for its avant-garde choreography and technical finesse, the society has consistently dominated the Delhi dance circuit. From prestigious stages like IIT Delhi, IIM Kashipur, and IIT Jodhpur to major inter-college competitions, Advaitaa has built a legacy of excellence with numerous top positions and accolades. Blending storytelling with explosive performances, the team continues to set benchmarks in Western dance while captivating audiences across platforms.',
       time: '2:00 PM - 3:00 PM',
       location: 'Auditorium',
       poster: 'images/posters/Aaghaaz.png',
@@ -1096,7 +1096,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Nocturne',
       society: 'Anhad – Western Music Society',
-      societyDesc: 'Anhad is the Western Music Society of Keshav Mahavidyalaya, dedicated to celebrating the art of vocal and instrumental performance. From acappella to bands, Anhad creates spaces for musicians to experiment, collaborate, and shine. Their events at TRYST are known for high production quality and a deep love for music in all its forms.',
+      societyDesc: 'Founded in 2014, Anhaad stands as the premier music society of Keshav Mahavidyalaya, celebrated for its versatility across Indian fusion, classical choir, and Western a cappella. With a legacy that began with a historic win at Antardhwani, the society has gone on to secure over 25 prestigious titles across institutions like NIT Delhi and LBSIM. Known for its refined compositions, vocal excellence, and musical depth, Anhaad continues to dominate the competitive circuit while pushing creative boundaries.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Nocturne.png',
@@ -1129,49 +1129,47 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'khayaal': {
-      day: '2',
+      day: '1',
       title: 'Khayaal',
-      society: 'ANHAD – The Indian Music Society',
-      societyDesc: 'ANHAD — The Indian Music Society of Keshav Mahavidyalaya — is a collective of students passionate about the vast heritage of Indian classical and folk music. The society hosts workshops, rehearsals, and competitions that keep classical traditions alive among young minds. Their events showcase the depth of ragas, talas, and the timeless beauty of Indian vocal traditions.',
+      society: 'Anhaad – Indian Music Society',
+      societyDesc: 'Founded in 2014, Anhaad stands as the premier music society of Keshav Mahavidyalaya, celebrated for its versatility across Indian fusion, classical choir, and Western a cappella. With a legacy that began with a historic win at Antardhwani, the society has gone on to secure over 25 prestigious titles across institutions like NIT Delhi and LBSIM. Known for its refined compositions, vocal excellence, and musical depth, Anhaad continues to dominate the competitive circuit while pushing creative boundaries.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Khayaal.png',
-      description: 'KHAYAAL is the Indian Classical Choir Competition — a celebration of harmony, heritage, and heart where voices come together from ragas to rhythms, showcasing unity and musical depth.',
+      description: 'Khayaal is an Indian classical choir competition that celebrates harmony, heritage, and collective musical expression where voices come together to present traditional compositions rooted in ragas and rhythm, creating a powerful and unified musical experience.',
       format: [
-        'Preliminary Round (Online): One entry per college submitted via Google Drive link',
-        'Performance video must be within 10 minutes and recorded in a single take without edits',
-        'Final Round (Offline): 10 minutes performance + 2 minutes sound check per team'
+        'Online Round (Prelims): Teams submit a single-take, unedited performance video via Google Drive link',
+        'Shortlisting based on musicality, harmony, and overall presentation',
+        'Offline Round (Finals): Shortlisted teams perform live at the venue'
       ],
       rules: [
-        'Each college can submit only one entry',
-        'Google Drive link must be accessible without restrictions',
-        'Performance must be recorded in a single take with no edits or modification',
+        'Only one entry per college is allowed',
+        'Performance video must be recorded in a single take without edits',
+        'Time limit for prelim video: 10 minutes',
+        'Minimum 6 participants per team (excluding instrumentalists)',
         'Maximum 12 vocalists and 3 instrumentalists allowed',
-        'Minimum 6 participants required (excluding instrumentalists)',
         'Bollywood and semi-classical songs are strictly prohibited',
-        'Participants must bring their own instruments',
-        'Use of Electronic Tanpura is allowed',
-        'All participants must carry valid college ID card',
-        'Judges decision will be final and binding'
+        'Participants must bring their own instruments (Electronic Tanpura allowed)',
+        'All participants must carry valid college ID cards',
+        'The decision of the judges will be final and binding'
       ],
       judging: [
         'Harmony and coordination',
-        'Understanding of ragas and classical elements',
-        'Vocal quality and expression',
-        'Discipline and composition',
-        'Overall presentation'
+        'Musicality and composition',
+        'Authenticity of classical form',
+        'Stage presentation'
       ],
       societyLink: '#student-union',
       supportSection: [
-        'XXX - XXX',
-        'XXX - XXX'
+        'Lavanya - 9871042278',
+        'Karan - 9810237028'
       ],
     },
     'rebuttal': {
       day: '1',
       title: 'Rebuttal’26',
       society: 'Vagmitā – DebSoc',
-      societyDesc: 'Vagmitā is the Debate Society of Keshav Mahavidyalaya, fostering critical thinking, eloquent expression, and intellectual courage. The society runs English and Hindi debate events, nurturing students who argue persuasively on any topic.',
+      societyDesc: 'Vagmita DebSoc is one of the most accomplished debating societies at Keshav Mahavidyalaya, actively engaging in parliamentary debates, extempore, group discussions, and diverse debating formats in both English and Hindi. The society has earned significant recognition across the debating circuit, including the prestigious "Best Society" title by Education Tree. With consistent victories and "Best Speaker" awards across top institutions, Vagmita fosters a culture of critical thinking and meaningful discourse, where disagreement is embraced as a path to deeper understanding.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Rebuttal’26.png',
@@ -1201,43 +1199,42 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'khandan': {
-      day: '2',
+      day: '1',
       title: 'खंडन’26',
-      society: 'वाग्मिता – DebSoc',
-      societyDesc: 'वाग्मिता — केशव महाविद्यालय की वाद-विवाद समिति — आलोचनात्मक सोच और प्रभावशाली अभिव्यक्ति को बढ़ावा देती है। समिति अंग्रेज़ी और हिंदी दोनों वाद-विवाद आयोजित करती है।',
+      society: 'Vagmita – DebSoc',
+      societyDesc: 'Vagmita DebSoc is one of the most accomplished debating societies at Keshav Mahavidyalaya, actively engaging in parliamentary debates, extempore, group discussions, and diverse debating formats in both English and Hindi. The society has earned significant recognition across the debating circuit, including the prestigious "Best Society" title by Education Tree. With consistent victories and "Best Speaker" awards across top institutions, Vagmita fosters a culture of critical thinking and meaningful discourse, where disagreement is embraced as a path to deeper understanding.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/खंडन’26.png',
-      description: 'खंडन’26 एक हिंदी वाद-विवाद प्रतियोगिता है जिसमें प्रतिभागी पारंपरिक वाद-विवाद प्रारूप में तर्क और प्रत्युत्तर प्रस्तुत करते हैं, जहाँ विषय प्रत्येक चरण से पहले घोषित किया जाता है।',
+      description: 'खंडन’26 is a Hindi debate competition that challenges participants to present structured arguments, defend perspectives, and engage in critical discourse through clarity of thought and impactful delivery.',
       format: [
-        'चरण 1: पारंपरिक वाद-विवाद (विषय 24 घंटे पूर्व घोषित किया जाएगा)',
-        'चरण 2: पारंपरिक वाद-विवाद (विषय 10 मिनट पूर्व घोषित किया जाएगा)'
+        'Round 1: Conventional debate (topic revealed 24 hours prior)',
+        'Round 2: Conventional debate (topic revealed 10 minutes prior)'
       ],
       rules: [
-        'स्नातक एवं स्नातकोत्तर छात्रों के लिए खुला',
-        'वाद-विवाद पूर्णतः हिंदी भाषा में आयोजित होगा',
-        'प्रत्येक प्रतिभागी को 3 मिनट वक्तव्य और 1 मिनट प्रत्युत्तर/प्रश्नोत्तर के लिए मिलेगा',
-        'पंजीकरण निःशुल्क है; ₹100 की वापसी योग्य सुरक्षा राशि लागू होगी',
-        'सीमित स्थान; अंतिम चयन आयोजन समिति के विवेक पर निर्भर करेगा'
+        'Open to undergraduate and postgraduate students',
+        'Debate will be conducted entirely in Hindi',
+        'Each participant gets 3 minutes for speech and 1 minute for rebuttal/Q&A',
+        'Limited slots; final selection at the discretion of the organizing committee',
+        'The decision of the judges will be final and binding'
       ],
       judging: [
-        'तर्क और विषयवस्तु की गुणवत्ता',
-        'प्रत्युत्तर की प्रभावशीलता',
-        'स्पष्टता और अभिव्यक्ति',
-        'आत्मविश्वास और प्रस्तुति',
-        'समग्र प्रभाव'
+        'Content and clarity',
+        'Argument strength',
+        'Rebuttal ability',
+        'Confidence and delivery'
       ],
       societyLink: '#student-union',
       supportSection: [
-        'Vaibhav - +91 98188 34790',
-        'Vanshika - +91 98717 60966'
+        'Vaibhav - 9818834790',
+        'Vanshika - 9871760966'
       ],
     },
     'jhalak': {
       day: '1',
       title: 'Jhalak',
       society: 'Illuminati – Photography Society',
-      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
+      societyDesc: 'Formed on 19th August 2014, Illuminati is the Photography Society of Keshav Mahavidyalaya, dedicated to transforming passion into visual storytelling. With achievements ranging from top positions at SGND Khalsa College to national-level recognition, the society has built a strong reputation across the DU circuit. Illuminati focuses on both technical mastery and creative expression, empowering members to capture moments that are impactful, meaningful, and visually compelling.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Jhalak.png',
@@ -1268,44 +1265,43 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'cinematica': {
-      day: '2',
+      day: '1',
       title: 'Cinematica',
       society: 'Illuminati – Photography Society',
-      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
+      societyDesc: 'Formed on 19th August 2014, Illuminati is the Photography Society of Keshav Mahavidyalaya, dedicated to transforming passion into visual storytelling. With achievements ranging from top positions at SGND Khalsa College to national-level recognition, the society has built a strong reputation across the DU circuit. Illuminati focuses on both technical mastery and creative expression, empowering members to capture moments that are impactful, meaningful, and visually compelling.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Cinematica.png',
-      description: 'CINEMATICA is an on-the-spot reel making competition that challenges participants to unleash their storytelling skills within just 30 seconds where everything from concept to execution happens in real time.',
+      description: 'Cinematica is an on-the-spot reel-making competition that challenges participants to create a complete visual story within 30 seconds, testing creativity, storytelling, and execution in real time.',
       format: [
-        'On-the-spot reel making competition',
-        'Participants create a reel within 30 seconds duration',
-        'Concept, shooting, and execution happen in real time'
+        'Theme revealed on the spot at the venue',
+        'Participants conceptualize, shoot, and edit within the given time',
+        'Final reel submission at the venue'
       ],
       rules: [
-        'Reel must be created within the given time frame',
-        'Duration must not exceed 30 seconds',
-        'Content must be original and created on the spot',
+        'Reel must be strictly 30 seconds long',
+        'All content must be created on the spot — no pre-recorded footage allowed',
+        'Participants must use their own devices',
         'Any inappropriate content will lead to disqualification',
-        'Participants must follow event guidelines'
+        'The decision of the judges will be final and binding'
       ],
       judging: [
-        'Storytelling and concept',
-        'Creativity and originality',
-        'Execution and editing',
-        'Engagement and impact',
-        'Overall presentation'
+        'Storytelling',
+        'Creativity and concept',
+        'Editing and execution',
+        'Originality'
       ],
       societyLink: '#student-union',
       supportSection: [
-        'Viswajith P V - 9971284243',
-        'Akansha Bisht - 9266869504'
+        'Viswajith - 9971284243',
+        'Akansha - 9266869504'
       ],
     },
     'pixel': {
       day: '1',
       title: 'Pixel 6.0',
       society: 'Illuminati – Photography Society',
-      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
+      societyDesc: 'Formed on 19th August 2014, Illuminati is the Photography Society of Keshav Mahavidyalaya, dedicated to transforming passion into visual storytelling. With achievements ranging from top positions at SGND Khalsa College to national-level recognition, the society has built a strong reputation across the DU circuit. Illuminati focuses on both technical mastery and creative expression, empowering members to capture moments that are impactful, meaningful, and visually compelling.',
       time: 'TBA',
       location: 'Online',
       poster: 'images/posters/Pixel 6.0.png',
@@ -1336,43 +1332,21 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'lenscraft': {
-      day: '2',
+      day: '1',
       title: 'Lenscraft',
       society: 'Illuminati – Photography Society',
-      societyDesc: 'Illuminati is the Photography Society of Keshav Mahavidyalaya. Passionate about visual storytelling, the society nurtures talent in photography, filmmaking, and digital media. From on-the-spot competitions to curated exhibitions, Illuminati creates spaces for visual artists to push creative boundaries.',
+      societyDesc: 'Formed on 19th August 2014, Illuminati is the Photography Society of Keshav Mahavidyalaya, dedicated to transforming passion into visual storytelling. With achievements ranging from top positions at SGND Khalsa College to national-level recognition, the society has built a strong reputation across the DU circuit. Illuminati focuses on both technical mastery and creative expression, empowering members to capture moments that are impactful, meaningful, and visually compelling.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Lenscraft.png',
-      description: 'LENSCRAFT is an exclusive photography exhibition showcasing stunning visuals, breathtaking landscapes, intimate portraits, and thought-provoking compositions, celebrating the art of photography and creative perspectives.',
-      format: [
-        'Photography exhibition showcasing selected works',
-        'Display of landscapes, portraits, and conceptual compositions',
-        'Open viewing for audience'
-      ],
-      rules: [
-        'Exhibited works must be original',
-        'Selected entries will be curated by the organizing team',
-        'Any inappropriate or plagiarized content will be disqualified',
-        'Participants must follow exhibition guidelines'
-      ],
-      judging: [
-        'Visual appeal and aesthetics',
-        'Creativity and perspective',
-        'Technical excellence',
-        'Concept and depth',
-        'Overall presentation'
-      ],
-      societyLink: '#student-union',
-      supportSection: [
-        'Viswajith P V - 9971284243',
-        'Akansha Bisht - 9266869504'
-      ],
+      description: 'Lenscraft is a photography exhibition that showcases powerful visual narratives through landscapes, portraits, and creative compositions, celebrating the art of storytelling through still imagery. This is an open exhibition — no registration required.',
+      descriptionOnly: true
     },
     'draped_duality': {
       day: '1',
       title: 'Draped Duality',
       society: 'Maniera – Fashion & Art Society',
-      societyDesc: 'Maniera is the Fashion and Art Society of Keshav Mahavidyalaya. The society blends aesthetics, creativity, and craftsmanship to host competitions that celebrate wearable art, painting, and collaborative visual expression. Maniera events at TRYST are known for their conceptual depth and stunning visual impact.',
+      societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Draped Duality.png',
@@ -1409,7 +1383,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Reframe the Fame',
       society: 'Maniera – Fashion & Art Society',
-      societyDesc: 'Maniera is the Fashion and Art Society of Keshav Mahavidyalaya. The society blends aesthetics, creativity, and craftsmanship to host competitions that celebrate wearable art, painting, and collaborative visual expression. Maniera events at TRYST are known for their conceptual depth and stunning visual impact.',
+      societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Reframe the Fame.png',
@@ -1445,7 +1419,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'SyncStroke',
       society: 'Maniera – Fashion & Art Society',
-      societyDesc: 'Maniera is the Fashion and Art Society of Keshav Mahavidyalaya. The society blends aesthetics, creativity, and craftsmanship to host competitions that celebrate wearable art, painting, and collaborative visual expression. Maniera events at TRYST are known for their conceptual depth and stunning visual impact.',
+      societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/SyncStroke.png',
@@ -1480,37 +1454,34 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     },
     'envogue_group': {
       day: '1',
-      title: 'Envogue - Group',
+      title: 'Envogue – Group',
       society: 'Naksh – Fashion Society',
-      societyDesc: 'Naksh is the Fashion Society of Keshav Mahavidyalaya. With a flair for style and creative expression, Naksh organises fashion shows, ramp walks, and design challenges that celebrate personal aesthetic and cutting-edge fashion. Their ENVOGUE events are among the most anticipated spectacles at TRYST.',
-
+      societyDesc: 'Founded in 2014, Naksh is the Fashion Society of Keshav Mahavidyalaya, dedicated to celebrating style, creativity, and expression. The society has achieved remarkable success across prestigious institutions like NIT Delhi, MERI, and JIIMS, along with multiple runner-up finishes and individual awards. Naksh blends fashion with storytelling, using themes and performances to highlight social issues while showcasing talent through impactful runway presentations.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/envogue_group.png',
-      description: 'ENVOGUE is the flagship fashion event presented by Naksh featuring a group competition conducted in two rounds where teams showcase creativity, style, and execution through choreographed performances.',
+      description: 'Envogue Group is a team-based fashion showcase where participants present a cohesive theme through choreography, styling, and stage presence, combining fashion with storytelling and performance.',
       format: [
-        'Round 1: Teams submit a video of any previous performance with complete choreography',
+        'Round 1 (Prelims): Submission of a previous performance video',
         'Shortlisting based on creativity, style, and execution',
-        'Round 2: Shortlisted teams perform live on stage',
-        'Team size: 4–12 models with up to 5 creative members',
-        'Performance time limit: 8–12 minutes (inclusive of setup)'
+        'Round 2 (Finals): Live stage performance at the venue',
+        'Team size: 4–12 models plus up to 5 creative members',
+        'Performance time: 8–12 minutes including setup'
       ],
       rules: [
-        'No restrictions on theme',
-        'Participants must carry their audio tracks on a pen drive',
-        'Participants must have valid student IDs',
-        'Teams must bring their own props and are responsible for their belongings',
-        'Any vulgarity, obscenity, or unfair practices will lead to immediate disqualification',
-        'Participants grant permission for use of performance videos for promotional purposes',
-        'Judges decision will be final and binding'
+        'No restriction on theme',
+        'Participants must bring audio in a pen drive',
+        'All participants must carry valid college ID',
+        'Teams must bring their own props',
+        'Any vulgarity or unfair practices will lead to disqualification',
+        'The decision of the judges will be final and binding'
       ],
       judging: [
-        'Costumes and styling',
+        'Costume and styling',
         'Theme interpretation',
         'Choreography',
-        'Stage presence',
-        'Walking stance and attitude',
-        'Overall impact'
+        'Stage presence and walking stance',
+        'Overall attitude and impact'
       ],
       societyLink: '#student-union',
       supportSection: [
@@ -1519,32 +1490,31 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'envogue_solo': {
-      day: '2',
-      title: 'Envogue - Solo',
+      day: '1',
+      title: 'Envogue – Solo',
       society: 'Naksh – Fashion Society',
+      societyDesc: 'Founded in 2014, Naksh is the Fashion Society of Keshav Mahavidyalaya, dedicated to celebrating style, creativity, and expression. The society has achieved remarkable success across prestigious institutions like NIT Delhi, MERI, and JIIMS, along with multiple runner-up finishes and individual awards. Naksh blends fashion with storytelling, using themes and performances to highlight social issues while showcasing talent through impactful runway presentations.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/envogue_solo.png',
-      description: 'ENVOGUE Solo Competition features individual participants performing live on stage where creativity, ramp walk, and expressions define their presence and impact.',
+      description: 'Envogue Solo is a fashion showcase where individuals express their style, creativity, and confidence through a solo ramp performance, highlighting personality, aesthetics, and stage presence.',
       format: [
-        'Single round live performance at college premises',
+        'Single round live performance at the venue',
         'Solo participation',
         'Performance time limit: up to 1 minute'
       ],
       rules: [
-        'No restrictions on theme',
-        'Participants must carry their audio track on a pen drive',
-        'Participants must have a valid student ID',
-        'Participants must bring their own props and are responsible for their belongings',
-        'Any vulgarity, obscenity, or unfair practices will lead to immediate disqualification',
-        'Participants grant permission for use of performance videos for promotional purposes',
-        'Judges decision will be final and binding'
+        'No restriction on theme',
+        'Performance time limit: up to 1 minute',
+        'Participants must carry their audio track in a pen drive',
+        'Participants must carry valid college ID',
+        'Any vulgarity or unfair practices will lead to disqualification',
+        'The decision of the judges will be final and binding'
       ],
       judging: [
         'Outfit and styling',
         'Creativity',
-        'Ramp walk',
-        'Expressions',
+        'Ramp walk and expressions',
         'Stage presence',
         'Overall impact'
       ],
@@ -1558,7 +1528,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Mridang',
       society: 'Nrityaang – Dance Society',
-      societyDesc: 'Nrityaang is the Indian Classical and Folk Dance Society of Keshav Mahavidyalaya. Dedicated to preserving the richness of Indian dance traditions, Nrityaang trains and showcases performers in classical forms like Bharatanatyam and Kathak, as well as vibrant folk dances from across India.',
+      societyDesc: "Since 2014, Nrityaang, the Indian Dance Society of Keshav Mahavidyalaya, has been committed to preserving and promoting India's rich cultural heritage through classical and folk dance forms. With performances at major institutions like AIIMS and various DU colleges, the society has captivated audiences with its grace and authenticity. Ranked among the top dance societies at Le Meandro University People's Choice Awards, Nrityaang continues to uphold tradition while delivering powerful stage performances.",
       time: 'TBA',
       location: 'Auditorium',
       poster: 'images/posters/mridang.png',
@@ -1594,7 +1564,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Uthaan',
       society: 'Nrityaang – Dance Society',
-      societyDesc: 'Nrityaang is the Indian Classical and Folk Dance Society of Keshav Mahavidyalaya. Dedicated to preserving the richness of Indian dance traditions, Nrityaang trains and showcases performers in classical forms like Bharatanatyam and Kathak, as well as vibrant folk dances from across India.',
+      societyDesc: "Since 2014, Nrityaang, the Indian Dance Society of Keshav Mahavidyalaya, has been committed to preserving and promoting India's rich cultural heritage through classical and folk dance forms. With performances at major institutions like AIIMS and various DU colleges, the society has captivated audiences with its grace and authenticity. Ranked among the top dance societies at Le Meandro University People's Choice Awards, Nrityaang continues to uphold tradition while delivering powerful stage performances.",
       time: 'TBA',
       location: 'Auditorium',
       poster: 'images/posters/uthaan.png',
@@ -1630,7 +1600,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Evince',
       society: 'Vagmita – Poetry Society',
-      societyDesc: 'Vagmita is the Poetry Society of Keshav Mahavidyalaya, dedicated to the art of the written and spoken word. The society celebrates both English and Hindi/Urdu poetry through readings, competitions, and open mic sessions. Their events at TRYST bring together voices that move, provoke, and inspire.',
+      societyDesc: "Established in 2012, Vagmita (Poetry) has carved a distinguished space in both the Delhi and national poetry circuits. The society actively participates in slam poetry, creative writing, kavi sammelans, and open mics, securing accolades at premier institutions like IIT Delhi, SRCC, DTU, and AIIMS. Known for its expressive depth and artistic excellence, Vagmita's poets are widely recognized as some of the finest voices in the contemporary poetry scene, using words as a medium to explore identity, emotion, and society.",
       time: '10:00 AM - 12:30 PM',
       location: 'Keshav Mahavidyalaya',
       poster: 'images/posters/Evince.png',
@@ -1662,33 +1632,31 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'irshaad': {
-      day: '2',
+      day: '1',
       title: 'Irshaad',
       society: 'Vagmita – Poetry Society',
-      societyDesc: 'Vagmita is the Poetry Society of Keshav Mahavidyalaya, dedicated to the art of the written and spoken word. The society celebrates both English and Hindi/Urdu poetry through readings, competitions, and open mic sessions. Their events at TRYST bring together voices that move, provoke, and inspire.',
-      time: '3:00 PM - 4:30 PM',
-      location: 'Keshav Mahavidyalaya',
+      societyDesc: 'Established in 2012, Vagmita (Poetry) has carved a distinguished space in both the Delhi and national poetry circuits. The society actively participates in slam poetry, creative writing, kavi sammelans, and open mics, securing accolades at premier institutions like IIT Delhi, SRCC, DTU, and AIIMS. Known for its expressive depth and artistic excellence, Vagmita\'s poets are widely recognized as some of the finest voices in the contemporary poetry scene, using words as a medium to explore identity, emotion, and society.',
+      time: 'TBA',
+      location: 'TBA',
       poster: 'images/posters/Irshaad.png',
-      description: 'Irshaad is the Hindi/Urdu Poetry Competition featuring two rounds where participants present their poetry through written submissions and live performance.',
+      description: 'Irshaad is a Hindi/Urdu poetry competition where participants bring words to life through expressive performance, blending emotion, storytelling, and lyrical depth to create impactful poetic experiences.',
       format: [
-        'Round 1: Call for entries via Google Forms and shortlisting participants',
-        'Judgement based on creativity, content, and flow',
-        'Round 2: Live Performance Round with shortlisted participants',
-        'Venue: Keshav Mahavidyalaya'
+        'Online Round (Prelims): Submission-based shortlisting',
+        'Shortlisting based on creativity, content, and flow',
+        'Offline Round (Finals): Live performance by shortlisted participants'
       ],
       rules: [
-        'Participants must submit original poetry in Hindi/Urdu',
+        'Original compositions only',
+        'Participants must perform their own poetry',
         'Shortlisted participants will perform live',
-        'Participants must adhere to the given format and guidelines',
-        'Professionalism must be maintained throughout the event',
-        'Judges decision will be final and binding'
+        'Participants must carry valid college ID cards',
+        'The decision of the judges will be final and binding'
       ],
       judging: [
-        'Creativity and originality',
-        'Content quality',
-        'Flow and expression',
-        'Performance and delivery',
-        'Overall impact'
+        'Content and depth',
+        'Flow and delivery',
+        'Expression and stage presence',
+        'Originality'
       ],
       societyLink: '#student-union',
       supportSection: [
@@ -1700,7 +1668,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Kaaghaz',
       society: 'Vagmita – Poetry Society',
-      societyDesc: 'Vagmita is the Poetry Society of Keshav Mahavidyalaya, dedicated to the art of the written and spoken word. The society celebrates both English and Hindi/Urdu poetry through readings, competitions, and open mic sessions. Their events at TRYST bring together voices that move, provoke, and inspire.',
+      societyDesc: "Established in 2012, Vagmita (Poetry) has carved a distinguished space in both the Delhi and national poetry circuits. The society actively participates in slam poetry, creative writing, kavi sammelans, and open mics, securing accolades at premier institutions like IIT Delhi, SRCC, DTU, and AIIMS. Known for its expressive depth and artistic excellence, Vagmita's poets are widely recognized as some of the finest voices in the contemporary poetry scene, using words as a medium to explore identity, emotion, and society.",
       time: '1:00 PM - 2:30 PM',
       location: 'Keshav Mahavidyalaya',
       poster: 'images/posters/Kaaghaz.png',
@@ -1735,7 +1703,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '1',
       title: 'Baithak Street',
       society: 'Shades – Dramatics Society',
-      societyDesc: 'Shades is the Dramatics Society of Keshav Mahavidyalaya. From Nukkad Natak to mime and theatrical performances, Shades uses the power of storytelling to spark conversations about society, culture, and identity. Their events at TRYST consistently captivate audiences with powerful performances.',
+      societyDesc: 'Shades, the Theatre Society of Keshav Mahavidyalaya, is a dynamic collective dedicated to using performance as a medium for social change. With historic wins at Mood Indigo (IIT Bombay) and accolades from institutions like NSD, AIIMS, and IITs, the society has established itself as a powerhouse in street plays and mime. Beyond competitions, Shades actively collaborates on social awareness campaigns, proving that theatre is not just an art form, but a movement that inspires and transforms.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Baithak Street.png',
@@ -1767,7 +1735,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       day: '2',
       title: 'Baithak Mime',
       society: 'Shades – Dramatics Society',
-      societyDesc: 'Shades is the Dramatics Society of Keshav Mahavidyalaya. From Nukkad Natak to mime and theatrical performances, Shades uses the power of storytelling to spark conversations about society, culture, and identity. Their events at TRYST consistently captivate audiences with powerful performances.',
+      societyDesc: 'Shades, the Theatre Society of Keshav Mahavidyalaya, is a dynamic collective dedicated to using performance as a medium for social change. With historic wins at Mood Indigo (IIT Bombay) and accolades from institutions like NSD, AIIMS, and IITs, the society has established itself as a powerhouse in street plays and mime. Beyond competitions, Shades actively collaborates on social awareness campaigns, proving that theatre is not just an art form, but a movement that inspires and transforms.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Baithak Mime.png',
@@ -2286,38 +2254,37 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   //  EVENT META — defines form type + conditional flags per event
   // ═══════════════════════════════════════════════
   const eventMeta = {
-    mridang:        { formType: 'solo',    prelims: true,  audio: true },
-    uthaan:         { formType: 'team',    prelims: true,  audio: true, minMembers: 6, maxMembers: 12 },
-    inaayat:        { formType: 'team',    audio: true,    minMembers: 5 },
-    aaghaaz:        { formType: 'dynamic' },
-    nocturne:       { formType: 'team',    prelims: true },
-    khayaal:        { formType: 'team',    prelims: true, minMembers: 6, maxMembers: 15 },
-    jhalak:         { formType: 'solo' },
-    cinematica:     { formType: 'solo' },
-    pixel:          { formType: 'solo',    prelims: true },
-    lenscraft:      { formType: 'solo' }, // exhibition
-    draped_duality: { formType: 'team',    minMembers: 3, maxMembers: 4 },
-    reframe_the_fame:{ formType: 'solo' },
-    syncstroke:     { formType: 'team',    lockedCount: 2 },
-    envogue_group:  { formType: 'team',    minMembers: 4, maxMembers: 12 },
-    envogue_solo:   { formType: 'solo' },
-    rebuttal:       { formType: 'solo' },
-    khandan:        { formType: 'solo' },
-    evince:         { formType: 'solo',    prelims: true },
-    irshaad:        { formType: 'solo',    prelims: true },
-    kaaghaz:        { formType: 'solo' },
-    baithak_street: { formType: 'team' },
-    baithak_mime:   { formType: 'team',    maxMembers: 15 }
+    mridang:        { formType: 'solo',  prelims: true                    },
+    inaayat:        { formType: 'team',  audio: true                      },
+    aaghaaz:        { formType: 'dynamic'                                  },
+    nocturne:       { formType: 'team',  prelims: true                    },
+    khayaal:        { formType: 'team',  prelims: true                    },
+    pixel:          { formType: 'solo',  prelims: true                    },
+    syncstroke:     { formType: 'team',  lockedCount: 2                   },
+    uthaan:         { formType: 'team',  minMembers: 6, maxMembers: 12    },
+    envogue_group:  { formType: 'team',  prelims: true, minMembers: 4, maxMembers: 17 },
+    envogue_solo:   { formType: 'solo'                                     },
+    baithak_mime:   { formType: 'team',  maxMembers: 15                   },
+    baithak_street: { formType: 'team'                                     },
+    // newly added Day 1 events
+    khandan:        { formType: 'solo'                                     },
+    irshaad:        { formType: 'solo',  prelims: true                    },
+    cinematica:     { formType: 'solo'                                     },
+    reframe:        { formType: 'solo'                                     },
+    draped_duality: { formType: 'team'                                     },
+    evince:         { formType: 'solo',  prelims: true                    },
+    kaaghaz:        { formType: 'solo'                                     },
+    jhalak:         { formType: 'solo'                                     },
+    rebuttal:       { formType: 'solo'                                     },
   };
 
   // Team member limits per event
   const teamLimits = {
-    inaayat:        { min: 5 },
-    uthaan:         { min: 6, max: 12 },
-    khayaal:        { min: 6, max: 15 },
-    draped_duality: { min: 3, max: 4 },
-    envogue_group:  { min: 4, max: 12 },
-    baithak_mime:   { max: 15 }
+    inaayat:       { min: 5        },
+    uthaan:        { min: 6, max: 12 },
+    envogue_group: { min: 4, max: 17 },
+    baithak_mime:  { max: 15       },
+    draped_duality:{ min: 3, max: 4  },
   };
 
   const eventReg = {
