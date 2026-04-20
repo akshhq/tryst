@@ -1201,6 +1201,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     'khandan': {
       day: '1',
       title: 'खंडन’26',
+      backendTitle: "Khandan'26",  // used in sheet name, email pass, reg ID
       society: 'Vagmita – DebSoc',
       societyDesc: 'Vagmita DebSoc is one of the most accomplished debating societies at Keshav Mahavidyalaya, actively engaging in parliamentary debates, extempore, group discussions, and diverse debating formats in both English and Hindi. The society has earned significant recognition across the debating circuit, including the prestigious "Best Society" title by Education Tree. With consistent victories and "Best Speaker" awards across top institutions, Vagmita fosters a culture of critical thinking and meaningful discourse, where disagreement is embraced as a path to deeper understanding.',
       time: 'TBA',
@@ -2638,6 +2639,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   async function buildNewEventPayload() {
     const isSolo = (eventReg.formType === 'solo') || (eventReg.selectedType === 'solo');
     const eventId = eventReg.currentEventId;
+    // backendTitle lets an event display in Hindi/special chars on the site
+    // while sending a clean ASCII name to the sheet, Drive, and email pass.
+    const eventName = getEventData(eventId).backendTitle || eventReg.currentEvent;
 
     if (isSolo) {
       const f = $('ereg-solo-form');
@@ -2646,7 +2650,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       return {
         formType:  'event',
         eventId,
-        event:     eventReg.currentEvent,
+        event:     eventName,
         type:      'solo',
         brand:     $('ereg-solo-name').value.trim(),
         mainEmail: $('ereg-solo-email').value.trim(),
@@ -2681,7 +2685,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       return {
         formType:  'event',
         eventId,
-        event:     eventReg.currentEvent,
+        event:     eventName,
         type:      'team',
         brand:     $('ereg-team-name').value.trim(),
         mainEmail: $('ereg-team-email').value.trim(),
