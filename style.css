@@ -2828,6 +2828,31 @@ footer { margin-top: 20px; }
   box-shadow: 0 0 8px rgba(201,168,76,0.5);
 }
 
+/* ── Swipe arrow indicators ─────────────────────────────── */
+.su-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: transparent;
+  border: none;
+  color: var(--gold);
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+  pointer-events: auto;
+}
+.su-arrow:hover { opacity: 1; }
+.su-arrow-prev { left: 4px; }
+.su-arrow-next { right: 4px; }
+.su-arrow--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ─────────────────────────────────────────────
    EVENT MODAL SOCIETY TOGGLE
    Toggle button sits in ed-action-row, next to Register Now

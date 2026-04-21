@@ -1020,6 +1020,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       descriptionOnly: true
     },
     'inaayat': {
+      contactOnly: true,
       day: '1',
       title: 'Inaayat',
       society: 'Advaitaa Dance Society',
@@ -1058,6 +1059,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       societyLink: '#student-union'
     },
     'aaghaaz': {
+      contactOnly: true,
       day: '2',
       title: 'AAGHAZ',
       society: 'Advaitaa Dance Society',
@@ -1093,9 +1095,10 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     ],
     },
     'nocturne': {
+      contactOnly: true,
       day: '1',
       title: 'Nocturne',
-      society: 'Anhad – Western Music Society',
+      society: 'Anhaad – Western Music Society',
       societyDesc: 'Founded in 2014, Anhaad stands as the premier music society of Keshav Mahavidyalaya, celebrated for its versatility across Indian fusion, classical choir, and Western a cappella. With a legacy that began with a historic win at Antardhwani, the society has gone on to secure over 25 prestigious titles across institutions like NIT Delhi and LBSIM. Known for its refined compositions, vocal excellence, and musical depth, Anhaad continues to dominate the competitive circuit while pushing creative boundaries.',
       time: 'TBA',
       location: 'TBA',
@@ -1129,6 +1132,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'khayaal': {
+      contactOnly: true,
       day: '1',
       title: 'Khayaal',
       society: 'Anhaad – Indian Music Society',
@@ -1166,6 +1170,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'rebuttal': {
+      contactOnly: true,
       day: '1',
       title: 'Rebuttal’26',
       society: 'Vagmitā – DebSoc',
@@ -1199,6 +1204,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'khandan': {
+      contactOnly: true,
       day: '1',
       title: 'खंडन’26',
       backendTitle: "Khandan'26",  // used in sheet name, email pass, reg ID
@@ -1454,6 +1460,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'envogue_group': {
+      contactOnly: true,
       day: '1',
       title: 'Envogue – Group',
       society: 'Naksh – Fashion Society',
@@ -1491,6 +1498,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'envogue_solo': {
+      contactOnly: true,
       day: '1',
       title: 'Envogue – Solo',
       society: 'Naksh – Fashion Society',
@@ -1598,6 +1606,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'evince': {
+      contactOnly: true,
       day: '1',
       title: 'Evince',
       society: 'Vagmita – Poetry Society',
@@ -1633,6 +1642,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'irshaad': {
+      contactOnly: true,
       day: '1',
       title: 'Irshaad',
       society: 'Vagmita – Poetry Society',
@@ -1666,6 +1676,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
     },
     'kaaghaz': {
+      contactOnly: true,
       day: '2',
       title: 'Kaaghaz',
       society: 'Vagmita – Poetry Society',
@@ -2107,7 +2118,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     $('edMeta').textContent = [data.time, data.location].filter(Boolean).join(' | ');
     $('edDesc').textContent = data.description || '';
 
-    const isDescOnly = !!data.descriptionOnly;
+    const isDescOnly    = !!data.descriptionOnly;
+    const isContactOnly = !!data.contactOnly;
 
     // Format / Rules / Judging — hide for description-only events
     const formatSection = $('edFormat')?.closest('.ed-info-section');
@@ -2131,9 +2143,37 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       poster.alt = data.title || 'Event poster';
     }
 
-    // Register button + toggle — hide for description-only events
+    // Register button — hide for description-only OR contact-only events
     const edActionRow = $('edActionRow');
-    if (edActionRow) edActionRow.style.display = isDescOnly ? 'none' : '';
+    if (edActionRow) edActionRow.style.display = (isDescOnly || isContactOnly) ? 'none' : '';
+
+    // Contact-only note — created once, shown/hidden dynamically
+    let contactNote = $('edContactNote');
+    if (!contactNote) {
+      contactNote = document.createElement('p');
+      contactNote.id = 'edContactNote';
+      contactNote.style.cssText = [
+        'font-family:"Cormorant Garamond","Georgia",serif',
+        'font-size:0.95rem',
+        'font-style:italic',
+        'color:rgba(201,168,76,0.80)',
+        'text-align:center',
+        'border:1px solid rgba(201,168,76,0.28)',
+        'border-radius:8px',
+        'padding:14px 20px',
+        'margin:12px 32px 20px',
+        'line-height:1.6',
+        'background:rgba(201,168,76,0.04)',
+      ].join(';');
+      edActionRow?.parentNode?.insertBefore(contactNote, edActionRow.nextSibling);
+    }
+    if (isContactOnly && data.supportSection?.length) {
+      const contacts = data.supportSection.join(' &nbsp;·&nbsp; ');
+      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are handled offline.<br/>Please contact the support team directly to register:<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
+      contactNote.style.display = '';
+    } else {
+      if (contactNote) contactNote.style.display = 'none';
+    }
 
     if (edRegBtn) {
       edRegBtn.dataset.eventId    = event.eventId || '';
@@ -2949,62 +2989,68 @@ function resetAttendeeForm() {
 ───────────────────────────────────────────── */
 (function suCarousel() {
   document.querySelectorAll('.su-swipe-card').forEach(card => {
-    const track  = card.querySelector('.su-swipe-track');
-    const dots   = card.querySelectorAll('.su-dot');
-    let current  = 0;
-    const total  = dots.length;
+    const track   = card.querySelector('.su-swipe-track');
+    const dots    = card.querySelectorAll('.su-dot');
+    const btnPrev = card.querySelector('.su-arrow-prev');
+    const btnNext = card.querySelector('.su-arrow-next');
+    let current   = 0;
+    const total   = dots.length;
 
-    // Touch state
-    let touchStartX = 0;
-    let touchDeltaX = 0;
-
-    function goTo(index) {
-      current = (index + total) % total;
-      // Slide the track: each page is 50% of the 200%-wide track
-      // → offset = current * (100% / total) expressed on the track itself
-      // Since track is 200% wide and pages are 50% each:
-      // page 0 → translateX(0%), page 1 → translateX(-50%)
-      track.style.transform = `translateX(-${current * 50}%)`;
-      dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    }
-
-    // Dot click
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => goTo(i));
+    // Set track + page widths to match page count (supports any N)
+    track.style.width = (total * 100) + '%';
+    track.querySelectorAll('.su-swipe-page').forEach(p => {
+      p.style.width = (100 / total) + '%';
     });
 
-    // Touch swipe (text area only — image stays fixed)
-    card.addEventListener('touchstart', e => {
-      touchStartX = e.touches[0].clientX;
-      touchDeltaX = 0;
-    }, { passive: true });
+    let touchStartX = 0, touchDeltaX = 0;
 
+    function updateArrows() {
+      if (btnPrev) btnPrev.classList.toggle('su-arrow--hidden', current === 0);
+      if (btnNext) btnNext.classList.toggle('su-arrow--hidden', current === total - 1);
+    }
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(total - 1, index));
+      track.style.transform = `translateX(-${(current / total) * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      updateArrows();
+    }
+
+    // Arrow button clicks
+    if (btnPrev) btnPrev.addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); });
+    if (btnNext) btnNext.addEventListener('click', e => { e.stopPropagation(); goTo(current + 1); });
+
+    // Dot click
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+    // Touch swipe
+    card.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX; touchDeltaX = 0;
+    }, { passive: true });
     card.addEventListener('touchmove', e => {
       touchDeltaX = e.touches[0].clientX - touchStartX;
     }, { passive: true });
-
     card.addEventListener('touchend', () => {
-      if (touchDeltaX < -40) goTo(current + 1); // swipe left → next
-      if (touchDeltaX >  40) goTo(current - 1); // swipe right → prev
+      if (touchDeltaX < -40) goTo(current + 1);
+      if (touchDeltaX >  40) goTo(current - 1);
       touchDeltaX = 0;
     });
 
-    // Mouse drag support (desktop)
-    let mouseStartX = 0;
-    let dragging    = false;
+    // Mouse drag (desktop)
+    let mouseStartX = 0, dragging = false;
     card.addEventListener('mousedown', e => { dragging = true; mouseStartX = e.clientX; });
     card.addEventListener('mousemove', e => { if (dragging) touchDeltaX = e.clientX - mouseStartX; });
-    card.addEventListener('mouseup',   () => {
-      if (!dragging) return;
-      dragging = false;
+    card.addEventListener('mouseup', () => {
+      if (!dragging) return; dragging = false;
       if (touchDeltaX < -40) goTo(current + 1);
       if (touchDeltaX >  40) goTo(current - 1);
       touchDeltaX = 0;
     });
     card.addEventListener('mouseleave', () => { dragging = false; touchDeltaX = 0; });
+
+    goTo(0); // initialise
   });
 })();
-
 /* ─────────────────────────────────────────────
    EVENT MODAL — Society / Event Panel Toggle
    ─────────────────────────────────────────────
