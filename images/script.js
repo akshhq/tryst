@@ -93,7 +93,7 @@ if (!IS_MOBILE) {
   animateFollower();
 
   // Cursor expand on interactive elements
-  document.querySelectorAll('a, button, .nav-card, .artist-card, .gallery-item, .schedule-tab, .ev-pill, .event-header, [data-modal], [data-target]')
+  document.querySelectorAll('a, button, .nav-card, .artist-card, .gallery-item, .schedule-tab, .event-header, [data-modal], [data-target]')
     .forEach(el => {
       el.addEventListener('mouseenter', () => {
         if (!cursor || !cursorFollower) return;
@@ -529,16 +529,30 @@ function createParticleBurst(parent) {
 }
 
 /* ═══════════════════════════════════════════════
-   SCHEDULE TABS — legacy stub kept for goToEvent()
-   Tabs are no longer rendered in the UI but
-   setScheduleDay() is still called by goToEvent().
+   SCHEDULE TABS
 ═══════════════════════════════════════════════ */
 document.querySelectorAll('.schedule-tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    const day = tab.dataset.day;
+    const day        = tab.dataset.day;
+    const currentDay = document.querySelector('.schedule-day.active');
+    const nextDay    = document.querySelector(`.schedule-day[data-day="${day}"]`);
+    if (currentDay === nextDay) return;
+
     document.querySelectorAll('.schedule-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-    // schedule-days are hidden stubs — no GSAP needed
+
+    gsap.to(currentDay, {
+      opacity: 0, y: -10, duration: 0.18, ease: 'power2.in',
+      onComplete: () => {
+        currentDay.classList.remove('active');
+        nextDay.classList.add('active');
+        gsap.fromTo(nextDay,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.28, ease: 'expo.out' }
+        );
+        nextDay.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+      }
+    });
   });
 });
 
@@ -2030,11 +2044,17 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   }
 
   function setScheduleDay(day) {
-    // Tabs are hidden in the new grid layout — just track state for goToEvent()
     document.querySelectorAll('.schedule-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.day === day));
     document.querySelectorAll('.schedule-day').forEach(panel => {
-      panel.classList.toggle('active', panel.dataset.day === day);
-      // panels are hidden stubs — no scroll/animation needed
+      const active = panel.dataset.day === day;
+      panel.classList.toggle('active', active);
+      if (active) {
+        panel.querySelectorAll('.fade-up').forEach(el => {
+          el.classList.add('visible');
+          el.style.opacity = 1;
+          el.style.transform = 'none';
+        });
+      }
     });
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
@@ -2149,7 +2169,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     }
     if (isContactOnly && data.supportSection?.length) {
       const contacts = data.supportSection.join(' &nbsp;·&nbsp; ');
-      contactNote.innerHTML = '✦ &nbsp;Event registration is handled separately; contact support to enroll<br><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
+      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are handled offline.<br/>Please contact the support team directly to register:<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
       contactNote.style.display = '';
     } else {
       if (contactNote) contactNote.style.display = 'none';
