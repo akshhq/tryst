@@ -2368,7 +2368,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     }
     if (isContactOnly && data.supportSection?.length) {
       const contacts = data.supportSection.join(' &nbsp;·&nbsp; ');
-      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are handled offline.<br/>Please contact the support team directly to register:<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
+      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are managed independently. Kindly contact the support team.<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
       contactNote.style.display = '';
     } else {
       if (contactNote) contactNote.style.display = 'none';
