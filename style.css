@@ -636,170 +636,103 @@ footer { margin-top: 20px; }
 .artist-tag { font-size: 9px; }
 
 /* ─────────────────────────────────────────────
-   SECTION — EVENTS LISTING (grid format)
-   Replaces the old timeline schedule.
-   Legacy selectors (.schedule-day, .event-header,
-   .schedule-tab) are kept for JS compatibility
-   but the elements are hidden in markup.
+   SECTION — SCHEDULE
 ───────────────────────────────────────────── */
 .schedule-bg {
   background: linear-gradient(180deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy) 100%);
 }
 
-/* Legacy tab/day stubs — always hidden */
-.schedule-tabs { display: none; }
-.schedule-day  { display: none !important; }
-.schedule-day.active { display: none !important; }
-.schedule-footnote { display: none; }
-
-/* ── Schedule coming-soon notice ─────────────── */
-.ev-schedule-notice {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 0 auto 40px;
-  padding: 12px 24px;
-  max-width: 660px;
-  background: rgba(201,168,76,0.06);
-  border: 1px solid rgba(201,168,76,0.22);
-  border-radius: 6px;
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.75);
+.schedule-tabs { gap: 3px; }
+.schedule-tab {
+  padding: 9px 28px;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  cursor: none;
+  transition: all 0.25s;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
 }
-.ev-schedule-notice-icon {
-  font-size: 1rem;
-  flex-shrink: 0;
+.schedule-tab:hover { color: var(--gold); border-color: rgba(201,168,76,0.3); }
+.schedule-tab.active {
+  background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.05));
+  border-color: var(--gold); color: var(--gold);
 }
 
-/* ── Category group ───────────────────────────── */
-.ev-category {
-  margin-bottom: 36px;
-}
-.ev-category-label {
-  font-size: 0.65rem;
-  letter-spacing: 0.38em;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.5);
-  margin-bottom: 12px;
-  padding-left: 2px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(201,168,76,0.1);
+.schedule-day { display: none; }
+.schedule-day.active { display: block; }
+
+.schedule-timeline {
+  display: flex; flex-direction: column;
+  gap: 8px;                /* ↓ from 24px — compact */
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-/* ── Event grid ───────────────────────────────── */
-.ev-grid {
+.schedule-event {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: start;
 }
 
-/* ── Single event pill button ─────────────────── */
-.ev-pill {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-  padding: 16px 18px;
-  background: rgba(13, 21, 48, 0.55);
-  border: 1px solid rgba(201,168,76,0.16);
-  border-radius: 8px;
-  cursor: pointer;
-  text-align: left;
-  transition:
-    background  0.22s ease,
-    border-color 0.22s ease,
-    transform   0.18s ease,
-    box-shadow  0.22s ease;
-  position: relative;
-  overflow: hidden;
+.event-time-col {
+  text-align: right;
+  padding-top: 12px;
+  display: flex; flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
-/* Gold shimmer sweep on hover */
-.ev-pill::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(201,168,76,0.0) 0%,
-    rgba(201,168,76,0.07) 50%,
-    rgba(201,168,76,0.0) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.28s ease;
-}
-.ev-pill:hover::before { opacity: 1; }
-
-.ev-pill:hover {
-  background: rgba(20, 32, 68, 0.85);
-  border-color: rgba(201,168,76,0.45);
-  transform: translateY(-2px);
-  box-shadow:
-    0 6px 24px rgba(0,0,0,0.35),
-    0 0 18px rgba(201,168,76,0.1);
-}
-.ev-pill:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-/* Type/format badge */
-.ev-pill-tag {
+.event-time {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.6);
-  line-height: 1;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
 }
 
-/* Event name */
-.ev-pill-name {
-  font-size: 0.88rem;
-  color: #fff;
-  letter-spacing: 0.03em;
-  line-height: 1.25;
-  margin-top: 1px;
-  font-weight: 600;
+.event-time-line {
+  width: 1px; flex: 1; min-height: 12px;
+  background: linear-gradient(to bottom, rgba(201,168,76,0.35), transparent);
 }
 
-/* Society name */
-.ev-pill-society {
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.38);
-  font-style: italic;
-  line-height: 1;
-  margin-top: 3px;
+.event-card {
+  border: 1px solid rgba(201,168,76,0.18);
+  overflow: hidden;
+  transition: box-shadow 0.25s;
+  background: rgba(20,32,68,0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
+.event-card:hover { box-shadow: 0 0 16px rgba(201,168,76,0.08); }
 
-/* ── Responsive ───────────────────────────────── */
-@media (max-width: 768px) {
-  .ev-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-  .ev-pill { padding: 14px 14px; }
-  .ev-pill-name { font-size: 0.82rem; }
-  .ev-category { margin-bottom: 28px; }
+.event-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;   /* ↓ from 20px 24px — compact */
+  cursor: pointer;
+  transition: background 0.2s;
 }
-@media (max-width: 400px) {
-  .ev-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .ev-pill { padding: 12px 12px; border-radius: 6px; }
-}
+.event-header:hover { background: rgba(201,168,76,0.04); }
 
-/* Legacy schedule selectors — kept for JS syncScheduleLabels() compatibility */
 .event-tag {
   font-family: 'Rajdhani', sans-serif;
   color: rgba(201,168,76,0.6);
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  margin-bottom: 2px;
 }
+
 .event-title { font-size: 0.95rem; }
-.event-header { display: none; } /* hidden stubs only */
+
+.event-toggle {
+  font-size: 1.1rem;
+  transition: transform var(--transition-fast);
+  min-width: 20px; text-align: center;
+  color: var(--gold);
+}
+.event-toggle.open { transform: rotate(45deg); }
 
 .event-body {
   max-height: 0; overflow: hidden;
@@ -1245,7 +1178,10 @@ footer { margin-top: 20px; }
   .artists-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .artist-img-wrap { height: 200px; }
 
-  /* Schedule/Events — now handled by ev-grid responsive rules above */
+  /* Schedule */
+  .schedule-event { grid-template-columns: 80px 1fr; gap: 8px; }
+  .event-body-inner { grid-template-columns: 80px 1fr; gap: 8px; }
+  .event-poster { height: 56px; }
 
   /* Gallery — column counts now handled in gallery section above */
 
@@ -1283,7 +1219,7 @@ footer { margin-top: 20px; }
   .hero-line .line-deco { width: 36px; }
   .event-body-inner { grid-template-columns: 1fr; }
   .event-poster { width: 100%; height: 90px; }
-  /* schedule-event removed — ev-grid handles mobile layout */
+  .schedule-event { grid-template-columns: 72px 1fr; }
 }
 /* ═══════════════════════════════════════════════
    REGISTRATION MODAL
@@ -1701,6 +1637,65 @@ footer { margin-top: 20px; }
 @media (max-width: 380px) {
   .reg-uploads-grid     { grid-template-columns: 1fr; }
   .reg-upload-zone      { min-height: 70px; flex-direction: row; justify-content: flex-start; gap: 10px; padding: 10px 14px; }
+}
+/* TASK CARD */
+.task-card {
+  border: 1px dashed rgba(201,168,76,0.25);
+  border-radius: 10px;
+  padding: 16px;
+  background: rgba(20,32,68,0.4);
+  transition: 0.3s;
+}
+
+.task-card:hover {
+  border-color: var(--gold);
+}
+
+/* COLLAPSED */
+.task-collapsed {
+  text-align: center;
+  cursor: pointer;
+}
+
+.task-collapsed .reg-upload-label {
+  display: block;
+  margin-top: 6px;
+}
+
+.task-collapsed .reg-upload-hint {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* EXPANDED */
+.task-expanded {
+  display: none;
+  margin-top: 12px;
+}
+
+.task-card.active .task-expanded {
+  display: block;
+}
+
+.task-card.active .task-collapsed {
+  display: none;
+}
+
+/* CONTENT */
+.task-title {
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.task-desc {
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 10px;
+}
+
+.task-sample {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
 }
 /* ═══════════════════════════════════════════════
    ADDITIONS — TRYST 2026 v2

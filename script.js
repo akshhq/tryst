@@ -93,7 +93,7 @@ if (!IS_MOBILE) {
   animateFollower();
 
   // Cursor expand on interactive elements
-  document.querySelectorAll('a, button, .nav-card, .artist-card, .gallery-item, .schedule-tab, .ev-pill, .event-header, [data-modal], [data-target]')
+  document.querySelectorAll('a, button, .nav-card, .artist-card, .gallery-item, .schedule-tab, .event-header, [data-modal], [data-target]')
     .forEach(el => {
       el.addEventListener('mouseenter', () => {
         if (!cursor || !cursorFollower) return;
@@ -529,16 +529,30 @@ function createParticleBurst(parent) {
 }
 
 /* ═══════════════════════════════════════════════
-   SCHEDULE TABS — legacy stub kept for goToEvent()
-   Tabs are no longer rendered in the UI but
-   setScheduleDay() is still called by goToEvent().
+   SCHEDULE TABS
 ═══════════════════════════════════════════════ */
 document.querySelectorAll('.schedule-tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    const day = tab.dataset.day;
+    const day        = tab.dataset.day;
+    const currentDay = document.querySelector('.schedule-day.active');
+    const nextDay    = document.querySelector(`.schedule-day[data-day="${day}"]`);
+    if (currentDay === nextDay) return;
+
     document.querySelectorAll('.schedule-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-    // schedule-days are hidden stubs — no GSAP needed
+
+    gsap.to(currentDay, {
+      opacity: 0, y: -10, duration: 0.18, ease: 'power2.in',
+      onComplete: () => {
+        currentDay.classList.remove('active');
+        nextDay.classList.add('active');
+        gsap.fromTo(nextDay,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.28, ease: 'expo.out' }
+        );
+        nextDay.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+      }
+    });
   });
 });
 
@@ -748,6 +762,14 @@ if (sendBtn) {
    Does NOT touch openModal() / closeModal().
 ═══════════════════════════════════════════════ */
 
+function toggleTask(card) {
+  document.querySelectorAll('.task-card').forEach(c => {
+    if (c !== card) c.classList.remove('active');
+  });
+
+  card.classList.toggle('active');
+}
+
 (function () {
   /* ── Elements ─────────────────────────────── */
   const regOverlay  = document.getElementById('registerOverlay');
@@ -820,6 +842,8 @@ if (sendBtn) {
   /* ── Image upload preview ─────────────────── */
   const uploadFields = [
     { inputId: 'reg-college-id', previewId: 'preview-college-id', zoneId: 'zone-college-id' },
+    { inputId: 'reg-sponsor-1',  previewId: 'preview-sponsor-1',  zoneId: 'zone-sponsor-1'  },
+    { inputId: 'reg-sponsor-2',  previewId: 'preview-sponsor-2',  zoneId: 'zone-sponsor-2'  },
   ];
 
   uploadFields.forEach(({ inputId, previewId, zoneId }) => {
@@ -897,6 +921,8 @@ if (sendBtn) {
         year:        document.getElementById('reg-year').value,
         gender:      document.getElementById('reg-gender').value,
         collegeId:   document.getElementById('reg-college-id').files[0] || null,
+        sponsorTask1: document.getElementById('reg-sponsor-1').files[0]  || null,
+        sponsorTask2: document.getElementById('reg-sponsor-2').files[0]  || null,
       };
 
       // TODO: Replace with Firebase integration
@@ -910,6 +936,8 @@ if (sendBtn) {
         'Year':         formData.year,
         'Gender':       formData.gender,
         'College ID':   formData.collegeId  ? formData.collegeId.name  : '—',
+        'Sponsor 1':    formData.sponsorTask1 ? formData.sponsorTask1.name : '—',
+        'Sponsor 2':    formData.sponsorTask2 ? formData.sponsorTask2.name : '—',
       });
       console.groupEnd();
 
@@ -954,7 +982,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
      · TRYST_EVENTS data map (rich format / rules / judging per event)
      · Utility helpers  ($, escapeHTML, listHTML, toBase64, postJSON …)
      · renderEventsModal()    — dynamically fills events modal by day
-     · syncScheduleLabels()   — stamps society names onto schedule rows
+     · syncScheduleLabels()   — keeps venue labels synced on schedule rows
      · window.toggleEvent     — opens event-detail modal on row click
      · window.openEventDetail — opens detail from modal-events list
      · window.goToEvent       — navigates to schedule + opens detail
@@ -1070,7 +1098,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       contactOnly: true,
       day: '1',
       title: 'Nocturne',
-      society: 'Anhaad – Western Music Society',
+      society: 'Anhad – Western Music Society',
       societyDesc: 'Founded in 2014, Anhaad stands as the premier music society of Keshav Mahavidyalaya, celebrated for its versatility across Indian fusion, classical choir, and Western a cappella. With a legacy that began with a historic win at Antardhwani, the society has gone on to secure over 25 prestigious titles across institutions like NIT Delhi and LBSIM. Known for its refined compositions, vocal excellence, and musical depth, Anhaad continues to dominate the competitive circuit while pushing creative boundaries.',
       time: 'TBA',
       location: 'TBA',
@@ -1757,7 +1785,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const listHTML = items => `<ul>${(Array.isArray(items) ? items : [items]).filter(Boolean).map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>`;
   const eventOrder = Array.from(new Set(
-    Array.from(document.querySelectorAll('.event-header[data-event-id], .events-modal-item[data-event-id]'))
+    Array.from(document.querySelectorAll('.schedule-day .event-header[data-event-id], .schedule-event[data-event-id]'))
       .map(el => el.dataset.eventId)
       .filter(Boolean)
   ));
@@ -1799,13 +1827,14 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     const row = eventRow(id);
     const dayPanel = row?.closest('.schedule-day') || item?.closest('.events-modal-day');
     const time = row?.querySelector('.event-time')?.textContent.trim() || '';
+    const location = header?.dataset.location || tag;
 
     return {
       day: dayPanel?.dataset.day || dayPanel?.dataset.eventsDay || '1',
       title,
       society: `${tag} Society`,
       time,
-      location: 'TRYST 2026 Venue',
+      location,
       poster: posterForTag(tag),
       description: `${title} is a TRYST 2026 ${tag.toLowerCase()} event crafted for focused, high-energy participation.`,
       format: ['Register through the event form.', 'Participants perform or compete in the slot assigned by organisers.', 'Final round details will be shared by the organising society.'],
@@ -1816,7 +1845,16 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   }
 
   function getEventData(id) {
-    return { ...inferEventData(id), ...(TRYST_EVENTS[id] || {}) };
+    const inferred = inferEventData(id);
+    const stored = TRYST_EVENTS[id] || {};
+    return {
+      ...inferred,
+      ...stored,
+      day: inferred.day || stored.day,
+      title: inferred.title || stored.title,
+      time: inferred.time || stored.time,
+      location: inferred.location || stored.location
+    };
   }
 
   function setStatus(el, message, type = '') {
@@ -2011,16 +2049,22 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   function syncScheduleLabels() {
     eventOrder.forEach(id => {
       const tag = eventHeader(id)?.querySelector('.event-tag');
-      if (tag) tag.textContent = getEventData(id).society;
+      if (tag) tag.textContent = getEventData(id).location;
     });
   }
 
   function setScheduleDay(day) {
-    // Tabs are hidden in the new grid layout — just track state for goToEvent()
     document.querySelectorAll('.schedule-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.day === day));
     document.querySelectorAll('.schedule-day').forEach(panel => {
-      panel.classList.toggle('active', panel.dataset.day === day);
-      // panels are hidden stubs — no scroll/animation needed
+      const active = panel.dataset.day === day;
+      panel.classList.toggle('active', active);
+      if (active) {
+        panel.querySelectorAll('.fade-up').forEach(el => {
+          el.classList.add('visible');
+          el.style.opacity = 1;
+          el.style.transform = 'none';
+        });
+      }
     });
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
@@ -2135,7 +2179,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     }
     if (isContactOnly && data.supportSection?.length) {
       const contacts = data.supportSection.join(' &nbsp;·&nbsp; ');
-      contactNote.innerHTML = '✦ &nbsp;Event registration is handled separately; contact support to enroll<br><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
+      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are handled offline.<br/>Please contact the support team directly to register:<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
       contactNote.style.display = '';
     } else {
       if (contactNote) contactNote.style.display = 'none';
@@ -2241,8 +2285,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         year: $('reg-year').value,
         gender: $('reg-gender').value,
         collegeId: await toBase64($('reg-college-id').files[0]),
-        task1: '',
-        task2: ''
+        task1: await toBase64($('reg-sponsor-1').files[0]),
+        task2: await toBase64($('reg-sponsor-2').files[0])
       };
 
       const result = await postJSON(payload);
@@ -2720,7 +2764,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
 
 /* =====================
    🔥 TRYST FORM PATCH
-   Add this at the END of tryst-production.js
+   Integrated into script.js after the production registration system
 ===================== */
 
 /*
@@ -2935,12 +2979,15 @@ function resetAttendeeForm() {
   form.reset();
 
   // Clear upload previews and has-file states
-  ['zone-college-id'].forEach(zoneId => {
+  ['zone-college-id', 'zone-sponsor-1', 'zone-sponsor-2'].forEach(zoneId => {
     const zone    = document.getElementById(zoneId);
     const preview = zone?.querySelector('.reg-upload-preview');
     if (zone)    zone.classList.remove('reg-has-file');
     if (preview) { preview.innerHTML = ''; preview.style = ''; }
   });
+
+  // Reset task cards to collapsed
+  document.querySelectorAll('.task-card').forEach(c => c.classList.remove('active'));
 
   // Scroll form body back to top
   const body = document.querySelector('#registerCard .register-card-body');

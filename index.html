@@ -520,219 +520,358 @@
       </div>
     </div>
   </section>
-<!-- ═══════════════ EVENTS ═══════════════ -->
-<section id="schedule" class="relative py-14 overflow-hidden">
+<!-- ═══════════════ SCHEDULE (FINAL SYNCED + CLEAN) ═══════════════ -->
+<section id="schedule" class="relative py-12 overflow-hidden">
   <div class="schedule-bg absolute inset-0 z-0"></div>
   <div class="container mx-auto px-6 relative z-10">
 
-    <div class="section-eyebrow text-center fade-up">The Experience</div>
-    <h2 class="font-cinzel text-3xl md:text-5xl text-white text-center mb-3 fade-up">
-      Events <span class="text-gold">&amp; Competitions</span>
+    <div class="section-eyebrow text-center fade-up">The Programme</div>
+    <h2 class="font-cinzel text-3xl md:text-5xl text-white text-center mb-2 fade-up">
+      Event <span class="text-gold">Schedule</span>
     </h2>
-    <p class="font-cormorant text-white/50 text-lg text-center mb-4 fade-up">
-      Click any event to explore details and register
+    <p class="font-cormorant text-white/50 text-base text-center mb-6 fade-up">
+      Two days carved from eternity
     </p>
 
-    <!-- Schedule coming soon notice -->
-    <div class="ev-schedule-notice fade-up">
-      <span class="ev-schedule-notice-icon">&#128197;</span>
-      <span class="font-rajdhani">Detailed event schedule with dates &amp; timings will be announced soon &mdash; stay tuned.</span>
+    <div class="schedule-tabs flex justify-center gap-3 mb-3 fade-up">
+      <button class="schedule-tab active" data-day="1">Day I</button>
+      <button class="schedule-tab" data-day="2">Day II</button>
     </div>
 
-    <!-- ── DANCE ─────────────────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Dance</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="inaayat">
-          <span class="ev-pill-tag">Team</span>
-          <span class="ev-pill-name font-cinzel">Inaayat</span>
-          <span class="ev-pill-society font-cormorant">Advaitaa</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="aaghaaz">
-          <span class="ev-pill-tag">Battle</span>
-          <span class="ev-pill-name font-cinzel">AAGHAZ</span>
-          <span class="ev-pill-society font-cormorant">Advaitaa</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="mridang">
-          <span class="ev-pill-tag">Solo</span>
-          <span class="ev-pill-name font-cinzel">Mridang</span>
-          <span class="ev-pill-society font-cormorant">Nrityaang</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="uthaan">
-          <span class="ev-pill-tag">Team</span>
-          <span class="ev-pill-name font-cinzel">Uthaan</span>
-          <span class="ev-pill-society font-cormorant">Nrityaang</span>
-        </button>
+    <div class="schedule-footnote fade-up">
+      <span>College Gate Opens: <strong>9:00 AM</strong></span>
+      <span class="schedule-footnote-sep">·</span>
+      <span>Entry Closes: <strong>3:00 PM</strong></span>
+    </div>
+
+<!-- ================= DAY 1 ================= -->
+<div class="schedule-day active" data-day="1">
+  <div class="schedule-timeline">
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">9:00 AM - 10:00 AM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="lamp-lighting" data-location="Auditorium">
+          <div>
+            <div class="event-tag">Auditorium</div>
+            <h3 class="event-title">Inauguration Ceremony</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── MUSIC ─────────────────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Music</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="nocturne">
-          <span class="ev-pill-tag">Team</span>
-          <span class="ev-pill-name font-cinzel">Nocturne</span>
-          <span class="ev-pill-society font-cormorant">Anhaad</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="khayaal">
-          <span class="ev-pill-tag">Choir</span>
-          <span class="ev-pill-name font-cinzel">Khayaal</span>
-          <span class="ev-pill-society font-cormorant">Anhaad</span>
-        </button>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">Full Day</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="baithak_street" data-location="Shades Lawn">
+          <div>
+            <div class="event-tag">Shades Lawn</div>
+            <h3 class="event-title">Baithak Street</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── FASHION ────────────────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Fashion</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="envogue_group">
-          <span class="ev-pill-tag">Team</span>
-          <span class="ev-pill-name font-cinzel">Envogue Group</span>
-          <span class="ev-pill-society font-cormorant">Naksh</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="envogue_solo">
-          <span class="ev-pill-tag">Solo</span>
-          <span class="ev-pill-name font-cinzel">Envogue Solo</span>
-          <span class="ev-pill-society font-cormorant">Naksh</span>
-        </button>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 4:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="lenscraft" data-location="Canteen Lawn">
+          <div>
+            <div class="event-tag">Canteen Lawn</div>
+            <h3 class="event-title">Lenscraft</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── DEBATE ─────────────────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Debate</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="rebuttal">
-          <span class="ev-pill-tag">Solo &middot; English</span>
-          <span class="ev-pill-name font-cinzel">Rebuttal&#8217;26</span>
-          <span class="ev-pill-society font-cormorant">Vagmita DebSoc</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="khandan">
-          <span class="ev-pill-tag">Solo &middot; Hindi</span>
-          <span class="ev-pill-name font-cinzel">खंडन’26</span>
-          <span class="ev-pill-society font-cormorant">Vagmita DebSoc</span>
-        </button>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 1:30 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="mridang" data-location="Auditorium">
+          <div>
+            <div class="event-tag">Auditorium</div>
+            <h3 class="event-title">Mridang</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── POETRY & WRITING ──────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Poetry &amp; Writing</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="evince">
-          <span class="ev-pill-tag">Solo &middot; English</span>
-          <span class="ev-pill-name font-cinzel">Evince</span>
-          <span class="ev-pill-society font-cormorant">Vagmita Poetry</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="irshaad">
-          <span class="ev-pill-tag">Solo &middot; Hindi/Urdu</span>
-          <span class="ev-pill-name font-cinzel">Irshaad</span>
-          <span class="ev-pill-society font-cormorant">Vagmita Poetry</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="kaaghaz">
-          <span class="ev-pill-tag">Solo &middot; Bilingual</span>
-          <span class="ev-pill-name font-cinzel">Kaaghaz</span>
-          <span class="ev-pill-society font-cormorant">Vagmita Poetry</span>
-        </button>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 12:30 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="evince" data-location="LT-2">
+          <div>
+            <div class="event-tag">LT-2</div>
+            <h3 class="event-title">Evince</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── ART ───────────────────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Art</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="reframe_the_fame">
-          <span class="ev-pill-tag">Solo</span>
-          <span class="ev-pill-name font-cinzel">Reframe the Fame</span>
-          <span class="ev-pill-society font-cormorant">Maniera</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="draped_duality">
-          <span class="ev-pill-tag">Team</span>
-          <span class="ev-pill-name font-cinzel">Draped Duality</span>
-          <span class="ev-pill-society font-cormorant">Maniera</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="syncstroke">
-          <span class="ev-pill-tag">Duo</span>
-          <span class="ev-pill-name font-cinzel">SyncStroke</span>
-          <span class="ev-pill-society font-cormorant">Maniera</span>
-        </button>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 5:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="rebuttal" data-location="Seminar Hall">
+          <div>
+            <div class="event-tag">Seminar Hall</div>
+            <h3 class="event-title">Rebuttal'26</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── PHOTOGRAPHY & FILM ─────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Photography &amp; Film</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="jhalak">
-          <span class="ev-pill-tag">Solo &middot; On-spot</span>
-          <span class="ev-pill-name font-cinzel">Jhalak</span>
-          <span class="ev-pill-society font-cormorant">Illuminati</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="cinematica">
-          <span class="ev-pill-tag">Solo &middot; Reel</span>
-          <span class="ev-pill-name font-cinzel">Cinematica</span>
-          <span class="ev-pill-society font-cormorant">Illuminati</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="pixel">
-          <span class="ev-pill-tag">Solo &middot; Online</span>
-          <span class="ev-pill-name font-cinzel">Pixel 6.0</span>
-          <span class="ev-pill-society font-cormorant">Illuminati</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="lenscraft">
-          <span class="ev-pill-tag">Exhibition</span>
-          <span class="ev-pill-name font-cinzel">Lenscraft</span>
-          <span class="ev-pill-society font-cormorant">Illuminati</span>
-        </button>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 5:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="khandan" data-location="LT-5">
+          <div>
+            <div class="event-tag">LT-5</div>
+            <h3 class="event-title">खंडन’26</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── THEATRE ────────────────────────────────── -->
-    <div class="ev-category fade-up">
-      <div class="ev-category-label font-rajdhani">Theatre</div>
-      <div class="ev-grid">
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="baithak_street">
-          <span class="ev-pill-tag">Team &middot; Nukkad</span>
-          <span class="ev-pill-name font-cinzel">Baithak Street</span>
-          <span class="ev-pill-society font-cormorant">Shades</span>
-        </button>
-        <button class="ev-pill" onclick="openEventDetail(this)" data-event-id="baithak_mime">
-          <span class="ev-pill-tag">Team &middot; Mime</span>
-          <span class="ev-pill-name font-cinzel">Baithak Mime</span>
-          <span class="ev-pill-society font-cormorant">Shades</span>
-        </button>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 2:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="draped_duality" data-location="LT-1">
+          <div>
+            <div class="event-tag">LT-1</div>
+            <h3 class="event-title">Draped Duality</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Hidden day stubs — keep setScheduleDay() and eventOrder functional -->
-    <div class="schedule-day active" data-day="1" style="display:none" aria-hidden="true">
-      <div class="event-header" data-event-id="lamp-lighting"></div>
-      <div class="event-header" data-event-id="inaayat"></div>
-      <div class="event-header" data-event-id="mridang"></div>
-      <div class="event-header" data-event-id="nocturne"></div>
-      <div class="event-header" data-event-id="khayaal"></div>
-      <div class="event-header" data-event-id="rebuttal"></div>
-      <div class="event-header" data-event-id="evince"></div>
-      <div class="event-header" data-event-id="draped_duality"></div>
-      <div class="event-header" data-event-id="reframe_the_fame"></div>
-      <div class="event-header" data-event-id="jhalak"></div>
-      <div class="event-header" data-event-id="lenscraft"></div>
-      <div class="event-header" data-event-id="pixel"></div>
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 2:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="syncstroke" data-location="LT-3">
+          <div>
+            <div class="event-tag">LT-3</div>
+            <h3 class="event-title">Syncstroke</h3>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="schedule-day" data-day="2" style="display:none" aria-hidden="true">
-      <div class="event-header" data-event-id="aaghaaz"></div>
-      <div class="event-header" data-event-id="uthaan"></div>
-      <div class="event-header" data-event-id="envogue_group"></div>
-      <div class="event-header" data-event-id="envogue_solo"></div>
-      <div class="event-header" data-event-id="baithak_street"></div>
-      <div class="event-header" data-event-id="baithak_mime"></div>
-      <div class="event-header" data-event-id="kaaghaz"></div>
-      <div class="event-header" data-event-id="syncstroke"></div>
-      <div class="event-header" data-event-id="irshaad"></div>
-      <div class="event-header" data-event-id="khandan"></div>
-      <div class="event-header" data-event-id="cinematica"></div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 3:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="jhalak" data-location="Area behind Amphitheatre">
+          <div>
+            <div class="event-tag">Area behind Amphitheatre</div>
+            <h3 class="event-title">Jhalak</h3>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">11:00 AM - 4:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="aaghaaz" data-location="LT-2">
+          <div>
+            <div class="event-tag">LT-2</div>
+            <h3 class="event-title">Aaghaz</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 3:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="khayaal" data-location="Volleyball Court">
+          <div>
+            <div class="event-tag">Volleyball Court</div>
+            <h3 class="event-title">Khyaal</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">1:30 PM - 5:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="envogue_group" data-location="Reading Room">
+          <div>
+            <div class="event-tag">Reading Room</div>
+            <h3 class="event-title">Envogue Group</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">1:00 PM - 2:30 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="kaaghaz" data-location="LT-4">
+          <div>
+            <div class="event-tag">LT-4</div>
+            <h3 class="event-title">Kaaghaz</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">3:00 PM - 5:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="irshaad" data-location="LT-4">
+          <div>
+            <div class="event-tag">LT-4</div>
+            <h3 class="event-title">Irshaad</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">Evening</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="dj-night" data-location="Main Stage">
+          <div>
+            <div class="event-tag">Main Stage</div>
+            <h3 class="event-title">DJ Night</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= DAY 2 ================= -->
+<div class="schedule-day" data-day="2">
+  <div class="schedule-timeline">
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 4:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="lenscraft-day2" data-location="Canteen Lawn">
+          <div>
+            <div class="event-tag">Canteen Lawn</div>
+            <h3 class="event-title">Lenscraft</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">10:00 AM - 1:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="inaayat" data-location="Auditorium">
+          <div>
+            <div class="event-tag">Auditorium</div>
+            <h3 class="event-title">Inayaat</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">11:00 AM - 3:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="nocturne" data-location="Reading Room">
+          <div>
+            <div class="event-tag">Reading Room</div>
+            <h3 class="event-title">Nocturne</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">9:00 AM - 12:00 PM</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="baithak_mime" data-location="LT-3">
+          <div>
+            <div class="event-tag">LT-3</div>
+            <h3 class="event-title">Baithak Mime</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule-event fade-up">
+      <div class="event-time-col">
+        <div class="event-time">Evening</div>
+        <div class="event-time-line"></div>
+      </div>
+      <div class="event-card glass-card">
+        <div class="event-header cursor-pointer" onclick="openEventDetail(this)" data-event-id="star-night" data-location="Main Stage">
+          <div>
+            <div class="event-tag">Main Stage</div>
+            <h3 class="event-title">Star Night</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
   </div>
 </section>
@@ -1237,7 +1376,7 @@
           </div>
         </div>
         <div class="font-cormorant text-white/30 text-center italic text-lg md:w-1/3">
-          Where Legends Are Born · April 27-28, 2026 · New Delhi, India
+          Where Legends Are Born · April 27–28, 2026 · New Delhi, India
         </div>
         <div class="font-rajdhani text-white/20 text-base tracking-widest uppercase text-center md:text-right md:w-1/3">
           © 2026 TRYST, KMV<br/>All Rights Reserved
@@ -1358,13 +1497,13 @@
       </div>
       <div class="events-modal-item" data-event-id="envogue_group">
         <div class="events-modal-row" onclick="openEventDetail(this)">
-          <div><span class="events-modal-tag">Fashion</span><div class="events-modal-name">Envogue - Group</div></div>
+          <div><span class="events-modal-tag">Fashion</span><div class="events-modal-name">Envogue – Group</div></div>
           <span>›</span>
         </div>
       </div>
       <div class="events-modal-item" data-event-id="envogue_solo">
         <div class="events-modal-row" onclick="openEventDetail(this)">
-          <div><span class="events-modal-tag">Fashion</span><div class="events-modal-name">Envogue - Solo</div></div>
+          <div><span class="events-modal-tag">Fashion</span><div class="events-modal-name">Envogue – Solo</div></div>
           <span>›</span>
         </div>
       </div>
@@ -1540,6 +1679,64 @@
                 </div>
                 <input type="file" id="reg-college-id" name="collegeId" class="reg-file-input" accept="image/*,.pdf" required />
               </label>
+
+
+              <!-- ✅ Sponsor Task 1 (UPDATED) -->
+              <div class="task-card">
+
+                <!-- Collapsed -->
+                <div class="task-collapsed" onclick="toggleTask(this.parentElement)">
+                  <span class="reg-upload-icon">📸</span>
+                  <span class="reg-upload-label font-cinzel">Sponsor Task 1</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to view</span>
+                </div>
+
+                <!-- Expanded -->
+                <div class="task-expanded">
+                  <h3 class="task-title">*Task 1 Title*</h3>
+                  <p class="task-desc">*Task 1 Description goes here*</p>
+
+                  <img src="images/sample1.jpg" class="task-sample" />
+
+                  <label class="reg-upload-zone" for="reg-sponsor-1" id="zone-sponsor-1">
+                    <div class="reg-upload-preview" id="preview-sponsor-1"></div>
+                    <div class="reg-upload-placeholder">
+                      <span class="reg-upload-label font-cinzel">Upload Image</span>
+                    </div>
+                    <input type="file" id="reg-sponsor-1" name="task1" class="reg-file-input" accept="image/*,.pdf" required />
+                  </label>
+                </div>
+
+              </div>
+
+
+              <!-- ✅ Sponsor Task 2 (UPDATED) -->
+              <div class="task-card">
+
+                <!-- Collapsed -->
+                <div class="task-collapsed" onclick="toggleTask(this.parentElement)">
+                  <span class="reg-upload-icon">📸</span>
+                  <span class="reg-upload-label font-cinzel">Sponsor Task 2</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to view</span>
+                </div>
+
+                <!-- Expanded -->
+                <div class="task-expanded">
+                  <h3 class="task-title">*Task 2 Title*</h3>
+                  <p class="task-desc">*Task 2 Description goes here*</p>
+
+                  <img src="images/sample2.jpg" class="task-sample" />
+
+                  <label class="reg-upload-zone" for="reg-sponsor-2" id="zone-sponsor-2">
+                    <div class="reg-upload-preview" id="preview-sponsor-2"></div>
+                    <div class="reg-upload-placeholder">
+                      <span class="reg-upload-label font-cinzel">Upload Image</span>
+                    </div>
+                    <input type="file" id="reg-sponsor-2" name="task2" class="reg-file-input" accept="image/*,.pdf" required />
+                  </label>
+                </div>
+
+              </div>
 
             </div>
           </div>
@@ -2030,7 +2227,6 @@
   <!-- ═══════════════ END POSTER ZOOM LIGHTBOX ═══════════════ -->
 
   <script src="script.js" defer></script>
-  <script src="tryst-production.js" defer></script>
   <iframe name="hidden_iframe" style="display:none;"></iframe>
 </body>
 </html>
