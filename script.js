@@ -748,14 +748,6 @@ if (sendBtn) {
    Does NOT touch openModal() / closeModal().
 ═══════════════════════════════════════════════ */
 
-function toggleTask(card) {
-  document.querySelectorAll('.task-card').forEach(c => {
-    if (c !== card) c.classList.remove('active');
-  });
-
-  card.classList.toggle('active');
-}
-
 (function () {
   /* ── Elements ─────────────────────────────── */
   const regOverlay  = document.getElementById('registerOverlay');
@@ -828,8 +820,6 @@ function toggleTask(card) {
   /* ── Image upload preview ─────────────────── */
   const uploadFields = [
     { inputId: 'reg-college-id', previewId: 'preview-college-id', zoneId: 'zone-college-id' },
-    { inputId: 'reg-sponsor-1',  previewId: 'preview-sponsor-1',  zoneId: 'zone-sponsor-1'  },
-    { inputId: 'reg-sponsor-2',  previewId: 'preview-sponsor-2',  zoneId: 'zone-sponsor-2'  },
   ];
 
   uploadFields.forEach(({ inputId, previewId, zoneId }) => {
@@ -907,8 +897,6 @@ function toggleTask(card) {
         year:        document.getElementById('reg-year').value,
         gender:      document.getElementById('reg-gender').value,
         collegeId:   document.getElementById('reg-college-id').files[0] || null,
-        sponsorTask1: document.getElementById('reg-sponsor-1').files[0]  || null,
-        sponsorTask2: document.getElementById('reg-sponsor-2').files[0]  || null,
       };
 
       // TODO: Replace with Firebase integration
@@ -922,8 +910,6 @@ function toggleTask(card) {
         'Year':         formData.year,
         'Gender':       formData.gender,
         'College ID':   formData.collegeId  ? formData.collegeId.name  : '—',
-        'Sponsor 1':    formData.sponsorTask1 ? formData.sponsorTask1.name : '—',
-        'Sponsor 2':    formData.sponsorTask2 ? formData.sponsorTask2.name : '—',
       });
       console.groupEnd();
 
@@ -2255,8 +2241,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         year: $('reg-year').value,
         gender: $('reg-gender').value,
         collegeId: await toBase64($('reg-college-id').files[0]),
-        task1: await toBase64($('reg-sponsor-1').files[0]),
-        task2: await toBase64($('reg-sponsor-2').files[0])
+        task1: '',
+        task2: ''
       };
 
       const result = await postJSON(payload);
@@ -2949,15 +2935,12 @@ function resetAttendeeForm() {
   form.reset();
 
   // Clear upload previews and has-file states
-  ['zone-college-id', 'zone-sponsor-1', 'zone-sponsor-2'].forEach(zoneId => {
+  ['zone-college-id'].forEach(zoneId => {
     const zone    = document.getElementById(zoneId);
     const preview = zone?.querySelector('.reg-upload-preview');
     if (zone)    zone.classList.remove('reg-has-file');
     if (preview) { preview.innerHTML = ''; preview.style = ''; }
   });
-
-  // Reset task cards to collapsed
-  document.querySelectorAll('.task-card').forEach(c => c.classList.remove('active'));
 
   // Scroll form body back to top
   const body = document.querySelector('#registerCard .register-card-body');
@@ -3145,7 +3128,7 @@ window.toggleFaq = function(btn) {
    § A — REGISTRATION STATUS FLAG
    ✏️  CHANGE THIS ONE VALUE TO OPEN/CLOSE REGISTRATIONS
 ───────────────────────────────────────────── */
-const REGISTRATION_OPEN = true;   // ← true = open | false = show "coming soon"
+const REGISTRATION_OPEN = false;   // ← true = open | false = show "coming soon"
 
 /* ─────────────────────────────────────────────
    § B — REGISTRATION CLOSED POPUP
