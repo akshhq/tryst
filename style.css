@@ -3241,25 +3241,28 @@ footer { margin-top: 20px; }
   border-color: var(--gold);
   color: var(--navy);
 }
-/* ── Audio / Pen-drive Reminder Note ── */
-.ereg-audio-note {
+/* ── Task Verification Notice ── */
+.reg-task-notice {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin: 14px 0 4px;
+  margin: 18px 0 6px;
   padding: 12px 16px;
-  background: rgba(201,168,76,0.08);
-  border: 1px solid rgba(201,168,76,0.30);
-  border-left: 3px solid rgba(201,168,76,0.70);
+  background: rgba(201,168,76,0.07);
+  border: 1px solid rgba(201,168,76,0.28);
+  border-left: 3px solid #C9A84C;
   border-radius: 6px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.5;
 }
-.ereg-audio-note-icon {
-  font-size: 16px;
+.reg-task-notice-icon {
+  color: #C9A84C;
+  font-size: 15px;
   flex-shrink: 0;
   margin-top: 1px;
 }
-.ereg-audio-note-text {
-  font-size: 14px;
-  color: rgba(255,255,255,0.72);
-  line-height: 1.5;
+.reg-task-notice strong {
+  color: #E5C97E;
+  font-weight: 600;
 }
