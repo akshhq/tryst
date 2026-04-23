@@ -1245,7 +1245,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Jhalak.png',
-      description: 'JHALAK is an on-the-spot photography competition where participants are given a theme or subject on the spot and must capture the best possible shot within the given time, testing eye for detail, spontaneity, and creativity behind the lens.',
+      description: 'JHALAK is an online photography competition where participants are given a theme or subject on the spot and must capture the best possible shot within the given time, testing eye for detail, spontaneity, and creativity behind the lens.',
       format: [
         'Theme or subject is given on the spot',
         'Participants capture photographs within the given time',
@@ -1310,9 +1310,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       society: 'Illuminati – Photography Society',
       societyDesc: 'Formed on 19th August 2014, Illuminati is the Photography Society of Keshav Mahavidyalaya, dedicated to transforming passion into visual storytelling. With achievements ranging from top positions at SGND Khalsa College to national-level recognition, the society has built a strong reputation across the DU circuit. Illuminati focuses on both technical mastery and creative expression, empowering members to capture moments that are impactful, meaningful, and visually compelling.',
       time: 'TBA',
-      location: 'Online',
+      location: 'Offline',
       poster: 'images/posters/Pixel 6.0.png',
-      description: 'PIXEL-6.0 is an online photo story competition where participants submit a series of photographs that together narrate a compelling story, with each image building on the last to create a powerful visual narrative.',
+      description: 'PIXEL-6.0 is an offline photo story competition where participants submit a series of photographs that together narrate a compelling story, with each image building on the last to create a powerful visual narrative.',
       format: [
         'Participants submit a series of photographs',
         'Images must collectively narrate a story',
@@ -2310,7 +2310,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     aaghaaz:        { formType: 'dynamic'                                  },
     nocturne:       { formType: 'team',  prelims: true                    },
     khayaal:        { formType: 'team',  prelims: true                    },
-    pixel:          { formType: 'solo',  prelims: true                    },
+    pixel:          { formType: 'team',  prelims: true                    },
     syncstroke:     { formType: 'team',  lockedCount: 2                   },
     uthaan:         { formType: 'team',  minMembers: 6, maxMembers: 12    },
     envogue_group:  { formType: 'team',  prelims: true, minMembers: 4, maxMembers: 17 },
@@ -2320,7 +2320,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     // newly added Day 1 events
     khandan:        { formType: 'solo'                                     },
     irshaad:        { formType: 'solo',  prelims: true                    },
-    cinematica:     { formType: 'solo'                                     },
+    cinematica:     { formType: 'team'                                     },
     reframe:        { formType: 'solo'                                     },
     draped_duality: { formType: 'team'                                     },
     evince:         { formType: 'solo',  prelims: true                    },
@@ -2336,6 +2336,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     envogue_group: { min: 4, max: 17 },
     baithak_mime:  { max: 15       },
     draped_duality:{ min: 3, max: 4  },
+    cinematica:    { min: 2, max: 5  },
+    pixel:         { min: 2, max: 5  },
   };
 
   const eventReg = {
@@ -3175,7 +3177,7 @@ window.toggleFaq = function(btn) {
    § A — REGISTRATION STATUS FLAG
    ✏️  CHANGE THIS ONE VALUE TO OPEN/CLOSE REGISTRATIONS
 ───────────────────────────────────────────── */
-const REGISTRATION_OPEN = false;   // ← true = open | false = show "coming soon"
+const REGISTRATION_OPEN = true;   // ← true = open | false = show "coming soon"
 
 /* ─────────────────────────────────────────────
    § B — REGISTRATION CLOSED POPUP
