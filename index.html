@@ -1935,12 +1935,18 @@
               <input type="file" id="ereg-solo-idFile" name="solo_idFile" class="reg-file-input" accept="image/*,.pdf" required />
             </label>
 
-            <!-- Drive / Audio Link (conditional) -->
+            <!-- Drive / Prelims Link (conditional) -->
             <div class="ereg-drive-wrap" style="display:none">
               <div class="reg-field" style="margin-top:12px">
                 <label class="reg-label font-rajdhani ereg-drive-label">Prelims Drive Link <span class="reg-required">*</span></label>
                 <input type="url" name="solo_driveLink" class="reg-input" placeholder="https://drive.google.com/..." />
               </div>
+            </div>
+
+            <!-- Audio reminder note (shown for pen-drive audio events) -->
+            <div class="ereg-audio-note" id="ereg-solo-audio-note" style="display:none">
+              <span class="ereg-audio-note-icon">🎵</span>
+              <span class="font-cormorant ereg-audio-note-text"></span>
             </div>
 
             <div class="ereg-nav-row" style="margin-top:18px">
@@ -1993,11 +1999,17 @@
                 <label class="reg-label font-rajdhani" for="ereg-team-phone">Main Phone <span class="reg-required">*</span></label>
                 <input type="tel" id="ereg-team-phone" name="team_phone" class="reg-input" placeholder="+91 00000 00000" required />
               </div>
-              <!-- Drive / Audio Link (conditional) -->
+              <!-- Drive / Prelims Link (conditional) -->
               <div class="reg-field ereg-drive-wrap" style="display:none">
                 <label class="reg-label font-rajdhani ereg-drive-label">Prelims Drive Link <span class="reg-required">*</span></label>
                 <input type="url" name="team_driveLink" class="reg-input" placeholder="https://drive.google.com/..." />
               </div>
+            </div>
+
+            <!-- Audio reminder note (shown for pen-drive audio events) -->
+            <div class="ereg-audio-note" id="ereg-team-audio-note" style="display:none">
+              <span class="ereg-audio-note-icon">🎵</span>
+              <span class="font-cormorant ereg-audio-note-text"></span>
             </div>
 
             <div class="ereg-nav-row" style="margin-top:18px">

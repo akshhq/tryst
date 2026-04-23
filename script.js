@@ -1123,7 +1123,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Nocturne.png',
-      description: 'Slaycappella is an acappella competition that celebrates the art of vocal music in its purest form where teams create music using only their voices, blending harmonies, rhythm, and creativity to deliver impactful performances under the theme Scarlett — embodying boldness, passion, and powerful, unapologetic energy.',
+      description: 'Nocturne is an acappella competition that celebrates the art of vocal music in its purest form where teams create music using only their voices, blending harmonies, rhythm, and creativity to deliver impactful performances under the theme Scarlett — embodying boldness, passion, and powerful, unapologetic energy.',
       format: [
         'Online Round (Prelims): Teams submit a raw and unedited video of their acappella performance',
         'Shortlisting based on vocal quality, creativity, and overall impact',
@@ -2199,7 +2199,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     }
     if (isContactOnly && data.supportSection?.length) {
       const contacts = data.supportSection.join(' &nbsp;·&nbsp; ');
-      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are handled offline.<br/>Please contact the support team directly to register:<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
+      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are managed independently. Kindly contact the support team.<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
       contactNote.style.display = '';
     } else {
       if (contactNote) contactNote.style.display = 'none';
@@ -2324,53 +2324,78 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   // ═══════════════════════════════════════════════
   //  EVENT META — defines form type + conditional flags per event
   // ═══════════════════════════════════════════════
+  // ═══════════════════════════════════════════════
+  //  EVENT META — defines form type + upload/reminder flags per event
+  //  penDriveAudio: true  → no upload, but show a reminder note in form
+  //  video: true          → show video drive-link upload field
+  //  pdf: true            → show PDF drive-link upload field
+  // ═══════════════════════════════════════════════
   const eventMeta = {
-    mridang:        { formType: 'solo',  prelims: true                    },
-    inaayat:        { formType: 'team',  audio: true                      },
-    aaghaaz:        { formType: 'dynamic'                                  },
-    nocturne:       { formType: 'team',  prelims: true                    },
-    khayaal:        { formType: 'team',  prelims: true                    },
-    pixel:          { formType: 'team',  prelims: true                    },
-    syncstroke:     { formType: 'team',  lockedCount: 2                   },
-    uthaan:         { formType: 'team',  minMembers: 6, maxMembers: 12    },
-    envogue_group:  { formType: 'team',  prelims: true, minMembers: 4, maxMembers: 17 },
-    envogue_solo:   { formType: 'solo'                                     },
-    baithak_mime:   { formType: 'team',  maxMembers: 15                   },
-    baithak_street: { formType: 'team'                                     },
-    // newly added Day 1 events
-    khandan:        { formType: 'solo'                                     },
-    irshaad:        { formType: 'solo',  prelims: true                    },
-    cinematica:     { formType: 'team'                                     },
-    reframe:        { formType: 'solo'                                     },
-    draped_duality: { formType: 'team'                                     },
-    evince:         { formType: 'solo',  prelims: true                    },
-    kaaghaz:        { formType: 'solo'                                     },
-    jhalak:         { formType: 'solo'                                     },
-    rebuttal:       { formType: 'solo'                                     },
+    // Advaitaa
+    inaayat:        { formType: 'team',  penDriveAudio: true,             minMembers: 5            },  // audio on pen drive
+    aaghaaz:        { formType: 'dynamic'                                                           },
+
+    // Anhaad
+    nocturne:       { formType: 'team',  video: true                                               },
+    khayaal:        { formType: 'team',  video: true,                     minMembers: 6, maxMembers: 12 },
+
+    // Vagmita – DebSoc / Hindi
+    rebuttal:       { formType: 'solo'                                                             },
+    khandan:        { formType: 'solo'                                                             },
+
+    // Vagmita – Poetry
+    evince:         { formType: 'solo',  pdf: true                                                 },  // PDF submission
+    irshaad:        { formType: 'solo',  pdf: true                                                 },  // PDF submission
+    kaaghaz:        { formType: 'solo'                                                             },
+
+    // Illuminati
+    jhalak:         { formType: 'solo'                                                             },  // on-the-spot, no upload
+    cinematica:     { formType: 'team',  minMembers: 2, maxMembers: 5                             },
+    pixel:          { formType: 'team',  minMembers: 2, maxMembers: 5                             },
+
+    // Maniera
+    draped_duality: { formType: 'team',  minMembers: 3, maxMembers: 4                             },
+    reframe:        { formType: 'solo'                                                             },
+    syncstroke:     { formType: 'team',  lockedCount: 2                                           },
+
+    // Naksh
+    envogue_group:  { formType: 'team',  video: true, penDriveAudio: true, minMembers: 4, maxMembers: 17 },  // video upload + audio pen drive reminder
+    envogue_solo:   { formType: 'solo',  penDriveAudio: true                                      },  // audio on pen drive
+
+    // Nrityaang
+    mridang:        { formType: 'solo',  video: true                                               },  // video upload only
+    uthaan:         { formType: 'team',  video: true,                     minMembers: 6, maxMembers: 12 },
+
+    // Shades
+    baithak_street: { formType: 'team'                                                             },
+    baithak_mime:   { formType: 'team',  maxMembers: 15                                           },
   };
 
-  // Team member limits per event
+  // Team member limits per event (also defined inline in eventMeta above)
   const teamLimits = {
-    inaayat:       { min: 5        },
-    uthaan:        { min: 6, max: 12 },
-    envogue_group: { min: 4, max: 17 },
-    baithak_mime:  { max: 15       },
-    draped_duality:{ min: 3, max: 4  },
-    cinematica:    { min: 2, max: 5  },
-    pixel:         { min: 2, max: 5  },
+    inaayat:       { min: 5              },
+    khayaal:       { min: 6, max: 12     },
+    uthaan:        { min: 6, max: 12     },
+    envogue_group: { min: 4, max: 17     },
+    baithak_mime:  {         max: 15     },
+    draped_duality:{ min: 3, max: 4      },
+    cinematica:    { min: 2, max: 5      },
+    pixel:         { min: 2, max: 5      },
   };
 
   const eventReg = {
-    currentEvent:  'Event Registration',
-    currentEventId:'',
-    formType:      'solo',   // 'solo' | 'team' | 'dynamic'
-    selectedType:  '',       // for aaghaaz: 'solo' | 'crew'
+    currentEvent:    'Event Registration',
+    currentEventId:  '',
+    formType:        'solo',   // 'solo' | 'team' | 'dynamic'
+    selectedType:    '',       // for aaghaaz: 'solo' | 'crew'
     participantCount: 0,
-    hasPrelims:    false,
-    hasAudio:      false,
-    lockedCount:   0,
-    minMembers:    1,
-    maxMembers:    50
+    hasPrelims:      false,
+    hasVideo:        false,
+    hasPdf:          false,
+    hasPenDriveAudio: false,
+    lockedCount:     0,
+    minMembers:      1,
+    maxMembers:      50
   };
 
   const eventRegOverlay = $('eventRegOverlay');
@@ -2419,14 +2444,16 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     resetEventReg();
 
     const meta = eventMeta[eventReg.currentEventId] || {};
-    eventReg.formType    = meta.formType    || 'solo';
-    eventReg.hasPrelims  = !!(meta.prelims || meta.audio);
-    eventReg.hasAudio    = !!meta.audio;
-    eventReg.lockedCount = meta.lockedCount || 0;
+    eventReg.formType         = meta.formType    || 'solo';
+    eventReg.hasVideo         = !!meta.video;
+    eventReg.hasPdf           = !!meta.pdf;
+    eventReg.hasPenDriveAudio = !!meta.penDriveAudio;
+    eventReg.hasPrelims       = !!(meta.video || meta.pdf);
+    eventReg.lockedCount      = meta.lockedCount || 0;
 
     const limits = teamLimits[eventReg.currentEventId] || {};
-    eventReg.minMembers  = limits.min || 1;
-    eventReg.maxMembers  = limits.max || 50;
+    eventReg.minMembers  = meta.minMembers || limits.min || 1;
+    eventReg.maxMembers  = meta.maxMembers || limits.max || 50;
 
     // Set event name in all hidden fields
     document.querySelectorAll('.ereg-event-name-field').forEach(el => el.value = eventTitle);
@@ -2439,9 +2466,28 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         if (eventReg.hasPrelims) i.setAttribute('required',''); else i.removeAttribute('required');
       });
     });
-    // Label: audio vs prelims
+
+    // Drive link label — video vs PDF
     document.querySelectorAll('.ereg-drive-label').forEach(el => {
-      el.textContent = eventReg.hasAudio ? 'Audio / Drive Link *' : 'Prelims Drive Link *';
+      if (meta.video && meta.pdf)     el.textContent = 'Video + PDF Drive Link *';
+      else if (meta.video)            el.textContent = 'Prelims Video Drive Link *';
+      else if (meta.pdf)              el.textContent = 'Poetry PDF Drive Link *';
+      else                            el.textContent = 'Prelims Drive Link *';
+    });
+
+    // Audio pen-drive reminder note
+    const audioNoteText = meta.penDriveAudio
+      ? '🎵 Remember to bring your audio track on a pen drive on the day of the event.'
+      : '';
+    ['ereg-solo-audio-note', 'ereg-team-audio-note'].forEach(noteId => {
+      const noteEl = $(noteId);
+      if (!noteEl) return;
+      if (meta.penDriveAudio) {
+        noteEl.querySelector('.ereg-audio-note-text').textContent = audioNoteText;
+        noteEl.style.display = 'flex';
+      } else {
+        noteEl.style.display = 'none';
+      }
     });
 
     // Update modal header
