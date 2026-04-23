@@ -1019,6 +1019,26 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       description: 'The ceremonial opening of TRYST 2026 with the organising team, faculty, guests, and student representatives. This sacred tradition marks the beginning of two days of cultural excellence, welcoming all participants and guests to the festival.',
       descriptionOnly: true
     },
+    'dj-night': {
+      day: '1',
+      title: 'DJ Night',
+      society: 'TRYST Organising Committee',
+      time: '6:00 PM',
+      location: 'Main Stage',
+      poster: 'images/posters/campus.webp',
+      description: "Get ready to end the day on a high note with an electrifying DJ Night at TRYST’26. As the sun sets, the campus transforms into a high-energy arena of music, lights, and unstoppable vibes. Featuring dynamic beats across genres — from Bollywood and commercial hits to EDM and techno — the night promises an immersive experience that keeps the crowd moving. With powerful sound, dazzling lighting, and a charged atmosphere, DJ Night is where the entire fest comes alive. Whether you're dancing with your friends, vibing with the crowd, or just soaking in the energy, this is the ultimate celebration you don’t want to miss.",
+      descriptionOnly: true,
+    },
+    'star-night': {
+      day: '1',
+      title: 'Artist Night',
+      society: 'TRYST Organising Committee',
+      time: '6:00 PM',
+      location: 'Main Stage',
+      poster: 'images/posters/campus.webp',
+      description: "Get ready for the most anticipated highlight of TRYST’26 — the Artist Special Performance. As the energy of the fest reaches its peak, the stage comes alive with a spectacular live act by a renowned artist, delivering an unforgettable musical experience. From chart-topping hits to crowd-favorite anthems, the performance promises a perfect blend of music, energy, and connection. With a massive crowd, powerful sound, and electrifying stage presence, this is where the entire fest unites to celebrate music at its finest.",
+      descriptionOnly: true,
+    },
     'inaayat': {
       contactOnly: true,
       day: '1',
