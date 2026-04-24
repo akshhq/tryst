@@ -1426,7 +1426,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Jhalak.png',
-      description: 'JHALAK is an online photography competition where participants are given a theme or subject on the spot and must capture the best possible shot within the given time, testing eye for detail, spontaneity, and creativity behind the lens.',
+      description: 'JHALAK is an on-the-spot photostory competition where participants are given a theme or subject and must capture a series of photographs within a limited time, weaving them into a cohesive and compelling visual narrative. The event tests creativity, storytelling, spontaneity, and a keen eye for detail.',
       format: [
         'Theme or subject is given on the spot',
         'Participants capture photographs within the given time',
@@ -1491,9 +1491,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       society: 'Illuminati – Photography Society',
       societyDesc: 'Formed on 19th August 2014, Illuminati is the Photography Society of Keshav Mahavidyalaya, dedicated to transforming passion into visual storytelling. With achievements ranging from top positions at SGND Khalsa College to national-level recognition, the society has built a strong reputation across the DU circuit. Illuminati focuses on both technical mastery and creative expression, empowering members to capture moments that are impactful, meaningful, and visually compelling.',
       time: 'TBA',
-      location: 'Offline',
+      location: 'Online',
       poster: 'images/posters/Pixel 6.0.png',
-      description: 'PIXEL-6.0 is an offline photo story competition where participants submit a series of photographs that together narrate a compelling story, with each image building on the last to create a powerful visual narrative.',
+      description: 'PIXEL-6.0 is an online photography competition where participants submit a series of photographs that together narrate a compelling story, with each image building on the last to create a powerful visual narrative. Entries will be evaluated based on creativity, storytelling, composition, and overall impact.',
       format: [
         'Participants submit a series of photographs',
         'Images must collectively narrate a story',
