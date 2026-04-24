@@ -1308,8 +1308,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
       societyLink: '#student-union',
       supportSection: [
-        'Lavanya - 9871042278',
-        'Karan - 9810237028'
+        'Priyanka Verma - 9463652044',
+        'Vishishta - 8920704038'
       ],
     },
     'khayaal': {
