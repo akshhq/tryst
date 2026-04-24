@@ -1533,7 +1533,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     'draped_duality': {
       day: '1',
       title: 'Draped Duality',
-      society: 'Maniera – Fashion & Art Society',
+      society: 'Maniera – Fine Arts Society',
       societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
@@ -1570,7 +1570,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     'reframe_the_fame': {
       day: '1',
       title: 'Reframe the Fame',
-      society: 'Maniera – Fashion & Art Society',
+      society: 'Maniera – Fine Arts Society',
       societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
@@ -1606,7 +1606,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     'syncstroke': {
       day: '2',
       title: 'SyncStroke',
-      society: 'Maniera – Fashion & Art Society',
+      society: 'Maniera – Fine Arts Society',
       societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
