@@ -398,7 +398,7 @@ window.toggleEventsModalItem = function(row) {
 (function surpriseArtistSystem() {
 
   // ── CONFIG ─────────────────────────────────
-  const UNLOCK_TIME = new Date('2026-04-27T17:00:00'); // ← change this date/time
+  const UNLOCK_TIME = new Date('2026-04-28T17:00:00'); // ← change this date/time
   // ───────────────────────────────────────────
 
   const revealBtn      = document.getElementById('revealBtn');
@@ -631,7 +631,7 @@ document.addEventListener('keydown', (e) => {
    COUNTDOWN TIMER
 ═══════════════════════════════════════════════ */
 function updateCountdown() {
-  const diff = new Date('2026-04-27T08:00:00') - new Date();
+  const diff = new Date('2026-04-28T08:00:00') - new Date();
   const pad  = n => String(Math.max(0, n)).padStart(2, '0');
   const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = pad(v); };
   if (diff <= 0) { ['days','hours','mins','secs'].forEach(id => set(id, 0)); return; }
