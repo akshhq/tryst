@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TRYST 2026 — Where Legends Are Born</title>
+  <title>TRYST 2026 - Where Legends Are Born</title>
   <link rel="icon" href="images/tryst_logo - Copy.png" />
 
   <!-- Fonts: preconnect + display=swap for performance -->
@@ -315,16 +315,20 @@
       <!-- Two-card stage: cards sit in a relative container for z-depth animation -->
       <div class="surprise-dual-stage fade-up" id="surpriseStage">
 
-        <!-- ARTIST 1 — always shown first -->
+        <!-- ARTIST 1 — always shown first — tap to expand detail modal -->
         <div class="surprise-frame" id="surpriseFrame1">
           <div class="surprise-question-wrap" id="surpriseQuestion1">
             <div class="surprise-q-mark font-cinzel-deco text-gold">?</div>
             <p class="font-cinzel text-white/60 text-sm tracking-widest uppercase mt-4">Coming Soon</p>
           </div>
-          <img src="images/surprise_artist.jpg" alt="Surprise Artist 1" class="surprise-img" id="surpriseImg1" loading="lazy" />
+          <img src="images/kundu.jpg" alt="Surprise Artist 1" class="surprise-img" id="surpriseImg1" loading="lazy" />
           <div class="surprise-revealed" id="surpriseRevealed1">
-            <div class="surprise-name font-cinzel-deco text-white">Artist 1</div>
-            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Bollywood · Soul</div>
+            <div class="surprise-name font-cinzel-deco text-white">Ndee Kundu</div>
+            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Haryanvi · Singer</div>
+            <!-- Tap hint — only visible after reveal -->
+            <div class="surprise-tap-hint font-rajdhani" id="surpriseTapHint1">
+              <span>✦ Tap to explore ✦</span>
+            </div>
           </div>
           <div class="surprise-veil" id="surpriseVeil1"></div>
           <div class="surprise-glow-ring" id="surpriseGlowRing1"></div>
@@ -336,13 +340,31 @@
             <div class="surprise-q-mark font-cinzel-deco text-gold">?</div>
             <p class="font-cinzel text-white/60 text-sm tracking-widest uppercase mt-4">Coming Soon</p>
           </div>
-          <img src="images/surprise_artist.jpg" alt="Surprise Artist 2" class="surprise-img" id="surpriseImg2" loading="lazy" />
+          <img src="images/question.jpeg" alt="Surprise Artist 2" class="surprise-img" id="surpriseImg2" loading="lazy" />
           <div class="surprise-revealed" id="surpriseRevealed2">
-            <div class="surprise-name font-cinzel-deco text-white">Artist 2</div>
-            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Punjabi · Electronic</div>
+            <div class="surprise-name font-cinzel-deco text-white">Day-2 Artist</div>
+            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase"></div>
           </div>
           <div class="surprise-veil" id="surpriseVeil2"></div>
           <div class="surprise-glow-ring" id="surpriseGlowRing2"></div>
+        </div>
+
+        <!-- ARTIST 3 — bursts from centre of stage last -->
+        <div class="surprise-frame surprise-frame--hidden surprise-frame--center" id="surpriseFrame3">
+          <div class="surprise-question-wrap" id="surpriseQuestion3">
+            <div class="surprise-q-mark font-cinzel-deco text-gold">?</div>
+            <p class="font-cinzel text-white/60 text-sm tracking-widest uppercase mt-4">Coming Soon</p>
+          </div>
+          <!-- ✏️ Replace src + alt with the third artist's image -->
+          <img src="images/dj.webp" alt="Surprise Artist 3" class="surprise-img" id="surpriseImg3" loading="lazy"
+               onerror="this.style.background='linear-gradient(135deg,#0D1530,#1A2A5E)'" />
+          <div class="surprise-revealed" id="surpriseRevealed3">
+            <!-- ✏️ Update name + genre below -->
+            <div class="surprise-name font-cinzel-deco text-white">DJ SUITUP</div>
+            <div class="surprise-genre font-rajdhani text-gold tracking-widest text-sm uppercase">Day-1<br>DJ · Producer</div>
+          </div>
+          <div class="surprise-veil" id="surpriseVeil3"></div>
+          <div class="surprise-glow-ring" id="surpriseGlowRing3"></div>
         </div>
 
       </div>
@@ -2312,6 +2334,58 @@
     <img src="" alt="Event poster" class="poster-lightbox-img" id="posterLightboxImg" />
   </div>
   <!-- ═══════════════ END POSTER ZOOM LIGHTBOX ═══════════════ -->
+
+  <!-- ═══════════════ ARTIST DETAIL MODAL ═══════════════ -->
+  <!--
+    Opens when user taps Artist Card 1 (Ndee Kundu) after reveal.
+    ✏️ Edit ARTIST_DATA.ndeeKundu in script.js to update content.
+  -->
+  <div class="sad-overlay" id="sadOverlay"></div>
+  <div class="sad-modal" id="sadModal" role="dialog" aria-modal="true" aria-labelledby="sadArtistName">
+    <div class="sad-card" id="sadCard">
+
+      <!-- Ornament corners -->
+      <div class="ed-ornament ed-ornament--tl"></div>
+      <div class="ed-ornament ed-ornament--tr"></div>
+      <div class="ed-ornament ed-ornament--bl"></div>
+      <div class="ed-ornament ed-ornament--br"></div>
+
+      <!-- Close -->
+      <button class="modal-close" id="sadClose" aria-label="Close">&times;</button>
+
+      <!-- Header strip: artist image + name -->
+      <div class="sad-hero">
+        <img class="sad-hero-img" id="sadHeroImg" src="images/kundu_wide.png" alt="Ndee Kundu" />
+        <div class="sad-hero-overlay"></div>
+        <div class="sad-hero-info">
+          <div class="sad-eyebrow font-rajdhani" id="sadGenre">Haryanvi · Singer</div>
+          <h2 class="sad-artist-name font-cinzel-deco" id="sadArtistName">Ndee Kundu</h2>
+        </div>
+      </div>
+
+      <!-- Scrollable body -->
+      <div class="sad-body">
+
+        <!-- Description -->
+        <div class="sad-divider">
+          <span class="ed-divider-line"></span>
+          <span class="ed-divider-diamond"></span>
+          <span class="ed-divider-line"></span>
+        </div>
+        <p class="sad-desc font-cormorant" id="sadDesc">
+          <!-- filled by JS -->
+        </p>
+
+        <!-- Top 5 Tracks — Spotify Style -->
+        <div class="sad-tracks-header font-rajdhani">Top Tracks</div>
+        <div class="sad-tracks" id="sadTracks">
+          <!-- filled by JS -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- ═══════════════ END ARTIST DETAIL MODAL ═══════════════ -->
 
   <script src="script.js" defer></script>
   <iframe name="hidden_iframe" style="display:none;"></iframe>

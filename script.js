@@ -389,7 +389,7 @@ window.toggleEventsModalItem = function(row) {
 ─────────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════════
-   SURPRISE ARTIST — DUAL CARD + TIMER LOCK
+   SURPRISE ARTIST — 3-CARD STAGE + TIMER LOCK + TAP MODAL
    ─────────────────────────────────────────────
    CONFIGURATION: Set UNLOCK_TIME to the exact
    datetime when the button becomes active.
@@ -398,7 +398,49 @@ window.toggleEventsModalItem = function(row) {
 (function surpriseArtistSystem() {
 
   // ── CONFIG ─────────────────────────────────
-  const UNLOCK_TIME = new Date('2026-04-28T17:00:00'); // ← change this date/time
+  const UNLOCK_TIME = new Date('2026-04-26T17:00:00'); // ← change this date/time
+  // ───────────────────────────────────────────
+
+  // ── ARTIST DATA ────────────────────────────
+  // ✏️ Edit here to update artist 1's modal content
+  const ARTIST1_DATA = {
+    name:    'Ndee Kundu',
+    genre:   'Haryanvi · Singer',
+    image:   'images/kundu_wide.png',
+    desc:    'Ndee Kundu is bringing the raw Haryanvi heat to TRYST. With hard-hitting beats and unapologetic swagger, his sound is built to shake the stage. From viral anthems to crowd-charging energy. Every performance hits loud, real, and straight from the roots.',
+    tracks: [
+      {
+        name:   'Naam Tera',
+        album:  'Ndee Kundu (Lofi)',
+        art:    'images/naam_tera.jpg',
+        spotify: 'https://open.spotify.com/track/4rmiJ39A6d9OIRrL3xGmaD?autoplay=true'
+      },
+      {
+        name:   'Rose Garden',
+        album:  'Rose Garden Ft. Isha Sharma',
+        art:    'images/rose_gardan.jpg',
+        spotify: 'https://open.spotify.com/track/6T4BknLAQWUHWIqQ1lqN0z?autoplay=true'
+      },
+      {
+        name:   'Desi Haan Ji',
+        album:  'Desi Haan Ji Ft. Bintu Pabra',
+        art:    'images/desi_haan_ji.jpg',
+        spotify: 'https://open.spotify.com/track/1LXUJ62m2Ak7ZuXSxkftgW?autoplay=true'
+      },
+      {
+        name:   'His Grace',
+        album:  'His Grace Ft. Bintu Pabra, Shine',
+        art:    'images/his_grace.jpg',
+        spotify: 'https://open.spotify.com/track/332MWQx06lB5rX26awlEou?autoplay=true'
+      },
+      {
+        name:   'Teri Rahungi',
+        album:  'Teri Rahungi Ft. Pranjal Dahiya',
+        art:    'images/teri_rahungi.jpg',
+        spotify: 'https://open.spotify.com/track/0qODrCWk5G94S5aYOUgfJx?autoplay=true'
+      }
+    ]
+  };
   // ───────────────────────────────────────────
 
   const revealBtn      = document.getElementById('revealBtn');
@@ -407,7 +449,7 @@ window.toggleEventsModalItem = function(row) {
   const unlockHint     = document.getElementById('surpriseUnlockHint');
   if (!revealBtn) return;
 
-  let isRevealed   = false;
+  let isRevealed    = false;
   let timerInterval = null;
 
   /* ── Lock / Unlock logic ─────────────────── */
@@ -416,7 +458,6 @@ window.toggleEventsModalItem = function(row) {
     const diff = UNLOCK_TIME - now;
 
     if (diff <= 0) {
-      // Unlock!
       if (mysteryLock) mysteryLock.classList.remove('locked');
       if (lockOverlay) {
         gsap.to(lockOverlay, {
@@ -427,17 +468,12 @@ window.toggleEventsModalItem = function(row) {
       if (unlockHint) unlockHint.textContent = 'The mystery is ready to be unveiled!';
       clearInterval(timerInterval);
     } else {
-      // Still locked — show countdown
       if (mysteryLock) mysteryLock.classList.add('locked');
-      const days  = Math.floor(diff / 86400000);
-      const hrs   = Math.floor((diff / 3600000) % 24);
-      const mins  = Math.floor((diff / 60000) % 60);
-      const secs  = Math.floor((diff / 1000) % 60);
-      const pad   = n => String(n).padStart(2, '0');
+      const days = Math.floor(diff / 86400000);
+      const hrs  = Math.floor((diff / 3600000) % 24);
+      const pad  = n => String(n).padStart(2, '0');
       if (unlockHint) {
-        unlockHint.textContent = days > 0
-          ? `Unlocks in ${days}d`
-          : `Unlocks in ${pad(hrs)}h`;
+        unlockHint.textContent = days > 0 ? `Unlocks in ${days}d` : `Unlocks in ${pad(hrs)}h`;
       }
     }
   }
@@ -451,12 +487,15 @@ window.toggleEventsModalItem = function(row) {
     if (mysteryLock.classList.contains('locked')) return;
     isRevealed = true;
 
+    // Artist 1
     const question1 = document.getElementById('surpriseQuestion1');
     const img1      = document.getElementById('surpriseImg1');
     const revealed1 = document.getElementById('surpriseRevealed1');
     const veil1     = document.getElementById('surpriseVeil1');
     const glow1     = document.getElementById('surpriseGlowRing1');
+    const hint1     = document.getElementById('surpriseTapHint1');
 
+    // Artist 2
     const frame2    = document.getElementById('surpriseFrame2');
     const question2 = document.getElementById('surpriseQuestion2');
     const img2      = document.getElementById('surpriseImg2');
@@ -464,13 +503,21 @@ window.toggleEventsModalItem = function(row) {
     const veil2     = document.getElementById('surpriseVeil2');
     const glow2     = document.getElementById('surpriseGlowRing2');
 
-    // Particle burst on stage
-    createParticleBurst(document.getElementById('surpriseStage'));
+    // Artist 3
+    const frame3    = document.getElementById('surpriseFrame3');
+    const question3 = document.getElementById('surpriseQuestion3');
+    const img3      = document.getElementById('surpriseImg3');
+    const revealed3 = document.getElementById('surpriseRevealed3');
+    const veil3     = document.getElementById('surpriseVeil3');
+    const glow3     = document.getElementById('surpriseGlowRing3');
 
-    // ── TIMELINE ────────────────────────────
+    const stage = document.getElementById('surpriseStage');
+
+    createParticleBurst(stage);
+
     const tl = gsap.timeline();
 
-    // 1. Hide the button
+    // 1. Hide button
     tl.to(revealBtn, { opacity: 0, y: 8, duration: 0.22 });
 
     // 2. Reveal Artist 1
@@ -478,25 +525,19 @@ window.toggleEventsModalItem = function(row) {
       .set(question1, { visibility: 'hidden' })
       .to(veil1, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
       .call(() => { img1.classList.add('revealed'); glow1.classList.add('active'); })
-      .to({}, { duration: 0.8 }) // let blur transition breathe
+      .to({}, { duration: 0.8 })
       .call(() => revealed1.classList.add('show'));
 
-    // 3. Animate Artist 2 out from behind Artist 1
-    //    Step: make frame2 position:relative, then slide/scale in
+    // 3. Artist 2 slides out from behind Artist 1 (left side)
     tl.call(() => {
         frame2.classList.remove('surprise-frame--hidden');
         frame2.classList.add('revealed-card');
-        // Start from behind / overlapping with frame1
-        gsap.set(frame2, { opacity: 0, scale: 0.7, x: -60, rotateY: -15 });
+        gsap.set(frame2, { opacity: 0, scale: 0.72, x: -80, rotateY: -18 });
       })
       .to(frame2, {
         opacity: 1, scale: 1, x: 0, rotateY: 0,
-        duration: 0.9,
-        ease: 'expo.out',
-        transformPerspective: 1200,
+        duration: 0.9, ease: 'expo.out', transformPerspective: 1200
       }, '+=0.2')
-
-    // 4. Reveal Artist 2
       .to(question2, { opacity: 0, scale: 1.12, duration: 0.3, ease: 'power2.in' }, '-=0.3')
       .set(question2, { visibility: 'hidden' })
       .to(veil2, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
@@ -504,9 +545,142 @@ window.toggleEventsModalItem = function(row) {
       .to({}, { duration: 0.8 })
       .call(() => revealed2.classList.add('show'));
 
-    // 5. Second particle burst for drama
-    tl.call(() => createParticleBurst(document.getElementById('surpriseStage')));
+    // 4. Artist 3 BURSTS from the centre — scale(0) → 1 with a slight bounce
+    tl.call(() => createParticleBurst(stage))
+      .call(() => {
+        // Remove absolute positioning so it flows into flex layout
+        frame3.classList.remove('surprise-frame--hidden', 'surprise-frame--center');
+        frame3.classList.add('revealed-card');
+        // Start: dead centre, tiny
+        gsap.set(frame3, {
+          opacity: 0, scale: 0, rotateY: 0,
+          transformOrigin: 'center center',
+          transformPerspective: 1200
+        });
+      }, [], '+=0.15')
+      .to(frame3, {
+        opacity: 1, scale: 1,
+        duration: 1.05,
+        ease: 'back.out(1.5)'  // pop/spring feel
+      }, '+=0.05')
+      .to(question3, { opacity: 0, scale: 1.12, duration: 0.3, ease: 'power2.in' }, '-=0.4')
+      .set(question3, { visibility: 'hidden' })
+      .to(veil3, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
+      .call(() => { img3.classList.add('revealed'); glow3.classList.add('active'); })
+      .to({}, { duration: 0.8 })
+      .call(() => revealed3.classList.add('show'));
+
+    // 5. Final burst + activate tap on card 1
+    tl.call(() => {
+      createParticleBurst(stage);
+      // Enable tap on Artist 1 card
+      const frame1 = document.getElementById('surpriseFrame1');
+      if (frame1) {
+        frame1.classList.add('is-tappable');
+        frame1.addEventListener('click', openArtistDetailModal, { once: false });
+      }
+      if (hint1) hint1.classList.add('visible');
+    });
+
   });
+
+  /* ── Artist Detail Modal ─────────────────── */
+  const sadOverlay = document.getElementById('sadOverlay');
+  const sadModal   = document.getElementById('sadModal');
+  const sadCard    = document.getElementById('sadCard');
+  const sadClose   = document.getElementById('sadClose');
+
+  function openArtistDetailModal() {
+    // Populate
+    const d = ARTIST1_DATA;
+    const heroImg = document.getElementById('sadHeroImg');
+    const nameEl  = document.getElementById('sadArtistName');
+    const genreEl = document.getElementById('sadGenre');
+    const descEl  = document.getElementById('sadDesc');
+    const tracksEl= document.getElementById('sadTracks');
+
+    if (heroImg) { heroImg.src = d.image; heroImg.alt = d.name; }
+    if (nameEl)  nameEl.textContent  = d.name;
+    if (genreEl) genreEl.textContent = d.genre;
+    if (descEl)  descEl.textContent  = d.desc;
+
+    if (tracksEl) {
+      tracksEl.innerHTML = d.tracks.map((t, i) => `
+        <div class="sad-track" role="listitem">
+          <span class="sad-track-num font-rajdhani">${i + 1}</span>
+          <div class="sad-track-thumb">
+            <img class="sad-track-art"
+                 src="${t.art}"
+                 alt="${escapeHTML(t.name)}"
+                 onerror="this.style.background='#0D1530';this.style.display='block'" />
+            <a class="sad-track-play"
+               href="${t.spotify}"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Play ${escapeHTML(t.name)} on Spotify"
+               title="Open on Spotify">
+              &#9654;
+            </a>
+            <div class="sad-track-spotify-badge" aria-hidden="true">♪</div>
+          </div>
+          <div class="sad-track-info">
+            <span class="sad-track-name">${escapeHTML(t.name)}</span>
+            <span class="sad-track-meta">${escapeHTML(t.album)}</span>
+          </div>
+          <a class="sad-track-play-right font-rajdhani"
+             href="${t.spotify}"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Open on Spotify"
+             style="color:#1DB954;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;flex-shrink:0;padding:4px 8px;border:1px solid rgba(29,185,84,0.35);border-radius:3px;transition:background 0.2s"
+             onmouseenter="this.style.background='rgba(29,185,84,0.12)'"
+             onmouseleave="this.style.background='transparent'">▶ Play</a>
+        </div>`).join('');
+    }
+
+    // Scroll body to top
+    const body = sadCard.querySelector('.sad-body');
+    if (body) body.scrollTop = 0;
+
+    // Show
+    sadOverlay.classList.add('sad-open');
+    sadModal.classList.add('sad-open');
+    document.body.style.overflow = 'hidden';
+
+    gsap.fromTo(sadCard,
+      { opacity: 0, scale: 0.91, y: 18 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.38, ease: 'expo.out', clearProps: 'transform' }
+    );
+  }
+
+  function closeArtistDetailModal() {
+    gsap.to(sadCard, {
+      opacity: 0, scale: 0.93, y: 12, duration: 0.24, ease: 'power3.in',
+      onComplete: () => {
+        sadOverlay.classList.remove('sad-open');
+        sadModal.classList.remove('sad-open');
+        document.body.style.overflow = '';
+        gsap.set(sadCard, { clearProps: 'all' });
+      }
+    });
+  }
+
+  if (sadClose)   sadClose.addEventListener('click', closeArtistDetailModal);
+  if (sadOverlay) sadOverlay.addEventListener('click', closeArtistDetailModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && sadModal?.classList.contains('sad-open')) closeArtistDetailModal();
+  });
+
+  // Expose for external use
+  window.openArtistDetailModal  = openArtistDetailModal;
+  window.closeArtistDetailModal = closeArtistDetailModal;
+
+  /* HTML-escape helper (locally scoped) */
+  function escapeHTML(str) {
+    return String(str || '').replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])
+    );
+  }
 
 })();
 
