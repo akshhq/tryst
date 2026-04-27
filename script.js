@@ -1525,9 +1525,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Nocturne.png',
-      description: 'Nocturne is an acappella competition that celebrates the art of vocal music in its purest form where teams create music using only their voices, blending harmonies, rhythm, and creativity to deliver impactful performances under the theme Scarlett — embodying boldness, passion, and powerful, unapologetic energy.',
+      description: 'Nocturne is an western competition that celebrates the art of vocal music in its purest form where teams create music using only their voices, blending harmonies, rhythm, and creativity to deliver impactful performances under the theme Scarlett — embodying boldness, passion, and powerful, unapologetic energy.',
       format: [
-        'Online Round (Prelims): Teams submit a raw and unedited video of their acappella performance',
+        'Online Round (Prelims): Submit a raw and unedited video of their performance',
         'Shortlisting based on vocal quality, creativity, and overall impact',
         'Offline Round (Finals): Shortlisted teams perform live'
       ],
