@@ -2149,6 +2149,29 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
 
   const $ = id => document.getElementById(id);
   const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  /* ── Frontend Reg ID generator ──────────────────────────────────
+     Mirrors the Apps Script generateRegId() exactly:
+       Attendee  → TRYST-{HHmmss}{mmm}{rand}
+       Event     → TRYST-{sanitized_eventId}-{HHmmss}{mmm}{rand}
+     Time is computed in IST (UTC+5:30) so IDs match the server format.
+  ──────────────────────────────────────────────────────────────── */
+  function generateRegId(eventId) {
+    const now = new Date();
+    // Shift to IST = UTC + 5h 30m
+    const ist = new Date(now.getTime() + 5.5 * 60 * 60 * 1000);
+    const hh  = String(ist.getUTCHours()).padStart(2, '0');
+    const mm  = String(ist.getUTCMinutes()).padStart(2, '0');
+    const ss  = String(ist.getUTCSeconds()).padStart(2, '0');
+    const ms  = String(ist.getUTCMilliseconds()).padStart(3, '0');
+    const rand = Math.floor(Math.random() * 10);
+    const base = hh + mm + ss + ms + rand;
+    if (eventId) {
+      const safe = String(eventId).toLowerCase().replace(/[^a-z0-9_]/g, '_');
+      return 'TRYST-' + safe + '-' + base;
+    }
+    return 'TRYST-' + base;
+  }
   const listHTML = items => `<ul>${(Array.isArray(items) ? items : [items]).filter(Boolean).map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>`;
   const eventOrder = Array.from(new Set(
     Array.from(document.querySelectorAll('.schedule-day .event-header[data-event-id], .schedule-event[data-event-id]'))
@@ -2669,8 +2692,14 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       const instagramScreenshot = await toBase64($('reg-instagram-task').files?.[0]);
       const reviewPlatform   = $('reg-fitpass-platform')?.value || 'android';
       const reviewPostedOn   = $('reg-fitpass-review-date')?.value || '';
+
+      // ── Generate Reg ID here so it is available for the PDF
+      //    before the opaque iframe response returns. ──────────
+      const cleanId = generateRegId();
+
       const payload = {
         formType: 'attendee',
+        regId: cleanId,                    // ← pre-generated, sent to sheet
         name: $('reg-name').value.trim(),
         email: $('reg-email').value.trim(),
         phone: $('reg-phone').value.trim(),
@@ -2692,9 +2721,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         reviewScreenshot
       };
 
-      const result = await postJSON(payload);
-      const id = responseId(result);
-      const cleanId = id && id !== 'SUBMITTED' ? id : '';
+      await postJSON(payload);  // fire-and-forget (iframe is opaque)
       const attendeePassData = {
         regId: cleanId,
         name: payload.name,
@@ -3106,9 +3133,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     setStatus(status, '');
     setButtonLoading(btn, true, 'Submitting...');
     try {
-      const payload = await buildNewEventPayload();
-      const result  = await postJSON(payload);
-      const id      = responseId(result);
+      const payload = await buildNewEventPayload(); // regId already included
+      await postJSON(payload);                       // fire-and-forget (iframe is opaque)
+      const id      = payload.regId;                // use pre-generated ID directly
       const firstMember = payload.members?.[0] || {};
       const eventPassData = {
         regId: id || '',
@@ -3148,12 +3175,16 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     // while sending a clean ASCII name to the sheet, Drive, and email pass.
     const eventName = getEventData(eventId).backendTitle || eventReg.currentEvent;
 
+    // ── Generate Reg ID now — used by PDF before server responds ──
+    const regId = generateRegId(eventId);
+
     if (isSolo) {
       const f = $('ereg-solo-form');
       const idFileInput = f.querySelector('[name="solo_idFile"]');
       const driveInput  = f.querySelector('[name="solo_driveLink"]');
       return {
         formType:  'event',
+        regId,
         eventId,
         event:     eventName,
         type:      'solo',
@@ -3189,6 +3220,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       }
       return {
         formType:  'event',
+        regId,
         eventId,
         event:     eventName,
         type:      'team',
