@@ -389,7 +389,7 @@ window.toggleEventsModalItem = function(row) {
 ─────────────────────────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════════
-   SURPRISE ARTIST — DUAL CARD + TIMER LOCK
+   SURPRISE ARTIST — 3-CARD STAGE + TIMER LOCK + TAP MODAL
    ─────────────────────────────────────────────
    CONFIGURATION: Set UNLOCK_TIME to the exact
    datetime when the button becomes active.
@@ -398,7 +398,49 @@ window.toggleEventsModalItem = function(row) {
 (function surpriseArtistSystem() {
 
   // ── CONFIG ─────────────────────────────────
-  const UNLOCK_TIME = new Date('2026-04-27T17:00:00'); // ← change this date/time
+  const UNLOCK_TIME = new Date('2026-04-26T17:00:00'); // ← change this date/time
+  // ───────────────────────────────────────────
+
+  // ── ARTIST DATA ────────────────────────────
+  // ✏️ Edit here to update artist 1's modal content
+  const ARTIST1_DATA = {
+    name:    'Ndee Kundu',
+    genre:   'Haryanvi · Singer',
+    image:   'images/kundu_wide.png',
+    desc:    'Ndee Kundu is bringing the raw Haryanvi heat to TRYST. With hard-hitting beats and unapologetic swagger, his sound is built to shake the stage. From viral anthems to crowd-charging energy. Every performance hits loud, real, and straight from the roots.',
+    tracks: [
+      {
+        name:   'Naam Tera',
+        album:  'Ndee Kundu (Lofi)',
+        art:    'images/naam_tera.jpg',
+        spotify: 'https://open.spotify.com/track/4rmiJ39A6d9OIRrL3xGmaD?autoplay=true'
+      },
+      {
+        name:   'Rose Garden',
+        album:  'Rose Garden Ft. Isha Sharma',
+        art:    'images/rose_gardan.jpg',
+        spotify: 'https://open.spotify.com/track/6T4BknLAQWUHWIqQ1lqN0z?autoplay=true'
+      },
+      {
+        name:   'Desi Haan Ji',
+        album:  'Desi Haan Ji Ft. Bintu Pabra',
+        art:    'images/desi_haan_ji.jpg',
+        spotify: 'https://open.spotify.com/track/1LXUJ62m2Ak7ZuXSxkftgW?autoplay=true'
+      },
+      {
+        name:   'His Grace',
+        album:  'His Grace Ft. Bintu Pabra, Shine',
+        art:    'images/his_grace.jpg',
+        spotify: 'https://open.spotify.com/track/332MWQx06lB5rX26awlEou?autoplay=true'
+      },
+      {
+        name:   'Teri Rahungi',
+        album:  'Teri Rahungi Ft. Pranjal Dahiya',
+        art:    'images/teri_rahungi.jpg',
+        spotify: 'https://open.spotify.com/track/0qODrCWk5G94S5aYOUgfJx?autoplay=true'
+      }
+    ]
+  };
   // ───────────────────────────────────────────
 
   const revealBtn      = document.getElementById('revealBtn');
@@ -407,7 +449,7 @@ window.toggleEventsModalItem = function(row) {
   const unlockHint     = document.getElementById('surpriseUnlockHint');
   if (!revealBtn) return;
 
-  let isRevealed   = false;
+  let isRevealed    = false;
   let timerInterval = null;
 
   /* ── Lock / Unlock logic ─────────────────── */
@@ -416,7 +458,6 @@ window.toggleEventsModalItem = function(row) {
     const diff = UNLOCK_TIME - now;
 
     if (diff <= 0) {
-      // Unlock!
       if (mysteryLock) mysteryLock.classList.remove('locked');
       if (lockOverlay) {
         gsap.to(lockOverlay, {
@@ -427,17 +468,12 @@ window.toggleEventsModalItem = function(row) {
       if (unlockHint) unlockHint.textContent = 'The mystery is ready to be unveiled!';
       clearInterval(timerInterval);
     } else {
-      // Still locked — show countdown
       if (mysteryLock) mysteryLock.classList.add('locked');
-      const days  = Math.floor(diff / 86400000);
-      const hrs   = Math.floor((diff / 3600000) % 24);
-      const mins  = Math.floor((diff / 60000) % 60);
-      const secs  = Math.floor((diff / 1000) % 60);
-      const pad   = n => String(n).padStart(2, '0');
+      const days = Math.floor(diff / 86400000);
+      const hrs  = Math.floor((diff / 3600000) % 24);
+      const pad  = n => String(n).padStart(2, '0');
       if (unlockHint) {
-        unlockHint.textContent = days > 0
-          ? `Unlocks in ${days}d`
-          : `Unlocks in ${pad(hrs)}h`;
+        unlockHint.textContent = days > 0 ? `Unlocks in ${days}d` : `Unlocks in ${pad(hrs)}h`;
       }
     }
   }
@@ -451,12 +487,15 @@ window.toggleEventsModalItem = function(row) {
     if (mysteryLock.classList.contains('locked')) return;
     isRevealed = true;
 
+    // Artist 1
     const question1 = document.getElementById('surpriseQuestion1');
     const img1      = document.getElementById('surpriseImg1');
     const revealed1 = document.getElementById('surpriseRevealed1');
     const veil1     = document.getElementById('surpriseVeil1');
     const glow1     = document.getElementById('surpriseGlowRing1');
+    const hint1     = document.getElementById('surpriseTapHint1');
 
+    // Artist 2
     const frame2    = document.getElementById('surpriseFrame2');
     const question2 = document.getElementById('surpriseQuestion2');
     const img2      = document.getElementById('surpriseImg2');
@@ -464,13 +503,21 @@ window.toggleEventsModalItem = function(row) {
     const veil2     = document.getElementById('surpriseVeil2');
     const glow2     = document.getElementById('surpriseGlowRing2');
 
-    // Particle burst on stage
-    createParticleBurst(document.getElementById('surpriseStage'));
+    // Artist 3
+    const frame3    = document.getElementById('surpriseFrame3');
+    const question3 = document.getElementById('surpriseQuestion3');
+    const img3      = document.getElementById('surpriseImg3');
+    const revealed3 = document.getElementById('surpriseRevealed3');
+    const veil3     = document.getElementById('surpriseVeil3');
+    const glow3     = document.getElementById('surpriseGlowRing3');
 
-    // ── TIMELINE ────────────────────────────
+    const stage = document.getElementById('surpriseStage');
+
+    createParticleBurst(stage);
+
     const tl = gsap.timeline();
 
-    // 1. Hide the button
+    // 1. Hide button
     tl.to(revealBtn, { opacity: 0, y: 8, duration: 0.22 });
 
     // 2. Reveal Artist 1
@@ -478,25 +525,19 @@ window.toggleEventsModalItem = function(row) {
       .set(question1, { visibility: 'hidden' })
       .to(veil1, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
       .call(() => { img1.classList.add('revealed'); glow1.classList.add('active'); })
-      .to({}, { duration: 0.8 }) // let blur transition breathe
+      .to({}, { duration: 0.8 })
       .call(() => revealed1.classList.add('show'));
 
-    // 3. Animate Artist 2 out from behind Artist 1
-    //    Step: make frame2 position:relative, then slide/scale in
+    // 3. Artist 2 slides out from behind Artist 1 (left side)
     tl.call(() => {
         frame2.classList.remove('surprise-frame--hidden');
         frame2.classList.add('revealed-card');
-        // Start from behind / overlapping with frame1
-        gsap.set(frame2, { opacity: 0, scale: 0.7, x: -60, rotateY: -15 });
+        gsap.set(frame2, { opacity: 0, scale: 0.72, x: -80, rotateY: -18 });
       })
       .to(frame2, {
         opacity: 1, scale: 1, x: 0, rotateY: 0,
-        duration: 0.9,
-        ease: 'expo.out',
-        transformPerspective: 1200,
+        duration: 0.9, ease: 'expo.out', transformPerspective: 1200
       }, '+=0.2')
-
-    // 4. Reveal Artist 2
       .to(question2, { opacity: 0, scale: 1.12, duration: 0.3, ease: 'power2.in' }, '-=0.3')
       .set(question2, { visibility: 'hidden' })
       .to(veil2, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
@@ -504,9 +545,142 @@ window.toggleEventsModalItem = function(row) {
       .to({}, { duration: 0.8 })
       .call(() => revealed2.classList.add('show'));
 
-    // 5. Second particle burst for drama
-    tl.call(() => createParticleBurst(document.getElementById('surpriseStage')));
+    // 4. Artist 3 BURSTS from the centre — scale(0) → 1 with a slight bounce
+    tl.call(() => createParticleBurst(stage))
+      .call(() => {
+        // Remove absolute positioning so it flows into flex layout
+        frame3.classList.remove('surprise-frame--hidden', 'surprise-frame--center');
+        frame3.classList.add('revealed-card');
+        // Start: dead centre, tiny
+        gsap.set(frame3, {
+          opacity: 0, scale: 0, rotateY: 0,
+          transformOrigin: 'center center',
+          transformPerspective: 1200
+        });
+      }, [], '+=0.15')
+      .to(frame3, {
+        opacity: 1, scale: 1,
+        duration: 1.05,
+        ease: 'back.out(1.5)'  // pop/spring feel
+      }, '+=0.05')
+      .to(question3, { opacity: 0, scale: 1.12, duration: 0.3, ease: 'power2.in' }, '-=0.4')
+      .set(question3, { visibility: 'hidden' })
+      .to(veil3, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, '<')
+      .call(() => { img3.classList.add('revealed'); glow3.classList.add('active'); })
+      .to({}, { duration: 0.8 })
+      .call(() => revealed3.classList.add('show'));
+
+    // 5. Final burst + activate tap on card 1
+    tl.call(() => {
+      createParticleBurst(stage);
+      // Enable tap on Artist 1 card
+      const frame1 = document.getElementById('surpriseFrame1');
+      if (frame1) {
+        frame1.classList.add('is-tappable');
+        frame1.addEventListener('click', openArtistDetailModal, { once: false });
+      }
+      if (hint1) hint1.classList.add('visible');
+    });
+
   });
+
+  /* ── Artist Detail Modal ─────────────────── */
+  const sadOverlay = document.getElementById('sadOverlay');
+  const sadModal   = document.getElementById('sadModal');
+  const sadCard    = document.getElementById('sadCard');
+  const sadClose   = document.getElementById('sadClose');
+
+  function openArtistDetailModal() {
+    // Populate
+    const d = ARTIST1_DATA;
+    const heroImg = document.getElementById('sadHeroImg');
+    const nameEl  = document.getElementById('sadArtistName');
+    const genreEl = document.getElementById('sadGenre');
+    const descEl  = document.getElementById('sadDesc');
+    const tracksEl= document.getElementById('sadTracks');
+
+    if (heroImg) { heroImg.src = d.image; heroImg.alt = d.name; }
+    if (nameEl)  nameEl.textContent  = d.name;
+    if (genreEl) genreEl.textContent = d.genre;
+    if (descEl)  descEl.textContent  = d.desc;
+
+    if (tracksEl) {
+      tracksEl.innerHTML = d.tracks.map((t, i) => `
+        <div class="sad-track" role="listitem">
+          <span class="sad-track-num font-rajdhani">${i + 1}</span>
+          <div class="sad-track-thumb">
+            <img class="sad-track-art"
+                 src="${t.art}"
+                 alt="${escapeHTML(t.name)}"
+                 onerror="this.style.background='#0D1530';this.style.display='block'" />
+            <a class="sad-track-play"
+               href="${t.spotify}"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Play ${escapeHTML(t.name)} on Spotify"
+               title="Open on Spotify">
+              &#9654;
+            </a>
+            <div class="sad-track-spotify-badge" aria-hidden="true">♪</div>
+          </div>
+          <div class="sad-track-info">
+            <span class="sad-track-name">${escapeHTML(t.name)}</span>
+            <span class="sad-track-meta">${escapeHTML(t.album)}</span>
+          </div>
+          <a class="sad-track-play-right font-rajdhani"
+             href="${t.spotify}"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Open on Spotify"
+             style="color:#1DB954;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;flex-shrink:0;padding:4px 8px;border:1px solid rgba(29,185,84,0.35);border-radius:3px;transition:background 0.2s"
+             onmouseenter="this.style.background='rgba(29,185,84,0.12)'"
+             onmouseleave="this.style.background='transparent'">▶ Play</a>
+        </div>`).join('');
+    }
+
+    // Scroll body to top
+    const body = sadCard.querySelector('.sad-body');
+    if (body) body.scrollTop = 0;
+
+    // Show
+    sadOverlay.classList.add('sad-open');
+    sadModal.classList.add('sad-open');
+    document.body.style.overflow = 'hidden';
+
+    gsap.fromTo(sadCard,
+      { opacity: 0, scale: 0.91, y: 18 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.38, ease: 'expo.out', clearProps: 'transform' }
+    );
+  }
+
+  function closeArtistDetailModal() {
+    gsap.to(sadCard, {
+      opacity: 0, scale: 0.93, y: 12, duration: 0.24, ease: 'power3.in',
+      onComplete: () => {
+        sadOverlay.classList.remove('sad-open');
+        sadModal.classList.remove('sad-open');
+        document.body.style.overflow = '';
+        gsap.set(sadCard, { clearProps: 'all' });
+      }
+    });
+  }
+
+  if (sadClose)   sadClose.addEventListener('click', closeArtistDetailModal);
+  if (sadOverlay) sadOverlay.addEventListener('click', closeArtistDetailModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && sadModal?.classList.contains('sad-open')) closeArtistDetailModal();
+  });
+
+  // Expose for external use
+  window.openArtistDetailModal  = openArtistDetailModal;
+  window.closeArtistDetailModal = closeArtistDetailModal;
+
+  /* HTML-escape helper (locally scoped) */
+  function escapeHTML(str) {
+    return String(str || '').replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])
+    );
+  }
 
 })();
 
@@ -631,7 +805,7 @@ document.addEventListener('keydown', (e) => {
    COUNTDOWN TIMER
 ═══════════════════════════════════════════════ */
 function updateCountdown() {
-  const diff = new Date('2026-04-27T08:00:00') - new Date();
+  const diff = new Date('2026-04-28T08:00:00') - new Date();
   const pad  = n => String(Math.max(0, n)).padStart(2, '0');
   const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = pad(v); };
   if (diff <= 0) { ['days','hours','mins','secs'].forEach(id => set(id, 0)); return; }
@@ -766,9 +940,145 @@ function toggleTask(card) {
   document.querySelectorAll('.task-card').forEach(c => {
     if (c !== card) c.classList.remove('active');
   });
-
   card.classList.toggle('active');
 }
+
+/* ══════════════════════════════════════════════
+   FITPASS SPONSOR TASK POPUP
+   Single task · Android / iOS tabs
+   Collects: screenshot (→ task1) + handle name (→ task2)
+══════════════════════════════════════════════ */
+(function taskPopupSystem() {
+
+  const overlay     = document.getElementById('taskPopupOverlay');
+  const popup       = document.getElementById('taskPopup');
+  const uploadZone  = document.getElementById('taskPopupUploadZone');
+  const uploadPrev  = document.getElementById('taskPopupUploadPreview');
+  const uploadPH    = document.getElementById('taskPopupUploadPlaceholder');
+  const handleInput = document.getElementById('tp-handle-input');
+  const realInput   = document.getElementById('reg-sponsor-1');
+  const handleHid   = document.getElementById('reg-fitpass-handle');
+
+  if (!overlay || !popup) return;
+
+  // ── Tab switching ──────────────────────────────
+  window.switchTaskTab = function(platform) {
+    document.querySelectorAll('.tp-tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.platform === platform)
+    );
+    document.querySelectorAll('.tp-panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'tp-panel-' + platform)
+    );
+  };
+
+  // ── Open popup ─────────────────────────────────
+  window.openTaskPopup = function() {
+    // Restore previously typed handle name
+    if (handleHid?.value && handleInput) handleInput.value = handleHid.value;
+
+    // Restore screenshot preview if already uploaded
+    const hasFile = realInput?.files?.length > 0;
+    if (hasFile) {
+      _showUploadDone(realInput.files[0].name);
+    } else {
+      uploadZone.classList.remove('tp-has-file');
+      uploadPrev.innerHTML = '';
+      if (uploadPH) uploadPH.style.display = '';
+    }
+
+    // Wire upload zone click to the hidden file input
+    uploadZone.onclick = function(e) {
+      e.stopPropagation();
+      realInput?.click();
+    };
+
+    overlay.classList.add('tp-active');
+    popup.classList.add('tp-active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeTaskPopup = function() {
+    overlay.classList.remove('tp-active');
+    popup.classList.remove('tp-active');
+    document.body.style.overflow = '';
+  };
+
+  window.confirmTaskPopup = function() {
+    const handle  = handleInput?.value.trim();
+    const hasFile = realInput?.files?.length > 0;
+
+    // Validate handle name
+    if (!handle) {
+      if (handleInput) {
+        handleInput.style.borderColor = 'rgba(255,80,80,0.6)';
+        handleInput.focus();
+        setTimeout(() => handleInput.style.borderColor = '', 1800);
+      }
+      return;
+    }
+
+    // Validate screenshot
+    if (!hasFile) {
+      uploadZone.style.borderColor = 'rgba(255,80,80,0.55)';
+      setTimeout(() => uploadZone.style.borderColor = '', 1800);
+      return;
+    }
+
+    // Persist handle into hidden input so submit payload picks it up
+    if (handleHid) handleHid.value = handle;
+
+    // Update base task card to show completion
+    const baseZone = document.getElementById('zone-task-1');
+    const basePrev = document.getElementById('preview-task-1');
+    if (basePrev) {
+      basePrev.innerHTML =
+        `<span class="reg-upload-submitted-icon">✅</span>` +
+        `<span class="reg-upload-submitted-label">Task Complete</span>` +
+        `<span class="reg-upload-submitted-name">${escHTMLglobal(handle.length > 16 ? handle.slice(0,15)+'…' : handle)}</span>`;
+    }
+    baseZone?.classList.add('reg-has-file');
+
+    closeTaskPopup();
+  };
+
+  // File input change → update popup preview
+  realInput?.addEventListener('change', () => {
+    const file = realInput.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      uploadZone.style.borderColor = 'rgba(255,80,80,0.55)';
+      setTimeout(() => uploadZone.style.borderColor = '', 1800);
+      return;
+    }
+    _showUploadDone(file.name);
+  });
+
+  function _showUploadDone(name) {
+    uploadZone.classList.add('tp-has-file');
+    if (uploadPH) uploadPH.style.display = 'none';
+    uploadPrev.innerHTML =
+      `<span style="font-size:22px;display:block;margin-bottom:4px;">✅</span>` +
+      `<span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.75);font-family:'Rajdhani',sans-serif;display:block;">Screenshot uploaded</span>` +
+      `<span style="font-size:12px;color:#E5C97E;font-family:'Cormorant Garamond',serif;display:block;margin-top:2px;">${escHTMLglobal(truncateNameGlobal(name, 22))}</span>`;
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && popup.classList.contains('tp-active')) closeTaskPopup();
+  });
+
+  // Prevent popup click from closing via overlay handler
+  popup.addEventListener('click', e => e.stopPropagation());
+
+  // Shared helpers
+  window.escHTMLglobal = str =>
+    String(str || '').replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])
+    );
+  window.truncateNameGlobal = (name, max = 14) =>
+    (name || '').length > max ? name.slice(0, max - 1) + '…' : (name || '');
+
+})();
 
 (function () {
   /* ── Elements ─────────────────────────────── */
@@ -842,8 +1152,6 @@ function toggleTask(card) {
   /* ── Image upload preview ─────────────────── */
   const uploadFields = [
     { inputId: 'reg-college-id', previewId: 'preview-college-id', zoneId: 'zone-college-id' },
-    { inputId: 'reg-sponsor-1',  previewId: 'preview-sponsor-1',  zoneId: 'zone-sponsor-1'  },
-    { inputId: 'reg-sponsor-2',  previewId: 'preview-sponsor-2',  zoneId: 'zone-sponsor-2'  },
   ];
 
   uploadFields.forEach(({ inputId, previewId, zoneId }) => {
@@ -920,9 +1228,9 @@ function toggleTask(card) {
         course:      document.getElementById('reg-course').value.trim(),
         year:        document.getElementById('reg-year').value,
         gender:      document.getElementById('reg-gender').value,
-        collegeId:   document.getElementById('reg-college-id').files[0] || null,
-        sponsorTask1: document.getElementById('reg-sponsor-1').files[0]  || null,
-        sponsorTask2: document.getElementById('reg-sponsor-2').files[0]  || null,
+        collegeId:        document.getElementById('reg-college-id').files[0] || null,
+        fitpassScreenshot: document.getElementById('reg-sponsor-1')?.files[0] || null,
+        fitpassHandle:     document.getElementById('reg-fitpass-handle')?.value?.trim() || '',
       };
 
       // TODO: Replace with Firebase integration
@@ -936,8 +1244,8 @@ function toggleTask(card) {
         'Year':         formData.year,
         'Gender':       formData.gender,
         'College ID':   formData.collegeId  ? formData.collegeId.name  : '—',
-        'Sponsor 1':    formData.sponsorTask1 ? formData.sponsorTask1.name : '—',
-        'Sponsor 2':    formData.sponsorTask2 ? formData.sponsorTask2.name : '—',
+        'Fitpass Handle':     formData.fitpassHandle     || '—',
+        'Fitpass Screenshot': formData.fitpassScreenshot ? formData.fitpassScreenshot.name : '—',
       });
       console.groupEnd();
 
@@ -982,7 +1290,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
      · TRYST_EVENTS data map (rich format / rules / judging per event)
      · Utility helpers  ($, escapeHTML, listHTML, toBase64, postJSON …)
      · renderEventsModal()    — dynamically fills events modal by day
-     · syncScheduleLabels()   — stamps society names onto schedule rows
+     · syncScheduleLabels()   — keeps venue labels synced on schedule rows
      · window.toggleEvent     — opens event-detail modal on row click
      · window.openEventDetail — opens detail from modal-events list
      · window.goToEvent       — navigates to schedule + opens detail
@@ -1018,6 +1326,26 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       poster: 'images/posters/campus.webp',
       description: 'The ceremonial opening of TRYST 2026 with the organising team, faculty, guests, and student representatives. This sacred tradition marks the beginning of two days of cultural excellence, welcoming all participants and guests to the festival.',
       descriptionOnly: true
+    },
+    'dj-night': {
+      day: '1',
+      title: 'DJ Night',
+      society: 'TRYST Organising Committee',
+      time: '6:00 PM',
+      location: 'Main Stage',
+      poster: 'images/posters/campus.webp',
+      description: "Get ready to end the day on a high note with an electrifying DJ Night at TRYST’26. As the sun sets, the campus transforms into a high-energy arena of music, lights, and unstoppable vibes. Featuring dynamic beats across genres — from Bollywood and commercial hits to EDM and techno — the night promises an immersive experience that keeps the crowd moving. With powerful sound, dazzling lighting, and a charged atmosphere, DJ Night is where the entire fest comes alive. Whether you're dancing with your friends, vibing with the crowd, or just soaking in the energy, this is the ultimate celebration you don’t want to miss.",
+      descriptionOnly: true,
+    },
+    'star-night': {
+      day: '1',
+      title: 'Artist Night',
+      society: 'TRYST Organising Committee',
+      time: '6:00 PM',
+      location: 'Main Stage',
+      poster: 'images/posters/campus.webp',
+      description: "Get ready for the most anticipated highlight of TRYST’26 — the Artist Special Performance. As the energy of the fest reaches its peak, the stage comes alive with a spectacular live act by a renowned artist, delivering an unforgettable musical experience. From chart-topping hits to crowd-favorite anthems, the performance promises a perfect blend of music, energy, and connection. With a massive crowd, powerful sound, and electrifying stage presence, this is where the entire fest unites to celebrate music at its finest.",
+      descriptionOnly: true,
     },
     'inaayat': {
       contactOnly: true,
@@ -1098,12 +1426,12 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       contactOnly: true,
       day: '1',
       title: 'Nocturne',
-      society: 'Anhaad – Western Music Society',
+      society: 'Anhad – Western Music Society',
       societyDesc: 'Founded in 2014, Anhaad stands as the premier music society of Keshav Mahavidyalaya, celebrated for its versatility across Indian fusion, classical choir, and Western a cappella. With a legacy that began with a historic win at Antardhwani, the society has gone on to secure over 25 prestigious titles across institutions like NIT Delhi and LBSIM. Known for its refined compositions, vocal excellence, and musical depth, Anhaad continues to dominate the competitive circuit while pushing creative boundaries.',
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Nocturne.png',
-      description: 'Slaycappella is an acappella competition that celebrates the art of vocal music in its purest form where teams create music using only their voices, blending harmonies, rhythm, and creativity to deliver impactful performances under the theme Scarlett — embodying boldness, passion, and powerful, unapologetic energy.',
+      description: 'Nocturne is an acappella competition that celebrates the art of vocal music in its purest form where teams create music using only their voices, blending harmonies, rhythm, and creativity to deliver impactful performances under the theme Scarlett — embodying boldness, passion, and powerful, unapologetic energy.',
       format: [
         'Online Round (Prelims): Teams submit a raw and unedited video of their acappella performance',
         'Shortlisting based on vocal quality, creativity, and overall impact',
@@ -1127,8 +1455,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       ],
       societyLink: '#student-union',
       supportSection: [
-        'Lavanya - 9871042278',
-        'Karan - 9810237028'
+        'Priyanka Verma - 9463652044',
+        'Vishishta - 8920704038'
       ],
     },
     'khayaal': {
@@ -1245,7 +1573,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       time: 'TBA',
       location: 'TBA',
       poster: 'images/posters/Jhalak.png',
-      description: 'JHALAK is an on-the-spot photography competition where participants are given a theme or subject on the spot and must capture the best possible shot within the given time, testing eye for detail, spontaneity, and creativity behind the lens.',
+      description: 'JHALAK is an on-the-spot photostory competition where participants are given a theme or subject and must capture a series of photographs within a limited time, weaving them into a cohesive and compelling visual narrative. The event tests creativity, storytelling, spontaneity, and a keen eye for detail.',
       format: [
         'Theme or subject is given on the spot',
         'Participants capture photographs within the given time',
@@ -1312,7 +1640,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       time: 'TBA',
       location: 'Online',
       poster: 'images/posters/Pixel 6.0.png',
-      description: 'PIXEL-6.0 is an online photo story competition where participants submit a series of photographs that together narrate a compelling story, with each image building on the last to create a powerful visual narrative.',
+      description: 'PIXEL-6.0 is an online photography competition where participants submit a series of photographs that together narrate a compelling story, with each image building on the last to create a powerful visual narrative. Entries will be evaluated based on creativity, storytelling, composition, and overall impact.',
       format: [
         'Participants submit a series of photographs',
         'Images must collectively narrate a story',
@@ -1352,7 +1680,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     'draped_duality': {
       day: '1',
       title: 'Draped Duality',
-      society: 'Maniera – Fashion & Art Society',
+      society: 'Maniera – Fine Arts Society',
       societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
@@ -1389,7 +1717,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     'reframe_the_fame': {
       day: '1',
       title: 'Reframe the Fame',
-      society: 'Maniera – Fashion & Art Society',
+      society: 'Maniera – Fine Arts Society',
       societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
@@ -1425,7 +1753,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     'syncstroke': {
       day: '2',
       title: 'SyncStroke',
-      society: 'Maniera – Fashion & Art Society',
+      society: 'Maniera – Fine Arts Society',
       societyDesc: 'Maniera, the Fine Arts Society of Keshav Mahavidyalaya, serves as a vibrant platform for artistic expression and creativity. From painting and sketching to installations and décor, the society nurtures diverse art forms while consistently winning accolades across competitions. Known for adding aesthetic value to college events through rangolis and creative designs, Maniera fosters a space where every artist can explore, experiment, and excel.',
       time: 'TBA',
       location: 'TBA',
@@ -1785,7 +2113,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const listHTML = items => `<ul>${(Array.isArray(items) ? items : [items]).filter(Boolean).map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>`;
   const eventOrder = Array.from(new Set(
-    Array.from(document.querySelectorAll('.event-header[data-event-id], .events-modal-item[data-event-id]'))
+    Array.from(document.querySelectorAll('.schedule-day .event-header[data-event-id], .schedule-event[data-event-id]'))
       .map(el => el.dataset.eventId)
       .filter(Boolean)
   ));
@@ -1827,13 +2155,14 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     const row = eventRow(id);
     const dayPanel = row?.closest('.schedule-day') || item?.closest('.events-modal-day');
     const time = row?.querySelector('.event-time')?.textContent.trim() || '';
+    const location = header?.dataset.location || tag;
 
     return {
       day: dayPanel?.dataset.day || dayPanel?.dataset.eventsDay || '1',
       title,
       society: `${tag} Society`,
       time,
-      location: 'TRYST 2026 Venue',
+      location,
       poster: posterForTag(tag),
       description: `${title} is a TRYST 2026 ${tag.toLowerCase()} event crafted for focused, high-energy participation.`,
       format: ['Register through the event form.', 'Participants perform or compete in the slot assigned by organisers.', 'Final round details will be shared by the organising society.'],
@@ -1844,7 +2173,16 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   }
 
   function getEventData(id) {
-    return { ...inferEventData(id), ...(TRYST_EVENTS[id] || {}) };
+    const inferred = inferEventData(id);
+    const stored = TRYST_EVENTS[id] || {};
+    return {
+      ...inferred,
+      ...stored,
+      day: inferred.day || stored.day,
+      title: inferred.title || stored.title,
+      time: inferred.time || stored.time,
+      location: inferred.location || stored.location
+    };
   }
 
   function setStatus(el, message, type = '') {
@@ -1988,23 +2326,31 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     zone?.classList.remove('reg-has-file');
   }
 
+  function truncateName(name, max = 14) {
+    if (!name) return '';
+    if (name.length <= max) return name;
+    const ext = name.lastIndexOf('.') > 0 ? name.slice(name.lastIndexOf('.')) : '';
+    return name.slice(0, max - ext.length - 1) + '…' + ext;
+  }
+
+  function markZoneSubmitted(zone, fileName) {
+    if (!zone) return;
+    const preview = zone.querySelector('.reg-upload-preview');
+    if (!preview) return;
+    preview.innerHTML =
+      `<span class="reg-upload-submitted-icon">✅</span>` +
+      `<span class="reg-upload-submitted-label">Submitted</span>` +
+      `<span class="reg-upload-submitted-name">${escapeHTML(truncateName(fileName))}</span>`;
+    zone.classList.add('reg-has-file');
+  }
+
   function bindUploadLabel(input) {
     if (!input) return;
     input.addEventListener('change', () => {
       const file = input.files?.[0];
       const zone = input.closest('.reg-upload-zone');
-      const preview = zone?.querySelector('.reg-upload-preview');
-      if (!file || !zone || !preview) return;
-      preview.innerHTML = `Added<br>${escapeHTML(file.name)}`;
-      preview.style.backgroundImage = 'none';
-      preview.style.display = 'flex';
-      preview.style.alignItems = 'center';
-      preview.style.justifyContent = 'center';
-      preview.style.fontSize = '12px';
-      preview.style.color = '#C9A84C';
-      preview.style.textAlign = 'center';
-      preview.style.padding = '10px';
-      zone.classList.add('reg-has-file');
+      if (!file || !zone) return;
+      markZoneSubmitted(zone, file.name);
     });
   }
 
@@ -2039,7 +2385,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
   function syncScheduleLabels() {
     eventOrder.forEach(id => {
       const tag = eventHeader(id)?.querySelector('.event-tag');
-      if (tag) tag.textContent = getEventData(id).society;
+      if (tag) tag.textContent = getEventData(id).location;
     });
   }
 
@@ -2169,7 +2515,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     }
     if (isContactOnly && data.supportSection?.length) {
       const contacts = data.supportSection.join(' &nbsp;·&nbsp; ');
-      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are handled offline.<br/>Please contact the support team directly to register:<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
+      contactNote.innerHTML = '✦ &nbsp;Registrations for this event are managed independently. Kindly contact the support team.<br/><strong style="color:#E5C97E;font-style:normal;">' + contacts + '</strong>';
       contactNote.style.display = '';
     } else {
       if (contactNote) contactNote.style.display = 'none';
@@ -2263,6 +2609,22 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       return;
     }
 
+    // Validate Fitpass task — screenshot + handle name both required
+    const taskMissing   = !$('reg-sponsor-1')?.files?.length;
+    const handleMissing = !$('reg-fitpass-handle')?.value?.trim();
+    if (taskMissing || handleMissing) {
+      document.getElementById('zone-task-1')?.classList.add('reg-error');
+      setStatus(status,
+        taskMissing && handleMissing
+          ? 'Please complete the Fitpass sponsor task — upload your screenshot and enter your handle name.'
+          : taskMissing
+            ? 'Please upload your Fitpass review screenshot to complete the sponsor task.'
+            : 'Please enter your App Store / Play Store handle name in the sponsor task.',
+        'error');
+      return;
+    }
+    document.getElementById('zone-task-1')?.classList.remove('reg-error');
+
     setButtonLoading(submitBtn, true, 'Submitting...');
     try {
       const payload = {
@@ -2274,9 +2636,9 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         course: $('reg-course').value.trim(),
         year: $('reg-year').value,
         gender: $('reg-gender').value,
-        collegeId: await toBase64($('reg-college-id').files[0]),
-        task1: await toBase64($('reg-sponsor-1').files[0]),
-        task2: await toBase64($('reg-sponsor-2').files[0])
+        collegeId: await toBase64($('reg-college-id').files?.[0]),
+        task1:     await toBase64($('reg-sponsor-1').files?.[0]),   // Fitpass screenshot
+        task2:     $('reg-fitpass-handle')?.value?.trim() || ''    // handle name (plain text)
       };
 
       const result = await postJSON(payload);
@@ -2284,6 +2646,15 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       setStatus(status, id ? `Registration successful. Reg ID: ${id}` : 'Registration successful.', 'success');
       attendeeForm.reset();
       attendeeForm.querySelectorAll('input[type="file"]').forEach(resetUploadZone);
+      // Reset Fitpass task zone
+      const zone1    = document.getElementById('zone-task-1');
+      const prev1    = document.getElementById('preview-task-1');
+      const handleHid = document.getElementById('reg-fitpass-handle');
+      const handleInp = document.getElementById('tp-handle-input');
+      if (zone1)     zone1.classList.remove('reg-has-file', 'reg-error');
+      if (prev1)     prev1.innerHTML = '';
+      if (handleHid) handleHid.value = '';
+      if (handleInp) handleInp.value = '';
     } catch (error) {
       setStatus(status, error.message || 'Could not submit right now. Please try again.', 'error');
     } finally {
@@ -2300,7 +2671,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     aaghaaz:        { formType: 'dynamic'                                  },
     nocturne:       { formType: 'team',  prelims: true                    },
     khayaal:        { formType: 'team',  prelims: true                    },
-    pixel:          { formType: 'solo',  prelims: true                    },
+    pixel:          { formType: 'team',  prelims: true                    },
     syncstroke:     { formType: 'team',  lockedCount: 2                   },
     uthaan:         { formType: 'team',  minMembers: 6, maxMembers: 12    },
     envogue_group:  { formType: 'team',  prelims: true, minMembers: 4, maxMembers: 17 },
@@ -2310,7 +2681,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     // newly added Day 1 events
     khandan:        { formType: 'solo'                                     },
     irshaad:        { formType: 'solo',  prelims: true                    },
-    cinematica:     { formType: 'solo'                                     },
+    cinematica:     { formType: 'team'                                     },
     reframe:        { formType: 'solo'                                     },
     draped_duality: { formType: 'team'                                     },
     evince:         { formType: 'solo',  prelims: true                    },
@@ -2326,6 +2697,8 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
     envogue_group: { min: 4, max: 17 },
     baithak_mime:  { max: 15       },
     draped_duality:{ min: 3, max: 4  },
+    cinematica:    { min: 2, max: 5  },
+    pixel:         { min: 2, max: 5  },
   };
 
   const eventReg = {
@@ -2754,7 +3127,7 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
 
 /* =====================
    🔥 TRYST FORM PATCH
-   Add this at the END of tryst-production.js
+   Integrated into script.js after the production registration system
 ===================== */
 
 /*

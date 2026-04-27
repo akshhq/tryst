@@ -1778,68 +1778,20 @@
               </label>
 
 
-              <!-- ✅ Sponsor Task 1 (UPDATED) -->
-              <div class="task-card">
-
-                <!-- Collapsed -->
-                <div class="task-collapsed" onclick="toggleTask(this.parentElement)">
-                  <span class="reg-upload-icon">📸</span>
-                  <span class="reg-upload-label font-cinzel">Sponsor Task 1</span>
-                  <span class="reg-upload-hint font-cormorant">Tap to view</span>
+              <!-- Fitpass review task -->
+              <div class="task-card" id="zone-task-1" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="taskPopup">
+                <div class="reg-upload-preview" id="preview-task-1"></div>
+                <div class="task-collapsed">
+                  <span class="reg-upload-icon">⭐</span>
+                  <span class="reg-upload-label font-cinzel">Fitpass Review Task</span>
+                  <span class="reg-upload-hint font-cormorant">Tap to choose Android or iOS</span>
                 </div>
-
-                <!-- Expanded -->
-                <div class="task-expanded">
-                  <h3 class="task-title font-cinzel">Follow Tryst Insta Page</h3>
-                  
-                  <p class="task-desc font-cinzel">
-                    <a href="https://www.instagram.com/tryst_26_official/" target="_blank">Open Instagram</a>
-                  </p>
-
-                  <img src="images/sample1.jpg" class="task-sample" />
-
-                  <label class="reg-upload-zone" for="reg-sponsor-1" id="zone-sponsor-1">
-                    <div class="reg-upload-preview" id="preview-sponsor-1"></div>
-                    <div class="reg-upload-placeholder">
-                      <span class="reg-upload-label font-cinzel">Upload Image</span>
-                    </div>
-                    <input type="file" id="reg-sponsor-1" name="task1" class="reg-file-input" accept="image/*,.pdf" required />
-                  </label>
-                </div>
-
               </div>
 
-
-              <!-- ✅ Sponsor Task 2 (UPDATED) -->
-              <div class="task-card">
-
-                <!-- Collapsed -->
-                <div class="task-collapsed" onclick="toggleTask(this.parentElement)">
-                  <span class="reg-upload-icon">📸</span>
-                  <span class="reg-upload-label font-cinzel">Sponsor Task 2</span>
-                  <span class="reg-upload-hint font-cormorant">Tap to view</span>
-                </div>
-
-                <!-- Expanded -->
-                <div class="task-expanded">
-                  <h3 class="task-title font-cinzel">Follow KMVSU Insta Page</h3>
-                  
-                  <p class="task-desc font-cinzel">
-                    <a href="https://www.instagram.com/kmvsu_official/" target="_blank">Open Instagram</a>
-                  </p>
-
-                  <img src="images/sample2.jpg" class="task-sample" />
-
-                  <label class="reg-upload-zone" for="reg-sponsor-2" id="zone-sponsor-2">
-                    <div class="reg-upload-preview" id="preview-sponsor-2"></div>
-                    <div class="reg-upload-placeholder">
-                      <span class="reg-upload-label font-cinzel">Upload Image</span>
-                    </div>
-                    <input type="file" id="reg-sponsor-2" name="task2" class="reg-file-input" accept="image/*,.pdf" required />
-                  </label>
-                </div>
-
-              </div>
+              <!-- Hidden real file input for the screenshot -->
+              <input type="file" id="reg-sponsor-1" name="task1" class="reg-file-input" accept="image/*" style="display:none" />
+              <input type="hidden" id="reg-fitpass-platform" name="reviewPlatform" />
+              <input type="hidden" id="reg-fitpass-review-date" name="reviewDate" />
 
             </div>
           </div>
@@ -1847,7 +1799,7 @@
           <!-- Task verification notice -->
           <div class="reg-task-notice font-cormorant">
             <span class="reg-task-notice-icon">⚠</span>
-            <span>Instagram task completion will be <strong>verified at the entry gate</strong>. Incomplete tasks may result in denial of entry.</span>
+            <span>Your Fitpass review task will be <strong>verified at the entry gate</strong>. Make sure your platform, review date, and screenshot are correct.</span>
           </div>
 
           <!-- Event registration CTA -->
@@ -2386,6 +2338,135 @@
     </div>
   </div>
   <!-- ═══════════════ END ARTIST DETAIL MODAL ═══════════════ -->
+
+  <!-- ═══════════════ FITPASS TASK POPUP ═══════════════ -->
+  <div class="tp-overlay" id="taskPopupOverlay" onclick="closeTaskPopup()"></div>
+  <div class="tp-popup" id="taskPopup" role="dialog" aria-modal="true" aria-labelledby="taskPopupTitle">
+
+    <button class="tp-close" onclick="closeTaskPopup()" aria-label="Close">&times;</button>
+
+    <!-- Header -->
+    <div class="tp-header">
+      <div class="tp-sponsor-badge font-rajdhani">Sponsor Task</div>
+      <h3 class="tp-title font-cinzel" id="taskPopupTitle">Fitpass App Review</h3>
+      <p class="tp-subtitle font-cormorant">Choose Android or iOS, post your review, and save the date and screenshot here.</p>
+    </div>
+
+    <!-- Platform tabs -->
+    <div class="tp-tabs">
+      <button class="tp-tab active font-rajdhani" data-platform="android" onclick="switchTaskTab('android')">
+        <span class="tp-tab-icon"></span> Android
+      </button>
+      <button class="tp-tab font-rajdhani" data-platform="ios" onclick="switchTaskTab('ios')">
+        <span class="tp-tab-icon"></span> iOS
+      </button>
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="tp-body">
+
+      <!-- ANDROID PANEL -->
+      <div class="tp-panel active" id="tp-panel-android">
+        <div class="tp-steps">
+          <div class="tp-step">
+            <div class="tp-step-num font-cinzel">1</div>
+            <div class="tp-step-content">
+              <div class="tp-step-title font-rajdhani">Install Fitpass on Play Store</div>
+              <a class="tp-store-link font-rajdhani" href="https://play.google.com/store/apps/details?id=com.india.fitpass" target="_blank" rel="noopener">
+                Open Play Store →
+              </a>
+            </div>
+          </div>
+          <div class="tp-step">
+            <div class="tp-step-num font-cinzel">2</div>
+            <div class="tp-step-content">
+              <div class="tp-step-title font-rajdhani">Write a 5-star review (min. 2 lines)</div>
+              <div class="tp-step-desc font-cormorant">Include keywords from the list below in your review.</div>
+            </div>
+          </div>
+          <div class="tp-step">
+            <div class="tp-step-num font-cinzel">3</div>
+            <div class="tp-step-content">
+              <div class="tp-step-title font-rajdhani">Screenshot your posted review</div>
+              <div class="tp-step-desc font-cormorant">Upload it below along with your Play Store handle name.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tp-keywords">
+          <div class="tp-keywords-label font-rajdhani">Review Keywords</div>
+          <div class="tp-keywords-list font-cormorant">
+            dietician, all in one &nbsp;·&nbsp; best dietician app &nbsp;·&nbsp; weight gain diet plan &nbsp;·&nbsp;
+            diet plan for weight loss &nbsp;·&nbsp; best weight loss app &nbsp;·&nbsp; muscle gain diet &nbsp;·&nbsp;
+            online fitness classes app &nbsp;·&nbsp; gym near you &nbsp;·&nbsp; home workout app &nbsp;·&nbsp; best workout apps
+          </div>
+        </div>
+      </div>
+
+      <!-- IOS PANEL -->
+      <div class="tp-panel" id="tp-panel-ios">
+        <div class="tp-steps">
+          <div class="tp-step">
+            <div class="tp-step-num font-cinzel">1</div>
+            <div class="tp-step-content">
+              <div class="tp-step-title font-rajdhani">Install Fitpass on App Store</div>
+              <a class="tp-store-link font-rajdhani" href="https://apps.apple.com/in/app/fitpass-gyms-fitness-pass/id1049745078" target="_blank" rel="noopener">
+                Open App Store →
+              </a>
+            </div>
+          </div>
+          <div class="tp-step">
+            <div class="tp-step-num font-cinzel">2</div>
+            <div class="tp-step-content">
+              <div class="tp-step-title font-rajdhani">Write a 5-star review (min. 2 lines)</div>
+              <div class="tp-step-desc font-cormorant">Include keywords from the list below in your review.</div>
+            </div>
+          </div>
+          <div class="tp-step">
+            <div class="tp-step-num font-cinzel">3</div>
+            <div class="tp-step-content">
+              <div class="tp-step-title font-rajdhani">Screenshot your posted review</div>
+              <div class="tp-step-desc font-cormorant">Upload it below along with your App Store handle name.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tp-keywords">
+          <div class="tp-keywords-label font-rajdhani">Review Keywords</div>
+          <div class="tp-keywords-list font-cormorant">
+            dietician, all in one &nbsp;·&nbsp; best dietician app &nbsp;·&nbsp; weight gain diet plan &nbsp;·&nbsp;
+            diet plan for weight loss &nbsp;·&nbsp; best weight loss app &nbsp;·&nbsp; muscle gain diet &nbsp;·&nbsp;
+            online fitness classes app &nbsp;·&nbsp; gym near you &nbsp;·&nbsp; home workout app &nbsp;·&nbsp; best workout apps
+          </div>
+        </div>
+      </div>
+
+      <div class="tp-field-group">
+        <label class="tp-field-label font-rajdhani" for="tp-review-date">Date of Review Posting <span style="color:#e57373">*</span></label>
+        <input class="tp-field-input font-cormorant" id="tp-review-date" type="date" autocomplete="off" readonly />
+        <div class="tp-field-hint font-cormorant">This is added automatically when you save the task</div>
+      </div>
+
+      <!-- Screenshot upload zone -->
+      <div class="tp-upload-zone" id="taskPopupUploadZone">
+        <div class="tp-upload-preview" id="taskPopupUploadPreview"></div>
+        <div class="tp-upload-placeholder" id="taskPopupUploadPlaceholder">
+          <span class="tp-upload-icon">📸</span>
+          <span class="tp-upload-label font-cinzel">Tap to upload screenshot</span>
+          <span class="tp-upload-hint font-cormorant">JPG or PNG · max 2 MB</span>
+        </div>
+      </div>
+
+    </div><!-- /.tp-body -->
+
+    <!-- Footer actions -->
+    <div class="tp-footer">
+      <button class="tp-btn-cancel font-rajdhani" onclick="closeTaskPopup()">Cancel</button>
+      <button class="tp-btn-confirm font-cinzel" onclick="confirmTaskPopup()">✦ Done ✦</button>
+    </div>
+
+  </div>
+  <!-- ═══════════════ END FITPASS TASK POPUP ═══════════════ -->
 
   <script src="script.js" defer></script>
   <iframe name="hidden_iframe" style="display:none;"></iframe>

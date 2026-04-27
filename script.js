@@ -944,69 +944,82 @@ function toggleTask(card) {
 }
 
 /* ══════════════════════════════════════════════
-   INSTAGRAM TASK POPUP
+   FITPASS SPONSOR TASK POPUP
+   Single task with Android / iOS options
+   Collects: platform, review date, handle name, screenshot
 ══════════════════════════════════════════════ */
 (function taskPopupSystem() {
-  const TASKS = {
-    1: {
-      title:       'Task 1 — Follow Us',
-      instruction: 'Follow the official KMV Student Union page on Instagram, then upload a screenshot of your follow to complete this task.',
-      url:         'https://www.instagram.com/kmvsu_official/',
-      handle:      '@kmvsu_official',
-      inputId:     'reg-sponsor-1',
-      zoneId:      'zone-task-1',
-      previewId:   'preview-task-1',
-    },
-    2: {
-      title:       'Task 2 — Follow Us',
-      instruction: 'Follow the official TRYST 2026 page on Instagram, then upload a screenshot of your follow to complete this task.',
-      url:         'https://www.instagram.com/tryst_26_official/',
-      handle:      '@tryst_26_official',
-      inputId:     'reg-sponsor-2',
-      zoneId:      'zone-task-2',
-      previewId:   'preview-task-2',
-    }
-  };
-
-  let currentTask = null;
 
   const overlay     = document.getElementById('taskPopupOverlay');
   const popup       = document.getElementById('taskPopup');
-  const titleEl     = document.getElementById('taskPopupTitle');
-  const instrEl     = document.getElementById('taskPopupInstruction');
-  const linkEl      = document.getElementById('taskPopupLink');
   const uploadZone  = document.getElementById('taskPopupUploadZone');
   const uploadPrev  = document.getElementById('taskPopupUploadPreview');
   const uploadPH    = document.getElementById('taskPopupUploadPlaceholder');
+  const taskCard    = document.getElementById('zone-task-1');
+  const dateInput   = document.getElementById('tp-review-date');
+  const realInput   = document.getElementById('reg-sponsor-1');
+  const platformHid = document.getElementById('reg-fitpass-platform');
+  const dateHid     = document.getElementById('reg-fitpass-review-date');
 
   if (!overlay || !popup) return;
 
-  window.openTaskPopup = function(taskNum) {
-    const task = TASKS[taskNum];
-    if (!task) return;
-    currentTask = taskNum;
+  function todayISO() {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 10);
+  }
 
-    titleEl.textContent     = task.title;
-    instrEl.textContent     = task.instruction;
-    linkEl.href             = task.url;
-    linkEl.textContent      = task.handle;
+  if (dateInput && !dateInput.max) {
+    dateInput.max = todayISO();
+  }
 
-    // Reflect current upload state in popup
-    const realInput = document.getElementById(task.inputId);
-    const hasFile   = realInput?.files?.length > 0;
+  function platformLabel(platform) {
+    return platform === 'ios' ? 'iOS' : 'Android';
+  }
+
+  function activePlatform() {
+    return popup.dataset.platform || platformHid?.value || 'android';
+  }
+
+  function formatReviewDate(value) {
+    const parts = String(value || '').split('-');
+    if (parts.length !== 3) return value || '';
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+
+  // ── Tab switching ──────────────────────────────
+  window.switchTaskTab = function(platform) {
+    popup.dataset.platform = platform;
+    document.querySelectorAll('.tp-tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.platform === platform)
+    );
+    document.querySelectorAll('.tp-panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'tp-panel-' + platform)
+    );
+  };
+
+  // ── Open popup ─────────────────────────────────
+  window.openTaskPopup = function() {
+    const savedPlatform = platformHid?.value || popup.dataset.platform || 'android';
+    window.switchTaskTab(savedPlatform);
+
+    // Restore previously typed values
+    if (dateInput) {
+      dateInput.max = todayISO();
+      dateInput.value = dateHid?.value || todayISO();
+    }
+
+    // Restore screenshot preview if already uploaded
+    const hasFile = realInput?.files?.length > 0;
     if (hasFile) {
-      uploadZone.classList.add('tp-has-file');
-      const name = realInput.files[0].name;
-      uploadPrev.innerHTML =
-        `<span style="font-size:20px">✅</span>` +
-        `<span style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(201,168,76,0.7);font-family:'Rajdhani',sans-serif;">Submitted</span>` +
-        `<span style="font-size:12px;color:#E5C97E;font-family:'Cormorant Garamond',serif;">${escHTMLglobal(truncateNameGlobal(name))}</span>`;
+      _showUploadDone(realInput.files[0].name);
     } else {
       uploadZone.classList.remove('tp-has-file');
       uploadPrev.innerHTML = '';
+      if (uploadPH) uploadPH.style.display = '';
     }
 
-    // Wire click on the popup upload zone to the hidden real input
+    // Wire upload zone click to the hidden file input
     uploadZone.onclick = function(e) {
       e.stopPropagation();
       realInput?.click();
@@ -1021,88 +1034,88 @@ function toggleTask(card) {
     overlay.classList.remove('tp-active');
     popup.classList.remove('tp-active');
     document.body.style.overflow = '';
-    currentTask = null;
   };
 
-  window.confirmTaskPopup = function() {
-    if (!currentTask) return;
-    const task      = TASKS[currentTask];
-    const realInput = document.getElementById(task.inputId);
-    const zone      = document.getElementById(task.zoneId);
+  function handleTaskCardOpen(event) {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
+    window.openTaskPopup();
+  }
 
-    if (!realInput?.files?.length) {
-      // Shake the upload zone to nudge user
+  window.confirmTaskPopup = function() {
+    const platform = activePlatform();
+    const reviewDate = dateInput?.value || todayISO();
+    const hasFile = realInput?.files?.length > 0;
+
+    // Validate screenshot
+    if (!hasFile) {
       uploadZone.style.borderColor = 'rgba(255,80,80,0.55)';
-      setTimeout(() => uploadZone.style.borderColor = '', 1600);
+      setTimeout(() => uploadZone.style.borderColor = '', 1800);
       return;
     }
 
-    // Update the base-state zone card with submitted look
-    const fileName = realInput.files[0].name;
-    const preview  = document.getElementById(task.previewId);
-    if (preview) {
-      preview.innerHTML =
+    // Persist task data into hidden fields so submit payload picks it up
+    if (platformHid) platformHid.value = platform;
+    if (dateHid) dateHid.value = reviewDate;
+    if (dateInput) dateInput.value = reviewDate;
+
+    // Update base task card to show completion
+    const baseZone = document.getElementById('zone-task-1');
+    const basePrev = document.getElementById('preview-task-1');
+    if (basePrev) {
+      basePrev.innerHTML =
         `<span class="reg-upload-submitted-icon">✅</span>` +
         `<span class="reg-upload-submitted-label">Submitted</span>` +
-        `<span class="reg-upload-submitted-name">${escHTMLglobal(truncateNameGlobal(fileName))}</span>`;
+        `<span class="reg-upload-submitted-name">${escHTMLglobal(platformLabel(platform))} • ${escHTMLglobal(formatReviewDate(reviewDate))}</span>`;
     }
-    zone?.classList.add('reg-has-file');
+    baseZone?.classList.add('reg-has-file');
+    baseZone?.classList.remove('reg-error');
+
     closeTaskPopup();
   };
 
-  // Wire each hidden file input: on change → update popup preview + base zone
-  [1, 2].forEach(num => {
-    const task  = TASKS[num];
-    const input = document.getElementById(task.inputId);
-    if (!input) return;
-
-    input.addEventListener('change', () => {
-      const file = input.files?.[0];
-      if (!file) return;
-      const name = file.name;
-
-      // Update base zone immediately
-      const zone    = document.getElementById(task.zoneId);
-      const preview = document.getElementById(task.previewId);
-      if (preview) {
-        preview.innerHTML =
-          `<span class="reg-upload-submitted-icon">✅</span>` +
-          `<span class="reg-upload-submitted-label">Submitted</span>` +
-          `<span class="reg-upload-submitted-name">${escHTMLglobal(truncateNameGlobal(name))}</span>`;
-      }
-      zone?.classList.add('reg-has-file');
-
-      // If popup is open for this task, refresh its preview too
-      if (currentTask === num) {
-        uploadZone.classList.add('tp-has-file');
-        uploadPrev.innerHTML =
-          `<span style="font-size:20px">✅</span>` +
-          `<span style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(201,168,76,0.7);font-family:'Rajdhani',sans-serif;">Submitted</span>` +
-          `<span style="font-size:12px;color:#E5C97E;font-family:'Cormorant Garamond',serif;">${escHTMLglobal(truncateNameGlobal(name))}</span>`;
-      }
-    });
+  // File input change → update popup preview
+  realInput?.addEventListener('change', () => {
+    const file = realInput.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      uploadZone.style.borderColor = 'rgba(255,80,80,0.55)';
+      setTimeout(() => uploadZone.style.borderColor = '', 1800);
+      return;
+    }
+    _showUploadDone(file.name);
   });
+
+  function _showUploadDone(name) {
+    uploadZone.classList.add('tp-has-file');
+    if (uploadPH) uploadPH.style.display = 'none';
+    uploadPrev.innerHTML =
+      `<span style="font-size:22px;display:block;margin-bottom:4px;">✅</span>` +
+      `<span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.75);font-family:'Rajdhani',sans-serif;display:block;">Screenshot uploaded</span>` +
+      `<span style="font-size:12px;color:#E5C97E;font-family:'Cormorant Garamond',serif;display:block;margin-top:2px;">${escHTMLglobal(truncateNameGlobal(name, 22))}</span>`;
+  }
 
   // Close on Escape
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && popup.classList.contains('tp-active')) closeTaskPopup();
   });
 
+  taskCard?.addEventListener('click', handleTaskCardOpen);
+  taskCard?.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') handleTaskCardOpen(e);
+  });
+
   // Prevent popup click from closing via overlay handler
   popup.addEventListener('click', e => e.stopPropagation());
 
-  // Expose helpers globally for use inside the IIFE above
-  window.escHTMLglobal = function(str) {
-    return String(str || '').replace(/[&<>"']/g, c =>
+  // Shared helpers
+  window.escHTMLglobal = str =>
+    String(str || '').replace(/[&<>"']/g, c =>
       ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])
     );
-  };
-  window.truncateNameGlobal = function(name, max = 14) {
-    if (!name) return '';
-    if (name.length <= max) return name;
-    const ext = name.lastIndexOf('.') > 0 ? name.slice(name.lastIndexOf('.')) : '';
-    return name.slice(0, max - ext.length - 1) + '…' + ext;
-  };
+  window.truncateNameGlobal = (name, max = 14) =>
+    (name || '').length > max ? name.slice(0, max - 1) + '…' : (name || '');
+
 })();
 
 (function () {
@@ -1177,8 +1190,6 @@ function toggleTask(card) {
   /* ── Image upload preview ─────────────────── */
   const uploadFields = [
     { inputId: 'reg-college-id', previewId: 'preview-college-id', zoneId: 'zone-college-id' },
-    { inputId: 'reg-sponsor-1',  previewId: 'preview-sponsor-1',  zoneId: 'zone-sponsor-1'  },
-    { inputId: 'reg-sponsor-2',  previewId: 'preview-sponsor-2',  zoneId: 'zone-sponsor-2'  },
   ];
 
   uploadFields.forEach(({ inputId, previewId, zoneId }) => {
@@ -1255,9 +1266,9 @@ function toggleTask(card) {
         course:      document.getElementById('reg-course').value.trim(),
         year:        document.getElementById('reg-year').value,
         gender:      document.getElementById('reg-gender').value,
-        collegeId:   document.getElementById('reg-college-id').files[0] || null,
-        sponsorTask1: document.getElementById('reg-sponsor-1').files[0]  || null,
-        sponsorTask2: document.getElementById('reg-sponsor-2').files[0]  || null,
+        collegeId:        document.getElementById('reg-college-id').files[0] || null,
+        fitpassScreenshot: document.getElementById('reg-sponsor-1')?.files[0] || null,
+        fitpassHandle:     document.getElementById('reg-fitpass-handle')?.value?.trim() || '',
       };
 
       // TODO: Replace with Firebase integration
@@ -1271,8 +1282,8 @@ function toggleTask(card) {
         'Year':         formData.year,
         'Gender':       formData.gender,
         'College ID':   formData.collegeId  ? formData.collegeId.name  : '—',
-        'Sponsor 1':    formData.sponsorTask1 ? formData.sponsorTask1.name : '—',
-        'Sponsor 2':    formData.sponsorTask2 ? formData.sponsorTask2.name : '—',
+        'Fitpass Handle':     formData.fitpassHandle     || '—',
+        'Fitpass Screenshot': formData.fitpassScreenshot ? formData.fitpassScreenshot.name : '—',
       });
       console.groupEnd();
 
@@ -2636,20 +2647,24 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       return;
     }
 
-    // Validate task screenshots (hidden inputs not caught by validateRequired)
-    const task1Missing = !$('reg-sponsor-1')?.files?.length;
-    const task2Missing = !$('reg-sponsor-2')?.files?.length;
-    if (task1Missing || task2Missing) {
-      if (task1Missing) document.getElementById('zone-task-1')?.classList.add('reg-error');
-      if (task2Missing) document.getElementById('zone-task-2')?.classList.add('reg-error');
-      setStatus(status, `Please complete ${task1Missing && task2Missing ? 'both tasks' : task1Missing ? 'Task 1' : 'Task 2'} — upload your Instagram follow screenshot.`, 'error');
+    // Validate Fitpass task - platform, screenshot, handle name, and review date are required
+    const taskMissing     = !$('reg-sponsor-1')?.files?.length;
+    const dateMissing     = !$('reg-fitpass-review-date')?.value;
+    const platformMissing = !$('reg-fitpass-platform')?.value;
+    if (taskMissing || dateMissing || platformMissing) {
+      document.getElementById('zone-task-1')?.classList.add('reg-error');
+      setStatus(status,
+        'Please complete the Fitpass review task with your platform and screenshot.',
+        'error');
       return;
     }
     document.getElementById('zone-task-1')?.classList.remove('reg-error');
-    document.getElementById('zone-task-2')?.classList.remove('reg-error');
 
     setButtonLoading(submitBtn, true, 'Submitting...');
     try {
+      const reviewScreenshot = await toBase64($('reg-sponsor-1').files?.[0]);
+      const reviewPlatform   = $('reg-fitpass-platform')?.value || 'android';
+      const reviewPostedOn   = $('reg-fitpass-review-date')?.value || '';
       const payload = {
         formType: 'attendee',
         name: $('reg-name').value.trim(),
@@ -2660,8 +2675,16 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         year: $('reg-year').value,
         gender: $('reg-gender').value,
         collegeId: await toBase64($('reg-college-id').files?.[0]),
-        task1:     await toBase64($('reg-sponsor-1').files?.[0]),
-        task2:     await toBase64($('reg-sponsor-2').files?.[0])
+        task1: reviewScreenshot,
+        task2: '',
+        androidHandlerName: '',
+        iosHandlerName: '',
+        dateOfReviewPosting: reviewPostedOn,
+        reviewContentScreenshot: reviewScreenshot,
+        reviewPlatform,
+        reviewHandleName: '',
+        reviewPostedOn,
+        reviewScreenshot
       };
 
       const result = await postJSON(payload);
@@ -2669,13 +2692,18 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       setStatus(status, id ? `Registration successful. Reg ID: ${id}` : 'Registration successful.', 'success');
       attendeeForm.reset();
       attendeeForm.querySelectorAll('input[type="file"]').forEach(resetUploadZone);
-      // Reset task upload zones
-      [1, 2].forEach(n => {
-        const zone = document.getElementById(`zone-task-${n}`);
-        const prev = document.getElementById(`preview-task-${n}`);
-        if (zone)  zone.classList.remove('reg-has-file');
-        if (prev)  prev.innerHTML = '';
-      });
+      // Reset Fitpass task zone
+      const zone1    = document.getElementById('zone-task-1');
+      const prev1    = document.getElementById('preview-task-1');
+      const platformHid = document.getElementById('reg-fitpass-platform');
+      const dateHid   = document.getElementById('reg-fitpass-review-date');
+      const dateInp   = document.getElementById('tp-review-date');
+      if (zone1)     zone1.classList.remove('reg-has-file', 'reg-error');
+      if (prev1)     prev1.innerHTML = '';
+      if (platformHid) platformHid.value = '';
+      if (dateHid)   dateHid.value = '';
+      if (dateInp)   dateInp.value = '';
+      if (typeof window.switchTaskTab === 'function') window.switchTaskTab('android');
     } catch (error) {
       setStatus(status, error.message || 'Could not submit right now. Please try again.', 'error');
     } finally {
@@ -3363,12 +3391,27 @@ function resetAttendeeForm() {
   form.reset();
 
   // Clear upload previews and has-file states
-  ['zone-college-id', 'zone-sponsor-1', 'zone-sponsor-2'].forEach(zoneId => {
+  ['zone-college-id', 'zone-task-1'].forEach(zoneId => {
     const zone    = document.getElementById(zoneId);
     const preview = zone?.querySelector('.reg-upload-preview');
     if (zone)    zone.classList.remove('reg-has-file');
     if (preview) { preview.innerHTML = ''; preview.style = ''; }
   });
+
+  const taskPopupPreview = document.getElementById('taskPopupUploadPreview');
+  const taskUploadZone = document.getElementById('taskPopupUploadZone');
+  const taskUploadPlaceholder = document.getElementById('taskPopupUploadPlaceholder');
+  const dateInput = document.getElementById('tp-review-date');
+  const platformHidden = document.getElementById('reg-fitpass-platform');
+  const dateHidden = document.getElementById('reg-fitpass-review-date');
+
+  if (taskPopupPreview) taskPopupPreview.innerHTML = '';
+  if (taskUploadZone) taskUploadZone.classList.remove('tp-has-file');
+  if (taskUploadPlaceholder) taskUploadPlaceholder.style.display = '';
+  if (dateInput) dateInput.value = '';
+  if (platformHidden) platformHidden.value = '';
+  if (dateHidden) dateHidden.value = '';
+  if (typeof window.switchTaskTab === 'function') window.switchTaskTab('android');
 
   // Reset task cards to collapsed
   document.querySelectorAll('.task-card').forEach(c => c.classList.remove('active'));
