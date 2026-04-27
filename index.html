@@ -40,6 +40,9 @@
       }
     }
   </script>
+  <!-- jsPDF — client-side PDF generation for registration passes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body class="bg-navy overflow-x-hidden">
@@ -2205,12 +2208,16 @@
     <div class="success-popup-reg font-rajdhani" id="eventSuccessRegId"></div>
     <!-- ✏️ EDIT MESSAGE BELOW -->
     <p class="success-popup-body font-cormorant">
-      Your event registration is confirmed — check your email for details.<br/><br/>
+      Your event registration is confirmed — a confirmation email is on its way.<br/><br/>
       <strong class="success-popup-highlight">Important:</strong>
       Every participant is also required to register as an
       <strong>attendee</strong> for the fest. This is essential for
       smooth entry at the college gate.
     </p>
+    <!-- Download pass button — populated by JS with correct data -->
+    <button class="success-popup-download-btn font-cinzel" id="eventPassDownloadBtn" onclick="window.downloadEventPass()">
+      <span>⬇ Download Pass PDF</span>
+    </button>
     <a href="#register"
        class="success-popup-action-btn font-cinzel"
        id="eventSuccessRegLink">
@@ -2236,14 +2243,15 @@
     <div class="success-popup-reg font-rajdhani" id="attendeeSuccessRegId"></div>
     <!-- ✏️ EDIT MESSAGE BELOW -->
     <p class="success-popup-body font-cormorant">
-      Your attendee registration is confirmed.<br/><br/>
+      Your attendee registration is confirmed — a confirmation email is on its way.<br/><br/>
       <strong class="success-popup-highlight">Entry rules:</strong>
-      You will only be allowed inside after presenting the
-      <strong>confirmation email</strong> you receive — it contains
-      your name and Registration ID. You must also carry a valid
-      <strong>photo identity proof</strong>.<br/><br/>
-      Screenshots and printouts will <em>not</em> be accepted.
+      Present this pass or your confirmation email at the gate.
+      You must also carry a valid <strong>photo identity proof</strong>.
     </p>
+    <!-- Download pass button -->
+    <button class="success-popup-download-btn font-cinzel" id="attendeePassDownloadBtn" onclick="window.downloadAttendeePass()">
+      <span>⬇ Download Pass PDF</span>
+    </button>
     <button class="success-popup-close-btn font-cinzel" id="attendeeSuccessDismiss">
       <span>Got it ✦</span>
     </button>

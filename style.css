@@ -3676,6 +3676,38 @@ footer { margin-top: 20px; }
   border-color: var(--gold);
   color: var(--navy);
 }
+
+/* ── Download Pass button ── */
+.success-popup-download-btn {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+  padding: 14px 20px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 4px;
+  color: var(--gold);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.success-popup-download-btn:hover {
+  background: rgba(201,168,76,0.18);
+  border-color: var(--gold);
+  box-shadow: 0 0 22px rgba(201,168,76,0.18);
+  transform: translateY(-1px);
+}
+.success-popup-download-btn:active { transform: translateY(0); }
+.success-popup-download-btn span { position: relative; z-index: 1; }
+.success-popup-download-btn.pdf-generating {
+  opacity: 0.65;
+  pointer-events: none;
+  letter-spacing: 0.12em;
+}
 /* ── Task Verification Notice ── */
 .reg-task-notice {
   display: flex;

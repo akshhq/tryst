@@ -2694,7 +2694,25 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
 
       const result = await postJSON(payload);
       const id = responseId(result);
-      setStatus(status, id ? `Registration successful. Reg ID: ${id}` : 'Registration successful.', 'success');
+      const cleanId = id && id !== 'SUBMITTED' ? id : '';
+      const attendeePassData = {
+        regId: cleanId,
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
+        college: payload.college,
+        course: payload.course,
+        year: payload.year,
+        gender: payload.gender
+      };
+      window.__lastAttendeePassData = attendeePassData;
+      setStatus(status, cleanId ? `Registration successful. Reg ID: ${cleanId}` : 'Registration successful.', 'success');
+      if (typeof window.closeRegisterModal === 'function') window.closeRegisterModal();
+      setTimeout(() => {
+        if (typeof window.showAttendeeSuccessPopup === 'function') {
+          window.showAttendeeSuccessPopup(cleanId, attendeePassData);
+        }
+      }, 320);
       attendeeForm.reset();
       attendeeForm.querySelectorAll('input[type="file"]').forEach(resetUploadZone);
       // Reset Fitpass task zone
@@ -3091,11 +3109,29 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       const payload = await buildNewEventPayload();
       const result  = await postJSON(payload);
       const id      = responseId(result);
+      const firstMember = payload.members?.[0] || {};
+      const eventPassData = {
+        regId: id || '',
+        eventName: payload.event,
+        teamName: payload.brand,
+        college: payload.college || '',
+        name: firstMember.name || payload.brand,
+        members: payload.members || [],
+        isSolo: payload.type === 'solo'
+      };
+      window.__lastEventPassData = eventPassData;
       setStatus(status, id && id !== 'SUBMITTED'
         ? `Registration successful! Reg ID: ${id}`
         : 'Registration submitted successfully!', 'success');
       btn.querySelector('.reg-submit-inner').textContent = 'Submitted ✓';
-      setTimeout(() => window.closeEventRegModal(), 2400);
+      setTimeout(() => {
+        window.closeEventRegModal();
+        setTimeout(() => {
+          if (typeof window.showEventSuccessPopup === 'function') {
+            window.showEventSuccessPopup(id || '', eventPassData);
+          }
+        }, 320);
+      }, 280);
     } catch (err) {
       setStatus(status, err.message || 'Could not submit. Please try again.', 'error');
     } finally {
@@ -3321,75 +3357,763 @@ async function getLatestRegId(sheetName = "Attendees") {
     attendeePopup.open(regId, 'attendeeSuccessRegId');
   window.closeAttendeeSuccessPopup = () => attendeePopup.close();
 
-  /* ─────────────────────────────────────────────
-     HOOK 1 — Event reg final submit
-     The production system's eregFinalSubmit fires
-     in the capture phase and calls closeEventRegModal
-     after 2.4s. We listen (non-capture, passive) and
-     show the event popup when the status turns success.
-     We use a MutationObserver on #eventRegStatus so we
-     fire only on actual success, not validation errors.
-  ─────────────────────────────────────────────── */
-  const eventRegStatus = document.getElementById('eventRegStatus');
-  if (eventRegStatus) {
-    const mo = new MutationObserver(() => {
-      // The production system sets class 'status-success' on success
-      if (eventRegStatus.classList.contains('status-success') ||
-          eventRegStatus.textContent.toLowerCase().includes('success')) {
-        // Extract reg ID if present in the status text
-        const match = eventRegStatus.textContent.match(/TRYST[-\w]+/i);
-        window.showEventSuccessPopup(match ? match[0] : '');
-      }
-    });
-    mo.observe(eventRegStatus, { childList: true, subtree: true, characterData: true, attributes: true });
-  }
-
-  // Fallback: also hook the submit button directly (passive, fires after production handler)
-  const eregBtn = document.getElementById('eregFinalSubmit');
-  if (eregBtn) {
-    eregBtn.addEventListener('click', () => {
-      // Wait for the production system to complete + close the modal
-      setTimeout(() => {
-        if (!document.getElementById('eventRegModal')?.classList.contains('reg-active')) {
-          // Modal closed = submit was successful
-          window.showEventSuccessPopup('');
-        }
-      }, 2600);   // production system closes modal after 2400ms
-    }, { passive: true });
-  }
-
-  /* ─────────────────────────────────────────────
-     HOOK 2 — Attendee form submit
-     The formIntegration IIFE (§ 21) submits via
-     iframe and calls alert(). We suppress the alert
-     and show the attendee popup instead.
-  ─────────────────────────────────────────────── */
-
-  // Override window.alert only during attendee form submission
-  const origAlert = window.alert;
-  const attendeeForm = document.getElementById('registrationForm');
-  if (attendeeForm) {
-    attendeeForm.addEventListener('submit', () => {
-      // Temporarily replace alert so the old code's alert() becomes a no-op
-      window.alert = () => {};
-      // Show popup after iframe POST fires
-      setTimeout(() => {
-        window.alert = origAlert;  // restore
-        window.showAttendeeSuccessPopup('');
-        resetAttendeeForm();
-      }, 2000);
-    }, false);
-  }
-
   /* Keep legacy shim so any old callers don't crash */
   window.showSuccessPopup   = window.showEventSuccessPopup;
   window.closeSuccessPopup  = window.closeEventSuccessPopup;
 
 })();
 
+/* ══════════════════════════════════════════════════════════════════
+   PASS PDF GENERATOR
+   Generates a styled registration pass PDF in-browser using jsPDF.
+   Mirrors the email pass design: dark background, gold accents,
+   header, fields, reg ID stamp, barcode strip, rules, stub.
+
+   Called automatically when each success popup opens.
+   Download triggered when user clicks the button.
+
+   API:
+     window.downloadAttendeePass()  — attendee entry pass
+     window.downloadEventPass()     — event participant/team pass
+══════════════════════════════════════════════════════════════════ */
+(function passPDFSystem() {
+
+  // Stored registration data — populated when popups open
+  let _attendeeData = null;
+  let _eventData    = null;
+
+  /* ── Colour constants matching the email exactly ── */
+  const NAVY   = [6,  11, 23];     // #060B17
+  const CARD   = [10, 15, 30];     // #0A0F1E
+  const HEADER = [13, 21, 48];     // #0D1530
+  const GOLD   = [201,168,76];     // #C9A84C
+  const GOLD_L = [229,201,126];    // #E5C97E
+  const WHITE  = [255,255,255];
+  const DIM    = [255,255,255];    // used with opacity via fillColor alpha trick
+
+  /* ── Page dimensions (A4 portrait) ── */
+  const PW = 210, PH = 297;        // mm
+  const ML = 18,  MR = 18;         // left/right margin
+  const CW = PW - ML - MR;         // content width
+
+  /* ─────────────────────────────────────────────
+     CORE PDF BUILDER
+     type: 'attendee' | 'participant' | 'team'
+     data: { name, email, college, course, year,
+             eventName, teamName, members[] }
+     regId: string
+  ─────────────────────────────────────────────── */
+  function buildPassPDF(type, data, regId) {
+    const { jsPDF } = window.jspdf;
+    if (!jsPDF) { alert('PDF library not loaded. Please check your connection.'); return null; }
+
+    const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+    let y = 0;   // cursor
+
+    /* ── Background ── */
+    doc.setFillColor(...NAVY);
+    doc.rect(0, 0, PW, PH, 'F');
+
+    /* ── Card ── */
+    const cardX = ML, cardY = 20, cardW = CW, cardH = PH - 40;
+    _roundRect(doc, cardX, cardY, cardW, cardH, 6, CARD);
+
+    /* ── Gold corner ornaments ── */
+    _cornerMark(doc, cardX + 4, cardY + 4, 'tl');
+    _cornerMark(doc, cardX + cardW - 4, cardY + 4, 'tr');
+
+    /* ── Header band ── */
+    const headerH = 46;
+    _roundRect(doc, cardX, cardY, cardW, headerH, 6, HEADER, true, true);   // top rounded only
+    _goldBorder(doc, cardX, cardY, cardW, headerH, 0.3);
+
+    // Pass type label
+    y = cardY + 14;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.setTextColor(...GOLD);
+    doc.text(_passTypeLabel(type), PW / 2, y, { align: 'center' });
+
+    // Subtitle
+    y += 7;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...GOLD);
+    doc.setCharSpace(1.5);
+    doc.text('TRYST 2026  ·  KESHAV MAHAVIDYALAYA', PW / 2, y, { align: 'center' });
+    doc.setCharSpace(0);
+
+    // Thin gold line under header
+    y = cardY + headerH;
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(0.2);
+    doc.line(cardX, y, cardX + cardW, y);
+
+    /* ── PRE-TEAR section: greeting + fields ── */
+    y += 10;
+    const ix = cardX + 12;   // inner x
+
+    // Greeting
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(10);
+    doc.setTextColor(255, 255, 255, 0.7);
+    doc.setTextColor(210, 210, 210);
+    doc.text(_greeting(type, data), ix, y);
+
+    y += 5;
+    doc.setFontSize(9);
+    doc.setTextColor(170, 170, 170);
+    doc.text(_greeting2(type, data), ix, y);
+
+    // Thin divider
+    y += 7;
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(0.15);
+    doc.setLineDashPattern([0.5, 0.5], 0);
+    doc.line(ix, y, cardX + cardW - 12, y);
+    doc.setLineDashPattern([], 0);
+
+    // Fields
+    y += 8;
+    const fields = _buildFields(type, data);
+    const colW   = (CW - 24) / 2;
+
+    for (let i = 0; i < fields.length; i += 2) {
+      const left  = fields[i];
+      const right = fields[i + 1];
+      _field(doc, ix,           y, colW, left.label,  left.value);
+      if (right) _field(doc, ix + colW + 4, y, colW, right.label, right.value);
+      y += 14;
+    }
+
+    // Team roster (for team type)
+    if (type === 'team' && data.members && data.members.length > 0) {
+      y += 2;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(...GOLD);
+      doc.setCharSpace(1.5);
+      doc.text('ROSTER', ix, y);
+      doc.setCharSpace(0);
+      y += 5;
+
+      data.members.forEach((m, idx) => {
+        const num = String(idx + 1).padStart(2, '0');
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(...WHITE);
+        doc.text(`${num}  ${m.name || '—'}`, ix + 4, y);
+        if (m.email) {
+          doc.setFontSize(7);
+          doc.setTextColor(160, 160, 160);
+          doc.text(m.email, ix + 40, y);
+        }
+        y += 6;
+        // Page overflow guard
+        if (y > cardY + cardH - 50) { y = cardY + cardH - 50; }
+      });
+      y += 2;
+    }
+
+    /* ── TEAR LINE ── */
+    y += 4;
+    _tearLine(doc, cardX, cardX + cardW, y);
+    y += 10;
+
+    /* ── REG ID STAMP ── */
+    const stampH = 28;
+    _roundRect(doc, ix, y, cardW - 24, stampH, 4, NAVY);
+    _goldBorder(doc, ix, y, cardW - 24, stampH, 0.25);
+
+    // "Registration ID" label
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...GOLD);
+    doc.setCharSpace(2);
+    doc.text('REGISTRATION ID', PW / 2, y + 8, { align: 'center' });
+    doc.setCharSpace(0);
+
+    // Reg ID value
+    doc.setFont('courier', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...GOLD_L);
+    doc.text(regId || 'TRYST-PENDING', PW / 2, y + 16, { align: 'center' });
+
+    // Barcode strip
+    _barcodeStrip(doc, PW / 2, y + 23);
+    y += stampH + 8;
+
+    /* ── RULES ── */
+    const rules = _buildRules(type);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...GOLD);
+    doc.setCharSpace(2);
+    doc.text('IMPORTANT', ix, y);
+    doc.setCharSpace(0);
+
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(0.15);
+    doc.line(ix, y + 2, cardX + cardW - 12, y + 2);
+    y += 7;
+
+    rules.forEach(rule => {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(...GOLD);
+      doc.text('◆', ix, y);
+      doc.setTextColor(200, 200, 200);
+      const lines = doc.splitTextToSize(rule, cardW - 30);
+      doc.text(lines, ix + 6, y);
+      y += lines.length * 4.5 + 1;
+    });
+
+    /* ── STUB ── */
+    const stubY = cardY + cardH - 18;
+    doc.setFillColor(...HEADER);
+    doc.rect(cardX, stubY, cardW, 18, 'F');
+    _goldBorder(doc, cardX, stubY, cardW, 18, 0.2);
+    _cornerMark(doc, cardX + 4, stubY + 14, 'bl');
+    _cornerMark(doc, cardX + cardW - 4, stubY + 14, 'br');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...GOLD);
+    doc.setCharSpace(1.2);
+    doc.text('APRIL 28 – 29, 2026', PW / 2, stubY + 7, { align: 'center' });
+    doc.setCharSpace(0);
+    doc.setFontSize(6.5);
+    doc.setTextColor(160, 160, 160);
+    doc.text('Keshav Mahavidyalaya  ·  University of Delhi', PW / 2, stubY + 13, { align: 'center' });
+
+    /* ── Footer outside card ── */
+    doc.setFontSize(6);
+    doc.setTextColor(80, 80, 80);
+    doc.setCharSpace(1);
+    doc.text('✦  TRYST 2026  ·  KMV DELHI  ✦', PW / 2, PH - 10, { align: 'center' });
+    doc.setCharSpace(0);
+    doc.setFontSize(5.5);
+    doc.text('Automated confirmation — please do not reply.', PW / 2, PH - 6, { align: 'center' });
+
+    return doc;
+  }
+
+  /* ─────────────────────────────────────────────
+     DRAWING HELPERS
+  ─────────────────────────────────────────────── */
+  function _roundRect(doc, x, y, w, h, r, fillColor, topOnly, bottomOnly) {
+    doc.setFillColor(...fillColor);
+    doc.roundedRect(x, y, w, h, r, r, 'F');
+  }
+
+  function _goldBorder(doc, x, y, w, h, lw) {
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(lw || 0.25);
+    doc.roundedRect(x, y, w, h, 4, 4, 'S');
+  }
+
+  function _cornerMark(doc, x, y, corner) {
+    const s = 4;  // size of L-mark
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(0.5);
+    if (corner === 'tl') {
+      doc.line(x, y, x + s, y);
+      doc.line(x, y, x, y + s);
+    } else if (corner === 'tr') {
+      doc.line(x, y, x - s, y);
+      doc.line(x, y, x, y + s);
+    } else if (corner === 'bl') {
+      doc.line(x, y, x + s, y);
+      doc.line(x, y, x, y - s);
+    } else if (corner === 'br') {
+      doc.line(x, y, x - s, y);
+      doc.line(x, y, x, y - s);
+    }
+  }
+
+  function _tearLine(doc, x1, x2, y) {
+    // dashed line
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(0.3);
+    doc.setLineDashPattern([1, 1.5], 0);
+    doc.line(x1 + 6, y, x2 - 6, y);
+    doc.setLineDashPattern([], 0);
+    // diamond
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...GOLD);
+    doc.text('◆', PW / 2, y + 1.5, { align: 'center' });
+  }
+
+  function _barcodeStrip(doc, cx, y) {
+    const pattern = [2,1,3,1,2,1,1,3,2,1,2,2,1,3,1,2,1,3,1,2,2,1,1,2,3,1,2,1,3,1,2,1,1,2,3,1,2,1];
+    const scale = 0.8, barH = 5;
+    const totalW = pattern.reduce((a, b) => a + b, 0) * scale;
+    let bx = cx - totalW / 2;
+    pattern.forEach((w, i) => {
+      const bw = w * scale;
+      if (i % 2 === 0) {
+        doc.setFillColor(201, 168, 76, 0.5);
+        doc.setFillColor(150, 120, 50);   // gold bars
+        doc.rect(bx, y - barH, bw, barH, 'F');
+      }
+      bx += bw;
+    });
+  }
+
+  function _field(doc, x, y, w, label, value) {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6);
+    doc.setTextColor(...GOLD);
+    doc.setCharSpace(1.8);
+    doc.text((label || '').toUpperCase(), x, y);
+    doc.setCharSpace(0);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...WHITE);
+    const lines = doc.splitTextToSize(value || '—', w);
+    doc.text(lines, x, y + 4.5);
+  }
+
+  /* ─────────────────────────────────────────────
+     DATA HELPERS
+  ─────────────────────────────────────────────── */
+  function _passTypeLabel(type) {
+    return { attendee: 'ENTRY PASS', participant: 'PARTICIPANT PASS', team: 'TEAM PASS' }[type] || 'REGISTRATION PASS';
+  }
+
+  function _greeting(type, data) {
+    if (type === 'attendee')    return `Welcome to the realm, ${data.name || 'Guest'}.`;
+    if (type === 'participant') return `Your participation in ${data.eventName || 'the event'} is confirmed.`;
+    if (type === 'team')        return `${data.teamName || 'Your team'} is registered for ${data.eventName || 'the event'}.`;
+    return 'Registration confirmed.';
+  }
+
+  function _greeting2(type, data) {
+    if (type === 'attendee')    return 'Your entry to TRYST 2026 has been confirmed.';
+    if (type === 'participant') return `Represent your team with pride, ${data.name || ''}.`;
+    if (type === 'team')        return 'May your performance be legendary.';
+    return '';
+  }
+
+  function _buildFields(type, data) {
+    if (type === 'attendee') return [
+      { label: 'Full Name', value: data.name    || '—' },
+      { label: 'College',   value: data.college || '—' },
+      { label: 'Course',    value: data.course  || '—' },
+      { label: 'Year',      value: data.year    || '—' },
+    ];
+    if (type === 'participant') return [
+      { label: 'Participant',  value: data.name      || '—' },
+      { label: data.isSolo ? 'Solo Name' : 'Team Name', value: data.teamName || '—' },
+      { label: 'Event',        value: data.eventName || '—' },
+      { label: 'College',      value: data.college   || '—' },
+    ];
+    if (type === 'team') return [
+      { label: 'Event',        value: data.eventName || '—' },
+      { label: 'Team Name',    value: data.teamName  || '—' },
+      { label: 'College',      value: data.college   || '—' },
+      { label: 'Participants', value: String((data.members || []).length) + ' member' + ((data.members||[]).length !== 1 ? 's' : '') },
+    ];
+    return [];
+  }
+
+  function _buildRules(type) {
+    const common = [
+      'Entry via Gate 1 only',
+      'Carry a valid photo identity proof',
+      'Report to the venue 30 minutes early',
+    ];
+    if (type === 'attendee') return [
+      ...common,
+      'Present this pass or your confirmation email on arrival',
+    ];
+    if (type === 'team') return [
+      'Entry via Gate 1 only — all members must show their individual passes',
+      'Captain must report to the venue 30 minutes early for check-in',
+      'Carry valid photo identity proof',
+      'Individual passes have been sent to each participant',
+    ];
+    return [
+      ...common,
+      'This pass is personal and non-transferable',
+    ];
+  }
+
+  /* ─────────────────────────────────────────────
+     PUBLIC API
+     Called from popup buttons in index.html
+  ─────────────────────────────────────────────── */
+  window.downloadAttendeePass = function() {
+    const btn = document.getElementById('attendeePassDownloadBtn');
+    if (!_attendeeData) { _showPassError(btn); return; }
+    _triggerDownload(btn, () =>
+      buildPassPDF('attendee', _attendeeData, _attendeeData.regId),
+      `TRYST2026-Entry-Pass-${_attendeeData.regId || 'pass'}.pdf`
+    );
+  };
+
+  window.downloadEventPass = function() {
+    const btn = document.getElementById('eventPassDownloadBtn');
+    if (!_eventData) { _showPassError(btn); return; }
+    const type = _eventData.isSolo ? 'participant' : 'team';
+    _triggerDownload(btn, () =>
+      buildPassPDF(type, _eventData, _eventData.regId),
+      `TRYST2026-${_eventData.eventName || 'Event'}-Pass-${_eventData.regId || 'pass'}.pdf`
+    );
+  };
+
+  function _triggerDownload(btn, buildFn, filename) {
+    if (btn) { btn.classList.add('pdf-generating'); btn.querySelector('span').textContent = 'Generating…'; }
+    try {
+      const doc = buildFn();
+      if (doc) doc.save(filename);
+    } catch(e) {
+      console.error('Pass PDF error:', e);
+      alert('Could not generate PDF. Please screenshot this page as a backup.');
+    } finally {
+      if (btn) {
+        setTimeout(() => {
+          btn.classList.remove('pdf-generating');
+          btn.querySelector('span').textContent = '⬇ Download Pass PDF';
+        }, 1200);
+      }
+    }
+  }
+
+  function _showPassError(btn) {
+    if (btn) {
+      btn.querySelector('span').textContent = 'No data — submit first';
+      setTimeout(() => btn.querySelector('span').textContent = '⬇ Download Pass PDF', 2000);
+    }
+  }
+
+  /* ─────────────────────────────────────────────
+     HOOKS — intercept showXxxSuccessPopup to
+     capture registration data for the PDF
+  ─────────────────────────────────────────────── */
+
+  // Wrap showAttendeeSuccessPopup to capture attendee data
+  const _origAttendee = window.showAttendeeSuccessPopup;
+  window.showAttendeeSuccessPopup = function(regId, extraData) {
+    // extraData is passed from the submit handler when available
+    _attendeeData = extraData ? { ...extraData, regId } : _scrapeAttendeeForm(regId);
+    if (_origAttendee) _origAttendee(regId);
+  };
+
+  // Wrap showEventSuccessPopup to capture event data
+  const _origEvent = window.showEventSuccessPopup;
+  window.showEventSuccessPopup = function(regId, extraData) {
+    _eventData = extraData ? { ...extraData, regId } : _scrapeEventForm(regId);
+    if (_origEvent) _origEvent(regId);
+  };
+
+  // Scrape attendee form values when no extraData is passed
+  function _scrapeAttendeeForm(regId) {
+    const $ = id => document.getElementById(id);
+    return {
+      regId,
+      name:    $('reg-name')?.value?.trim()    || '',
+      email:   $('reg-email')?.value?.trim()   || '',
+      phone:   $('reg-phone')?.value?.trim()   || '',
+      college: $('reg-college')?.value?.trim() || '',
+      course:  $('reg-course')?.value?.trim()  || '',
+      year:    $('reg-year')?.value            || '',
+      gender:  $('reg-gender')?.value          || '',
+    };
+  }
+
+  // Scrape event form values when no extraData is passed
+  function _scrapeEventForm(regId) {
+    const $ = id => document.getElementById(id);
+    // Try solo form first, fall back to team form
+    const soloName    = $('ereg-solo-name')?.value?.trim();
+    const teamName    = $('ereg-team-name')?.value?.trim();
+    const eventTitle  = document.getElementById('confirm-event')?.textContent?.trim()
+                     || document.getElementById('eregEventTitle')?.textContent?.trim()
+                     || '';
+    const isSolo      = !!soloName && !teamName;
+
+    return {
+      regId,
+      name:       soloName || $('ereg-solo-name')?.value?.trim() || '',
+      teamName:   soloName || teamName || '',
+      eventName:  eventTitle,
+      college:    $('ereg-solo-college')?.value?.trim() || $('ereg-team-college')?.value?.trim() || '',
+      isSolo,
+      members:    _scrapeMembers(),
+    };
+  }
+
+  function _scrapeMembers() {
+    const members = [];
+    // The confirm participants list has text like "1. Name — Course, Year"
+    document.querySelectorAll('.ereg-confirm-participant').forEach(el => {
+      const text = el.textContent || '';
+      const match = text.match(/^\d+\.\s+(.+?)(?:\s+—\s+(.+))?$/);
+      if (match) members.push({ name: match[1]?.trim() || text, email: '' });
+    });
+    return members;
+  }
+
+})();
+
 /* ─────────────────────────────────────────────
    TASK 4 — Form Reset After Submission
 ───────────────────────────────────────────── */
+(function passPDFMailTemplateOverride() {
+  let attendeePassData = null;
+  let eventPassData = null;
+  const LOGO_SRC = 'images/logo.jpg';
+
+  const previousAttendeePopup = window.showAttendeeSuccessPopup;
+  window.showAttendeeSuccessPopup = function(regId, extraData) {
+    attendeePassData = extraData
+      ? { ...extraData, regId: regId || extraData.regId || '' }
+      : (window.__lastAttendeePassData ? { ...window.__lastAttendeePassData, regId: regId || window.__lastAttendeePassData.regId || '' } : null);
+    if (typeof previousAttendeePopup === 'function') previousAttendeePopup(regId, extraData);
+  };
+
+  const previousEventPopup = window.showEventSuccessPopup;
+  window.showEventSuccessPopup = function(regId, extraData) {
+    eventPassData = extraData
+      ? { ...extraData, regId: regId || extraData.regId || '' }
+      : (window.__lastEventPassData ? { ...window.__lastEventPassData, regId: regId || window.__lastEventPassData.regId || '' } : null);
+    if (typeof previousEventPopup === 'function') previousEventPopup(regId, extraData);
+  };
+
+  window.downloadAttendeePass = function() {
+    const btn = document.getElementById('attendeePassDownloadBtn');
+    if (!attendeePassData) return showPassError(btn);
+    triggerPassDownload(btn, 'attendee', attendeePassData, attendeePassData.regId, `TRYST2026-Entry-Pass-${safeFileName(attendeePassData.regId || 'pass')}.pdf`);
+  };
+
+  window.downloadEventPass = function() {
+    const btn = document.getElementById('eventPassDownloadBtn');
+    if (!eventPassData) return showPassError(btn);
+    const passType = eventPassData.isSolo ? 'participant' : 'team';
+    triggerPassDownload(btn, passType, eventPassData, eventPassData.regId, `TRYST2026-${safeFileName(eventPassData.eventName || 'Event')}-Pass-${safeFileName(eventPassData.regId || 'pass')}.pdf`);
+  };
+
+  async function triggerPassDownload(btn, passType, data, regId, filename) {
+    const label = btn?.querySelector('span');
+    if (btn) btn.classList.add('pdf-generating');
+    if (label) label.textContent = 'Generating...';
+    try {
+      const doc = await buildPassPdfFromHtml(passType, data, regId);
+      if (doc) doc.save(filename);
+    } catch (error) {
+      console.error('Pass PDF error:', error);
+      alert('Could not generate the pass PDF right now.');
+    } finally {
+      if (btn) btn.classList.remove('pdf-generating');
+      if (label) label.textContent = 'Download Pass PDF';
+    }
+  }
+
+  async function buildPassPdfFromHtml(passType, data, regId) {
+    const { jsPDF } = window.jspdf || {};
+    if (!jsPDF || !window.html2canvas) throw new Error('PDF libraries not loaded.');
+
+    const mount = document.createElement('div');
+    mount.style.position = 'fixed';
+    mount.style.left = '-200vw';
+    mount.style.top = '0';
+    mount.style.width = '624px';
+    mount.style.pointerEvents = 'none';
+    mount.style.opacity = '0';
+    mount.innerHTML = buildPassHtml(passType, data, regId);
+    document.body.appendChild(mount);
+
+    const root = mount.firstElementChild;
+    await waitForImages(root);
+    const canvas = await window.html2canvas(root, {
+      backgroundColor: '#060B17',
+      scale: 2,
+      useCORS: true,
+      logging: false
+    });
+    mount.remove();
+
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+    const pageW = 210;
+    const pageH = 297;
+    const margin = 10;
+    const ratio = Math.min((pageW - margin * 2) / canvas.width, (pageH - margin * 2) / canvas.height);
+    const imgW = canvas.width * ratio;
+    const imgH = canvas.height * ratio;
+    const x = (pageW - imgW) / 2;
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', x, margin, imgW, imgH, undefined, 'FAST');
+    return pdf;
+  }
+
+  function buildPassHtml(passType, data, regId) {
+    if (passType === 'attendee') return buildAttendeePassHtml(data, regId);
+    if (passType === 'team') return buildTeamPassHtml(data, regId);
+    return buildParticipantPassHtml(data, regId);
+  }
+
+  function buildAttendeePassHtml(data, regId) {
+    const name = escapePassHtml(data.name || 'Participant');
+    const college = escapePassHtml(data.college || '-');
+    const course = escapePassHtml(data.course || '-');
+    const year = escapePassHtml(data.year || '-');
+    return wrapEmail(
+      buildHeader('Entry Pass', 'Attendee &nbsp;&middot;&nbsp; TRYST 2026'),
+      buildGreeting('Welcome to the realm, ' + name + '.') +
+      buildGreeting2('Your entry to TRYST 2026 has been confirmed.') +
+      buildDivider() +
+      buildFieldsRow(buildField('Full Name', name), buildField('College', college)) +
+      buildFieldsRow(buildField('Course', course), buildField('Year', year)),
+      buildRegStamp(regId) +
+      buildRules([
+        'Entry via <b style="color:#E5C97E;">Gate 1 only</b>',
+        'Present this email on arrival &mdash; digital copy accepted',
+        'Carry a valid <b style="color:#E5C97E;">photo identity proof</b>',
+        'Screenshots and printouts will <i>not</i> be accepted',
+        'Arrive at least <b style="color:#E5C97E;">30 minutes</b> before your event'
+      ]),
+      buildStub('April 28 &ndash; 29, 2026', 'Keshav Mahavidyalaya &nbsp;&middot;&nbsp; University of Delhi')
+    );
+  }
+
+  function buildParticipantPassHtml(data, regId) {
+    const name = escapePassHtml(data.name || 'Participant');
+    const college = escapePassHtml(data.college || '-');
+    const eventName = escapePassHtml(data.eventName || 'Event');
+    const teamName = escapePassHtml(data.teamName || 'Team');
+    return wrapEmail(
+      buildHeader('Participant Pass', eventName + ' &nbsp;&middot;&nbsp; TRYST 2026'),
+      buildGreeting('Your participation in <b style="color:#E5C97E;font-style:normal;">' + eventName + '</b> is confirmed.') +
+      buildGreeting2('Represent your team with pride, ' + name + '.') +
+      buildDivider() +
+      buildFieldsRow(buildField('Participant', name), buildField(data.isSolo ? 'Solo Name' : 'Team / Solo Name', teamName)) +
+      buildFieldsRow(buildField('Event', eventName), buildField('College', college)),
+      buildRegStamp(regId) +
+      buildRules([
+        'Entry via <b style="color:#E5C97E;">Gate 1 only</b> &mdash; show this pass',
+        'Carry a valid <b style="color:#E5C97E;">photo identity proof</b>',
+        'Report to the venue <b style="color:#E5C97E;">30 minutes</b> early',
+        'This pass is personal and non-transferable'
+      ]),
+      buildStub('April 28 &ndash; 29, 2026', 'Keshav Mahavidyalaya &nbsp;&middot;&nbsp; University of Delhi')
+    );
+  }
+
+  function buildTeamPassHtml(data, regId) {
+    const eventName = escapePassHtml(data.eventName || 'Event');
+    const teamName = escapePassHtml(data.teamName || 'Team');
+    const college = escapePassHtml(data.college || '-');
+    const members = Array.isArray(data.members) ? data.members : [];
+    const count = members.length + ' member' + (members.length !== 1 ? 's' : '');
+    const rosterRows = members.map((member, index) => {
+      const num = String(index + 1).padStart(2, '0');
+      const email = member.email ? ' &nbsp;<span style="font-size:11px;color:rgba(255,255,255,0.35);font-family:Arial,sans-serif;">' + escapePassHtml(member.email) + '</span>' : '';
+      return '<tr><td style="padding:6px 0;border-bottom:1px solid rgba(201,168,76,0.08);"><span style="font-size:10px;color:rgba(201,168,76,0.4);font-family:Arial,sans-serif;margin-right:10px;">' + num + '</span><span style="font-size:13px;color:#ffffff;font-family:Georgia,serif;">' + escapePassHtml(member.name || '-') + '</span>' + email + '</td></tr>';
+    }).join('');
+    return wrapEmail(
+      buildHeader('Team Pass', eventName + ' &nbsp;&middot;&nbsp; TRYST 2026'),
+      buildGreeting('<b style="color:#E5C97E;font-style:normal;">' + teamName + '</b> is officially registered for <b style="color:#E5C97E;font-style:normal;">' + eventName + '</b>.') +
+      buildGreeting2('May your performance be legendary.') +
+      buildDivider() +
+      buildFieldsRow(buildField('Event', eventName), buildField('Team Name', teamName)) +
+      buildFieldsRow(buildField('College', college), buildField('Participants', count)) +
+      buildDivider() +
+      '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:4px;"><tr><td style="padding-bottom:10px;"><span style="font-size:9px;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.52);font-family:Arial,sans-serif;">Roster</span></td></tr>' + rosterRows + '</table>',
+      buildRegStamp(regId) +
+      buildRules([
+        'Entry via <b style="color:#E5C97E;">Gate 1 only</b> &mdash; all members must show their individual passes',
+        'Captain must report to the venue <b style="color:#E5C97E;">30 minutes</b> early for check-in',
+        'Carry valid <b style="color:#E5C97E;">photo identity proof</b>',
+        'Individual passes have been sent to each participant'
+      ]),
+      buildStub('April 28 &ndash; 29, 2026', 'Keshav Mahavidyalaya &nbsp;&middot;&nbsp; University of Delhi')
+    );
+  }
+
+  function wrapEmail(headerHtml, preHtml, postHtml, stubHtml) {
+    return '<div style="width:600px;max-width:600px;background:#060B17;padding:28px 12px 24px;box-sizing:border-box;">' +
+      '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;margin:0 auto 10px;"><tr><td align="center" style="padding-bottom:10px;"><p style="margin:0;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(201,168,76,0.45);font-family:Arial,sans-serif;">Keshav Mahavidyalaya &nbsp;&middot;&nbsp; University of Delhi</p></td></tr></table>' +
+      '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0A0F1E;border:1px solid rgba(201,168,76,0.28);border-radius:14px;overflow:hidden;"><tr><td width="28" style="padding:14px 0 0 14px;vertical-align:top;"><table cellpadding="0" cellspacing="0" border="0"><tr><td style="width:14px;height:14px;border-top:1.5px solid #C9A84C;border-left:1.5px solid #C9A84C;font-size:0;line-height:0;">&nbsp;</td></tr></table></td><td style="padding:0;">&nbsp;</td><td width="28" style="padding:14px 14px 0 0;vertical-align:top;"><table cellpadding="0" cellspacing="0" border="0" align="right"><tr><td style="width:14px;height:14px;border-top:1.5px solid #C9A84C;border-right:1.5px solid #C9A84C;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>' +
+      headerHtml +
+      '<tr><td colspan="3" style="padding:26px 32px 10px;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td>' + preHtml + '</td></tr></table></td></tr>' +
+      '<tr><td colspan="3" style="padding:0;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-top:1.5px dashed rgba(201,168,76,0.38);line-height:0;font-size:0;">&nbsp;</td><td width="32" align="center" style="color:#C9A84C;font-size:15px;font-family:Arial,sans-serif;padding:10px 0;">&#9670;</td><td style="border-top:1.5px dashed rgba(201,168,76,0.38);line-height:0;font-size:0;">&nbsp;</td></tr></table></td></tr>' +
+      '<tr><td colspan="3" style="padding:16px 32px 0;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td>' + postHtml + '</td></tr></table></td></tr>' +
+      stubHtml +
+      '</table>' +
+      '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;margin:16px auto 0;"><tr><td align="center" style="padding-bottom:6px;"><p style="margin:0;font-size:10px;letter-spacing:0.3em;color:rgba(201,168,76,0.28);font-family:Arial,sans-serif;text-transform:uppercase;">&#10022; &nbsp; TRYST 2026 &nbsp;&middot;&nbsp; Apr 28&ndash;29, KMV Delhi &nbsp; &#10022;</p></td></tr><tr><td align="center"><p style="margin:0;font-size:10px;color:rgba(255,255,255,0.18);font-family:Arial,sans-serif;">Automated confirmation &mdash; please do not reply.</p></td></tr></table>' +
+      '</div>';
+  }
+
+  function buildHeader(passType, subtitle) {
+    return '<tr><td colspan="3" align="center" style="background:#0D1530;border-bottom:1px solid rgba(201,168,76,0.22);padding:22px 20px 20px;"><table cellpadding="0" cellspacing="0" border="0" align="center"><tr><td align="center" style="width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.35);background:#0A0F1E;text-align:center;vertical-align:middle;padding:0;"><img src="' + LOGO_SRC + '" width="38" height="38" alt="TRYST" style="display:block;border:0;margin:4px auto;border-radius:50%;object-fit:cover;"/></td></tr></table><div style="height:10px;"></div><span style="font-size:20px;font-weight:700;color:#C9A84C;letter-spacing:0.18em;text-transform:uppercase;font-family:Georgia,Times New Roman,serif;display:block;line-height:1.25;">' + passType + '</span><span style="font-size:10px;color:rgba(201,168,76,0.55);letter-spacing:0.38em;text-transform:uppercase;font-family:Arial,sans-serif;display:block;margin-top:6px;">' + subtitle + '</span></td></tr>';
+  }
+
+  function buildGreeting(html) {
+    return '<p style="margin:0 0 8px;font-size:16px;font-style:italic;color:rgba(255,255,255,0.65);line-height:1.55;font-family:Georgia,Times New Roman,serif;">' + html + '</p>';
+  }
+
+  function buildGreeting2(html) {
+    return '<p style="margin:0 0 18px;font-size:15px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;font-family:Georgia,Times New Roman,serif;">' + html + '</p>';
+  }
+
+  function buildDivider() {
+    return '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;"><tr><td style="border-top:1px solid rgba(201,168,76,0.14);font-size:0;line-height:0;">&nbsp;</td></tr></table>';
+  }
+
+  function buildFieldsRow(leftHtml, rightHtml) {
+    return '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td width="50%" style="padding:0 12px 16px 0;vertical-align:top;">' + leftHtml + '</td><td width="50%" style="padding:0 0 16px 0;vertical-align:top;">' + rightHtml + '</td></tr></table>';
+  }
+
+  function buildField(label, value) {
+    return '<span style="display:block;font-size:9px;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.52);font-family:Arial,sans-serif;margin-bottom:4px;">' + label + '</span><span style="display:block;font-size:14px;color:#ffffff;font-family:Georgia,Times New Roman,serif;line-height:1.3;">' + value + '</span>';
+  }
+
+  function buildRegStamp(regId) {
+    return '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#060B17;border:1px solid rgba(201,168,76,0.32);border-radius:8px;margin:16px 0 20px;"><tr><td align="center" style="padding:16px 20px 10px;"><span style="display:block;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(201,168,76,0.48);font-family:Arial,sans-serif;margin-bottom:7px;">Registration ID</span><span style="display:block;font-size:14px;font-weight:700;letter-spacing:0.14em;color:#E5C97E;font-family:Courier New,Courier,monospace;word-break:break-all;">' + escapePassHtml(regId || 'TRYST-PENDING') + '</span></td></tr><tr><td align="center" style="padding:4px 20px 14px;">' + buildBars() + '</td></tr></table>';
+  }
+
+  function buildRules(rules) {
+    const items = rules.map(rule => '<tr><td style="padding:3px 0;"><table cellpadding="0" cellspacing="0" border="0"><tr><td style="color:#C9A84C;font-size:10px;padding-right:8px;vertical-align:top;padding-top:3px;font-family:Arial,sans-serif;">&#9670;</td><td style="font-size:14px;color:rgba(255,255,255,0.70);line-height:1.45;font-family:Georgia,Times New Roman,serif;">' + rule + '</td></tr></table></td></tr>').join('');
+    return '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid rgba(201,168,76,0.14);padding-top:16px;margin-bottom:22px;"><tr><td style="padding-bottom:12px;"><span style="font-size:9px;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,168,76,0.52);font-family:Arial,sans-serif;">Important</span></td></tr>' + items + '</table>';
+  }
+
+  function buildStub(dateLine, venueLine) {
+    return '<tr><td colspan="3" style="background:#0D1530;border-top:1px solid rgba(201,168,76,0.18);padding:14px 18px;border-radius:0 0 14px 14px;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td width="14" style="vertical-align:bottom;"><table cellpadding="0" cellspacing="0" border="0"><tr><td style="width:12px;height:12px;border-bottom:1.5px solid rgba(201,168,76,0.45);border-left:1.5px solid rgba(201,168,76,0.45);font-size:0;line-height:0;">&nbsp;</td></tr></table></td><td style="padding:0 14px;vertical-align:middle;"><span style="display:block;font-size:11px;color:#C9A84C;letter-spacing:0.22em;text-transform:uppercase;font-family:Georgia,Times New Roman,serif;">' + dateLine + '</span><span style="display:block;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.18em;margin-top:4px;font-family:Arial,sans-serif;">' + venueLine + '</span></td><td width="14" align="right" style="vertical-align:bottom;"><table cellpadding="0" cellspacing="0" border="0" align="right"><tr><td style="width:12px;height:12px;border-bottom:1.5px solid rgba(201,168,76,0.45);border-right:1.5px solid rgba(201,168,76,0.45);font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr></table></td></tr>';
+  }
+
+  function buildBars() {
+    const pattern = [2,1,3,1,2,1,1,3,2,1,2,2,1,3,1,2,1,3,1,2,2,1,1,2,3,1,2,1,3,1,2,1,1,2,3,1,2,1];
+    return '<table cellpadding="0" cellspacing="0" border="0" style="display:inline-table;height:22px;"><tr>' +
+      pattern.map((width, index) => '<td style="width:' + (width * 3) + 'px;background:' + (index % 2 === 0 ? 'rgba(201,168,76,0.50)' : 'transparent') + ';height:22px;font-size:0;line-height:0;">&nbsp;</td>').join('') +
+      '</tr></table>';
+  }
+
+  function escapePassHtml(value) {
+    return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  async function waitForImages(root) {
+    const images = Array.from(root.querySelectorAll('img'));
+    await Promise.all(images.map(image => new Promise(resolve => {
+      if (image.complete) return resolve();
+      image.onload = resolve;
+      image.onerror = resolve;
+    })));
+  }
+
+  function showPassError(btn) {
+    const label = btn?.querySelector('span');
+    if (!label) return;
+    label.textContent = 'No pass data yet';
+    setTimeout(() => { label.textContent = 'Download Pass PDF'; }, 1200);
+  }
+
+  function safeFileName(value) {
+    return String(value || 'pass').replace(/[^\w-]+/g, '-');
+  }
+})();
+
 function resetAttendeeForm() {
   const form = document.getElementById('registrationForm');
   if (!form) return;
