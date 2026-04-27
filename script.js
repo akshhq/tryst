@@ -2647,22 +2647,26 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       return;
     }
 
-    // Validate Fitpass task - platform, screenshot, handle name, and review date are required
+    // Validate attendee tasks
     const taskMissing     = !$('reg-sponsor-1')?.files?.length;
+    const instagramMissing = !$('reg-instagram-task')?.files?.length;
     const dateMissing     = !$('reg-fitpass-review-date')?.value;
     const platformMissing = !$('reg-fitpass-platform')?.value;
-    if (taskMissing || dateMissing || platformMissing) {
+    if (taskMissing || instagramMissing || dateMissing || platformMissing) {
       document.getElementById('zone-task-1')?.classList.add('reg-error');
+      if (instagramMissing) document.getElementById('zone-instagram-task')?.classList.add('reg-error');
       setStatus(status,
-        'Please complete the Fitpass review task with your platform and screenshot.',
+        'Please complete the Fitpass review task and upload the Instagram follow screenshot.',
         'error');
       return;
     }
     document.getElementById('zone-task-1')?.classList.remove('reg-error');
+    document.getElementById('zone-instagram-task')?.classList.remove('reg-error');
 
     setButtonLoading(submitBtn, true, 'Submitting...');
     try {
       const reviewScreenshot = await toBase64($('reg-sponsor-1').files?.[0]);
+      const instagramScreenshot = await toBase64($('reg-instagram-task').files?.[0]);
       const reviewPlatform   = $('reg-fitpass-platform')?.value || 'android';
       const reviewPostedOn   = $('reg-fitpass-review-date')?.value || '';
       const payload = {
@@ -2676,11 +2680,12 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
         gender: $('reg-gender').value,
         collegeId: await toBase64($('reg-college-id').files?.[0]),
         task1: reviewScreenshot,
-        task2: '',
+        task2: instagramScreenshot,
         androidHandlerName: '',
         iosHandlerName: '',
         dateOfReviewPosting: reviewPostedOn,
         reviewContentScreenshot: reviewScreenshot,
+        instagramFollowScreenshot: instagramScreenshot,
         reviewPlatform,
         reviewHandleName: '',
         reviewPostedOn,
@@ -2695,11 +2700,13 @@ console.log('%cKeshav Mahavidyalaya · March 20–21, 2026', 'font-family:monosp
       // Reset Fitpass task zone
       const zone1    = document.getElementById('zone-task-1');
       const prev1    = document.getElementById('preview-task-1');
+      const zoneInstagram = document.getElementById('zone-instagram-task');
       const platformHid = document.getElementById('reg-fitpass-platform');
       const dateHid   = document.getElementById('reg-fitpass-review-date');
       const dateInp   = document.getElementById('tp-review-date');
       if (zone1)     zone1.classList.remove('reg-has-file', 'reg-error');
       if (prev1)     prev1.innerHTML = '';
+      if (zoneInstagram) zoneInstagram.classList.remove('reg-has-file', 'reg-error');
       if (platformHid) platformHid.value = '';
       if (dateHid)   dateHid.value = '';
       if (dateInp)   dateInp.value = '';
@@ -3391,7 +3398,7 @@ function resetAttendeeForm() {
   form.reset();
 
   // Clear upload previews and has-file states
-  ['zone-college-id', 'zone-task-1'].forEach(zoneId => {
+  ['zone-college-id', 'zone-task-1', 'zone-instagram-task'].forEach(zoneId => {
     const zone    = document.getElementById(zoneId);
     const preview = zone?.querySelector('.reg-upload-preview');
     if (zone)    zone.classList.remove('reg-has-file');

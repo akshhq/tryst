@@ -1515,6 +1515,67 @@ footer { margin-top: 20px; }
   border-style: solid;
 }
 
+.reg-upload-zone--wide {
+  grid-column: 1 / -1;
+}
+
+.reg-instagram-task-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(180px, 0.75fr);
+  gap: 12px;
+  align-items: stretch;
+  padding: 12px;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 8px;
+  background: rgba(20, 32, 68, 0.42);
+}
+
+.reg-instagram-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 4px 6px 4px 2px;
+  min-height: 110px;
+  text-decoration: none;
+  transition: color 0.22s ease, transform 0.22s ease;
+}
+
+.reg-instagram-info:hover {
+  transform: translateY(-1px);
+}
+
+.reg-instagram-upload-box {
+  min-height: 110px;
+  background: rgba(12, 20, 42, 0.72);
+}
+
+.reg-instagram-badge {
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(201, 168, 76, 0.68);
+}
+
+.reg-instagram-title {
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.reg-instagram-copy {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.48);
+  line-height: 1.45;
+}
+
+.reg-instagram-link {
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
 .reg-file-input {
   position: absolute;
   inset: 0;
@@ -1620,6 +1681,13 @@ footer { margin-top: 20px; }
   line-height: 1.5;
 }
 
+.reg-task-follow-note {
+  margin: -4px 0 14px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.48);
+  text-align: center;
+}
+
 /* ── Responsive ────────────────────────────── */
 @media (max-width: 640px) {
   .register-card-header { padding: 22px 20px 0; }
@@ -1633,6 +1701,9 @@ footer { margin-top: 20px; }
   .reg-upload-zone      { min-height: 90px; }
   .reg-upload-label     { font-size: 0.55rem; }
   .reg-upload-hint      { display: none; }
+  .reg-instagram-task-card { grid-template-columns: 1fr; }
+  .reg-instagram-info      { min-height: 0; padding: 2px 2px 6px; }
+  .reg-instagram-upload-box { min-height: 90px; }
 }
 
 @media (max-width: 380px) {
