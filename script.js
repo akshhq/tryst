@@ -441,6 +441,47 @@ window.toggleEventsModalItem = function(row) {
       }
     ]
   };
+  // ── END ARTIST1_DATA ──────────────────────
+
+  // ✏️ Edit here to update artist 2's modal content
+  const ARTIST2_DATA = {
+    name:  'BEINGKARUN',
+    genre: 'Punjabi · Producer',
+    image: 'images/karan_wide.jpeg',
+    desc:  'Karun is bringing pure indie heat to the TRYST stage. With smooth vocals and late-night vibe tracks, his music hits straight in the feels. Blending chill beats with raw emotion, he creates a sound that just sticks. From underrated gems to viral moments, he is ready to set the stage and the vibe of TRYST 2026',
+    tracks: [
+      {
+        name:    'Maharani ',
+        album:   'Qabool Hai (Deluxe)',
+        art:     'images/maharani.jpg',
+        spotify: 'https://open.spotify.com/track/7unLxuzKpxbjASww1qi4br?autoplay=true'
+      },
+      {
+        name:    'Classmate ',
+        album:   'Naina',
+        art:     'images/classmate.jpg',
+        spotify: 'https://open.spotify.com/track/0xKEqBJh5uYsjM4yYRdmyJ?autoplay=true'
+      },
+      {
+        name:    'Mrignaini',
+        album:   'Ik Tera',
+        art:     'images/mrignaini.jpg',
+        spotify: 'https://open.spotify.com/track/1nZ2O25UgnTFcPz3QrEDwX?autoplay=true'
+      },
+      {
+        name:    'Chaand',
+        album:   'Ishq Nachave',
+        art:     'images/chaand.jpg',
+        spotify: 'https://open.spotify.com/track/4pEUHCSy67GlG0s8dzZBAj?autoplay=true'
+      },
+      {
+        name:    'Heeriye ',
+        album:   'Dhoop',
+        art:     'images/Heeriye.jpg',
+        spotify: 'https://open.spotify.com/track/05NPGDwIBKcbVr3b32TfKs?autoplay=true'
+      }
+    ]
+  };
   // ───────────────────────────────────────────
 
   const revealBtn      = document.getElementById('revealBtn');
@@ -570,7 +611,7 @@ window.toggleEventsModalItem = function(row) {
       .to({}, { duration: 0.8 })
       .call(() => revealed3.classList.add('show'));
 
-    // 5. Final burst + activate tap on card 1
+    // 5. Final burst + activate tap on card 1 and card 2
     tl.call(() => {
       createParticleBurst(stage);
       // Enable tap on Artist 1 card
@@ -580,6 +621,14 @@ window.toggleEventsModalItem = function(row) {
         frame1.addEventListener('click', openArtistDetailModal, { once: false });
       }
       if (hint1) hint1.classList.add('visible');
+      // Enable tap on Artist 2 card
+      const frame2 = document.getElementById('surpriseFrame2');
+      const hint2  = document.getElementById('surpriseTapHint2');
+      if (frame2) {
+        frame2.classList.add('is-tappable');
+        frame2.addEventListener('click', openArtist2DetailModal, { once: false });
+      }
+      if (hint2) hint2.classList.add('visible');
     });
 
   });
@@ -591,13 +640,19 @@ window.toggleEventsModalItem = function(row) {
   const sadClose   = document.getElementById('sadClose');
 
   function openArtistDetailModal() {
-    // Populate
-    const d = ARTIST1_DATA;
-    const heroImg = document.getElementById('sadHeroImg');
-    const nameEl  = document.getElementById('sadArtistName');
-    const genreEl = document.getElementById('sadGenre');
-    const descEl  = document.getElementById('sadDesc');
-    const tracksEl= document.getElementById('sadTracks');
+    openArtistDetailModalWithData(ARTIST1_DATA);
+  }
+
+  function openArtist2DetailModal() {
+    openArtistDetailModalWithData(ARTIST2_DATA);
+  }
+
+  function openArtistDetailModalWithData(d) {
+    const heroImg  = document.getElementById('sadHeroImg');
+    const nameEl   = document.getElementById('sadArtistName');
+    const genreEl  = document.getElementById('sadGenre');
+    const descEl   = document.getElementById('sadDesc');
+    const tracksEl = document.getElementById('sadTracks');
 
     if (heroImg) { heroImg.src = d.image; heroImg.alt = d.name; }
     if (nameEl)  nameEl.textContent  = d.name;
@@ -673,6 +728,7 @@ window.toggleEventsModalItem = function(row) {
 
   // Expose for external use
   window.openArtistDetailModal  = openArtistDetailModal;
+  window.openArtist2DetailModal = openArtist2DetailModal;
   window.closeArtistDetailModal = closeArtistDetailModal;
 
   /* HTML-escape helper (locally scoped) */
